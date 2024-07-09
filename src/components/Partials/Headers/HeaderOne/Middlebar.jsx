@@ -1,12 +1,27 @@
+import { useContext } from "react";
+import { CartContext } from "../../../../contexts/CartContext ";
 import Cart from "../../../Cart";
-import Compair from "../../../Helpers/icons/Compair";
-import ThinBag from "../../../Helpers/icons/ThinBag";
-import ThinLove from "../../../Helpers/icons/ThinLove";
-import ThinPeople from "../../../Helpers/icons/ThinPeople";
-import SearchBox from "../../../Helpers/SearchBox";
-import { Link } from "react-router-dom";
 
-export default function Middlebar({ className, type }) {
+import SearchBox from "../../../Helpers/SearchBox";
+import { Link, useNavigate } from "react-router-dom";
+import { CircleUser, Heart, ShoppingBag, ShoppingCart } from "lucide-react";
+import PreCart from "../../../PreCart";
+import { UserContext } from "../../../../contexts/UserContext";
+
+export default function Middlebar({ className, type = 3 }) {
+  const { cart, wishlist, preorder } = useContext(CartContext);
+
+  const navigate = useNavigate();
+  const handleCart = (e) => {
+    e.preventDefault();
+    navigate("/cart");
+    console.log(cart);
+  };
+  const handlePreCart = (e) => {
+    e.preventDefault();
+    navigate("/pre-cart");
+    console.log(cart);
+  };
   return (
     <div className={`w-full h-[86px] bg-white ${className}`}>
       <div className="container-x mx-auto h-full">
@@ -15,36 +30,15 @@ export default function Middlebar({ className, type }) {
             <div>
               {type === 3 ? (
                 <Link to="/">
-                  <img
-                    width="152"
-                    height="36"
-                    src={`${
-                      import.meta.env.VITE_PUBLIC_URL
-                    }/assets/images/logo-3.svg`}
-                    alt="logo"
-                  />
+                  <img width="120" height="36" src="/logo.png" alt="logo" />
                 </Link>
               ) : type === 4 ? (
                 <Link to="/">
-                  <img
-                    width="152"
-                    height="36"
-                    src={`${
-                      import.meta.env.VITE_PUBLIC_URL
-                    }/assets/images/logo-4.svg`}
-                    alt="logo"
-                  />
+                  <img width="80" height="36" src="/logo.png" alt="logo" />
                 </Link>
               ) : (
                 <Link to="/">
-                  <img
-                    width="152"
-                    height="36"
-                    src={`${
-                      import.meta.env.VITE_PUBLIC_URL
-                    }/assets/images/logo.svg`}
-                    alt="logo"
-                  />
+                  <img width="80" height="36" src="/logo.png" alt="logo" />
                 </Link>
               )}
             </div>
@@ -52,24 +46,10 @@ export default function Middlebar({ className, type }) {
               <SearchBox type={type} className="search-com" />
             </div>
             <div className="flex space-x-6 items-center">
-              <div className="compaire relative">
-                <Link to="/products-compaire">
-                  <span>
-                    <Compair />
-                  </span>
-                </Link>
-                <span
-                  className={`w-[18px] h-[18px] rounded-full  absolute -top-2.5 -right-2.5 flex justify-center items-center text-[9px] ${
-                    type === 3 ? "bg-qh3-blue text-white" : "bg-qyellow"
-                  }`}
-                >
-                  2
-                </span>
-              </div>
               <div className="favorite relative">
                 <Link to="/wishlist">
                   <span>
-                    <ThinLove />
+                    <Heart />
                   </span>
                 </Link>
                 <span
@@ -77,27 +57,45 @@ export default function Middlebar({ className, type }) {
                     type === 3 ? "bg-qh3-blue text-white" : "bg-qyellow"
                   }`}
                 >
-                  1
+                  {wishlist.length > 0 ? wishlist.length : 0}
                 </span>
               </div>
+
               <div className="cart-wrapper group relative py-4">
                 <div className="cart relative cursor-pointer">
-                  <Link to="/cart">
-                    <span>
-                      <ThinBag />
+                  <button onClick={handleCart}>
+                    <ShoppingCart />
+                    <span
+                      className={`w-[18px] h-[18px] rounded-full  absolute -top-2.5 -right-2.5 flex justify-center items-center text-[9px] ${
+                        type === 3 ? "bg-qh3-blue text-white" : "bg-qyellow"
+                      }`}
+                    >
+                      {cart.length > 0 ? cart.length : 0}
                     </span>
-                  </Link>
+                    <Cart
+                      type={type}
+                      className="absolute -right-[45px] top-11 z-50 hidden group-hover:block"
+                    />
+                  </button>
+                </div>
+              </div>
+
+              <div className="cart-wrapper group relative py-4">
+                <div className="cart relative cursor-pointer">
+                  <button onClick={handlePreCart}>
+                    <span>
+                      <ShoppingBag />
+                    </span>
+                  </button>
                   <span
                     className={`w-[18px] h-[18px] rounded-full  absolute -top-2.5 -right-2.5 flex justify-center items-center text-[9px] ${
                       type === 3 ? "bg-qh3-blue text-white" : "bg-qyellow"
                     }`}
                   >
-                    15
+                    {preorder.length > 0 ? preorder.length : 0}
                   </span>
                 </div>
-                {/* <div className="fixed left-0 top-0 w-full h-full z-40"></div> */}
-                {/* hidden group-hover:block" */}
-                <Cart
+                <PreCart
                   type={type}
                   className="absolute -right-[45px] top-11 z-50 hidden group-hover:block"
                 />
@@ -105,7 +103,7 @@ export default function Middlebar({ className, type }) {
               <div>
                 <Link to="/profile">
                   <span>
-                    <ThinPeople />
+                    <CircleUser />
                   </span>
                 </Link>
               </div>

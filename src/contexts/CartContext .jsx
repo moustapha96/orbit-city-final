@@ -7,6 +7,7 @@ export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
+
   const [wishlist, setWishlist] = useState([]);
   const [preorder, setPreorder] = useState([]);
 
@@ -51,7 +52,7 @@ export const CartProvider = ({ children }) => {
 
   const clearCart = () => {
     setCart([]);
-    setOrderState(null);
+    // setOrderState(null);
   };
 
   const addToWishlist = (product, quantity) => {
@@ -192,6 +193,8 @@ export const CartProvider = ({ children }) => {
     <CartContext.Provider
       value={{
         cart,
+        setCart,
+        setWishlist,
         wishlist,
         preorder,
         setPreorderState,

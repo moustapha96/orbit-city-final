@@ -8,7 +8,7 @@ export default function SectionStyleOneHmThree({
   sectionTitle,
   seeMoreUrl,
   products = [],
-    type
+  type = 3,
 }) {
   const [productLength] = useState(4);
   return (

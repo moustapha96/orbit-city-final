@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import InputCom from "../Helpers/InputCom";
 import PageTitle from "../Helpers/PageTitle";
 import Layout from "../Partials/Layout";
@@ -20,22 +21,22 @@ export default function CheakoutPage() {
             <div className="w-full sm:mb-10 mb-5">
               <div className="sm:flex sm:space-x-[18px] s">
                 <div className="sm:w-1/2 w-full mb-5 h-[70px]">
-                  <a href="#">
+                  <Link>
                     <div className="w-full h-full bg-[#F6F6F6] text-qblack flex justify-center items-center">
                       <span className="text-[15px] font-medium">
                         Log into your Account
                       </span>
                     </div>
-                  </a>
+                  </Link>
                 </div>
                 <div className="flex-1 h-[70px]">
-                  <a href="#">
+                  <Link>
                     <div className="w-full h-full bg-[#F6F6F6] text-qblack flex justify-center items-center">
                       <span className="text-[15px] font-medium">
                         Enter Coupon Code
                       </span>
                     </div>
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -355,13 +356,13 @@ export default function CheakoutPage() {
                       </li>
                     </ul>
                   </div>
-                  <a href="#">
+                  <Link>
                     <div className="w-full h-[50px] black-btn flex justify-center items-center">
                       <span className="text-sm font-semibold">
                         Place Order Now
                       </span>
                     </div>
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>

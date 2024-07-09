@@ -9,12 +9,13 @@ import Layout from "../Partials/Layout";
 import ProductView from "./ProductView";
 import Reviews from "./Reviews";
 import SallerInfo from "./SallerInfo";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { CartContext } from "../../contexts/CartContext ";
 import ProduitService from "../../services/produitService";
 
 export default function SingleProductPage() {
-  const { id } = useParams();
+  const location = useLocation();
+  const produit = location.state.produit;
   const {
     wishList,
     addToCart,
@@ -24,19 +25,7 @@ export default function SingleProductPage() {
     preorder,
     isProductInWishlist,
   } = useContext(CartContext);
-  const [produit, setProduit] = useState(null);
-  useEffect(() => {
-    const fetchModels = async () => {
-      try {
-        const data = await ProduitService.getProduitById(id);
-        setProduit(data);
-        console.log("produit ", produit);
-      } catch (error) {
-        console.error("Erreur lors de la récupération des modèles", error);
-      }
-    };
-    fetchModels();
-  }, []);
+
   const [quantity, setQuantity] = useState(1);
 
   const handleIncrement = () => {

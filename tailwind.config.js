@@ -1,7 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 // import plugin from "tailwindcss/line-clamp";
+import flowbite from "flowbite-react/tailwind";
+
 export default {
-  content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  content: ["./src/**/*.{js,jsx,ts,tsx}", flowbite.content()],
   theme: {
     extend: {
       colors: {
@@ -30,5 +32,5 @@ export default {
       borderStyle: ["last"],
     },
   },
-  // plugins: [plugin],
+  plugins: [require("flowbite-react/tailwind")],
 };

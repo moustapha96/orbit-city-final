@@ -1,21 +1,86 @@
-import { Link } from "react-router-dom";
+/* eslint-disable react/prop-types */
+import { Link, useNavigate } from "react-router-dom";
 import BreadcrumbCom from "../BreadcrumbCom";
 import EmptyCardError from "../EmptyCardError";
 import InputCom from "../Helpers/InputCom";
 import PageTitle from "../Helpers/PageTitle";
 import Layout from "../Partials/Layout";
 import ProductsTable from "./ProductsTable";
+import { CartContext } from "../../contexts/CartContext ";
+import { useContext, useState } from "react";
+import formatPrice from "../../utils/formatPrice";
+import { useDispatch } from "react-redux";
+import commandeService from "../../services/CommandeService";
+import { toast } from "react-toastify";
+import { Button } from "flowbite-react";
+import { Loader2 } from "lucide-react";
+export default function CardPage({ cartt = true }) {
+  const { cart, getCartTotal, clearCart, setOrderState, orderState } =
+    useContext(CartContext);
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
-export default function CardPage({ cart = true }) {
+  useDispatch(() => {
+    console.log(cart);
+  }, [cart]);
+
+  const handleValidePanier = async (e) => {
+    e.preventDefault();
+    console.log("creation dela commande sur le odoo ");
+    console.log(cart);
+
+    const modelData = {
+      partner_id: parseInt(localStorage.getItem("partner_id")),
+      type_sale: "order",
+      state: "sale",
+      commitment_date: new Date(),
+      order_lines: cart.map((orde) => ({
+        id: orde.id,
+        quantity: orde.quantity,
+        list_price: orde.list_price,
+      })),
+    };
+    setIsLoading(true);
+    try {
+      const response = await commandeService.createCommande(modelData);
+      console.log(response);
+      toast.success(" Commande validé avec succés", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      navigate("/validation-commande");
+      console.log(response);
+      setOrderState(response);
+      clearCart();
+      console.log(orderState);
+    } catch (error) {
+      toast.error("Commande non validé ", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      console.error("Erreur lors de la récupération des modèles", error);
+    }
+    setIsLoading(false);
+  };
   return (
-    <Layout childrenClasses={cart ? "pt-0 pb-0" : ""}>
-      {cart === false ? (
+    <Layout childrenClasses={cartt ? "pt-0 pb-0" : ""}>
+      {cartt === false ? (
         <div className="cart-page-wrapper w-full">
           <div className="container-x mx-auto">
             <BreadcrumbCom
               paths={[
-                { name: "home", path: "/" },
-                { name: "cart", path: "/cart" },
+                { name: "Accueil", path: "/" },
+                { name: "Panier Commandes", path: "/cart" },
               ]}
             />
             <EmptyCardError />
@@ -25,10 +90,10 @@ export default function CardPage({ cart = true }) {
         <div className="cart-page-wrapper w-full bg-white pb-[60px]">
           <div className="w-full">
             <PageTitle
-              title="Your Cart"
+              title="Panier Commande"
               breadcrumb={[
-                { name: "home", path: "/" },
-                { name: "cart", path: "/cart" },
+                { name: "Accueil", path: "/" },
+                { name: "Panier Commande", path: "/cart" },
               ]}
             />
           </div>
@@ -45,18 +110,20 @@ export default function CardPage({ cart = true }) {
                   </button>
                 </div>
                 <div className="flex space-x-2.5 items-center">
-                  <a href="#">
+                  <Link to="/all-products">
                     <div className="w-[220px] h-[50px] bg-[#F6F6F6] flex justify-center items-center">
                       <span className="text-sm font-semibold">
-                        Continue Shopping
+                        Continuer vos achats
                       </span>
                     </div>
-                  </a>
-                  <a href="#">
+                  </Link>
+                  <Link>
                     <div className="w-[140px] h-[50px] bg-[#F6F6F6] flex justify-center items-center">
-                      <span className="text-sm font-semibold">Update Cart</span>
+                      <span className="text-sm font-semibold">
+                        Mise à jour panier
+                      </span>
                     </div>
-                  </a>
+                  </Link>
                 </div>
               </div>
               <div className="w-full mt-[30px] flex sm:justify-end">
@@ -64,129 +131,39 @@ export default function CardPage({ cart = true }) {
                   <div className="sub-total mb-6">
                     <div className=" flex justify-between mb-6">
                       <p className="text-[15px] font-medium text-qblack">
-                        Subtotal
+                        Sous Total
                       </p>
-                      <p className="text-[15px] font-medium text-qred">$365</p>
+                      <p className="text-[15px] font-medium text-qred">
+                        {formatPrice(getCartTotal())}
+                      </p>
                     </div>
                     <div className="w-full h-[1px] bg-[#EDEDED]"></div>
                   </div>
-                  <div className="shipping mb-6">
-                    <span className="text-[15px] font-medium text-qblack mb-[18px] block">
-                      Shipping
-                    </span>
-                    <ul className="flex flex-col space-y-1">
-                      <li>
-                        <div className="flex justify-between items-center">
-                          <div className="flex space-x-2.5 items-center">
-                            <div className="input-radio">
-                              <input
-                                type="radio"
-                                name="price"
-                                className="accent-pink-500"
-                              />
-                            </div>
-                            <span className="text-[13px] text-normal text-qgraytwo">
-                              Free Shipping
-                            </span>
-                          </div>
-                          <span className="text-[13px] text-normal text-qgraytwo">
-                            +$00.00
-                          </span>
-                        </div>
-                      </li>
-                      <li>
-                        <div className="flex justify-between items-center">
-                          <div className="flex space-x-2.5 items-center">
-                            <div className="input-radio">
-                              <input
-                                type="radio"
-                                name="price"
-                                className="accent-pink-500"
-                              />
-                            </div>
-                            <span className="text-[13px] text-normal text-qgraytwo">
-                              Flat Rate
-                            </span>
-                          </div>
-                          <span className="text-[13px] text-normal text-qgraytwo">
-                            +$00.00
-                          </span>
-                        </div>
-                      </li>
-                      <li>
-                        <div className="flex justify-between items-center">
-                          <div className="flex space-x-2.5 items-center">
-                            <div className="input-radio">
-                              <input
-                                type="radio"
-                                name="price"
-                                className="accent-pink-500"
-                              />
-                            </div>
-                            <span className="text-[13px] text-normal text-qgraytwo">
-                              Local Delivery
-                            </span>
-                          </div>
-                          <span className="text-[13px] text-normal text-qgraytwo">
-                            +$00.00
-                          </span>
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
-                  <div className="shipping-calculation w-full mb-3">
-                    <div className="title mb-[17px]">
-                      <h1 className="text-[15px] font-medium">
-                        Calculate Shipping
-                      </h1>
-                    </div>
-                    <div className="w-full h-[50px] border border-[#EDEDED] px-5 flex justify-between items-center mb-2">
-                      <span className="text-[13px] text-qgraytwo">
-                        Select Country
-                      </span>
-                      <span>
-                        <svg
-                          width="11"
-                          height="7"
-                          viewBox="0 0 11 7"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M5.4 6.8L0 1.4L1.4 0L5.4 4L9.4 0L10.8 1.4L5.4 6.8Z"
-                            fill="#222222"
-                          />
-                        </svg>
-                      </span>
-                    </div>
-                    <div className="w-full h-[50px]">
-                      <InputCom
-                        inputClasses="w-full h-full"
-                        type="text"
-                        placeholder="Postcode / ZIP"
-                      />
-                    </div>
-                  </div>
-                  <button type="button" className="w-full mb-10">
-                    <div className="w-full h-[50px] bg-[#F6F6F6] flex justify-center items-center">
-                      <span className="text-sm font-semibold">Update Cart</span>
-                    </div>
-                  </button>
+
                   <div className="total mb-6">
                     <div className=" flex justify-between">
                       <p className="text-[18px] font-medium text-qblack">
-                        Total
+                        Total Non taxé
                       </p>
-                      <p className="text-[18px] font-medium text-qred">$365</p>
+                      <p className="text-[18px] font-medium text-qred">
+                        {" "}
+                        {formatPrice(getCartTotal())}
+                      </p>
                     </div>
                   </div>
-                  <Link to="/checkout">
-                    <div className="w-full h-[50px] black-btn flex justify-center items-center">
-                      <span className="text-sm font-semibold">
-                        Proceed to Checkout
-                      </span>
-                    </div>
-                  </Link>
+                  {getCartTotal() != 0 && (
+                    <Button
+                      type="submit"
+                      className="hover:bg-red-500  w-full"
+                      onClick={(e) => handleValidePanier(e)}
+                      disabled={isLoading}
+                    >
+                      {isLoading && (
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      )}
+                      Valider le Panier
+                    </Button>
+                  )}
                 </div>
               </div>
             </div>

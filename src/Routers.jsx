@@ -8,6 +8,7 @@ import BecomeSaller from "./components/BecomeSaller";
 import Blogs from "./components/Blogs";
 import Blog from "./components/Blogs/Blog.jsx";
 import CardPage from "./components/CartPage";
+
 import CheakoutPage from "./components/CheakoutPage";
 import Contact from "./components/Contact";
 import Faq from "./components/Faq";
@@ -22,6 +23,15 @@ import SingleProductPage from "./components/SingleProductPage";
 import TermsCondition from "./components/TermsCondition/index";
 import TrackingOrder from "./components/TrackingOrder";
 import Wishlist from "./components/Wishlist";
+import PreCardPage from "./components/PreCardPage/index.jsx";
+import PreOrderPage from "./components/PreOrder/index.jsx";
+import OrderPage from "./components/Order/index.jsx";
+import OrderPaymentPage from "./components/OrderPayment/index.jsx";
+import PreOrderPaymentPage from "./components/PreCartValidation/index.jsx";
+
+import PreCartValidationPage from "./components/PreCartValidation/index.jsx";
+import CartValidationPage from "./components/CartValidation/index.jsx";
+
 // import HomeTwo from "./components/HomeTwo";
 // import HomeThree from "./components/HomeThree";
 // import HomeFour from "./components/HomeFour";
@@ -37,9 +47,36 @@ const router = createBrowserRouter([
   // { path: "/single-product", element: <SingleProductPage /> },
 
   { path: "/single-product/:id", element: <SingleProductPage /> },
+
+  {
+    path: "/pre-commandes/:id/détails",
+    element: <PreOrderPage />,
+  },
+  {
+    path: "/commandes/:id/détails",
+    element: <OrderPage />,
+  },
+  {
+    path: "/commande-validation",
+    element: <OrderPaymentPage />,
+  },
+  {
+    path: "/pre-commande-validation",
+    element: <PreOrderPaymentPage />,
+  },
+  {
+    path: "/validation-precommande",
+    element: <PreCartValidationPage />,
+  },
+  {
+    path: "/validation-commande",
+    element: <CartValidationPage />,
+  },
+
   // { path: "/pre-commandes/:id/détails", element: <PreCommandeDetailsPage /> },
 
   { path: "/cart", element: <CardPage /> },
+  { path: "/pre-cart", element: <PreCardPage /> },
   { path: "/checkout", element: <CheakoutPage /> },
   { path: "/wishlist", element: <Wishlist /> },
   { path: "/flash-sale", element: <FlashSale /> },

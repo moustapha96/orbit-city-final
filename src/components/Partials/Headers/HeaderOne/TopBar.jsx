@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
 import Arrow from "../../../Helpers/icons/Arrow";
 import Selectbox from "../../../Helpers/Selectbox";
@@ -15,9 +16,9 @@ export default function TopBar({ className }) {
             <div className="topbar-nav">
               <ul className="flex space-x-6">
                 <li>
-                  <Link to="/">
+                  <Link to="/profil">
                     <span className="text-xs leading-6 text-qblack font-500">
-                      Account
+                      Mon compte
                     </span>
                   </Link>
                 </li>
@@ -64,7 +65,10 @@ export default function TopBar({ className }) {
                   <Arrow className="fill-current qblack" />
                 </div>
                 <div className="language-select flex space-x-1 items-center">
-                  <Selectbox className="w-fit" datas={["Bangla", "english"]} />
+                  <Selectbox
+                    className="w-fit"
+                    datas={["Français", "english"]}
+                  />
                   <Arrow className="fill-current qblack" />
                 </div>
               </div>

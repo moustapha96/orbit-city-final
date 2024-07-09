@@ -1,6 +1,6 @@
 export default function InputCom({
   label,
-  type,
+  type = 3,
   name,
   placeholder,
   children,

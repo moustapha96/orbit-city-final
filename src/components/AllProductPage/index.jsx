@@ -1,38 +1,35 @@
-import { useState } from "react";
-import productDatas from "../../data/products.json";
+import { useEffect, useState } from "react";
 import BreadcrumbCom from "../BreadcrumbCom";
 import ProductCardStyleOne from "../Helpers/Cards/ProductCardStyleOne";
 import DataIteration from "../Helpers/DataIteration";
 import Layout from "../Partials/Layout";
 import ProductsFilter from "./ProductsFilter";
+import ProduitService from "../../services/produitService";
+import Categorieservice from "../../services/categorieservice";
 
 export default function AllProductPage() {
+  const [categories, setCategories] = useState([]);
+  useEffect(() => {
+    const fetchModels = async () => {
+      try {
+        const data = await Categorieservice.getCategories();
+        setCategories(data);
+        console.log(data);
+      } catch (error) {
+        console.error("Erreur lors de la récupération des modèles", error);
+      }
+    };
+    fetchModels();
+  }, []);
+
   const [filters, setFilter] = useState({
-    mobileLaptop: false,
-    gaming: false,
-    imageVideo: false,
-    vehicles: false,
-    furnitures: false,
-    sport: false,
-    foodDrinks: false,
-    fashion: false,
-    toilet: false,
-    makeupCorner: false,
-    babyItem: false,
-    apple: false,
-    samsung: false,
-    walton: false,
-    oneplus: false,
-    vivo: false,
-    oppo: false,
-    xiomi: false,
-    others: false,
     sizeS: false,
     sizeM: false,
     sizeL: false,
     sizeXL: false,
     sizeXXL: false,
     sizeFit: false,
+    category: [],
   });
 
   const checkboxHandler = (e) => {
@@ -49,8 +46,37 @@ export default function AllProductPage() {
     setStorage(value);
   };
   const [filterToggle, setToggle] = useState(false);
+  const [products, setProducts] = useState([]);
+  // const { products } = productDatas;
+  useEffect(() => {
+    const fetchModels = async () => {
+      try {
+        const data = await ProduitService.getProduits();
+        console.log(data);
+        setProducts(data);
+      } catch (error) {
+        console.error("Erreur lors de la récupération des modèles", error);
+      }
+    };
+    fetchModels();
+  }, []);
 
-  const { products } = productDatas;
+  const handleCategoryChange = (categoryId) => {
+    console.log(categoryId);
+    setFilter((prevState) => {
+      const categoryIndex = prevState.category.indexOf(categoryId);
+      if (categoryIndex === -1) {
+        // La catégorie n'est pas encore sélectionnée, on l'ajoute
+        return { ...prevState, category: [...prevState.category, categoryId] };
+      } else {
+        // La catégorie est déjà sélectionnée, on la retire
+        return {
+          ...prevState,
+          category: prevState.category.filter((id) => id !== categoryId),
+        };
+      }
+    });
+  };
 
   return (
     <>
@@ -69,8 +95,11 @@ export default function AllProductPage() {
                   volumeHandler={(value) => setVolume(value)}
                   storage={storage}
                   filterstorage={filterStorage}
+                  categories={categories}
+                  handleCategoryChange={handleCategoryChange}
                   className="mb-[30px]"
                 />
+
                 {/* ads */}
                 <div className="w-full hidden lg:block h-[295px]">
                   <img
@@ -87,8 +116,9 @@ export default function AllProductPage() {
                 <div className="products-sorting w-full bg-white md:h-[70px] flex md:flex-row flex-col md:space-y-0 space-y-5 md:justify-between md:items-center p-[30px] mb-[40px]">
                   <div>
                     <p className="font-400 text-[13px]">
-                      <span className="text-qgray"> Showing</span> 1–16 of 66
-                      results
+                      <span className="text-qgray"> Affichage</span> 1–16 of{" "}
+                      {products.length}
+                      résultats
                     </p>
                   </div>
                   <div className="flex space-x-3 items-center">
@@ -131,8 +161,16 @@ export default function AllProductPage() {
                     </svg>
                   </button>
                 </div>
-                <div className="grid xl:grid-cols-3 sm:grid-cols-2 grid-cols-1  xl:gap-[30px] gap-5 mb-[40px]">
-                  <DataIteration datas={products} startLength={0} endLength={6}>
+                <div className="grid xl:grid-cols-3 sm:grid-cols-2 grid-cols-1  xl:gap-[20px] gap-5 mb-[40px]">
+                  <DataIteration
+                    datas={products.filter((product) =>
+                      filters.category.length
+                        ? filters.category.includes(product.categ_id)
+                        : true
+                    )}
+                    startLength={0}
+                    endLength={6}
+                  >
                     {({ datas }) => (
                       <div data-aos="fade-up" key={datas.id}>
                         <ProductCardStyleOne datas={datas} />
@@ -143,16 +181,18 @@ export default function AllProductPage() {
 
                 <div className="w-full h-[164px] overflow-hidden mb-[40px]">
                   <img
-                    src={`${
-                      import.meta.env.VITE_PUBLIC_URL
-                    }/assets/images/ads-6.png`}
+                    src="image1.jpg"
                     alt=""
                     className="w-full h-full object-contain"
                   />
                 </div>
                 <div className="grid xl:grid-cols-3 sm:grid-cols-2 grid-cols-1 xl:gap-[30px] gap-5 mb-[40px]">
                   <DataIteration
-                    datas={products}
+                    datas={products.filter((product) =>
+                      filters.category.length
+                        ? filters.category.includes(product.categ_id)
+                        : true
+                    )}
                     startLength={6}
                     endLength={15}
                   >

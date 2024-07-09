@@ -1,9 +1,39 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Star from "../Helpers/icons/Star";
 import Selectbox from "../Helpers/Selectbox";
+import formatPrice from "../../utils/formatPrice";
+import { Heart } from "lucide-react";
+import { CartContext } from "../../contexts/CartContext ";
 
 export default function ProductView({ produit, className, reportHandler }) {
   console.log(produit);
+  const {
+    addToCart,
+    addToWishlist,
+    wishlist,
+    cart,
+    addToPreorder,
+    preorder,
+    isProductInWishlist,
+  } = useContext(CartContext);
+
+  const handleAddToCart = (e) => {
+    e.preventDefault();
+    addToCart(produit, 1);
+    console.log("Ajout au souhait :", cart);
+  };
+
+  const handleAddToWishlist = (e) => {
+    e.preventDefault();
+    addToWishlist(produit, 1);
+    console.log(wishlist);
+  };
+
+  const handleAddToPreOrder = (e) => {
+    e.preventDefault();
+    addToPreorder(produit, 1);
+    console.log("Ajout au preorder :", preorder);
+  };
 
   const productsImg = [
     {
@@ -33,6 +63,14 @@ export default function ProductView({ produit, className, reportHandler }) {
     },
   ];
 
+  const imageProps = [
+    "image_128",
+    "image_256",
+    "image_512",
+    "image_1024",
+    "image_1920",
+  ];
+
   const [src, setSrc] = useState(productsImg[0].src);
   const changeImgHandler = (current) => {
     setSrc(current);
@@ -57,7 +95,11 @@ export default function ProductView({ produit, className, reportHandler }) {
         <div className="w-full">
           <div className="w-full h-[600px] border border-qgray-border flex justify-center items-center overflow-hidden relative mb-3">
             <img
-              src={`${import.meta.env.VITE_PUBLIC_URL}/assets/images/${src}`}
+              src={`${
+                produit.image_1920
+                  ? "data:image/png;base64," + produit.image_1920
+                  : "https://readymadeui.com/images/coffee1.webp"
+              }`}
               alt=""
               className="object-contain"
             />
@@ -66,21 +108,19 @@ export default function ProductView({ produit, className, reportHandler }) {
             </div>
           </div>
           <div className="flex gap-2 flex-wrap">
-            {productsImg &&
-              productsImg.length > 0 &&
-              productsImg.map((img) => (
+            {imageProps &&
+              imageProps.length > 0 &&
+              imageProps.map((img) => (
                 <div
-                  onClick={() => changeImgHandler(img.src)}
-                  key={img.id}
+                  onClick={() => changeImgHandler(produit[img])}
+                  key={img}
                   className="w-[110px] h-[110px] p-[15px] border border-qgray-border cursor-pointer"
                 >
                   <img
-                    src={`${import.meta.env.VITE_PUBLIC_URL}/assets/images/${
-                      img.src
-                    }`}
+                    src={`${"data:image/png;base64," + produit[img]}`}
                     alt=""
                     className={`w-full h-full object-contain ${
-                      src !== img.src ? "opacity-50" : ""
+                      src !== produit[img] ? "opacity-50" : ""
                     } `}
                   />
                 </div>
@@ -100,7 +140,7 @@ export default function ProductView({ produit, className, reportHandler }) {
             data-aos="fade-up"
             className="text-xl font-medium text-qblack mb-4"
           >
-            Samsung Galaxy Z Fold3 5G 3 colors in 512GB {produit.name}
+            {produit.name}
           </p>
 
           <div
@@ -121,17 +161,19 @@ export default function ProductView({ produit, className, reportHandler }) {
 
           <div data-aos="fade-up" className="flex space-x-2 items-center mb-7">
             <span className="text-sm font-500 text-qgray line-through mt-2">
-              $9.99
+              {formatPrice(produit.standard_price)}
             </span>
-            <span className="text-2xl font-500 text-qred">$6.99</span>
+            <span className="text-2xl font-500 text-qred">
+              {" "}
+              {formatPrice(produit.list_price)}
+            </span>
           </div>
 
           <p
             data-aos="fade-up"
             className="text-qgray text-sm text-normal mb-[30px] leading-7"
           >
-            It is a long established fact that a reader will be distracted by
-            the readable there content of a page when looking at its layout.
+            {produit.description}
           </p>
 
           {/* <div data-aos="fade-up" className="colors mb-[30px]">
@@ -229,31 +271,29 @@ export default function ProductView({ produit, className, reportHandler }) {
             <div className="w-[60px] h-full flex justify-center items-center border border-qgray-border">
               <button type="button">
                 <span>
-                  <svg
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M17 1C14.9 1 13.1 2.1 12 3.7C10.9 2.1 9.1 1 7 1C3.7 1 1 3.7 1 7C1 13 12 22 12 22C12 22 23 13 23 7C23 3.7 20.3 1 17 1Z"
-                      stroke="#D5D5D5"
-                      strokeWidth="2"
-                      strokeMiterlimit="10"
-                      strokeLinecap="square"
-                    />
-                  </svg>
+                  <Heart></Heart>
                 </span>
               </button>
             </div>
-            <div className="flex-1 h-full">
-              <button
-                type="button"
-                className="black-btn text-sm font-semibold w-full h-full"
-              >
-                Add To Cart
-              </button>
+            <div className="flex-1 flex gap-2 h-full">
+              {produit.quantite_en_stock > 0 && (
+                <button
+                  type="button"
+                  onClick={handleAddToCart}
+                  className="black-btn text-sm font-semibold w-full h-full"
+                >
+                  Commander
+                </button>
+              )}
+              {produit.quanitty_virtuelle_disponible > 0 && (
+                <button
+                  type="button"
+                  onClick={handleAddToPreOrder}
+                  className="black-btn text-sm font-semibold w-full h-full"
+                >
+                  Pré comamnder
+                </button>
+              )}
             </div>
           </div>
 

@@ -7,7 +7,7 @@ export default function SectionStyleThree({
   sectionTitle,
   seeMoreUrl,
   products = [],
-    type
+  type = 3,
 }) {
   return (
     <div className={`section-style-one ${className || ""}`}>

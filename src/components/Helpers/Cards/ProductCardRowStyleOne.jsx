@@ -10,7 +10,7 @@ import { CartContext } from "../../../contexts/CartContext ";
 import { Eye, Heart, ShoppingCart } from "lucide-react";
 import { useContext } from "react";
 
-export default function ProductCardRowStyleTwo({ className, datas, type }) {
+export default function ProductCardRowStyleTwo({ className, datas, type = 3 }) {
   const navigate = useNavigate();
   const {
     addToCart,
@@ -108,7 +108,7 @@ export default function ProductCardRowStyleTwo({ className, datas, type }) {
       </div>
       {/* quick-access-btns */}
       <div className="quick-access-btns flex flex-col space-y-2 absolute group-hover:right-4 -right-10 top-[30px]  transition-all duration-300 ease-in-out">
-        <a href="#">
+        <Link>
           <span className="w-10 h-10 flex justify-center items-center bg-primarygray rounded">
             {/* <QuickViewIco /> */}
             <Link
@@ -118,8 +118,8 @@ export default function ProductCardRowStyleTwo({ className, datas, type }) {
               <Eye />
             </Link>
           </span>
-        </a>
-        <a href="#">
+        </Link>
+        <Link>
           <span className="w-10 h-10 flex justify-center items-center bg-primarygray rounded">
             {/* <ThinLove /> */}
             <Heart
@@ -129,12 +129,12 @@ export default function ProductCardRowStyleTwo({ className, datas, type }) {
               onClick={handleAddToWishlist}
             />
           </span>
-        </a>
-        <a href="#">
+        </Link>
+        <Link>
           <span className="w-10 h-10 flex justify-center items-center bg-primarygray rounded">
             <Compair />
           </span>
-        </a>
+        </Link>
       </div>
     </div>
   );

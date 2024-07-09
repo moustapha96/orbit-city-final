@@ -1,9 +1,10 @@
+/* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
 import Facebook from "../../../Helpers/icons/Facebook";
 import Instagram from "../../../Helpers/icons/Instagram";
 import Youtube from "../../../Helpers/icons/Youtube";
 
-export default function Footer({ type }) {
+export default function Footer({ type = 3 }) {
   return (
     <footer className="footer-section-wrapper bg-white print:hidden">
       <div className="container-x block mx-auto pt-[56px]">
@@ -12,25 +13,11 @@ export default function Footer({ type }) {
           <div className="mb-[40px]">
             {type === 3 ? (
               <Link to="/">
-                <img
-                  width="152"
-                  height="36"
-                  src={`${
-                    import.meta.env.VITE_PUBLIC_URL
-                  }/assets/images/logo-3.svg`}
-                  alt="logo"
-                />
+                <img width="160" height="40" src="/logo.png" alt="logo" />
               </Link>
             ) : (
               <Link to="/">
-                <img
-                  width="152"
-                  height="36"
-                  src={`${
-                    import.meta.env.VITE_PUBLIC_URL
-                  }/assets/images/logo.svg`}
-                  alt="logo"
-                />
+                <img width="120" height="30" src="/logo.png" alt="logo" />
               </Link>
             )}
           </div>
@@ -146,31 +133,31 @@ export default function Footer({ type }) {
         <div className="bottom-bar border-t border-qgray-border lg:h-[82px] lg:flex justify-between items-center">
           <div className="flex lg:space-x-5 justify-between items-center mb-3">
             <div className="flex space-x-5 items-center">
-              <a href="#">
+              <Link href="#">
                 <Instagram className="fill-current text-qgray hover:text-qblack" />
-              </a>
-              <a href="#">
+              </Link>
+              <Link href="#">
                 <Facebook className="fill-current text-qgray hover:text-qblack" />
-              </a>
-              <a href="#">
+              </Link>
+              <Link href="#">
                 <Youtube className="fill-current text-qgray hover:text-qblack" />
-              </a>
+              </Link>
             </div>
             <span className="sm:text-base text-[10px] text-qgray font-300">
-              ©2022
+              ©2024
               <a
-                href="https://quomodosoft.com/"
+                href="http://www.ccbm.sn/"
                 target="_blank"
                 rel="noreferrer"
                 className="font-500 text-qblack mx-1"
               >
-                Quomodosoft
+                Shop-CCBM
               </a>
-              All rights reserved
+              Tous droits réservés
             </span>
           </div>
           <div className="">
-            <a href="#">
+            <Link href="#">
               <img
                 width="318"
                 height="28"
@@ -179,7 +166,7 @@ export default function Footer({ type }) {
                 }/assets/images/payment-getways.png`}
                 alt="payment-getways"
               />
-            </a>
+            </Link>
           </div>
         </div>
       </div>

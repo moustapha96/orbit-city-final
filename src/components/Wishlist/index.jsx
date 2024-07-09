@@ -1,10 +1,17 @@
+import { useContext } from "react";
 import BreadcrumbCom from "../BreadcrumbCom";
 import EmptyWishlistError from "../EmptyWishlistError";
 import PageTitle from "../Helpers/PageTitle";
 import Layout from "../Partials/Layout";
 import ProductsTable from "./ProductsTable";
+import { CartContext } from "../../contexts/CartContext ";
 
 export default function Wishlist({ wishlist = true }) {
+  const { clearWishlist } = useContext(CartContext);
+
+  const cleanWishist = () => {
+    clearWishlist();
+  };
   return (
     <Layout childrenClasses={wishlist ? "pt-0 pb-0" : ""}>
       {wishlist === false ? (
@@ -12,8 +19,8 @@ export default function Wishlist({ wishlist = true }) {
           <div className="container-x mx-auto">
             <BreadcrumbCom
               paths={[
-                { name: "home", path: "/" },
-                { name: "wishlist", path: "/wishlist" },
+                { name: "Accueil", path: "/" },
+                { name: "liste de souhaits", path: "/wishlist" },
               ]}
             />
             <EmptyWishlistError />
@@ -23,10 +30,10 @@ export default function Wishlist({ wishlist = true }) {
         <div className="wishlist-page-wrapper w-full bg-white pb-[60px]">
           <div className="w-full">
             <PageTitle
-              title="Wishlist"
+              title="liste de souhaits"
               breadcrumb={[
-                { name: "home", path: "/" },
-                { name: "wishlist", path: "/wishlist" },
+                { name: "Accueil", path: "/" },
+                { name: "liste de souhaits", path: "/wishlist" },
               ]}
             />
           </div>
@@ -35,15 +42,15 @@ export default function Wishlist({ wishlist = true }) {
               <ProductsTable className="mb-[30px]" />
               <div className="w-full mt-[30px] flex sm:justify-end justify-start">
                 <div className="sm:flex sm:space-x-[30px] items-center">
-                  <button type="button">
+                  <button type="button" onClick={cleanWishist}>
                     <div className="w-full text-sm font-semibold text-qred mb-5 sm:mb-0">
-                      Clean Wishlist
+                      Nettoyer la liste de souhaits
                     </div>
                   </button>
                   <div className="w-[180px] h-[50px]">
                     <button type="button" className="yellow-btn">
                       <div className="w-full text-sm font-semibold">
-                        Add to Cart All
+                        Ajouter au panier
                       </div>
                     </button>
                   </div>
