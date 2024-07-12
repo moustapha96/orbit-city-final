@@ -13,8 +13,13 @@ import {
 } from "lucide-react";
 import { CartContext } from "../../../../contexts/CartContext ";
 import { useContext } from "react";
+import { useSelector } from "react-redux";
+import ThinPeople from "../../../Helpers/icons/ThinPeople";
 
 export default function HeaderOne({ className, drawerAction, type = 3 }) {
+  const user = useSelector((state) => state.user.user);
+  const backgroundColor = type === 3 ? "var(--bleu-logo)" : "var(--qyellow)";
+  const textColor = type === 3 ? "white" : "var(--qblack)";
   const { cart, wishlist, preorder } = useContext(CartContext);
 
   return (
@@ -32,7 +37,7 @@ export default function HeaderOne({ className, drawerAction, type = 3 }) {
           <div>
             {type === 3 ? (
               <Link to="/">
-                <img width="152" height="36" src="/logo.png" alt="logo" />
+                <img width="120" height="36" src="/logo.png" alt="logo" />
               </Link>
             ) : type === 4 ? (
               <Link to="/">
@@ -51,9 +56,8 @@ export default function HeaderOne({ className, drawerAction, type = 3 }) {
               </span>
             </Link>
             <span
-              className={`w-[18px] h-[18px] rounded-full  absolute -top-2.5 -right-2.5 flex justify-center items-center text-[9px] ${
-                type === 3 ? "bg-qh3-blue text-white" : "bg-qyellow text-qblack"
-              }`}
+              className={`w-[18px] h-[18px] rounded-full absolute -top-2.5 -right-2.5 flex justify-center items-center text-[9px]`}
+              style={{ backgroundColor, color: textColor }}
             >
               {wishlist.length > 0 ? wishlist.length : 0}
             </span>
@@ -66,9 +70,8 @@ export default function HeaderOne({ className, drawerAction, type = 3 }) {
               </span>
             </Link>
             <span
-              className={`w-[18px] h-[18px] rounded-full  absolute -top-2.5 -right-2.5 flex justify-center items-center text-[9px] ${
-                type === 3 ? "bg-qh3-blue text-white" : "bg-qyellow text-qblack"
-              }`}
+              className={`w-[18px] h-[18px] rounded-full  absolute -top-2.5 -right-2.5 flex justify-center items-center text-[9px]`}
+              style={{ backgroundColor, color: textColor }}
             >
               {cart.length > 0 ? cart.length : 0}
             </span>
@@ -81,20 +84,32 @@ export default function HeaderOne({ className, drawerAction, type = 3 }) {
               </span>
             </Link>
             <span
-              className={`w-[18px] h-[18px] rounded-full  absolute -top-2.5 -right-2.5 flex justify-center items-center text-[9px] ${
-                type === 3 ? "bg-qh3-blue text-white" : "bg-qyellow text-qblack"
-              }`}
+              className={`w-[18px] h-[18px] rounded-full  absolute -top-2.5 -right-2.5 flex justify-center items-center text-[9px]`}
+              style={{ backgroundColor, color: textColor }}
             >
               {preorder.length > 0 ? preorder.length : 0}
             </span>
           </div>
 
           <div>
-            <Link to="/profile">
-              <span>
-                <CircleUser />
-              </span>
-            </Link>
+            {!user ? (
+              <>
+                {" "}
+                <Link to="/login">
+                  <span>
+                    <ThinPeople />
+                  </span>
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link to="/profile">
+                  <span>
+                    <ThinPeople />
+                  </span>
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </div>

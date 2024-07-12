@@ -11,7 +11,7 @@ export default function CheakoutPage() {
           <PageTitle
             title="Checkout"
             breadcrumb={[
-              { name: "home", path: "/" },
+              { name: "Accueil", path: "/" },
               { name: "checkout", path: "/checkout" },
             ]}
           />

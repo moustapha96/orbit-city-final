@@ -15,7 +15,7 @@ export default function CampaignCountDown({ className, lastDate }) {
               style={{
                 background: `url(${
                   import.meta.env.VITE_PUBLIC_URL
-                }/assets/images/campaign-cover-countdown-2.jpg) no-repeat`,
+                }/images/campaign-cover-countdown-2.jpg) no-repeat`,
                 backgroundSize: "cover",
               }}
             >

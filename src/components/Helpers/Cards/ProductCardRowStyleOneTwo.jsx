@@ -14,9 +14,7 @@ export default function ProductCardRowStyleOneTwo({ className, datas }) {
       <div className="flex space-x-5 items-center w-full h-full p-[16px]">
         <div className="w-1/3 h-full">
           <img
-            src={`${import.meta.env.VITE_PUBLIC_URL}/assets/images/${
-              datas.image
-            }`}
+            src={`${import.meta.env.VITE_PUBLIC_URL}/images/${datas.image}`}
             alt=""
             className="w-full h-full object-contain"
           />

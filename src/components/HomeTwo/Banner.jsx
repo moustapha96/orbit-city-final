@@ -14,12 +14,12 @@ export default function Banner({ className }) {
                       media="(min-width:1025px)"
                       srcSet={`${
                         import.meta.env.VITE_PUBLIC_URL
-                      }/assets/images/banner-1.1.png`}
+                      }/images/banner-1.1.png`}
                     />
                     <img
                       src={`${
                         import.meta.env.VITE_PUBLIC_URL
-                      }/assets/images/banner-2.1.png`}
+                      }/images/banner-2.1.png`}
                       alt=""
                       className="w-full max-w-full h-auto object-cover"
                     />
@@ -35,7 +35,7 @@ export default function Banner({ className }) {
                     <img
                       src={`${
                         import.meta.env.VITE_PUBLIC_URL
-                      }/assets/images/banner-2.2.png`}
+                      }/images/banner-2.2.png`}
                       alt=""
                       className="w-full h-full"
                     />

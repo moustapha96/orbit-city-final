@@ -57,7 +57,7 @@ export default function BecomeSaller() {
           <PageTitle
             title="Seller Application"
             breadcrumb={[
-              { name: "home", path: "/" },
+              { name: "Accueil", path: "/" },
               { name: "Become Saller", path: "/become-saller" },
             ]}
           />
@@ -249,7 +249,7 @@ export default function BecomeSaller() {
                             profileImg ||
                             `${
                               import.meta.env.VITE_PUBLIC_URL
-                            }/assets/images/edit-profileimg.jpg`
+                            }/images/edit-profileimg.jpg`
                           }
                           alt=""
                           className="sm:w-[198px] sm:h-[198px] w-[199px] h-[199px] rounded-full overflow-hidden object-cover"
@@ -316,7 +316,7 @@ export default function BecomeSaller() {
                             logoImg ||
                             `${
                               import.meta.env.VITE_PUBLIC_URL
-                            }/assets/images/edit-logoimg.jpg`
+                            }/images/edit-logoimg.jpg`
                           }
                           alt=""
                           className="sm:w-[198px] sm:h-[198px] w-[199px] h-[199px] rounded-full overflow-hidden object-cover"
@@ -381,7 +381,7 @@ export default function BecomeSaller() {
                             coverImg ||
                             `${
                               import.meta.env.VITE_PUBLIC_URL
-                            }/assets/images/edit-coverimg.jpg`
+                            }/images/edit-coverimg.jpg`
                           }
                           alt=""
                           className="w-full h-[120px] rounded-lg overflow-hidden object-cover"

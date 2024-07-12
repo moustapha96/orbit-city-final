@@ -33,7 +33,7 @@ export default function Banner({ className }) {
                 <div
                   className="w-full h-full relative md:bg-center"
                   style={{
-                    backgroundImage: `url('/assets/images/banner-5.png')`,
+                    backgroundImage: `url('/images/banner-5.png')`,
                     backgroundRepeat: "no-repeat",
                     backgroundSize: "cover",
                   }}
@@ -99,7 +99,7 @@ export default function Banner({ className }) {
                 <div
                   className="w-full h-full relative md:bg-center"
                   style={{
-                    backgroundImage: `url('/assets/images/banner-5.1.png')`,
+                    backgroundImage: `url('/images/banner-5.1.png')`,
                     backgroundRepeat: "no-repeat",
                     backgroundSize: "cover",
                   }}
@@ -165,7 +165,7 @@ export default function Banner({ className }) {
                 <div
                   className="w-full h-full relative md:bg-center"
                   style={{
-                    backgroundImage: `url('/assets/images/banner-5.2.png')`,
+                    backgroundImage: `url('/images/banner-5.2.png')`,
                     backgroundRepeat: "no-repeat",
                     backgroundSize: "cover",
                   }}
@@ -235,7 +235,7 @@ export default function Banner({ className }) {
         <div
           data-aos="fade-up"
           style={{
-            backgroundImage: `url(/assets/images/service-bg.png)`,
+            backgroundImage: `url(/images/service-bg.png)`,
             backgroundRepeat: "no-repeat",
             backgroundSize: "cover",
           }}

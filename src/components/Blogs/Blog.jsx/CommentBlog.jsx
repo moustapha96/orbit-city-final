@@ -138,7 +138,7 @@ export default function CommentBlog() {
                     <img
                       src={`${
                         import.meta.env.VITE_PUBLIC_URL
-                      }/assets/images/comment-user-1.png`}
+                      }/images/comment-user-1.png`}
                       alt=""
                       className="w-full h-full object-cover"
                     />
@@ -171,7 +171,7 @@ export default function CommentBlog() {
                           <img
                             src={`${
                               import.meta.env.VITE_PUBLIC_URL
-                            }/assets/images/comment-user-2.png`}
+                            }/images/comment-user-2.png`}
                             alt=""
                             className="w-full h-full object-cover"
                           />

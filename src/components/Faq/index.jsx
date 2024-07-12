@@ -11,7 +11,7 @@ export default function Faq() {
           <PageTitle
             title="Frequently Asked Questions"
             breadcrumb={[
-              { name: "home", path: "/" },
+              { name: "Accueil", path: "/" },
               { name: "FAQ", path: "/faq" },
             ]}
           />

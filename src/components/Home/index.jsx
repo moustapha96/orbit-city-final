@@ -20,6 +20,7 @@ import ProduitService from "../../services/produitService";
 export default function Home() {
   const [categories, setCategories] = useState([]);
   const [productS, setProducts] = useState([]);
+  const [newProduits, setNewProduits] = useState([]);
 
   useEffect(() => {
     const fetchModels = async () => {
@@ -28,7 +29,8 @@ export default function Home() {
         setCategories(data);
         const dataProduct = await ProduitService.getProduits();
         setProducts(dataProduct);
-        console.log("produits ", dataProduct);
+        setNewProduits(dataProduct.slice(0, 6));
+        console.log("produits new ", newProduits);
         console.log("Catégories récupérées", data);
       } catch (error) {
         console.error("Erreur lors de la récupération des modèles", error);
@@ -52,13 +54,13 @@ export default function Home() {
   // }, []);
   return (
     <>
-      <Layout>
+      <Layout type={3} childrenClasses="pt-0">
         {/* {ads && <Ads handler={adsHandle} />} */}
-        <div className="btn w-5 h-5 "></div>
+        {/* <div className="btn w-5 h-5 "></div> */}
         <Banner className="banner-wrapper mb-[60px]" />
         <BrandSection
           type={3}
-          sectionTitle="Shop by Brand"
+          sectionTitle="Nos Marques"
           className="brand-section-wrapper mb-[60px]"
         />
         <SectionStyleOne
@@ -72,19 +74,19 @@ export default function Home() {
 
         <CampaignCountDown
           className="mb-[60px]"
-          lastDate="2023-10-04 4:00:00"
+          lastDate="2024-9-07 10:00:00"
         />
         <ViewMoreTitle
           className="top-selling-product mb-[60px]"
           seeMoreUrl="/all-products"
-          categoryTitle="Top Selling Products"
+          categoryTitle="Produits les plus vendus"
         >
           <SectionStyleTwo products={productS.slice(3, productS.length)} />
         </ViewMoreTitle>
         <ViewMoreTitle
           className="best-sallers-section mb-[60px]"
           seeMoreUrl="/sallers"
-          categoryTitle="Best Saller"
+          categoryTitle="Meilleur vendeur"
         >
           <BestSellers />
         </ViewMoreTitle>
@@ -96,27 +98,27 @@ export default function Home() {
         <SectionStyleOne
           categoryBackground={`${
             import.meta.env.VITE_PUBLIC_URL
-          }/assets/images/section-category-2.jpg`}
+          }/images/section-category-2.jpg`}
           products={productS.slice(4, productS.length)}
           brands={brands}
           categoryTitle="Electronics"
-          sectionTitle="Popular Sales"
+          sectionTitle="Ventes populaires"
           seeMoreUrl="/all-products"
           className="category-products mb-[60px]"
         />
         <ProductsAds
-          ads={[`${import.meta.env.VITE_PUBLIC_URL}/image3.jpg`]}
+          ads={[`/image3.jpg`]}
           className="products-ads-section mb-[60px]"
         />
         <SectionStyleThree
-          products={productS}
-          sectionTitle="New Arrivals"
+          products={newProduits}
+          sectionTitle="Nouvelles Arrivées"
           seeMoreUrl="/all-products"
           className="new-products mb-[60px]"
         />
         <ProductsAds
           sectionHeight="164"
-          ads={[`${import.meta.env.VITE_PUBLIC_URL}/image4.jpg`]}
+          ads={[`/image4.jpg`]}
           className="products-ads-section mb-[60px]"
         />
         {/* <SectionStyleFour

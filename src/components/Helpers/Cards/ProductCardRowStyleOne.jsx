@@ -9,6 +9,7 @@ import formatPrice from "../../../utils/formatPrice";
 import { CartContext } from "../../../contexts/CartContext ";
 import { Eye, Heart, ShoppingCart } from "lucide-react";
 import { useContext } from "react";
+import { toast } from "react-toastify";
 
 export default function ProductCardRowStyleTwo({ className, datas, type = 3 }) {
   const navigate = useNavigate();
@@ -24,17 +25,44 @@ export default function ProductCardRowStyleTwo({ className, datas, type = 3 }) {
     e.preventDefault();
     addToCart(datas, 1);
     console.log("Ajout au souhait :", cart);
+    toast.success("Produit ajouté", {
+      position: "top-right",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
   };
 
   const handleAddToWishlist = (e) => {
     e.preventDefault();
     addToWishlist(datas, 1);
+    toast.success("Produit ajouté", {
+      position: "top-right",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
   };
 
   const handleAddToPreOrder = (e) => {
     e.preventDefault();
     addToPreorder(datas, 1);
     console.log("Ajout au preorder :", preorder);
+    toast.success("Produit ajouté", {
+      position: "top-right",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
   };
 
   const handleDetails = (e, produit) => {
@@ -86,8 +114,11 @@ export default function ProductCardRowStyleTwo({ className, datas, type = 3 }) {
               </span>
             </p>
             {datas.quantite_en_stock > 0 && (
-              <button type="button" className="w-[110px] h-[30px]">
-                <span className={type === 3 ? "blue-btn" : "yellow-btn"}>
+              <button
+                type="button"
+                className="w-[110px] h-[30px] transition-all duration-300 ease-in-out "
+              >
+                <span className={type === 3 ? "blue-logo-btn" : "yellow-btn"}>
                   {" "}
                   <ShoppingCart /> Acheter
                 </span>
@@ -97,7 +128,7 @@ export default function ProductCardRowStyleTwo({ className, datas, type = 3 }) {
             <br />
             {datas.quanitty_virtuelle_disponible > 0 && (
               <button type="button" className="w-[110px] h-[30px]">
-                <span className={type === 3 ? "blue-btn" : "yellow-btn"}>
+                <span className={type === 3 ? "blue-logo-btn" : "yellow-btn"}>
                   {" "}
                   Pré commande
                 </span>

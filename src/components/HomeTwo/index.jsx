@@ -33,8 +33,8 @@ export default function HomeTwo() {
       <CampaignCountDown className="mb-[60px]" lastDate="2023-10-04 4:00:00" />
       <ProductsAds
         ads={[
-          `${import.meta.env.VITE_PUBLIC_URL}/assets/images/ads-2.2.png`,
-          `${import.meta.env.VITE_PUBLIC_URL}/assets/images/ads-2.1.png`,
+          `${import.meta.env.VITE_PUBLIC_URL}/images/ads-2.2.png`,
+          `${import.meta.env.VITE_PUBLIC_URL}/images/ads-2.1.png`,
         ]}
         sectionHeight="sm:h-[290px] h-full"
         className="products-ads-section mb-[60px]"
@@ -54,7 +54,7 @@ export default function HomeTwo() {
         <SectionStyleTwo products={products.slice(3, products.length)} />
       </ViewMoreTitle>
       <ProductsAds
-        ads={[`${import.meta.env.VITE_PUBLIC_URL}/assets/images/ads-2.3.png`]}
+        ads={[`${import.meta.env.VITE_PUBLIC_URL}/images/ads-2.3.png`]}
         className="products-ads-section mb-[60px]"
       />
       <SectionStyleThreeHomeTwo
@@ -66,7 +66,7 @@ export default function HomeTwo() {
       />
       <ProductsAds
         sectionHeight="164"
-        ads={[`${import.meta.env.VITE_PUBLIC_URL}/assets/images/ads-2.4.png`]}
+        ads={[`${import.meta.env.VITE_PUBLIC_URL}/images/ads-2.4.png`]}
         className="products-ads-section mb-[60px]"
       />
       <SectionStyleFour

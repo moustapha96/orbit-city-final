@@ -3,6 +3,7 @@ import InputQuantityCom from "../../../Helpers/InputQuantityCom";
 import { CartContext } from "../../../../contexts/CartContext ";
 import { PlusCircleIcon, Trash } from "lucide-react";
 import formatPrice from "../../../../utils/formatPrice";
+import { toast } from "react-toastify";
 
 export default function WishlistTab({ className }) {
   const {
@@ -22,12 +23,30 @@ export default function WishlistTab({ className }) {
   const HandleAddToCart = (e, produit) => {
     e.preventDefault();
     addToCart(produit, produit.quantity);
+    toast.success("Produit ajouté", {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
     console.log("Ajout au panier :", cart);
   };
   const HandleAddToPreCart = (e, produit) => {
     e.preventDefault();
     addToPreorder(produit, produit.quantity);
     console.log("Ajout au pré-commande :", preorder);
+    toast.success("Produit ajouté", {
+      position: "top-right",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
   };
   return (
     <>
@@ -139,7 +158,7 @@ export default function WishlistTab({ className }) {
             </div>
           </button>
           <div className="w-[180px] h-[50px]">
-            <button type="button" className="yellow-btn">
+            <button type="button" className="blue-logo-btn">
               <div className="w-full text-sm font-semibold">
                 Ajouter au panier
               </div>

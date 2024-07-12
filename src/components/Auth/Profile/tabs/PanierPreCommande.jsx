@@ -113,7 +113,7 @@ export default function PanierPreCommande({ className }) {
             </div>
           </button>
           <div className="w-[180px] h-[50px]">
-            <button type="button" className="yellow-btn">
+            <button type="button" className="blue-logo-btn">
               <div className="w-full text-sm font-semibold">
                 Valider Pré Commande
               </div>

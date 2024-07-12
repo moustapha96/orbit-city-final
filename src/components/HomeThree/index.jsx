@@ -33,7 +33,7 @@ export default function HomeThree() {
           className="new-products mb-[60px]"
         />
         <ProductsAds
-          ads={[`${import.meta.env.VITE_PUBLIC_URL}/assets/images/ads-3.png`]}
+          ads={[`${import.meta.env.VITE_PUBLIC_URL}/images/ads-3.png`]}
           className="products-ads-section mb-[60px]"
         />
 
@@ -60,8 +60,8 @@ export default function HomeThree() {
 
         <ProductsAds
           ads={[
-            `${import.meta.env.VITE_PUBLIC_URL}/assets/images/ads-1.png`,
-            `${import.meta.env.VITE_PUBLIC_URL}/assets/images/ads-2.png`,
+            `${import.meta.env.VITE_PUBLIC_URL}/images/ads-1.png`,
+            `${import.meta.env.VITE_PUBLIC_URL}/images/ads-2.png`,
           ]}
           sectionHeight="sm:h-[295px] h-full"
           className="products-ads-section mb-[60px]"
@@ -70,7 +70,7 @@ export default function HomeThree() {
           type={3}
           categoryBackground={`${
             import.meta.env.VITE_PUBLIC_URL
-          }/assets/images/section-category-2.jpg`}
+          }/images/section-category-2.jpg`}
           products={products.slice(4, products.length)}
           brands={brands}
           categoryTitle="Electronics"

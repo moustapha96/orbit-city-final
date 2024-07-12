@@ -6,22 +6,108 @@ import Layout from "../Partials/Layout";
 import ProductsFilter from "./ProductsFilter";
 import ProduitService from "../../services/produitService";
 import Categorieservice from "../../services/categorieservice";
+import { useParams } from "react-router-dom";
+import { Loader2 } from "lucide-react";
 
 export default function AllProductPage() {
+  const { name } = useParams();
   const [categories, setCategories] = useState([]);
+  const [startLength, setStartLength] = useState(0);
+  const [endLength, setEndLength] = useState(6);
+  const [products, setProducts] = useState([]);
+  const [produits, setProduits] = useState([]);
+  const [showBackButton, setShowBackButton] = useState(false);
+  const [showLoadMoreButton, setShowLoadMoreButton] = useState(true);
+  const [search, setSearch] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const handleLoadMore = () => {
+    if (endLength < produits.length) {
+      setEndLength(endLength + 8);
+      setStartLength(Math.max(0, endLength));
+      setShowBackButton(true);
+    }
+    if (endLength + 8 >= produits.length) {
+      setShowLoadMoreButton(false);
+    }
+  };
+
+  const handleLoadLess = () => {
+    if (startLength > 0) {
+      setEndLength(startLength);
+      setStartLength(Math.max(0, startLength - 8));
+      setShowLoadMoreButton(true);
+    }
+    if (startLength - 8 <= 0) {
+      setShowBackButton(false);
+    }
+  };
+
   useEffect(() => {
+    setIsLoading(true);
     const fetchModels = async () => {
       try {
         const data = await Categorieservice.getCategories();
         setCategories(data);
-        console.log(data);
+        const dataP = await ProduitService.getProduits();
+        setProducts(dataP);
+        setProduits(dataP);
+        if (name) {
+          setProduits(products.filter((pro) => pro.categ_id === name));
+        }
       } catch (error) {
         console.error("Erreur lors de la récupération des modèles", error);
       }
+      setIsLoading(false);
     };
     fetchModels();
-  }, []);
+  }, [name]);
 
+  const handleSearch = (event) => {
+    const searchTerm = event.target.value.toLowerCase();
+    console.log(searchTerm);
+    setSearch(searchTerm);
+
+    const filteredProducts = products.filter((product) =>
+      product.name.toLowerCase().includes(searchTerm)
+    );
+    console.log(filteredProducts);
+    setProduits(filteredProducts);
+  };
+
+  const handleCategoryChange = (categoryId) => {
+    const categorySelected = categories.find((c) => c.id === categoryId);
+
+    setFilter((prevState) => {
+      const categoryIndex = prevState.category.indexOf(categoryId);
+      if (categoryIndex === -1) {
+        // La catégorie n'est pas encore sélectionnée, on l'ajoute
+        return { ...prevState, category: [...prevState.category, categoryId] };
+      } else {
+        // La catégorie est déjà sélectionnée, on la retire
+        return {
+          ...prevState,
+          category: prevState.category.filter((id) => id !== categoryId),
+        };
+      }
+    });
+
+    if (filters.category.length === 1) {
+      // Un seul filtre de catégorie est sélectionné, on filtre les produits en fonction de cette catégorie
+      const filteredProducts = products.filter(
+        (product) => product.categ_id === categorySelected.name
+      );
+      setProduits(filteredProducts);
+    } else if (filters.category.length > 1) {
+      // Plusieurs filtres de catégorie sont sélectionnés, on filtre les produits en fonction de ces catégories
+      const filteredProducts = products.filter((product) =>
+        filters.category.includes(product.categ_id)
+      );
+      setProduits(filteredProducts);
+    } else {
+      // Aucun filtre de catégorie n'est sélectionné, on affiche tous les produits
+      setProduits(products);
+    }
+  };
   const [filters, setFilter] = useState({
     sizeS: false,
     sizeM: false,
@@ -39,43 +125,45 @@ export default function AllProductPage() {
       [name]: !prevState[name],
     }));
   };
-  const [volume, setVolume] = useState({ min: 200, max: 500 });
+  const [volume, setVolume] = useState({ min: 10000, max: 500000 });
 
   const [storage, setStorage] = useState(null);
   const filterStorage = (value) => {
     setStorage(value);
   };
   const [filterToggle, setToggle] = useState(false);
-  const [products, setProducts] = useState([]);
-  // const { products } = productDatas;
-  useEffect(() => {
-    const fetchModels = async () => {
-      try {
-        const data = await ProduitService.getProduits();
-        console.log(data);
-        setProducts(data);
-      } catch (error) {
-        console.error("Erreur lors de la récupération des modèles", error);
-      }
-    };
-    fetchModels();
-  }, []);
+  const handleVolumeChange = (event) => {
+    if (!event.target) {
+      return;
+    }
 
-  const handleCategoryChange = (categoryId) => {
-    console.log(categoryId);
-    setFilter((prevState) => {
-      const categoryIndex = prevState.category.indexOf(categoryId);
-      if (categoryIndex === -1) {
-        // La catégorie n'est pas encore sélectionnée, on l'ajoute
-        return { ...prevState, category: [...prevState.category, categoryId] };
-      } else {
-        // La catégorie est déjà sélectionnée, on la retire
-        return {
-          ...prevState,
-          category: prevState.category.filter((id) => id !== categoryId),
-        };
-      }
-    });
+    const { name, value } = event.target;
+
+    setVolume((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+
+    if (filters.volume.length === 1) {
+      // Un seul filtre de volume est sélectionné, on filtre les produits en fonction de ce volume
+      const filteredProducts = products.filter(
+        (product) =>
+          parseInt(product.price) >= parseInt(volume.min) &&
+          parseInt(product.price) <= parseInt(volume.max)
+      );
+      setProduits(filteredProducts);
+    } else if (filters.volume.length > 1) {
+      // Plusieurs filtres de volume sont sélectionnés, on filtre les produits en fonction de ces volumes
+      const filteredProducts = products.filter(
+        (product) =>
+          parseInt(product.price) >= parseInt(volume.min) &&
+          parseInt(product.price) <= parseInt(volume.max)
+      );
+      setProduits(filteredProducts);
+    } else {
+      // Aucun filtre de volume n'est sélectionné, on affiche tous les produits
+      setProduits(products);
+    }
   };
 
   return (
@@ -86,26 +174,34 @@ export default function AllProductPage() {
             <BreadcrumbCom />
             <div className="w-full lg:flex lg:space-x-[30px]">
               <div className="lg:w-[270px]">
-                <ProductsFilter
-                  filterToggle={filterToggle}
-                  filterToggleHandler={() => setToggle(!filterToggle)}
-                  filters={filters}
-                  checkboxHandler={checkboxHandler}
-                  volume={volume}
-                  volumeHandler={(value) => setVolume(value)}
-                  storage={storage}
-                  filterstorage={filterStorage}
-                  categories={categories}
-                  handleCategoryChange={handleCategoryChange}
-                  className="mb-[30px]"
-                />
-
+                {isLoading ? (
+                  <div className="flex justify-center">
+                    <Loader2
+                      size={100}
+                      className="mr-2 h-4 text-center w-4 animate-spin"
+                    />
+                  </div>
+                ) : (
+                  <>
+                    <ProductsFilter
+                      filterToggle={filterToggle}
+                      filterToggleHandler={() => setToggle(!filterToggle)}
+                      filters={filters}
+                      checkboxHandler={checkboxHandler}
+                      volume={volume}
+                      volumeHandler={handleVolumeChange}
+                      storage={storage}
+                      filterstorage={filterStorage}
+                      categories={categories}
+                      handleCategoryChange={handleCategoryChange}
+                      className="mb-[30px]"
+                    />
+                  </>
+                )}
                 {/* ads */}
                 <div className="w-full hidden lg:block h-[295px]">
                   <img
-                    src={`${
-                      import.meta.env.VITE_PUBLIC_URL
-                    }/assets/images/ads-5.png`}
+                    src={`image7.jpg`}
                     alt=""
                     className="w-full h-full object-contain"
                   />
@@ -113,96 +209,100 @@ export default function AllProductPage() {
               </div>
 
               <div className="flex-1">
-                <div className="products-sorting w-full bg-white md:h-[70px] flex md:flex-row flex-col md:space-y-0 space-y-5 md:justify-between md:items-center p-[30px] mb-[40px]">
-                  <div>
-                    <p className="font-400 text-[13px]">
-                      <span className="text-qgray"> Affichage</span> 1–16 of{" "}
-                      {products.length}
-                      résultats
-                    </p>
-                  </div>
-                  <div className="flex space-x-3 items-center">
-                    <span className="font-400 text-[13px]">Sort by:</span>
-                    <div className="flex space-x-3 items-center border-b border-b-qgray">
-                      <span className="font-400 text-[13px] text-qgray">
-                        Default
-                      </span>
-                      <span>
-                        <svg
-                          width="10"
-                          height="6"
-                          viewBox="0 0 10 6"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path d="M1 1L5 5L9 1" stroke="#9A9A9A" />
-                        </svg>
-                      </span>
-                    </div>
-                  </div>
-                  <button
-                    onClick={() => setToggle(!filterToggle)}
-                    type="button"
-                    className="w-10 lg:hidden h-10 rounded flex justify-center items-center border border-qyellow text-qyellow"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-6 w-6"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"
+                {isLoading ? (
+                  <>
+                    {" "}
+                    <div className="flex justify-center">
+                      <Loader2
+                        size={100}
+                        className="mr-2 h-4 text-center w-4 animate-spin"
                       />
-                    </svg>
-                  </button>
-                </div>
-                <div className="grid xl:grid-cols-3 sm:grid-cols-2 grid-cols-1  xl:gap-[20px] gap-5 mb-[40px]">
-                  <DataIteration
-                    datas={products.filter((product) =>
-                      filters.category.length
-                        ? filters.category.includes(product.categ_id)
-                        : true
-                    )}
-                    startLength={0}
-                    endLength={6}
-                  >
-                    {({ datas }) => (
-                      <div data-aos="fade-up" key={datas.id}>
-                        <ProductCardStyleOne datas={datas} />
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="products-sorting w-full bg-white md:h-[70px] flex md:flex-row flex-col md:space-y-0 space-y-5 md:justify-between md:items-center p-[30px] mb-[40px]">
+                      <div>
+                        <p className="font-400 text-[13px]">
+                          <span className="text-qgray"> Affichage</span>{" "}
+                          {Math.max(0, startLength + 1)}–
+                          {Math.min(endLength, produits.length)} of{" "}
+                          {produits.length} résultats
+                        </p>
                       </div>
-                    )}
-                  </DataIteration>
-                </div>
+                      <div>
+                        <input
+                          type="search"
+                          placeholder="Rechercher des produits"
+                          value={search}
+                          onChange={handleSearch}
+                          className="w-full md:w-auto px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        />
+                      </div>
+                      <div className="flex space-x-3 items-center">
+                        {showBackButton && (
+                          <div className="flex space-x-3 items-center border-b border-b-qgray">
+                            <button
+                              className=" hover:text-bleu-500"
+                              onClick={handleLoadLess}
+                            >
+                              {" "}
+                              Retour{" "}
+                            </button>
+                          </div>
+                        )}
+                        {showLoadMoreButton && (
+                          <div className="flex space-x-3 items-center border-b border-b-qgray">
+                            <button onClick={handleLoadMore} className="">
+                              {" "}
+                              charger plus{" "}
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    </div>
 
-                <div className="w-full h-[164px] overflow-hidden mb-[40px]">
-                  <img
-                    src="image1.jpg"
-                    alt=""
-                    className="w-full h-full object-contain"
-                  />
-                </div>
-                <div className="grid xl:grid-cols-3 sm:grid-cols-2 grid-cols-1 xl:gap-[30px] gap-5 mb-[40px]">
-                  <DataIteration
-                    datas={products.filter((product) =>
-                      filters.category.length
-                        ? filters.category.includes(product.categ_id)
-                        : true
-                    )}
-                    startLength={6}
-                    endLength={15}
-                  >
-                    {({ datas }) => (
-                      <div data-aos="fade-up" key={datas.id}>
-                        <ProductCardStyleOne datas={datas} />
-                      </div>
-                    )}
-                  </DataIteration>
-                </div>
+                    <div className="grid xl:grid-cols-3 sm:grid-cols-2 grid-cols-1 xl:gap-[30px] gap-5 mb-[40px]">
+                      <DataIteration
+                        // datas={produits.filter((product) =>
+                        //   filters.category.length
+                        //     ? filters.category.includes(product.categ_id)
+                        //     : true
+                        // )}
+                        datas={produits}
+                        startLength={Math.max(0, startLength)}
+                        endLength={Math.min(endLength, produits.length)}
+                      >
+                        {({ datas }) => (
+                          <div data-aos="fade-up" key={datas.id}>
+                            <ProductCardStyleOne datas={datas} />
+                          </div>
+                        )}
+                      </DataIteration>
+                    </div>
+                    <div className="flex space-x-3 items-center">
+                      {showBackButton && (
+                        <div className="flex space-x-3 items-center border-b border-b-qgray">
+                          <button
+                            className=" hover:text-bleu-500"
+                            onClick={handleLoadLess}
+                          >
+                            {" "}
+                            Retour{" "}
+                          </button>
+                        </div>
+                      )}
+                      {showLoadMoreButton && (
+                        <div className="flex space-x-3 items-center border-b border-b-qgray">
+                          <button onClick={handleLoadMore} className="">
+                            {" "}
+                            charger plus{" "}
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  </>
+                )}
               </div>
             </div>
           </div>

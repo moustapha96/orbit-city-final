@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
 import CountDown from "../Helpers/CountDown";
 
@@ -18,9 +19,7 @@ export default function CampaignCountDown({
               data-aos="fade-right"
               className="campaign-countdown lg:w-1/2 h-full w-full mb-5 lg:mb-0"
               style={{
-                background: `url(${
-                  import.meta.env.VITE_PUBLIC_URL
-                }/assets/images/campaign-cover-countdown.jpg) no-repeat`,
+                background: `url(/images/campaign-cover-countdown.jpg) no-repeat`,
                 backgroundSize: "cover",
               }}
             >
@@ -34,7 +33,7 @@ export default function CampaignCountDown({
                         </span>
                       </div>
                       <p className="sm:text-[18px] text-[12px] font-500 text-center leading-8">
-                        Days
+                        Jours
                       </p>
                     </div>
                     <div className="countdown-item">
@@ -44,7 +43,7 @@ export default function CampaignCountDown({
                         </span>
                       </div>
                       <p className="sm:text-[18px] text-[12px] font-500 text-center leading-8">
-                        Hours
+                        Heures
                       </p>
                     </div>
                     <div className="countdown-item">
@@ -64,44 +63,18 @@ export default function CampaignCountDown({
                         </span>
                       </div>
                       <p className="sm:text-[18px] text-[12px] font-500 text-center leading-8">
-                        Seconds
+                        Secondes
                       </p>
                     </div>
                   </div>
                   <div className="countdown-title mb-4">
                     <h1 className="text-[44px] text-qblack font-600">
-                      WOO! Flash Sale
+                      COURTISER! Vente flash
                     </h1>
                   </div>
                   <div className="inline-flex space-x-2 items-center border-b border-qyellow">
                     <span className="text-sm font-600 tracking-wide leading-7">
-                      Shop Now
-                    </span>
-                    <span>
-                      <svg
-                        width="7"
-                        height="11"
-                        viewBox="0 0 7 11"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <rect
-                          x="2.08984"
-                          y="0.636719"
-                          width="6.94219"
-                          height="1.54271"
-                          transform="rotate(45 2.08984 0.636719)"
-                          fill="#1D1D1D"
-                        />
-                        <rect
-                          x="7"
-                          y="5.54492"
-                          width="6.94219"
-                          height="1.54271"
-                          transform="rotate(135 7 5.54492)"
-                          fill="#1D1D1D"
-                        />
-                      </svg>
+                      Acheter
                     </span>
                   </div>
                 </div>
@@ -115,7 +88,7 @@ export default function CampaignCountDown({
                   counterbg ||
                   `${
                     import.meta.env.VITE_PUBLIC_URL
-                  }/assets/images/download-app-cover.png`
+                  }/images/download-app-cover.png`
                 }) no-repeat`,
                 backgroundSize: "cover",
               }}
@@ -138,9 +111,7 @@ export default function CampaignCountDown({
                         <img
                           width="170"
                           height="69"
-                          src={`${
-                            import.meta.env.VITE_PUBLIC_URL
-                          }/assets/images/play-store.png`}
+                          src={`banner1.png`}
                           alt=""
                         />
                       </a>
@@ -152,7 +123,7 @@ export default function CampaignCountDown({
                           height="69"
                           src={`${
                             import.meta.env.VITE_PUBLIC_URL
-                          }/assets/images/apple-store.png`}
+                          }/images/apple-store.png`}
                           alt=""
                         />
                       </a>
@@ -160,15 +131,7 @@ export default function CampaignCountDown({
                   </div>
                 </div>
                 <div className="app-screen">
-                  <img
-                    src={
-                      appscreen ||
-                      `${
-                        import.meta.env.VITE_PUBLIC_URL
-                      }/assets/images/app-screen.png`
-                    }
-                    alt=""
-                  />
+                  <img src={appscreen || `banner1.png`} alt="" />
                 </div>
               </div>
             </div>

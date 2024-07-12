@@ -10,7 +10,7 @@ export default function FooterFour() {
       style={{
         backgroundImage: `url(${
           import.meta.env.VITE_PUBLIC_URL
-        }/assets/images/footer-four.png)`,
+        }/images/footer-four.png)`,
       }}
     >
       <div className="container-x block mx-auto pt-[83px]">
@@ -22,9 +22,7 @@ export default function FooterFour() {
                 <img
                   width="152"
                   height="36"
-                  src={`${
-                    import.meta.env.VITE_PUBLIC_URL
-                  }/assets/images/logo-5.svg`}
+                  src={`${import.meta.env.VITE_PUBLIC_URL}/images/logo-5.svg`}
                   alt="logo"
                 />
               </Link>
@@ -202,7 +200,7 @@ export default function FooterFour() {
                 height="28"
                 src={`${
                   import.meta.env.VITE_PUBLIC_URL
-                }/assets/images/payment-getways.png`}
+                }/images/payment-getways.png`}
                 alt="payment-getways"
               />
             </a>

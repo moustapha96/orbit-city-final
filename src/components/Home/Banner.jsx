@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
 import SimpleSlider from "../Helpers/SliderCom";
 import { useRef } from "react";
@@ -17,12 +18,12 @@ export default function Banner({ className }) {
   //                       media="(min-width:1025px)"
   //                       srcSet={`${
   //                         import.meta.env.VITE_PUBLIC_URL
-  //                       }/assets/images/banner-1.png`}
+  //                       }/images/banner-1.png`}
   //                     />
   //                     <img
   //                       src={`${
   //                         import.meta.env.VITE_PUBLIC_URL
-  //                       }/assets/images/banner-1.2.png`}
+  //                       }/images/banner-1.2.png`}
   //                       alt=""
   //                       className="w-full max-w-full h-auto object-cover"
   //                     />
@@ -38,7 +39,7 @@ export default function Banner({ className }) {
   //                     <img
   //                       src={`${
   //                         import.meta.env.VITE_PUBLIC_URL
-  //                       }/assets/images/banner-2.png`}
+  //                       }/images/banner-2.png`}
   //                       alt=""
   //                       className="w-full h-full"
   //                     />
@@ -49,7 +50,7 @@ export default function Banner({ className }) {
   //                     <img
   //                       src={`${
   //                         import.meta.env.VITE_PUBLIC_URL
-  //                       }/assets/images/banner-3.png`}
+  //                       }/images/banner-3.png`}
   //                       alt=""
   //                       className="w-full h-full"
   //                     />
@@ -275,8 +276,9 @@ export default function Banner({ className }) {
   };
   return (
     <>
-      <div className={`w-full xl:h-[733px] h-[500px] ${className || ""}`}>
-        <div className="main-wrapper w-full h-full">
+      {/* <div className={`w-full xl:h-[733px] h-[500px] ${className || ""}`}> */}
+      <div className={`w-full ${className || ""}`}>
+        <div className="main-wrapper w-full h-full  mx-auto">
           <div className="hero-slider-wrapper xl:h-full mb-20 xl:mb-0  w-full relative">
             <div className="absolute left-0 top-0 w-full h-full items-center justify-between hidden xl:flex">
               <button
@@ -299,7 +301,7 @@ export default function Banner({ className }) {
                 <div
                   className="w-full h-full relative"
                   style={{
-                    backgroundImage: `url(/banner1.png)`,
+                    backgroundImage: `url(/banner3.png)`,
                     backgroundRepeat: "no-repeat",
                     backgroundSize: "cover",
                   }}
@@ -307,12 +309,12 @@ export default function Banner({ className }) {
                   <div className="container-x mx-auto flex items-center  h-full">
                     <div className="w-full h-full xl:flex items-center pt-20 xl:pt-0">
                       <div className="xl:w-[626px] w-full">
-                        <p className="md:text-[34px] text-[20px] font-medium text-white mb-[7px]">
+                        {/* <p className="md:text-[34px] text-[20px] font-medium text-white mb-[7px]">
                           Shop CCBM
-                        </p>
-                        <h1 className="md:text-[66px] text-[40px]  font-bold text-white md:leading-[80px] leading-[40px] mb-[44px]">
+                        </p> */}
+                        {/* <h1 className="md:text-[66px] text-[40px]  font-bold text-white md:leading-[80px] leading-[40px] mb-[44px]">
                           Plongez dans notre univers d'électronique
-                        </h1>
+                        </h1> */}
 
                         <Link to="#" passhref="true">
                           <div rel="noopener noreferrer">
@@ -343,7 +345,7 @@ export default function Banner({ className }) {
               <div className="item w-full xl:h-[733px] h-[500px]">
                 <div
                   style={{
-                    backgroundImage: `url(/assets/images/banner-2.3.png)`,
+                    backgroundImage: `url(/banner2.png)`,
                     backgroundRepeat: "no-repeat",
                     backgroundSize: "cover",
                   }}
@@ -352,12 +354,12 @@ export default function Banner({ className }) {
                   <div className="container-x mx-auto flex items-center  h-full">
                     <div className="w-full h-full xl:flex items-center pt-20 xl:pt-0">
                       <div className="xl:w-[626px] w-full">
-                        <p className="md:text-[34px] text-[20px] font-medium text-qh3-blue mb-[7px]">
+                        {/* <p className="md:text-[34px] text-[20px] font-medium text-black mb-[7px]">
                           Matériel Electronique
-                        </p>
-                        <h1 className="md:text-[66px] text-[40px]  font-bold text-qblack md:leading-[80px] leading-[40px] mb-[44px]">
+                        </p> */}
+                        {/* <h1 className="md:text-[66px] text-[40px]  font-bold text-black md:leading-[80px] leading-[40px] mb-[44px]">
                           Des matériels de qualité supérieure
-                        </h1>
+                        </h1> */}
 
                         <Link to="#" passhref="true">
                           <div rel="noopener noreferrer">
@@ -388,7 +390,7 @@ export default function Banner({ className }) {
               <div className="item w-full xl:h-[733px] h-[500px]">
                 <div
                   style={{
-                    backgroundImage: `url(/assets/images/banner-3.1.png)`,
+                    backgroundImage: `url(image5.jpg)`,
                     backgroundRepeat: "no-repeat",
                     backgroundSize: "cover",
                   }}
@@ -397,12 +399,12 @@ export default function Banner({ className }) {
                   <div className="container-x mx-auto flex items-center  h-full">
                     <div className="w-full h-full xl:flex items-center pt-20 xl:pt-0">
                       <div className="xl:w-[626px] w-full">
-                        <p className="md:text-[34px] text-[20px] font-medium text-qh3-blue mb-[7px]">
+                        {/* <p className="md:text-[34px] text-[20px] font-medium text-qh3-blue mb-[7px]">
                           Shop CCBM
                         </p>
                         <h1 className="md:text-[66px] text-[40px]  font-bold text-qblack md:leading-[80px] leading-[40px] mb-[44px]">
                           Plongez dans notre univers d'électronique
-                        </h1>
+                        </h1> */}
 
                         <Link to="#" passhref="true">
                           <div rel="noopener noreferrer">

@@ -63,7 +63,7 @@ export default function SallerPage() {
               style={{
                 background: `url(${
                   import.meta.env.VITE_PUBLIC_URL
-                }/assets/images/saller-cover.png) no-repeat`,
+                }/images/saller-cover.png) no-repeat`,
                 backgroundSize: "cover",
               }}
             >
@@ -153,7 +153,7 @@ export default function SallerPage() {
                     <img
                       src={`${
                         import.meta.env.VITE_PUBLIC_URL
-                      }/assets/images/saller-7.png`}
+                      }/images/saller-7.png`}
                       alt="logo"
                       className="object-contain"
                     />
@@ -182,9 +182,7 @@ export default function SallerPage() {
                 {/* ads */}
                 <div className="w-full hidden lg:block h-[295px]">
                   <img
-                    src={`${
-                      import.meta.env.VITE_PUBLIC_URL
-                    }/assets/images/ads-5.png`}
+                    src={`${import.meta.env.VITE_PUBLIC_URL}/images/ads-5.png`}
                     alt=""
                     className="w-full h-full object-contain"
                   />
@@ -251,9 +249,7 @@ export default function SallerPage() {
 
                 <div className="w-full h-[164px] overflow-hidden mb-[40px]">
                   <img
-                    src={`${
-                      import.meta.env.VITE_PUBLIC_URL
-                    }/assets/images/ads-6.png`}
+                    src={`${import.meta.env.VITE_PUBLIC_URL}/images/ads-6.png`}
                     alt=""
                     className="w-full h-full object-contain"
                   />

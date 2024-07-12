@@ -20,9 +20,9 @@ export default function ReviewTab({ className, products }) {
                   <div className="flex space-x-2 items-center w-full h-full p-2">
                     <div className="w-1/3 h-full">
                       <img
-                        src={`${
-                          import.meta.env.VITE_PUBLIC_URL
-                        }/assets/images/${datas.image}`}
+                        src={`${import.meta.env.VITE_PUBLIC_URL}/images/${
+                          datas.image
+                        }`}
                         alt=""
                         className="w-full h-full object-contain"
                       />

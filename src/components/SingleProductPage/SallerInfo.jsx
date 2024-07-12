@@ -11,7 +11,7 @@ export default function SallerInfo({ products }) {
             <img
               src={`${
                 import.meta.env.VITE_PUBLIC_URL
-              }/assets/images/comment-user-1.png`}
+              }/images/comment-user-1.png`}
               alt="saller"
               className="w-full h-full object-cover"
             />

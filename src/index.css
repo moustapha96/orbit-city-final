@@ -1,46 +1,54 @@
+:root {
+  --bleu-logo: #0678d8;
+  --bleu-claire: #09aef8;
+  --qh3-blue: #1a56db;
+  --qyellow: #ffc107;
+  --qblack: #000000;
+  --qwhite: #ffffff;
+}
 @font-face {
   font-family: "Inter";
-  src: url("/public/assets/fonts/Inter-Black.ttf");
+  src: url("/fonts/Inter-Black.ttf");
   font-weight: 900;
 }
 @font-face {
   font-family: "Inter";
-  src: url("/public/assets/fonts/Inter-Bold.ttf");
+  src: url("/fonts/Inter-Bold.ttf");
   font-weight: 700;
 }
 @font-face {
   font-family: "Inter";
-  src: url("/public/assets/fonts/Inter-ExtraBold.ttf");
+  src: url("/fonts/Inter-ExtraBold.ttf");
   font-weight: 800;
 }
 @font-face {
   font-family: "Inter";
-  src: url("/public/assets/fonts/Inter-ExtraLight.ttf");
+  src: url("/fonts/Inter-ExtraLight.ttf");
   font-weight: 200;
 }
 @font-face {
   font-family: "Inter";
-  src: url("/public/assets/fonts/Inter-Light.ttf");
+  src: url("/fonts/Inter-Light.ttf");
   font-weight: 300;
 }
 @font-face {
   font-family: "Inter";
-  src: url("/public/assets/fonts/Inter-Medium.ttf");
+  src: url("/fonts/Inter-Medium.ttf");
   font-weight: 500;
 }
 @font-face {
   font-family: "Inter";
-  src: url("/public/assets/fonts/Inter-Regular.ttf");
+  src: url("/fonts/Inter-Regular.ttf");
   font-weight: 400;
 }
 @font-face {
   font-family: "Inter";
-  src: url("/public/assets/fonts/Inter-SemiBold.ttf");
+  src: url("/fonts/Inter-SemiBold.ttf");
   font-weight: 600;
 }
 @font-face {
   font-family: "Inter";
-  src: url("/public/assets/fonts/Inter-Thin.ttf");
+  src: url("/fonts/Inter-Thin.ttf");
   font-weight: 100;
 }
 
@@ -118,6 +126,24 @@ body {
 .blue-btn {
   @apply w-full text-[13px] text-white font-semibold bg-qh3-blue flex justify-center items-center h-full;
   line-height: 0;
+}
+.blue-logo-btn {
+  @apply w-full text-[13px] text-white font-semibold bg-qh3-blue transition-all duration-300 ease-in-out flex justify-center items-center h-full rounded-lg;
+  line-height: 0;
+}
+
+.blue-logo-btn:hover {
+  transform: scale(1.05);
+  background-color: var(--bleu-claire);
+}
+
+.blue-logo-btn-detail {
+  @apply w-full text-[13px] text-sm font-semibold  h-full text-white  bg-qh3-blue transition-all duration-300 ease-in-out flex justify-center items-center;
+  line-height: 0;
+}
+.blue-logo-btn-detail:hover {
+  transform: scale(1.05);
+  background-color: var(--bleu-claire);
 }
 .gray-btn {
   @apply flex justify-center items-center text-sm font-600;

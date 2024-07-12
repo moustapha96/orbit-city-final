@@ -15,9 +15,7 @@ export default function Footer() {
                 <img
                   width="152"
                   height="36"
-                  src={`${
-                    import.meta.env.VITE_PUBLIC_URL
-                  }/assets/images/logo-2.svg`}
+                  src={`${import.meta.env.VITE_PUBLIC_URL}/images/logo-2.svg`}
                   alt="logo"
                 />
               </Link>
@@ -195,7 +193,7 @@ export default function Footer() {
                 height="28"
                 src={`${
                   import.meta.env.VITE_PUBLIC_URL
-                }/assets/images/payment-getways.png`}
+                }/images/payment-getways.png`}
                 alt="payment-getways"
               />
             </a>

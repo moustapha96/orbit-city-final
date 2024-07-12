@@ -1,4 +1,7 @@
-export default function SearchBox({ className,type }) {
+export default function SearchBox({ className, type }) {
+  const backgroundColor =
+    type === 3 ? "var(--bleu-logo)" : "var(--bleu-claire)";
+  const textColor = type === 3 ? "white" : "var(--qblack)";
   return (
     <>
       <div
@@ -51,7 +54,8 @@ export default function SearchBox({ className,type }) {
           </button>
         </div>
         <button
-          className={` w-[93px] h-full text-sm font-600  ${type===3?'bg-qh3-blue text-white':'search-btn'}`}
+          className={`w-[93px] h-full text-sm font-600 text-white  `}
+          style={{ backgroundColor }}
           type="button"
         >
           Search

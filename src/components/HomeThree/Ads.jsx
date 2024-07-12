@@ -13,7 +13,7 @@ export default function Ads({ handler }) {
           style={{
             background: `url(${
               import.meta.env.VITE_PUBLIC_URL
-            }/assets/images/primary-ads.png) no-repeat`,
+            }/images/primary-ads.png) no-repeat`,
             backgroundSize: "cover",
           }}
         >
@@ -23,9 +23,7 @@ export default function Ads({ handler }) {
                 <img
                   width="152"
                   height="36"
-                  src={`${
-                    import.meta.env.VITE_PUBLIC_URL
-                  }/assets/images/logo.svg`}
+                  src={`${import.meta.env.VITE_PUBLIC_URL}/images/logo.svg`}
                   alt="logo"
                 />
               </Link>

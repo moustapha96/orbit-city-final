@@ -1,11 +1,11 @@
 /* eslint-disable react/prop-types */
 import { Link, useNavigate } from "react-router-dom";
-import Compair from "../icons/Compair";
 
 import { Eye, Heart, ShoppingBag, ShoppingCart } from "lucide-react";
 import { CartContext } from "../../../contexts/CartContext ";
 import { useContext } from "react";
 import formatPrice from "../../../utils/formatPrice";
+import { toast } from "react-toastify";
 
 export default function ProductCardStyleOne({ datas, type = 3 }) {
   const navigate = useNavigate();
@@ -22,18 +22,45 @@ export default function ProductCardStyleOne({ datas, type = 3 }) {
     e.preventDefault();
     addToCart(datas, 1);
     console.log("Ajout au souhait :", cart);
+    toast.success("Produit ajouté", {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
   };
 
   const handleAddToWishlist = (e) => {
     e.preventDefault();
     addToWishlist(datas, 1);
     console.log(wishlist);
+    toast.success("Produit ajouté", {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
   };
 
   const handleAddToPreOrder = (e) => {
     e.preventDefault();
     addToPreorder(datas, 1);
     console.log("Ajout au preorder :", preorder);
+    toast.success("Produit ajouté", {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
   };
 
   const handleDetails = (e, produit) => {
@@ -113,7 +140,7 @@ export default function ProductCardStyleOne({ datas, type = 3 }) {
           <button
             type="button"
             onClick={handleAddToCart}
-            className={type === 3 ? "blue-btn" : "yellow-btn"}
+            className={type === 3 ? "blue-logo-btn" : "yellow-btn"}
           >
             <div className="flex items-center gap-2">
               <span>
@@ -126,7 +153,7 @@ export default function ProductCardStyleOne({ datas, type = 3 }) {
           <button
             type="button"
             onClick={handleAddToPreOrder}
-            className={type === 3 ? "blue-btn" : "yellow-btn"}
+            className={type === 3 ? "blue-logo-btn" : "yellow-btn"}
           >
             <div className="flex items-center gap-2">
               <span>
@@ -158,9 +185,9 @@ export default function ProductCardStyleOne({ datas, type = 3 }) {
           />
         </span>
 
-        <span className="w-10 h-10 flex justify-center items-center bg-primarygray rounded">
+        {/* <span className="w-10 h-10 flex justify-center items-center bg-primarygray rounded">
           <Compair />
-        </span>
+        </span> */}
       </div>
     </div>
   );

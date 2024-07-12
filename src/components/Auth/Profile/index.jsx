@@ -33,7 +33,7 @@ export default function Profile() {
   const uid = useSelector((state) => state.user.uid);
   console.log(user, token, uid);
 
-  const [switchDashboard, setSwitchDashboard] = useState(false);
+  // const [switchDashboard, setSwitchDashboard] = useState(false);
   const location = useLocation();
   const getHashContent = location.hash.split("#");
   const [active, setActive] = useState("dashboard");

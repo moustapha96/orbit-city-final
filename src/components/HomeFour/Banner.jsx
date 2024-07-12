@@ -7,7 +7,7 @@ export default function Banner({ className }) {
           <div className="main-wrapper w-full">
             <div className="grid w-full sm:grid-cols-3 grid-cols-1 xl:gap-10 gap-5 xl:h-[600px] mb-[60px]">
               <div className="item bg-[#AEE6EC] h-full relative">
-                <img src="/assets/images/banner-4.png" alt="thumb" />
+                <img src="/images/banner-4.png" alt="thumb" />
                 <div className="absolute bottom-[32px] left-0 xl:w-[306px] sm:w-full w-[306px] bg-white py-6 px-[26px] bg-opacity-[0.92]">
                   <div className="mb-[15px]">
                     <span className="px-2.5 py-[3px] bg-qblack text-white text-xs font-semibold leading-5 uppercase rounded-full">
@@ -26,7 +26,7 @@ export default function Banner({ className }) {
                 </div>
               </div>
               <div className="item bg-[#C2D7F0] h-full relative">
-                <img src="/assets/images/banner-4.1.png" alt="thumb" />
+                <img src="/images/banner-4.1.png" alt="thumb" />
                 <div className="absolute bottom-[32px] left-0 xl:w-[306px] sm:w-full w-[306px] bg-white py-6 px-[26px] bg-opacity-[0.92]">
                   <div className="mb-[15px]">
                     <span className="px-2.5 py-[3px] bg-qblack text-white text-xs font-semibold leading-5 uppercase rounded-full">
@@ -45,7 +45,7 @@ export default function Banner({ className }) {
                 </div>
               </div>
               <div className="item bg-[#FEE7C4] h-full relative">
-                <img src="/assets/images/banner-4.2.png" alt="thumb" />
+                <img src="/images/banner-4.2.png" alt="thumb" />
                 <div className="absolute bottom-[32px] left-0 xl:w-[306px] sm:w-full w-[306px] bg-white py-6 px-[26px] bg-opacity-[0.92]">
                   <div className="mb-[15px]">
                     <span className="px-2.5 py-[3px] bg-qblack text-white text-xs font-semibold leading-5 uppercase rounded-full">
@@ -69,7 +69,7 @@ export default function Banner({ className }) {
               style={{
                 backgroundImage: `url(${
                   import.meta.env.VITE_PUBLIC_URL
-                }/assets/images/service-bg.png)`,
+                }/images/service-bg.png)`,
                 backgroundRepeat: "no-repeat",
                 backgroundSize: "cover",
               }}

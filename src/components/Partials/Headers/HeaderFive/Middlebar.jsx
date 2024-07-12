@@ -1,3 +1,4 @@
+import { useSelector } from "react-redux";
 import Cart from "../../../Cart";
 import Compair from "../../../Helpers/icons/Compair";
 import ThinBag from "../../../Helpers/icons/ThinBag";
@@ -7,6 +8,7 @@ import SearchBox from "../../../Helpers/SearchBox";
 import { Link } from "react-router-dom";
 
 export default function Middlebar({ className }) {
+  const user = useSelector((state) => state.user.user);
   return (
     <div className={`w-full h-[86px] bg-white ${className}`}>
       <div className="container-x mx-auto h-full">
@@ -17,9 +19,7 @@ export default function Middlebar({ className }) {
                 <img
                   width="152"
                   height="36"
-                  src={`${
-                    import.meta.env.VITE_PUBLIC_URL
-                  }/assets/images/logo-5.svg`}
+                  src={`${import.meta.env.VITE_PUBLIC_URL}/images/logo-5.svg`}
                   alt="logo"
                 />
               </Link>
@@ -64,11 +64,24 @@ export default function Middlebar({ className }) {
                 <Cart className="absolute -right-[45px] top-11 z-50 hidden group-hover:block" />
               </div>
               <div>
-                <Link to="/profile">
-                  <span>
-                    <ThinPeople />
-                  </span>
-                </Link>
+                {!user ? (
+                  <>
+                    {" "}
+                    <Link to="/login">
+                      <span>
+                        <ThinPeople />
+                      </span>
+                    </Link>
+                  </>
+                ) : (
+                  <>
+                    <Link to="/profile">
+                      <span>
+                        <ThinPeople />
+                      </span>
+                    </Link>
+                  </>
+                )}
               </div>
             </div>
           </div>

@@ -85,7 +85,7 @@ export default function PreCart({ className, type }) {
                 </Link>
 
                 <div className="w-full h-[50px]">
-                  <div className={type === 3 ? "blue-btn" : "yellow-btn"}>
+                  <div className={type === 3 ? "blue-logo-btn" : "yellow-btn"}>
                     <span className="text-sm">Passer à la caisse</span>
                   </div>
                 </div>

@@ -10,7 +10,7 @@ export default function Blog() {
           <PageTitle
             title="Blog Details"
             breadcrumb={[
-              { name: "home", path: "/" },
+              { name: "Accueil", path: "/" },
               { name: "blog details", path: "/blogs/blog" },
             ]}
           />
@@ -23,7 +23,7 @@ export default function Blog() {
                   <img
                     src={`${
                       import.meta.env.VITE_PUBLIC_URL
-                    }/assets/images/blog-img-1.jpg`}
+                    }/images/blog-img-1.jpg`}
                     alt="blog"
                     className="w-full h-full object-cover"
                   />
@@ -123,7 +123,7 @@ export default function Blog() {
                       <img
                         src={`${
                           import.meta.env.VITE_PUBLIC_URL
-                        }/assets/images/blog-details-1.jpg`}
+                        }/images/blog-details-1.jpg`}
                         alt="blog"
                         className="w-full h-full object-cover"
                       />
@@ -132,7 +132,7 @@ export default function Blog() {
                       <img
                         src={`${
                           import.meta.env.VITE_PUBLIC_URL
-                        }/assets/images/blog-details-2.jpg`}
+                        }/images/blog-details-2.jpg`}
                         alt="blog"
                         className="w-full h-full object-cover"
                       />
@@ -399,7 +399,7 @@ export default function Blog() {
                         <img
                           src={`${
                             import.meta.env.VITE_PUBLIC_URL
-                          }/assets/images/blog-img-2.jpg`}
+                          }/images/blog-img-2.jpg`}
                           alt="blog"
                           className="w-full h-full object-cover"
                         />
@@ -474,7 +474,7 @@ export default function Blog() {
                         <img
                           src={`${
                             import.meta.env.VITE_PUBLIC_URL
-                          }/assets/images/blog-img-3.jpg`}
+                          }/images/blog-img-3.jpg`}
                           alt="blog"
                           className="w-full h-full object-cover"
                         />
@@ -549,7 +549,7 @@ export default function Blog() {
                         <img
                           src={`${
                             import.meta.env.VITE_PUBLIC_URL
-                          }/assets/images/blog-img-4.jpg`}
+                          }/images/blog-img-4.jpg`}
                           alt="blog"
                           className="w-full h-full object-cover"
                         />
@@ -731,7 +731,7 @@ export default function Blog() {
                   style={{
                     background: `url(${
                       import.meta.env.VITE_PUBLIC_URL
-                    }/assets/images/new-letter.jpg) no-repeat`,
+                    }/images/new-letter.jpg) no-repeat`,
                     backgroundSize: "cover",
                   }}
                 >

@@ -893,7 +893,7 @@ export default function Navbar({ className }) {
                               width=""
                               src={`${
                                 import.meta.env.VITE_PUBLIC_URL
-                              }/assets/images/mega-menu-thumb.jpg`}
+                              }/images/mega-menu-thumb.jpg`}
                               alt=""
                               className="w-full h-full object-contain"
                             />

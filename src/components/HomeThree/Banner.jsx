@@ -74,7 +74,7 @@ export default function Banner({ className }) {
                 <div
                   className="w-full h-full relative"
                   style={{
-                    backgroundImage: `url(/assets/images/banner-1.3.png)`,
+                    backgroundImage: `url(/images/banner-1.3.png)`,
                     backgroundRepeat: "no-repeat",
                     backgroundSize: "cover",
                   }}
@@ -143,7 +143,7 @@ export default function Banner({ className }) {
               <div className="item w-full xl:h-[733px] h-[500px]">
                 <div
                   style={{
-                    backgroundImage: `url(/assets/images/banner-2.3.png)`,
+                    backgroundImage: `url(/images/banner-2.3.png)`,
                     backgroundRepeat: "no-repeat",
                     backgroundSize: "cover",
                   }}
@@ -213,7 +213,7 @@ export default function Banner({ className }) {
               <div className="item w-full xl:h-[733px] h-[500px]">
                 <div
                   style={{
-                    backgroundImage: `url(/assets/images/banner-3.1.png)`,
+                    backgroundImage: `url(/images/banner-3.1.png)`,
                     backgroundRepeat: "no-repeat",
                     backgroundSize: "cover",
                   }}

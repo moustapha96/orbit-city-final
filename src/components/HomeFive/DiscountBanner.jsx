@@ -7,14 +7,14 @@ export default function DiscountBanner({ className }) {
       style={{
         background: `url(${
           import.meta.env.VITE_PUBLIC_URL
-        }/assets/images/discount-banner-3.jpg) no-repeat`,
+        }/images/discount-banner-3.jpg) no-repeat`,
         backgroundSize: "cover",
       }}
     >
       <div className="container-x mx-auto relative h-full">
         <div className="thumb absolute -left-[140px] -top-[87px] w-[520px] h-[394px]">
           <img
-            src="/assets/images/discount-banner-3.1.png"
+            src="/images/discount-banner-3.1.png"
             alt=""
             className="w-full h-full object-contain"
           />

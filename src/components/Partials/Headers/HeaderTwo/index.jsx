@@ -32,9 +32,7 @@ export default function HeaderTwo({ className, drawerAction }) {
               <img
                 width="152"
                 height="36"
-                src={`${
-                  import.meta.env.VITE_PUBLIC_URL
-                }/assets/images/logo-2.svg`}
+                src={`/images/logo-2.svg`}
                 alt="logo"
               />
             </Link>

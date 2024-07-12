@@ -1,3 +1,4 @@
+import { Mail } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export default function Ads({ handler }) {
@@ -13,7 +14,7 @@ export default function Ads({ handler }) {
           style={{
             background: `url(${
               import.meta.env.VITE_PUBLIC_URL
-            }/assets/images/primary-ads.png) no-repeat`,
+            }/images/primary-ads.png) no-repeat`,
             backgroundSize: "cover",
           }}
         >
@@ -23,18 +24,17 @@ export default function Ads({ handler }) {
                 <img
                   width="152"
                   height="36"
-                  src={`${
-                    import.meta.env.VITE_PUBLIC_URL
-                  }/assets/images/logo.svg`}
+                  src={`${import.meta.env.VITE_PUBLIC_URL}/images/logo.svg`}
                   alt="logo"
                 />
               </Link>
             </div>
             <p className="md:text-[22px] text-sm text-qblack mb-2">
-              by Subscribe our Newsletter
+              en Abonnez-vous à notre newsletter
             </p>
             <h1 className="md:text-[30px] text-xl font-bold text-qblack mb-1">
-              Get <span className="mx-1 text-[#EB5757]">20% Off</span> Discount
+              Obtenez{" "}
+              <span className="mx-1 text-[#0678d8]">20 % de réduction</span>
               Coupon
             </h1>
             <p className="text-qgray">
@@ -45,28 +45,7 @@ export default function Ads({ handler }) {
           <div className="md:w-[415px] w-full h-[54px] sm:flex mt-8">
             <div className="flex-1 bg-white pl-4 flex space-x-2 items-center h-full focus-within:text-qyellow text-qblack">
               <span>
-                <svg
-                  width="17"
-                  height="15"
-                  viewBox="0 0 17 15"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M15 14H2C1.4 14 1 13.6 1 13V2C1 1.4 1.4 1 2 1H15C15.6 1 16 1.4 16 2V13C16 13.6 15.6 14 15 14Z"
-                    stroke="currentColor"
-                    strokeMiterlimit="10"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M3 4L8.5 8.5L14 4"
-                    stroke="currentColor"
-                    strokeMiterlimit="10"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
+                <Mail></Mail>
               </span>
               <input
                 type="email"

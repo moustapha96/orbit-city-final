@@ -7,9 +7,7 @@ export default function CategoryCard({ background, title, brands = [] }) {
       style={{
         background: `url(${
           background ||
-          `${
-            import.meta.env.VITE_PUBLIC_URL
-          }/assets/images/section-category-1.jpg`
+          `${import.meta.env.VITE_PUBLIC_URL}/images/section-category-1.jpg`
         }) no-repeat`,
         backgroundSize: "cover",
       }}

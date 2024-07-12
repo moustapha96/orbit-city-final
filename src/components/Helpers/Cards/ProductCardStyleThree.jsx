@@ -9,9 +9,7 @@ function ProductCardStyleThree({ datas }) {
       {/* thumb */}
       <div className="w-full h-[364px] bg-white flex justify-center items-center p-2.5 mb-6 relative overflow-hidden">
         <img
-          src={`${import.meta.env.VITE_PUBLIC_URL}/assets/images/${
-            datas.image
-          }`}
+          src={`${import.meta.env.VITE_PUBLIC_URL}/images/${datas.image}`}
           alt=""
         />
         <div className="quick-access-btns flex flex-col space-y-2 absolute group-hover:right-4 -right-10 top-20  transition-all duration-300 ease-in-out">

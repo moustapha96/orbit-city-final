@@ -10,7 +10,7 @@ export default function ProductsCompaire() {
         <div className="w-full mb-5">
           <PageTitle
             breadcrumb={[
-              { name: "home", path: "/" },
+              { name: "Accueil", path: "/" },
               { name: "compaire", path: "/products-compaire" },
             ]}
             title="Product Comparison"
@@ -68,7 +68,7 @@ export default function ProductsCompaire() {
                         <img
                           src={`${
                             import.meta.env.VITE_PUBLIC_URL
-                          }/assets/images/product-img-15.jpg`}
+                          }/images/product-img-15.jpg`}
                           alt=""
                           className="w-full h-full object-contain"
                         />
@@ -116,7 +116,7 @@ export default function ProductsCompaire() {
                         <img
                           src={`${
                             import.meta.env.VITE_PUBLIC_URL
-                          }/assets/images/product-img-16.jpg`}
+                          }/images/product-img-16.jpg`}
                           alt=""
                           className="w-full h-full object-contain"
                         />
@@ -164,7 +164,7 @@ export default function ProductsCompaire() {
                         <img
                           src={`${
                             import.meta.env.VITE_PUBLIC_URL
-                          }/assets/images/product-img-12.jpg`}
+                          }/images/product-img-12.jpg`}
                           alt=""
                           className="w-full h-full object-contain"
                         />
@@ -212,7 +212,7 @@ export default function ProductsCompaire() {
                         <img
                           src={`${
                             import.meta.env.VITE_PUBLIC_URL
-                          }/assets/images/product-img-11.jpg`}
+                          }/images/product-img-11.jpg`}
                           alt=""
                           className="w-full h-full object-contain"
                         />

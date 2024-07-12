@@ -10,7 +10,7 @@ export default function Sallers() {
         <PageTitle
           title="All Seller "
           breadcrumb={[
-            { name: "home", path: "/" },
+            { name: "Accueil", path: "/" },
             { name: "Sallers", path: "/sallers" },
           ]}
         />
@@ -25,7 +25,7 @@ export default function Sallers() {
                 style={{
                   background: `url(${
                     import.meta.env.VITE_PUBLIC_URL
-                  }/assets/images/sallers-cover-1.png) no-repeat`,
+                  }/images/sallers-cover-1.png) no-repeat`,
                   backgroundSize: "cover",
                 }}
               >
@@ -153,7 +153,7 @@ export default function Sallers() {
                         <img
                           src={`${
                             import.meta.env.VITE_PUBLIC_URL
-                          }/assets/images/saller-8.png`}
+                          }/images/saller-8.png`}
                           alt=""
                         />
                       </div>
@@ -172,7 +172,7 @@ export default function Sallers() {
                 style={{
                   background: `url(${
                     import.meta.env.VITE_PUBLIC_URL
-                  }/assets/images/sallers-cover-6.png) no-repeat`,
+                  }/images/sallers-cover-6.png) no-repeat`,
                   backgroundSize: "cover",
                 }}
               >
@@ -300,7 +300,7 @@ export default function Sallers() {
                         <img
                           src={`${
                             import.meta.env.VITE_PUBLIC_URL
-                          }/assets/images/saller-7.png`}
+                          }/images/saller-7.png`}
                           alt=""
                         />
                       </div>
@@ -320,7 +320,7 @@ export default function Sallers() {
                 style={{
                   background: `url(${
                     import.meta.env.VITE_PUBLIC_URL
-                  }/assets/images/sallers-cover-2.png) no-repeat`,
+                  }/images/sallers-cover-2.png) no-repeat`,
                   backgroundSize: "cover",
                 }}
               >
@@ -448,7 +448,7 @@ export default function Sallers() {
                         <img
                           src={`${
                             import.meta.env.VITE_PUBLIC_URL
-                          }/assets/images/saller-9.png`}
+                          }/images/saller-9.png`}
                           alt=""
                         />
                       </div>
@@ -468,7 +468,7 @@ export default function Sallers() {
                 style={{
                   background: `url(${
                     import.meta.env.VITE_PUBLIC_URL
-                  }/assets/images/sallers-cover-3.png) no-repeat`,
+                  }/images/sallers-cover-3.png) no-repeat`,
                   backgroundSize: "cover",
                 }}
               >
@@ -596,7 +596,7 @@ export default function Sallers() {
                         <img
                           src={`${
                             import.meta.env.VITE_PUBLIC_URL
-                          }/assets/images/saller-6.png`}
+                          }/images/saller-6.png`}
                           alt=""
                         />
                       </div>
@@ -616,7 +616,7 @@ export default function Sallers() {
                 style={{
                   background: `url(${
                     import.meta.env.VITE_PUBLIC_URL
-                  }/assets/images/sallers-cover-4.png) no-repeat`,
+                  }/images/sallers-cover-4.png) no-repeat`,
                   backgroundSize: "cover",
                 }}
               >
@@ -744,7 +744,7 @@ export default function Sallers() {
                         <img
                           src={`${
                             import.meta.env.VITE_PUBLIC_URL
-                          }/assets/images/saller-1.png`}
+                          }/images/saller-1.png`}
                           alt=""
                         />
                       </div>
@@ -764,7 +764,7 @@ export default function Sallers() {
                 style={{
                   background: `url(${
                     import.meta.env.VITE_PUBLIC_URL
-                  }/assets/images/sallers-cover-5.png) no-repeat`,
+                  }/images/sallers-cover-5.png) no-repeat`,
                   backgroundSize: "cover",
                 }}
               >
@@ -892,7 +892,7 @@ export default function Sallers() {
                         <img
                           src={`${
                             import.meta.env.VITE_PUBLIC_URL
-                          }/assets/images/saller-2.png`}
+                          }/images/saller-2.png`}
                           alt=""
                         />
                       </div>

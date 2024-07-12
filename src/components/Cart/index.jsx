@@ -54,12 +54,12 @@ export default function Cart({ className, type = 3 }) {
                       </div>
                     </div>
                     <span className="mt-[20px] mr-[15px] inline-flex cursor-pointer ">
-                      <button
+                      <div
                         onClick={(e) => handleRemoveToCart(e, produit)}
                         className="duration-200 hover:red-150"
                       >
                         <Trash className="hover:text-red-500" />
-                      </button>
+                      </div>
                     </span>
                   </li>
                 ))}
@@ -88,7 +88,9 @@ export default function Cart({ className, type = 3 }) {
 
                 <Link>
                   <div className="w-full h-[50px]">
-                    <div className={type === 3 ? "blue-btn" : "yellow-btn"}>
+                    <div
+                      className={type === 3 ? "blue-logo-btn" : "yellow-btn"}
+                    >
                       <span className="text-sm">Passer à la caisse</span>
                     </div>
                   </div>

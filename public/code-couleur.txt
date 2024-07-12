@@ -1,0 +1,17 @@
+
+$chambray: #314b8a;
+$dodger-blue: #09aef8;
+$lochmara: #0678d8; blue 
+$deep-cove: #071539;
+$blue-zodiac: #112958;
+$endeavour: #0856a7;
+$gulf-blue: #061b4e;
+$mariner: #217aba;
+$lynch: #67759a;
+$boston-blue: #3696bc;
+
+
+
+const backgroundColor = type === 3 ? "var(--bleu-logo)" : "bg-qyellow";
+
+ style={{ backgroundColor }}

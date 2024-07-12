@@ -44,11 +44,11 @@ export default function Wishlist({ wishlist = true }) {
                 <div className="sm:flex sm:space-x-[30px] items-center">
                   <button type="button" onClick={cleanWishist}>
                     <div className="w-full text-sm font-semibold text-qred mb-5 sm:mb-0">
-                      Nettoyer la liste de souhaits
+                      Nettoyer la liste
                     </div>
                   </button>
                   <div className="w-[180px] h-[50px]">
-                    <button type="button" className="yellow-btn">
+                    <button type="button" className="blue-logo-btn">
                       <div className="w-full text-sm font-semibold">
                         Ajouter au panier
                       </div>

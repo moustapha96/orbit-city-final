@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 
 export default function DrawerThree({ className, open, action }) {
   const [tab, setTab] = useState("category");
+  const backgroundColor = "var(--blue-logo)";
+  const textColor = "var(--qwhite)";
   return (
     <>
       <div
@@ -32,7 +34,10 @@ export default function DrawerThree({ className, open, action }) {
                       <Compair />
                     </span>
                   </Link>
-                  <span className="w-[18px] h-[18px] text-white rounded-full bg-qh3-blue absolute -top-2.5 -right-2.5 flex justify-center items-center text-[9px]">
+                  <span
+                    className="w-[18px] h-[18px] text-white rounded-full  absolute -top-2.5 -right-2.5 flex justify-center items-center text-[9px]"
+                    style={{ backgroundColor, color: textColor }}
+                  >
                     2
                   </span>
                 </div>
@@ -42,7 +47,10 @@ export default function DrawerThree({ className, open, action }) {
                       <ThinLove />
                     </span>
                   </Link>
-                  <span className="w-[18px] h-[18px] text-white rounded-full bg-qh3-blue absolute -top-2.5 -right-2.5 flex justify-center items-center text-[9px]">
+                  <span
+                    className="w-[18px] h-[18px] text-white rounded-full  absolute -top-2.5 -right-2.5 flex justify-center items-center text-[9px]"
+                    style={{ backgroundColor, color: textColor }}
+                  >
                     1
                   </span>
                 </div>
@@ -80,7 +88,10 @@ export default function DrawerThree({ className, open, action }) {
                   placeholder="Search Product..."
                 />
               </div>
-              <div className="w-[40px] h-full bg-qh3-blue flex justify-center items-center">
+              <div
+                className="w-[40px] h-full  flex justify-center items-center"
+                style={{ backgroundColor, color: textColor }}
+              >
                 <span>
                   <svg
                     width="23"

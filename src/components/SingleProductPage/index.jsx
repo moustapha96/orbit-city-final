@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 /* eslint-disable no-unused-vars */
 import { useContext, useEffect, useRef, useState } from "react";
 import data from "../../data/products.json";
@@ -12,8 +13,10 @@ import SallerInfo from "./SallerInfo";
 import { useLocation, useParams } from "react-router-dom";
 import { CartContext } from "../../contexts/CartContext ";
 import ProduitService from "../../services/produitService";
+import { toast } from "react-toastify";
 
 export default function SingleProductPage() {
+  const [produits, setProduits] = useState([]);
   const location = useLocation();
   const produit = location.state.produit;
   const {
@@ -25,7 +28,17 @@ export default function SingleProductPage() {
     preorder,
     isProductInWishlist,
   } = useContext(CartContext);
-
+  useEffect(() => {
+    const fetchModels = async () => {
+      try {
+        const dataProduct = await ProduitService.getProduits();
+        setProduits(dataProduct);
+      } catch (error) {
+        console.error("Erreur lors de la récupération des modèles", error);
+      }
+    };
+    fetchModels();
+  }, []);
   const [quantity, setQuantity] = useState(1);
 
   const handleIncrement = () => {
@@ -41,18 +54,45 @@ export default function SingleProductPage() {
     e.preventDefault();
     addToCart(produit, quantity);
     console.log("Ajout au souhait :", cart);
+    toast.success("Produit ajouté", {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
   };
 
   const handleAddToWishlist = (e) => {
     e.preventDefault();
     addToWishlist(produit, quantity);
     console.log("Ajout au souhait :", wishList);
+    toast.success("Produit ajouté", {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
   };
 
   const handleAddToPreOrder = (e) => {
     e.preventDefault();
     addToPreorder(produit, 1);
     console.log("Ajout au preorder :", preorder);
+    toast.success("Produit ajouté", {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
   };
 
   const [tab, setTab] = useState("des");
@@ -75,8 +115,8 @@ export default function SingleProductPage() {
               <div className="container-x mx-auto">
                 <BreadcrumbCom
                   paths={[
-                    { name: "home", path: "/" },
-                    { name: "single product", path: "/single-product" },
+                    { name: "Accueil", path: "/" },
+                    { name: "Page Détails", path: "/single-product" },
                   ]}
                 />
               </div>
@@ -108,7 +148,7 @@ export default function SingleProductPage() {
                           : "border-transparent text-qgray"
                       }`}
                     >
-                      Description
+                      Déscription
                     </span>
                   </li>
                   <li>
@@ -120,7 +160,7 @@ export default function SingleProductPage() {
                           : "border-transparent text-qgray"
                       }`}
                     >
-                      Seller Info
+                      Informations sur le vendeur
                     </span>
                   </li>
                 </ul>
@@ -190,11 +230,7 @@ export default function SingleProductPage() {
                   data-aos="fade-up"
                   className="grid xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 xl:gap-[30px] gap-5"
                 >
-                  <DataIteration
-                    datas={data.products}
-                    startLength={5}
-                    endLength={9}
-                  >
+                  <DataIteration datas={produits} startLength={5} endLength={9}>
                     {({ datas }) => (
                       <div key={datas.id} className="item">
                         <ProductCardStyleOne datas={datas} />

@@ -18,7 +18,7 @@ export default function TestCom() {
                 style={{
                   background: `url(${
                     import.meta.env.VITE_PUBLIC_URL
-                  }/assets/images/product-img-2.1.jpg) no-repeat center`,
+                  }/images/product-img-2.1.jpg) no-repeat center`,
                 }}
               ></div>
               <div className="product-card-details flex justify-center h-[102px] items-center  relative">

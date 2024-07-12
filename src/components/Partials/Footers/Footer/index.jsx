@@ -157,13 +157,11 @@ export default function Footer({ type = 3 }) {
             </span>
           </div>
           <div className="">
-            <Link href="#">
+            <Link tp="/">
               <img
                 width="318"
                 height="28"
-                src={`${
-                  import.meta.env.VITE_PUBLIC_URL
-                }/assets/images/payment-getways.png`}
+                src={`/images/payment-getways.png`}
                 alt="payment-getways"
               />
             </Link>

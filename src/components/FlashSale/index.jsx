@@ -16,7 +16,7 @@ export default function FlashSale() {
               style={{
                 background: `url(${
                   import.meta.env.VITE_PUBLIC_URL
-                }/assets/images/flash-sale-ads.png) no-repeat`,
+                }/images/flash-sale-ads.png) no-repeat`,
                 backgroundSize: "cover",
               }}
               data-aos="fade-right"

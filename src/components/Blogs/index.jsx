@@ -12,7 +12,7 @@ export default function Blogs() {
           <PageTitle
             title="Our Blogs"
             breadcrumb={[
-              { name: "home", path: "/" },
+              { name: "Accueil", path: "/" },
               { name: "blogs", path: "/blogs" },
             ]}
           />

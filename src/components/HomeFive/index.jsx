@@ -29,7 +29,7 @@ function Index() {
         className="new-products mb-[60px]"
       />
       <ProductsAds
-        ads={[`${import.meta.env.VITE_PUBLIC_URL}/assets/images/ads-3.png`]}
+        ads={[`${import.meta.env.VITE_PUBLIC_URL}/images/ads-3.png`]}
         className="products-ads-section mb-[60px]"
       />
       <SectionStyleThreeHmFour
@@ -41,7 +41,7 @@ function Index() {
 
       <ProductsAds
         sectionHeight="164"
-        ads={[`${import.meta.env.VITE_PUBLIC_URL}assets/images/ads-4.png`]}
+        ads={[`${import.meta.env.VITE_PUBLIC_URL}images/ads-4.png`]}
         className="products-ads-section mb-[60px]"
       />
       <SectionStyleFour

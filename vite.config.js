@@ -20,21 +20,21 @@ const pwaConfig = {
     ],
   },
   manifest: {
-    name: "Orbit-city",
-    short_name: "orbit-city",
-    description: "Orbit-city",
+    name: "ccbm-shop",
+    short_name: "ccbm-shop",
+    description: "Boutique électroménager , CCBM Shop",
     start_url: "/",
     display: "standalone",
-    background_color: "#FFBB38",
-    theme_color: "#FFBB38",
+    background_color: "#09aef8",
+    theme_color: "#09aef8",
     icons: [
       {
-        src: "/192.png",
+        src: "/logo_192.png",
         sizes: "192x192",
         purpose: "any maskable",
       },
       {
-        src: "/512.png",
+        src: "/logo_512.png",
         sizes: "512x512",
         purpose: "maskable any",
       },

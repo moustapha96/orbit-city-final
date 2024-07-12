@@ -7,8 +7,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { CircleUser, Heart, ShoppingBag, ShoppingCart } from "lucide-react";
 import PreCart from "../../../PreCart";
 import { UserContext } from "../../../../contexts/UserContext";
+import ThinPeople from "../../../Helpers/icons/ThinPeople";
+import { useSelector } from "react-redux";
 
 export default function Middlebar({ className, type = 3 }) {
+  const user = useSelector((state) => state.user.user);
+  const backgroundColor = type === 3 ? "var(--bleu-logo)" : "var(--qyellow)";
+  const textColor = type === 3 ? "white" : "var(--qblack)";
   const { cart, wishlist, preorder } = useContext(CartContext);
 
   const navigate = useNavigate();
@@ -53,9 +58,8 @@ export default function Middlebar({ className, type = 3 }) {
                   </span>
                 </Link>
                 <span
-                  className={`w-[18px] h-[18px] rounded-full  absolute -top-2.5 -right-2.5 flex justify-center items-center text-[9px] ${
-                    type === 3 ? "bg-qh3-blue text-white" : "bg-qyellow"
-                  }`}
+                  className={`w-[18px] h-[18px] rounded-full  absolute -top-2.5 -right-2.5 flex justify-center items-center text-[9px]`}
+                  style={{ backgroundColor, color: textColor }}
                 >
                   {wishlist.length > 0 ? wishlist.length : 0}
                 </span>
@@ -66,9 +70,8 @@ export default function Middlebar({ className, type = 3 }) {
                   <button onClick={handleCart}>
                     <ShoppingCart />
                     <span
-                      className={`w-[18px] h-[18px] rounded-full  absolute -top-2.5 -right-2.5 flex justify-center items-center text-[9px] ${
-                        type === 3 ? "bg-qh3-blue text-white" : "bg-qyellow"
-                      }`}
+                      className={`w-[18px] h-[18px] rounded-full  absolute -top-2.5 -right-2.5 flex justify-center items-center text-[9px] `}
+                      style={{ backgroundColor, color: textColor }}
                     >
                       {cart.length > 0 ? cart.length : 0}
                     </span>
@@ -88,9 +91,8 @@ export default function Middlebar({ className, type = 3 }) {
                     </span>
                   </button>
                   <span
-                    className={`w-[18px] h-[18px] rounded-full  absolute -top-2.5 -right-2.5 flex justify-center items-center text-[9px] ${
-                      type === 3 ? "bg-qh3-blue text-white" : "bg-qyellow"
-                    }`}
+                    className={`w-[18px] h-[18px] rounded-full  absolute -top-2.5 -right-2.5 flex justify-center items-center text-[9px] `}
+                    style={{ backgroundColor, color: textColor }}
                   >
                     {preorder.length > 0 ? preorder.length : 0}
                   </span>
@@ -101,11 +103,24 @@ export default function Middlebar({ className, type = 3 }) {
                 />
               </div>
               <div>
-                <Link to="/profile">
-                  <span>
-                    <CircleUser />
-                  </span>
-                </Link>
+                {!user ? (
+                  <>
+                    {" "}
+                    <Link to="/login">
+                      <span>
+                        <ThinPeople />
+                      </span>
+                    </Link>
+                  </>
+                ) : (
+                  <>
+                    <Link to="/profile">
+                      <span>
+                        <ThinPeople />
+                      </span>
+                    </Link>
+                  </>
+                )}
               </div>
             </div>
           </div>
