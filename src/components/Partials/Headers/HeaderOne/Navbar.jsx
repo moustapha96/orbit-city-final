@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Arrow from "../../../Helpers/icons/Arrow";
-import Categorieservice from "../../../../services/categorieservice";
+import Categorieservice from "../../../../services/CategorieService";
 import { Asterisk, Menu, MoveRight } from "lucide-react";
 
 export default function Navbar({ className, type = 3 }) {

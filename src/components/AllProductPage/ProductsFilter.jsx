@@ -3,7 +3,7 @@
 import RangeSlider from "react-range-slider-input";
 import Checkbox from "../Helpers/Checkbox";
 import { useEffect, useState } from "react";
-import Categorieservice from "../../services/categorieservice";
+import Categorieservice from "../../services/CategorieService";
 import { Asterisk, MoveRight, Plus } from "lucide-react";
 import { Link } from "react-router-dom";
 

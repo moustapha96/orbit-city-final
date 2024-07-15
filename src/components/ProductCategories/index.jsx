@@ -5,7 +5,7 @@ import DataIteration from "../Helpers/DataIteration";
 import Layout from "../Partials/Layout";
 import ProductsFilter from "./ProductsFilter";
 import ProduitService from "../../services/produitService";
-import Categorieservice from "../../services/categorieservice";
+import Categorieservice from "../../services/Categorieservice";
 import { useParams } from "react-router-dom";
 
 export default function ProductCategoriePage() {

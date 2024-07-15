@@ -3,7 +3,7 @@ import Compair from "../../Helpers/icons/Compair";
 import ThinLove from "../../Helpers/icons/ThinLove";
 import { Link } from "react-router-dom";
 import { CartContext } from "../../../contexts/CartContext ";
-import Categorieservice from "../../../services/categorieservice";
+import Categorieservice from "../../../services/CategorieService";
 import { ChevronRight, Dot, Search, ShoppingCart } from "lucide-react";
 
 export default function Drawer({ className, open, action }) {

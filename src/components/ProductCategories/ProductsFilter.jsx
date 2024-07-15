@@ -3,7 +3,7 @@
 import RangeSlider from "react-range-slider-input";
 import Checkbox from "../Helpers/Checkbox";
 import { useEffect, useState } from "react";
-import Categorieservice from "../../services/categorieservice";
+import Categorieservice from "../../services/Categorieservice";
 import { Plus } from "lucide-react";
 
 export default function ProductsFilter({

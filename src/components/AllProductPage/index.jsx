@@ -5,7 +5,7 @@ import DataIteration from "../Helpers/DataIteration";
 import Layout from "../Partials/Layout";
 import ProductsFilter from "./ProductsFilter";
 import ProduitService from "../../services/produitService";
-import Categorieservice from "../../services/categorieservice";
+import Categorieservice from "../../services/CategorieService";
 import { useParams } from "react-router-dom";
 import { Loader2 } from "lucide-react";
 
@@ -60,7 +60,7 @@ export default function AllProductPage() {
       setIsLoading(false);
     };
     fetchModels();
-  }, [name]);
+  }, [name, products]);
 
   const handleSearch = (event) => {
     const searchTerm = event.target.value.toLowerCase();

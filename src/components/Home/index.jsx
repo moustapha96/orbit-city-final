@@ -14,7 +14,7 @@ import BestSellers from "./BestSellers";
 import BrandSection from "./BrandSection";
 import CampaignCountDown from "./CampaignCountDown";
 import ProductsAds from "./ProductsAds";
-import Categorieservice from "../../services/categorieservice";
+import Categorieservice from "../../services/Categorieservice";
 import ProduitService from "../../services/produitService";
 
 export default function Home() {
