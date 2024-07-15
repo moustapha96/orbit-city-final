@@ -60,7 +60,7 @@ export default function AllProductPage() {
       setIsLoading(false);
     };
     fetchModels();
-  }, [name, products]);
+  }, []);
 
   const handleSearch = (event) => {
     const searchTerm = event.target.value.toLowerCase();
