@@ -14,8 +14,9 @@ import BestSellers from "./BestSellers";
 import BrandSection from "./BrandSection";
 import CampaignCountDown from "./CampaignCountDown";
 import ProductsAds from "./ProductsAds";
-import Categorieservice from "../../services/Categorieservice";
+=
 import ProduitService from "../../services/produitService";
+import Categorieservice from "../../services/CategorieService";
 
 export default function Home() {
   const [categories, setCategories] = useState([]);
