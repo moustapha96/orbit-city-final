@@ -1,9 +1,8 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import PageTitle from "../Helpers/PageTitle";
 import Layout from "../Partials/Layout";
 import { useContext, useState } from "react";
-import PaiementService from "../../services/paimentService";
 
 import formatDate from "../../utils/date-format";
 import formatPrice from "../../utils/formatPrice";
@@ -15,11 +14,10 @@ import { Loader2 } from "lucide-react";
 import PayTechPaymentForm from "../../services/paytech_service";
 
 export default function CartValidationPage() {
-  const { orderState, clearCart, setOrderState } = useContext(CartContext);
+  const { orderState } = useContext(CartContext);
   const [isLoading, setIsLoading] = useState(false);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   console.log(orderState);
-  const navigate = useNavigate();
 
   console.log(orderState);
   // const validerPaiment = async (e) => {
