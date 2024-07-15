@@ -16,8 +16,8 @@ import { Button } from "flowbite-react";
 import { Loader2 } from "lucide-react";
 
 import paydunya from "paydunya";
-
 import commandeService from "../../services/CommandeService";
+
 export default function CardPage({ cartt = true }) {
   const { cart, getCartTotal, clearCart, setOrderState, orderState } =
     useContext(CartContext);
