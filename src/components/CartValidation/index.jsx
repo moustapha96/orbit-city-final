@@ -12,16 +12,64 @@ import { toast } from "react-toastify";
 import { CartContext } from "../../contexts/CartContext ";
 import { Button } from "flowbite-react";
 import { Loader2 } from "lucide-react";
+import PayTechPaymentForm from "../../services/paytech_service";
 
 export default function CartValidationPage() {
   const { orderState, clearCart, setOrderState } = useContext(CartContext);
   const [isLoading, setIsLoading] = useState(false);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
   console.log(orderState);
   const navigate = useNavigate();
-  const [showPaymentModal, setShowPaymentModal] = useState(false);
+
+  console.log(orderState);
+  // const validerPaiment = async (e) => {
+  //   e.preventDefault();
+  //   console.log(orderState);
+  //   setIsLoading(true);
+  //   try {
+  //     const responsePaiment = await PaiementService.createCommandePaiment(
+  //       orderState.id
+  //     );
+  //     console.log(orderState);
+  //     console.log(responsePaiment);
+  //     clearCart();
+  //     navigate("/profile#order");
+  //     setShowPaymentModal(false);
+  //     toast.success("Commande validée avec succés", {
+  //       position: "top-right",
+  //       autoClose: 5000,
+  //       hideProgressBar: false,
+  //       closeOnClick: true,
+  //       pauseOnHover: true,
+  //       draggable: true,
+  //       progress: undefined,
+  //     });
+  //   } catch (error) {
+  //     console.error("Erreur lors du payment ", error);
+  //     toast.success("Commande non validée ", {
+  //       position: "top-right",
+  //       autoClose: 5000,
+  //       hideProgressBar: false,
+  //       closeOnClick: true,
+  //       pauseOnHover: true,
+  //       draggable: true,
+  //       progress: undefined,
+  //     });
+  //   }
+  //   setIsLoading(false);
+  // };
+
+  const validerPaiment = async (e) => {
+    e.preventDefault();
+    console.log(orderState);
+    setShowPaymentModal(true);
+  };
+
   const handlePay = async (paymentData) => {
-    toast.success("Payment effectif avec succés", {
-      position: "top-right",
+    console.log("Payment data: ", paymentData);
+    setIsLoading(true);
+    toast.success("Payement valider avec succés", {
+      position: "top-center",
       autoClose: 5000,
       hideProgressBar: false,
       closeOnClick: true,
@@ -29,47 +77,7 @@ export default function CartValidationPage() {
       draggable: true,
       progress: undefined,
     });
-    console.log("Payment data: ", paymentData);
-
-    setIsLoading(true);
-    try {
-      const responsePaiment = await PaiementService.createCommandePaiment(
-        orderState.id
-      );
-      console.log(orderState);
-      console.log(responsePaiment);
-      clearCart();
-      navigate("/profile#order");
-      setShowPaymentModal(false);
-      toast.success("Commande validée avec succés", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-    } catch (error) {
-      console.error("Erreur lors du payment ", error);
-      toast.success("Commande non validée ", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-    }
     setIsLoading(false);
-  };
-
-  console.log(orderState);
-  const validerPaiment = async (e) => {
-    e.preventDefault();
-    console.log(orderState);
-    setShowPaymentModal(true);
   };
 
   return (
@@ -249,6 +257,7 @@ export default function CartValidationPage() {
                           {orderState.advance_payment_status === "not_paid" && (
                             <Button
                               disabled={isLoading}
+                              onClick={validerPaiment}
                               className="rounded-lg px-5 py-2.5 font-medium w-full hover:bg-red-500 hover:text-white text-xl"
                             >
                               {" "}
@@ -258,6 +267,14 @@ export default function CartValidationPage() {
                               Paiement de (
                               {formatPrice(orderState.amount_total)})
                             </Button>
+                          )}
+                          {showPaymentModal && (
+                            <PayTechPaymentForm
+                              handlePay={handlePay}
+                              totalAmount={orderState.amount_total}
+                              onClose={() => setShowPaymentModal(false)}
+                              order={orderState}
+                            />
                           )}
                         </div>
                       </div>

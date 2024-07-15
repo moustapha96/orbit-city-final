@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { Link, useNavigate } from "react-router-dom";
 import BreadcrumbCom from "../BreadcrumbCom";
@@ -7,25 +8,29 @@ import PageTitle from "../Helpers/PageTitle";
 import Layout from "../Partials/Layout";
 import ProductsTable from "./ProductsTable";
 import { CartContext } from "../../contexts/CartContext ";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import formatPrice from "../../utils/formatPrice";
 import { useDispatch } from "react-redux";
-import commandeService from "../../services/CommandeService";
+
 import { toast } from "react-toastify";
 import { Button } from "flowbite-react";
 import { Loader2 } from "lucide-react";
+import PayTechPaymentForm from "../../services/paytech_service";
+import commandeService from "../../services/CommandeService";
 export default function CardPage({ cartt = true }) {
   const { cart, getCartTotal, clearCart, setOrderState, orderState } =
     useContext(CartContext);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  useDispatch(() => {
+  useEffect(() => {
     console.log(cart);
   }, [cart]);
 
   const handleValidePanier = async (e) => {
     e.preventDefault();
+    setShowPaymentModal(true);
     console.log("creation dela commande sur le odoo ");
     console.log(cart);
 
@@ -101,26 +106,11 @@ export default function CardPage({ cartt = true }) {
             <div className="container-x mx-auto">
               <ProductsTable className="mb-[30px]" />
               <div className="w-full sm:flex justify-between">
-                <div className="discount-code sm:w-[270px] w-full mb-5 sm:mb-0 h-[50px] flex">
-                  <div className="flex-1 h-full">
-                    <InputCom type="text" placeholder="Discount Code" />
-                  </div>
-                  <button type="button" className="w-[90px] h-[50px] black-btn">
-                    <span className="text-sm font-semibold">Apply</span>
-                  </button>
-                </div>
                 <div className="flex space-x-2.5 items-center">
                   <Link to="/all-products">
                     <div className="w-[220px] h-[50px] bg-[#F6F6F6] flex justify-center items-center">
                       <span className="text-sm font-semibold">
                         Continuer vos achats
-                      </span>
-                    </div>
-                  </Link>
-                  <Link>
-                    <div className="w-[140px] h-[50px] bg-[#F6F6F6] flex justify-center items-center">
-                      <span className="text-sm font-semibold">
-                        Mise à jour panier
                       </span>
                     </div>
                   </Link>

@@ -1,9 +1,14 @@
 import { useRef, useState } from "react";
 import InputCom from "../../../Helpers/InputCom";
+import { Label } from "flowbite-react";
+import { useSelector } from "react-redux";
+import { Pencil } from "lucide-react";
 
 export default function ProfileTab() {
   const [profileImg, setprofileImg] = useState(null);
   const profileImgInput = useRef(null);
+  const user = useSelector((state) => state.user.user);
+  console.log(user);
   const browseprofileImg = () => {
     profileImgInput.current.click();
   };
@@ -21,76 +26,92 @@ export default function ProfileTab() {
       <div className="flex space-x-8">
         <div className="w-[570px] ">
           <div className="input-item flex space-x-2.5 mb-8">
-            <div className="w-1/2 h-full">
-              <InputCom
-                label="First Name*"
-                placeholder="Demo Name"
-                type="text"
-                inputClasses="h-[50px]"
-              />
-            </div>
-            <div className="w-1/2 h-full">
-              <InputCom
-                label="Last Name*"
-                placeholder="Demo Name"
-                type="text"
-                inputClasses="h-[50px]"
-              />
+            <div className="w-full h-full">
+              <div className="mb-4">
+                <div className="mb-2 block">
+                  <Label htmlFor="nom" value="Nom Complet" />
+                </div>
+                <input
+                  type="text"
+                  placeholder="Nom complet"
+                  value={`${user.name}`}
+                  name="nom"
+                  required
+                  className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
+                      focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
+                                    invalid:text-red-600
+                      focus:invalid:border-red-500 focus:invalid:ring-red-500"
+                />
+              </div>
             </div>
           </div>
           <div className="input-item flex space-x-2.5 mb-8">
             <div className="w-1/2 h-full">
-              <InputCom
-                label="Email*"
-                placeholder="demoemial@gmail.com"
-                type="email"
-                inputClasses="h-[50px]"
+              <div className="mb-2 block">
+                <Label htmlFor="email" value="Email" />
+              </div>
+              <input
+                type="text"
+                placeholder="Email"
+                value={`${user.email}`}
+                name="email"
+                required
+                className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
+                      focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
+                                    invalid:text-red-600
+                      focus:invalid:border-red-500 focus:invalid:ring-red-500"
               />
             </div>
             <div className="w-1/2 h-full">
-              <InputCom
-                label="Phone Number*"
-                placeholder="012 3  *******"
+              <div className="mb-2 block">
+                <Label htmlFor="tel" value="Téléphone" />
+              </div>
+              <input
                 type="text"
-                inputClasses="h-[50px]"
+                placeholder="Téléphone"
+                value={`${user.partner_phone}`}
+                name="phone"
+                required
+                className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
+                      focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
+                                    invalid:text-red-600
+                      focus:invalid:border-red-500 focus:invalid:ring-red-500"
               />
             </div>
           </div>
           <div className="input-item mb-8">
             <div className="w-full">
-              <InputCom
-                label="Country*"
-                placeholder="country"
+              <div className="mb-2 block">
+                <Label htmlFor="pays" value="Pays" />
+              </div>
+              <input
                 type="text"
-                inputClasses="h-[50px]"
+                placeholder="Pays"
+                value={`${user.country_name}`}
+                name="nom"
+                required
+                className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
+                      focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
+                                    invalid:text-red-600
+                      focus:invalid:border-red-500 focus:invalid:ring-red-500"
               />
             </div>
           </div>
           <div className="input-item mb-8">
             <div className="w-full">
-              <InputCom
-                label="Address*"
-                placeholder="your address here"
+              <div className="mb-2 block">
+                <Label htmlFor="adresse" value="Adresse" />
+              </div>
+              <input
                 type="text"
-                inputClasses="h-[50px]"
-              />
-            </div>
-          </div>
-          <div className="input-item flex space-x-2.5 mb-8">
-            <div className="w-1/2 h-full">
-              <InputCom
-                label="Town / City*"
-                placeholder=""
-                type="text"
-                inputClasses="h-[50px]"
-              />
-            </div>
-            <div className="w-1/2 h-full">
-              <InputCom
-                label="Postcode / ZIP*"
-                placeholder=""
-                type="text"
-                inputClasses="h-[50px]"
+                placeholder="Adresse"
+                value={`${user.partner_city}`}
+                name="adresse"
+                required
+                className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
+                      focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
+                                    invalid:text-red-600
+                      focus:invalid:border-red-500 focus:invalid:ring-red-500"
               />
             </div>
           </div>
@@ -98,7 +119,7 @@ export default function ProfileTab() {
         <div className="flex-1">
           <div className="update-logo w-full mb-9">
             <h1 className="text-xl tracking-wide font-bold text-qblack flex items-center mb-2">
-              Update Profile
+              Mettre à jour le profil
               <span className="ml-1">
                 <svg
                   width="20"
@@ -116,20 +137,16 @@ export default function ProfileTab() {
               </span>
             </h1>
             <p className="text-sm text-qgraytwo mb-5 ">
-              Profile of at least Size
-              <span className="ml-1 text-qblack">300x300</span>. Gifs work too.
-              <span className="ml-1 text-qblack">Max 5mb</span>.
+              Profil d'au moins Taille
+              <span className="ml-1 text-qblack">300x300</span>. Les gifs
+              fonctionnent aussi.
+              <span className="ml-1 text-qblack">Max 5 Mo</span>.
             </p>
             <div className="flex xl:justify-center justify-start">
               <div className="relative">
                 <div className="sm:w-[198px] sm:h-[198px] w-[199px] h-[199px] rounded-full overflow-hidden relative">
                   <img
-                    src={
-                      profileImg ||
-                      `${
-                        import.meta.env.VITE_PUBLIC_URL
-                      }/images/edit-profileimg.jpg`
-                    }
+                    src={profileImg || `/images/edit-profileimg.jpg`}
                     alt=""
                     className="object-cover w-full h-full"
                   />
@@ -142,24 +159,9 @@ export default function ProfileTab() {
                 />
                 <div
                   onClick={browseprofileImg}
-                  className="w-[32px] h-[32px] absolute bottom-7 sm:right-0 right-[105px]  bg-qblack rounded-full cursor-pointer"
+                  className="w-[32px] h-[32px] absolute bottom-7 sm:right-0 right-[105px]  bg-blue rounded-full cursor-pointer"
                 >
-                  <svg
-                    width="32"
-                    height="32"
-                    viewBox="0 0 32 32"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M16.5147 11.5C17.7284 12.7137 18.9234 13.9087 20.1296 15.115C19.9798 15.2611 19.8187 15.4109 19.6651 15.5683C17.4699 17.7635 15.271 19.9587 13.0758 22.1539C12.9334 22.2962 12.7948 22.4386 12.6524 22.5735C12.6187 22.6034 12.5663 22.6296 12.5213 22.6296C11.3788 22.6334 10.2362 22.6297 9.09365 22.6334C9.01498 22.6334 9 22.6034 9 22.536C9 21.4009 9 20.2621 9.00375 19.1271C9.00375 19.0746 9.02997 19.0109 9.06368 18.9772C10.4123 17.6249 11.7609 16.2763 13.1095 14.9277C14.2295 13.8076 15.3459 12.6913 16.466 11.5712C16.4884 11.5487 16.4997 11.5187 16.5147 11.5Z"
-                      fill="white"
-                    />
-                    <path
-                      d="M20.9499 14.2904C19.7436 13.0842 18.5449 11.8854 17.3499 10.6904C17.5634 10.4694 17.7844 10.2446 18.0054 10.0199C18.2639 9.76139 18.5261 9.50291 18.7884 9.24443C19.118 8.91852 19.5713 8.91852 19.8972 9.24443C20.7251 10.0611 21.5492 10.8815 22.3771 11.6981C22.6993 12.0165 22.7105 12.4698 22.3996 12.792C21.9238 13.2865 21.4443 13.7772 20.9686 14.2717C20.9648 14.2792 20.9536 14.2867 20.9499 14.2904Z"
-                      fill="white"
-                    />
-                  </svg>
+                  <Pencil></Pencil>
                 </div>
               </div>
             </div>
@@ -168,13 +170,13 @@ export default function ProfileTab() {
       </div>
       <div className="action-area flex space-x-4 items-center">
         <button type="button" className="text-sm text-qred font-semibold">
-          Cancel
+          Annuler
         </button>
         <button
           type="button"
           className="w-[164px] h-[50px] bg-qblack text-white text-sm"
         >
-          Update Profile
+          Mettre à jour le profil
         </button>
       </div>
     </>

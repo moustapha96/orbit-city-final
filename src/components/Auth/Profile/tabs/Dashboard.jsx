@@ -63,7 +63,7 @@ export default function Dashboard() {
           </span>
         </div>
       </div>
-      <div className="dashboard-info mt-8 flex justify-between items-center bg-primarygray px-7 py-7">
+      {/* <div className="dashboard-info mt-8 flex grid grid-flow-col justify-stretch  bg-primarygray px-7 py-7">
         <div className="">
           <p className="title text-[22px] font-semibold">
             Informations personnelles
@@ -109,15 +109,17 @@ export default function Dashboard() {
         </div>
         <div className="w-[1px] h-[164px] bg-[#E4E4E4]"></div>
         <div className="ml-6">
-          <p className="title text-[22px] font-semibold">Shop Info</p>
+          <p className="title text-[22px] font-semibold">
+            Information Personnelles
+          </p>
           <div className="mt-5">
             <table>
               <tr className="inline-flex mb-5">
                 <td className="text-base text-qgraytwo w-[100px] block">
-                  <div>Name:</div>
+                  <div>Nom complet:</div>
                 </td>
                 <td className="text-base text-qblack font-medium">
-                  Shuvo khan
+                  {user ? user.name : ""}
                 </td>
               </tr>
               <tr className="inline-flex mb-5">
@@ -151,6 +153,45 @@ export default function Dashboard() {
                 <td className="text-base text-qblack font-medium">4040</td>
               </tr>
             </table>
+          </div>
+        </div>
+      </div> */}
+      <div className="dashboard-info mt-8 flex items-center bg-primarygray px-7 py-7">
+        <p className="title text-[22px] font-semibold">
+          Informations personnelles
+        </p>
+        <div className="mt-5 flex flex-wrap">
+          <div className="inline-flex mr-5 mb-5">
+            <div className="text-base text-qgraytwo w-[100px] block">
+              <div>Name:</div>
+            </div>
+            <div className="text-base text-qblack font-medium">
+              {user ? user.name : ""}
+            </div>
+          </div>
+          <div className="inline-flex mr-5 mb-5">
+            <div className="text-base text-qgraytwo w-[100px] block">
+              <div>Email:</div>
+            </div>
+            <div className="text-base text-qblack font-medium">
+              {user ? user.email : ""}
+            </div>
+          </div>
+          <div className="inline-flex mr-5 mb-5">
+            <div className="text-base text-qgraytwo w-[100px] block">
+              <div>Phone:</div>
+            </div>
+            <div className="text-base text-qblack font-medium">
+              {user ? user.partner_phone : "Not found"}
+            </div>
+          </div>
+          <div className="inline-flex mr-5 mb-5">
+            <div className="text-base text-qgraytwo w-[100px] block">
+              <div>City:</div>
+            </div>
+            <div className="text-base text-qblack font-medium">
+              {user ? user.partner_city : ""}
+            </div>
           </div>
         </div>
       </div>

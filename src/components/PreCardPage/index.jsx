@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import BreadcrumbCom from "../BreadcrumbCom";
 import EmptyCardError from "../EmptyCardError";
 import InputCom from "../Helpers/InputCom";
@@ -44,7 +44,7 @@ export default function PreCardPage({ cart = true }) {
     try {
       const response = await PrecommandeService.createPreCommande(modelData);
       console.log(response);
-      toast.success(" Pré Commande validé avec succés", {
+      toast.success("Pré Commande validé avec succés", {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -101,27 +101,22 @@ export default function PreCardPage({ cart = true }) {
             <div className="container-x mx-auto">
               <ProductsTable className="mb-[30px]" />
               <div className="w-full sm:flex justify-between">
-                <div className="discount-code sm:w-[270px] w-full mb-5 sm:mb-0 h-[50px] flex">
+                {/* <div className="discount-code sm:w-[270px] w-full mb-5 sm:mb-0 h-[50px] flex">
                   <div className="flex-1 h-full">
                     <InputCom type="text" placeholder="Discount Code" />
                   </div>
                   <button type="button" className="w-[90px] h-[50px] black-btn">
                     <span className="text-sm font-semibold">Apply</span>
                   </button>
-                </div>
+                </div> */}
                 <div className="flex space-x-2.5 items-center">
-                  <a href="#">
+                  <Link to="/all-products">
                     <div className="w-[220px] h-[50px] bg-[#F6F6F6] flex justify-center items-center">
                       <span className="text-sm font-semibold">
-                        Continue Shopping
+                        Continuer vos achats
                       </span>
                     </div>
-                  </a>
-                  <a href="#">
-                    <div className="w-[140px] h-[50px] bg-[#F6F6F6] flex justify-center items-center">
-                      <span className="text-sm font-semibold">Update Cart</span>
-                    </div>
-                  </a>
+                  </Link>
                 </div>
               </div>
               <div className="w-full mt-[30px] flex sm:justify-end">
@@ -129,7 +124,7 @@ export default function PreCardPage({ cart = true }) {
                   <div className="sub-total mb-6">
                     <div className=" flex justify-between mb-6">
                       <p className="text-[15px] font-medium text-qblack">
-                        Subtotal
+                        Sous total
                       </p>
                       <p className="text-[15px] font-medium text-qred">
                         {" "}
@@ -139,15 +134,10 @@ export default function PreCardPage({ cart = true }) {
                     <div className="w-full h-[1px] bg-[#EDEDED]"></div>
                   </div>
 
-                  <button type="button" className="w-full mb-10">
-                    <div className="w-full h-[50px] bg-[#F6F6F6] flex justify-center items-center">
-                      <span className="text-sm font-semibold">Update Cart</span>
-                    </div>
-                  </button>
                   <div className="total mb-6">
                     <div className=" flex justify-between">
                       <p className="text-[18px] font-medium text-qblack">
-                        Total
+                        Total Non taxé
                       </p>
                       <p className="text-[18px] font-medium text-qred">
                         {" "}

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import datas from "../../../data/products.json";
 import BreadcrumbCom from "../../BreadcrumbCom";
 import Layout from "../../Partials/Layout";
@@ -32,7 +32,7 @@ export default function Profile() {
   const token = useSelector((state) => state.user.token);
   const uid = useSelector((state) => state.user.uid);
   console.log(user, token, uid);
-
+  const navigate = useNavigate();
   // const [switchDashboard, setSwitchDashboard] = useState(false);
   const location = useLocation();
   const getHashContent = location.hash.split("#");
@@ -44,6 +44,11 @@ export default function Profile() {
         : "dashboard"
     );
   }, [getHashContent]);
+
+  function logout() {
+    // localStorage.removeItem("authToken");
+    navigate("/login");
+  }
   return (
     <Layout childrenClasses="pt-0 pb-0">
       <div className="profile-page-wrapper w-full">
@@ -191,7 +196,7 @@ export default function Profile() {
                       </Link>
                     </div> */}
 
-                    <div className="item group">
+                    {/* <div className="item group">
                       <Link to="/profile#password">
                         <div className="flex space-x-3 items-center text-qgray hover:text-qblack">
                           <span>
@@ -202,10 +207,10 @@ export default function Profile() {
                           </span>
                         </div>
                       </Link>
-                    </div>
+                    </div> */}
 
                     <div className="item group">
-                      <Link to="/profile#profile">
+                      <Link onClick={logout}>
                         <div className="flex space-x-3 items-center text-qgray hover:text-qblack">
                           <span>
                             <IcoLogout />

@@ -8,7 +8,9 @@ import axios from "axios";
 import { Modal, TextInput, Button, Label } from "flowbite-react";
 import formatPrice from "../utils/formatPrice";
 import { toast } from "react-toastify";
+import { CircleX } from "lucide-react";
 const PayTechPaymentForm = ({ handlePay, totalAmount, onClose, order }) => {
+  console.log(order);
   const [paymentResponse, setPaymentResponse] = useState(null);
   const [openModal, setOpenModal] = useState(true);
 
@@ -36,9 +38,9 @@ const PayTechPaymentForm = ({ handlePay, totalAmount, onClose, order }) => {
         {
           headers: {
             "Content-Type": "application/json",
-            "PAYDUNYA-MASTER-KEY": "ZeMyliWm-Tk28-lnWy-b6N4-E8k3Re2Ai0Lf",
-            "PAYDUNYA-PRIVATE-KEY": "test_private_gA6MAHUwHT8nm4etIjYe1MJbLB7",
-            "PAYDUNYA-TOKEN": "X3asnkdvoZdp2F1U9dhH",
+            "PAYDUNYA-MASTER-KEY": "3ApSagrZ-NkOP-M2GJ-tQr3-6F1TroNp8fL7",
+            "PAYDUNYA-PRIVATE-KEY": "test_private_rLI7U4b3J0SjDBJQ7cEC9OCayn9",
+            "PAYDUNYA-TOKEN": "UWVccdmuTo5tusRDkoZQ",
           },
         }
       );
@@ -47,7 +49,7 @@ const PayTechPaymentForm = ({ handlePay, totalAmount, onClose, order }) => {
 
       if (response.data.response_code == "00") {
         toast.success("reponse =>" + response.data.description, {
-          position: "top-right",
+          position: "top-center",
           autoClose: 5000,
           hideProgressBar: false,
           closeOnClick: true,
@@ -56,7 +58,7 @@ const PayTechPaymentForm = ({ handlePay, totalAmount, onClose, order }) => {
           progress: undefined,
         });
         toast.success("code =>" + response.data.response_code, {
-          position: "top-right",
+          position: "top-center",
           autoClose: 5000,
           hideProgressBar: false,
           closeOnClick: true,
@@ -71,10 +73,10 @@ const PayTechPaymentForm = ({ handlePay, totalAmount, onClose, order }) => {
             {
               headers: {
                 "Content-Type": "application/json",
-                "PAYDUNYA-MASTER-KEY": "ZeMyliWm-Tk28-lnWy-b6N4-E8k3Re2Ai0Lf",
+                "PAYDUNYA-MASTER-KEY": "3ApSagrZ-NkOP-M2GJ-tQr3-6F1TroNp8fL7",
                 "PAYDUNYA-PRIVATE-KEY":
-                  "test_private_gA6MAHUwHT8nm4etIjYe1MJbLB7",
-                "PAYDUNYA-TOKEN": "X3asnkdvoZdp2F1U9dhH",
+                  "test_private_rLI7U4b3J0SjDBJQ7cEC9OCayn9",
+                "PAYDUNYA-TOKEN": "UWVccdmuTo5tusRDkoZQ",
               },
             }
           );
@@ -138,8 +140,6 @@ const PayTechPaymentForm = ({ handlePay, totalAmount, onClose, order }) => {
       console.error("Error creating invoice:", error);
     }
     setOpenModal(false);
-
-   
   };
 
   return (
@@ -162,7 +162,10 @@ const PayTechPaymentForm = ({ handlePay, totalAmount, onClose, order }) => {
                 </p>
               </div>
 
-              <p>close</p>
+              <p>
+                {" "}
+                <CircleX onClick={onClose} />{" "}
+              </p>
             </div>
 
             <form onSubmit={handleSubmit}>
@@ -202,10 +205,10 @@ const PayTechPaymentForm = ({ handlePay, totalAmount, onClose, order }) => {
                   </label>
                   <br />
                   <br />
-                  Total à payer
+                  Total à payer (en F CFA)
                   <input
                     type="text"
-                    value={order.name}
+                    value={order.amount_total}
                     disabled
                     className="border border-gray-300 rounded-lg px-4 py-2 mt-2 w-full"
                   />

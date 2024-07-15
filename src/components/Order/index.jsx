@@ -9,7 +9,7 @@ import formatDate from "../../utils/date-format";
 import formatPrice from "../../utils/formatPrice";
 import { Button } from "flowbite-react";
 import { Loader2 } from "lucide-react";
-
+import { toast } from "react-toastify";
 export default function OrderPage() {
   const { state } = useLocation();
   const { id } = useParams();
@@ -28,24 +28,42 @@ export default function OrderPage() {
     };
     fetchModels();
   }, []);
-  const handlePay = async (e) => {
+
+  const validerPaiment = async (e) => {
     e.preventDefault();
-    console.log("Payment data: ", e);
+    console.log(commande);
     setIsLoading(true);
-    console.log(isLoading);
-    // try {
-    //   const responsePaiment = await PaiementService.createCommandePaiment(
-    //     commande.id
-    //   );
-    //   console.log(responsePaiment);
-    //   navigate("/commandes");
-    //   //   setShowPaymentModal(false);
-    // } catch (error) {
-    //   console.error("Erreur lors de la creation de precommande", error);
-    // }
+    try {
+      const responsePaiment = await PaiementService.createCommandePaiment(
+        commande.id
+      );
+      console.log(commande);
+      console.log(responsePaiment);
+
+      navigate("/profile#order");
+      toast.success("Commande validée avec succés", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    } catch (error) {
+      console.error("Erreur lors du payment ", error);
+      toast.success("Commande non validée ", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
     setIsLoading(false);
   };
-
   return (
     <Layout childrenClasses="pt-0 pb-0">
       <div className="checkout-page-wrapper w-full bg-white pb-[60px]">
@@ -265,7 +283,7 @@ export default function OrderPage() {
 
                         <Button
                           type="submit"
-                          onClick={(e) => handlePay(e)}
+                          onClick={validerPaiment}
                           className="hover:bg-red-500   w-full h-[50px] black-btn flex justify-center items-center"
                           disabled={isLoading}
                         >

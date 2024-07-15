@@ -123,19 +123,19 @@ export default function PanierCommande({ className }) {
         <div className="container-x mx-auto">
           <ProductsTable className="mb-[30px]" />
           <div className="w-full sm:flex justify-between">
-            <div className="discount-code sm:w-[270px] w-full mb-5 sm:mb-0 h-[50px] flex">
+            {/* <div className="discount-code sm:w-[270px] w-full mb-5 sm:mb-0 h-[50px] flex">
               <div className="flex-1 h-full">
                 <InputCom type="text" placeholder="Discount Code" />
               </div>
               <button type="button" className="w-[90px] h-[50px] black-btn">
                 <span className="text-sm font-semibold">Apply</span>
               </button>
-            </div>
+            </div> */}
             <div className="flex space-x-2.5 items-center">
               <Link>
                 <div className="w-[220px] h-[50px] bg-[#F6F6F6] flex justify-center items-center">
                   <span className="text-sm font-semibold">
-                    Continue Shopping
+                    Continuer vos achats
                   </span>
                 </div>
               </Link>
