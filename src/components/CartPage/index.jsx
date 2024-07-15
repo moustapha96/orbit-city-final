@@ -10,25 +10,94 @@ import ProductsTable from "./ProductsTable";
 import { CartContext } from "../../contexts/CartContext ";
 import { useContext, useEffect, useState } from "react";
 import formatPrice from "../../utils/formatPrice";
-import { useDispatch } from "react-redux";
 
 import { toast } from "react-toastify";
 import { Button } from "flowbite-react";
 import { Loader2 } from "lucide-react";
-import PayTechPaymentForm from "../../services/paytech_service";
+
+import paydunya from "paydunya";
+
 import commandeService from "../../services/CommandeService";
 export default function CardPage({ cartt = true }) {
   const { cart, getCartTotal, clearCart, setOrderState, orderState } =
     useContext(CartContext);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [paymentResponse, setPaymentResponse] = useState(null);
+  const [amount, setAmount] = useState(1000);
+  const [description, setDescription] = useState("Commande teste paydynya");
   const [isLoading, setIsLoading] = useState(false);
+  const [setup, setSetup] = useState(null);
+  const [store, setStore] = useState(null);
+  const [invoice, setInvoice] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(cart);
-  }, [cart]);
+    const paydunyaSetup = new paydunya.Setup({
+      masterKey: "3ApSagrZ-NkOP-M2GJ-tQr3-6F1TroNp8fL7",
+      privateKey: "test_private_rLI7U4b3J0SjDBJQ7cEC9OCayn9",
+      publicKey: "test_public_4FEHuOo9gsFwgPjoQv27L1deBlx",
+      token: "UWVccdmuTo5tusRDkoZQ",
+      mode: "test", // Optionnel. Utilisez cette option pour les paiements tests.
+    });
+    const store = new paydunya.Store({
+      name: "Orbit city",
+      email: "moustaphakhouma964@gmail.com",
+      phone: "784537547",
+      address: "Dakar",
+      city: "dakar",
+      country: "senegal",
+      zipCode: "code postal de votre magasin",
+      logoURL: "https://orbitcitydev.com/logo.png",
+    });
 
-  const handleValidePanier = async (e) => {
+    setSetup(paydunyaSetup);
+    console.log(setup);
+    console.log(store);
+    const invoice = new paydunya.CheckoutInvoice(setup, store);
+    setInvoice(invoice);
+    invoice.addItem("Article 1", 1, 1000, 1000);
+    invoice.addItem("Article 2", 2, 500, 1000);
+    invoice.totalAmount = 2000;
+    console.log(invoice);
+  }, []);
+
+  const createInvoice = () => {
+    try {
+      const response = invoice.create();
+      console.log(response);
+      alert(response);
+      // window.location.href = invoice.url;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleValidePanier = async (event) => {
+    event.preventDefault();
+
+    try {
+      const invoice = new paydunya.Invoice({
+        amount: amount,
+        description: description,
+        store: {
+          name: "payment duynya",
+        },
+      });
+
+      const response = await setup.createInvoice(invoice);
+
+      if (response.response_code === "00") {
+        console.log("payment effectif" + response);
+      } else {
+        // Gérez les erreurs ici
+        console.error("Error creating invoice:", response);
+      }
+    } catch (error) {
+      console.error("Error creating invoice:", error);
+    }
+  };
+
+  const handleValidePaniere = async (e) => {
     e.preventDefault();
     setShowPaymentModal(true);
     console.log("creation dela commande sur le odoo ");
@@ -145,7 +214,7 @@ export default function CardPage({ cartt = true }) {
                     <Button
                       type="submit"
                       className="hover:bg-red-500  w-full"
-                      onClick={(e) => handleValidePanier(e)}
+                      onClick={(e) => createInvoice(e)}
                       disabled={isLoading}
                     >
                       {isLoading && (
