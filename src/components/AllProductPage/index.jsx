@@ -201,7 +201,7 @@ export default function AllProductPage() {
                 {/* ads */}
                 <div className="w-full hidden lg:block h-[295px]">
                   <img
-                    src={`image7.jpg`}
+                    src={`/image7.jpg`}
                     alt=""
                     className="w-full h-full object-contain"
                   />
