@@ -14,7 +14,7 @@ import BestSellers from "./BestSellers";
 import BrandSection from "./BrandSection";
 import CampaignCountDown from "./CampaignCountDown";
 import ProductsAds from "./ProductsAds";
-=
+
 import ProduitService from "../../services/produitService";
 import Categorieservice from "../../services/CategorieService";
 
