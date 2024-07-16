@@ -84,11 +84,11 @@ const PaydunyaModalService = ({
         invoice.callbackURL = "https://www.orbitcitydev.com/profile";
         invoice.cancelURL = "https://www.orbitcitydev.com/profile#dashboard";
 
-        // if (type === "commande") {
-        //   invoice.returnURL = "https://www.orbitcitydev.com/payment/";
-        // } else if (type === "precommande") {
-        //   invoice.returnURL = "https://www.orbitcitydev.com/pre-payment/";
-        // }
+        if (type === "commande") {
+          invoice.returnURL = "https://www.orbitcitydev.com/payment";
+        } else if (type === "precommande") {
+          invoice.returnURL = "https://www.orbitcitydev.com/pre-payment";
+        }
 
         invoice.addChannels([
           "card",
@@ -118,7 +118,6 @@ const PaydunyaModalService = ({
               "responseTextOrderPayment",
               invoice.responseText
             );
-
             console.log("invoice =>");
             console.log(invoice);
             setStatus(invoice.status);
@@ -127,10 +126,8 @@ const PaydunyaModalService = ({
             setTokenP(invoice.token);
             console.log(invoice.responseText);
             setResponseText(invoice.responseText);
-            console.log(invoice.url); // URL de redirection de paiement de facture PayDunya
-            // Rediriger l'utilisateur vers la page de paiement
             window.open(invoice.url, "_blank");
-            // setOpenModal(false);
+            setOpenModal(false);
           })
           .catch(function (e) {
             console.log(e);

@@ -7,17 +7,21 @@ import EmptyCardError from "../EmptyCardError";
 import PageTitle from "../Helpers/PageTitle";
 import Layout from "../Partials/Layout";
 
+import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
 import commandeService from "../../services/CommandeService";
 import formatPrice from "../../utils/formatPrice";
 import formatDate from "../../utils/date-format";
+import PaiementService from "../../services/paimentService";
 export default function PaymentValidationPage({ cart = true }) {
   //   const user = useSelector((state) => state.user.user);
   //   const tokenUser = useSelector((state) => state.user.token);
   //   const uid = useSelector((state) => state.user.uid);
   //   const [isLoading, setIsLoading] = useState(false);
 
-  const idOrder = localStorage.getItem("idOrderPayment");
+  const idOrderNumber = localStorage.getItem("idOrderPayment");
+  const idOrder = parseInt(idOrderNumber, 10);
+
   const tokenOrderPayement = localStorage.getItem("tokenOrderPayment");
   const statusOrderPayment = localStorage.getItem("statusOrderPayment");
 
@@ -33,16 +37,48 @@ export default function PaymentValidationPage({ cart = true }) {
       console.log(token);
       // Vous pouvez également effectuer d'autres actions ici, comme mettre à jour l'état de la commande dans votre base de données
     }
-    if (idOrder) {
+
+    if (idOrder != null) {
       const fetchModels = async () => {
         try {
           const data = await commandeService.getCommandeById(idOrder);
           setCommande(data);
           console.log(data);
+          console.log("order ");
         } catch (error) {
           console.error("Erreur lors de la récupération de la commande", error);
         }
       };
+      if (commande && commande.advance_payment_status == "not_paid") {
+        try {
+          const responsePaiment = PaiementService.createCommandePaiment(
+            commande.id
+          );
+          console.log(commande);
+          console.log(responsePaiment);
+          toast.success("Commande validée avec succés", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+          window.onload;
+        } catch (error) {
+          console.error("Erreur lors du payment ", error);
+          toast.success("Commande non validée ", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+        }
+      }
       fetchModels();
     }
   }, [location, idOrder, token]);
@@ -150,7 +186,7 @@ export default function PaymentValidationPage({ cart = true }) {
                           </div>
                           <div className="product-list w-full mb-[30px]">
                             <ul className="flex flex-col space-y-5">
-                              {commande.order_line.map((produit, index) => (
+                              {commande.order_lines.map((produit, index) => (
                                 <>
                                   <li key={index}>
                                     <div className="flex justify-between items-center">
