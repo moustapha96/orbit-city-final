@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { useLocation, useParams } from "react-router-dom";
 import BreadcrumbCom from "../BreadcrumbCom";
@@ -16,7 +17,9 @@ export default function PaymentValidationPage({ cart = true }) {
   //   const uid = useSelector((state) => state.user.uid);
   //   const [isLoading, setIsLoading] = useState(false);
 
-  const { idCommande } = useParams();
+  const idOrder = localStorage.getItem("idOrderPayment");
+  const tokenOrderPayement = localStorage.getItem("tokenOrderPayment");
+  const statusOrderPayment = localStorage.getItem("statusOrderPayment");
 
   const [commande, setCommande] = useState(null);
   const location = useLocation();
@@ -30,10 +33,10 @@ export default function PaymentValidationPage({ cart = true }) {
       console.log(token);
       // Vous pouvez également effectuer d'autres actions ici, comme mettre à jour l'état de la commande dans votre base de données
     }
-    if (idCommande) {
+    if (idOrder) {
       const fetchModels = async () => {
         try {
-          const data = await commandeService.getCommandeById(idCommande);
+          const data = await commandeService.getCommandeById(idOrder);
           setCommande(data);
           console.log(data);
         } catch (error) {
@@ -42,7 +45,7 @@ export default function PaymentValidationPage({ cart = true }) {
       };
       fetchModels();
     }
-  }, [location, idCommande, token]);
+  }, [location, idOrder, token]);
   return (
     <Layout childrenClasses={cart ? "pt-0 pb-0" : ""}>
       {cart === false ? (

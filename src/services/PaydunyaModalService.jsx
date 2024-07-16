@@ -75,15 +75,11 @@ const PaydunyaModalService = ({
           "Payment de " + totalAmount + "pour la commade " + order.name;
         invoice.callbackURL = "https://www.orbitcitydev.com/profile";
         invoice.cancelURL = "https://www.orbitcitydev.com/profile#dashboard";
-        if (type == "commande") {
-          invoice.returnURL =
-            "https://www.orbitcitydev.com/payment/" + order.id;
-        } else if (type == "precommande") {
-          invoice.returnURL =
-            "https://www.orbitcitydev.com/pre-payment/" +
-            order.id +
-            "/tranche/" +
-            tranche;
+
+        if (type === "commande") {
+          invoice.returnURL = "https://www.orbitcitydev.com/payment/";
+        } else if (type === "precommande") {
+          invoice.returnURL = "https://www.orbitcitydev.com/pre-payment/";
         }
 
         invoice.addChannels([
@@ -106,6 +102,14 @@ const PaydunyaModalService = ({
               progress: undefined,
             });
             setPaymentUrl(invoice.url);
+            localStorage.setItem("idOrderPayment", order.id);
+            localStorage.setItem("tokenOrderPayment", invoice.token);
+            localStorage.setItem("statusOrderPayment", invoice.status);
+            localStorage.setItem("tranchePayement", tranche);
+            localStorage.setItem(
+              "responseTextOrderPayment",
+              invoice.responseText
+            );
 
             console.log("invoice =>");
             console.log(invoice);

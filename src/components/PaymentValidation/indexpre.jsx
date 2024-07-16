@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import BreadcrumbCom from "../BreadcrumbCom";
@@ -17,11 +18,12 @@ import { Button } from "flowbite-react";
 import { Loader2 } from "lucide-react";
 export default function PrePaymentValidationPage({ cart = true }) {
   const navigate = useNavigate();
-  //   const user = useSelector((state) => state.user.user);
-  //   const tokenUser = useSelector((state) => state.user.token);
-  //   const uid = useSelector((state) => state.user.uid);
+  const idOrder = localStorage.getItem("idOrderPayment");
+  const tokenOrderPayement = localStorage.getItem("tokenOrderPayment");
+  const statusOrderPayment = localStorage.getItem("statusOrderPayment");
+  const tranche = localStorage.getItem("tranchePayement");
+
   const [isLoading, setIsLoading] = useState(false);
-  const { idPreCommande, tranche } = useParams();
 
   const [commande, setCommande] = useState(null);
   const location = useLocation();
@@ -35,12 +37,10 @@ export default function PrePaymentValidationPage({ cart = true }) {
       setToken(paymentToken);
       console.log(token);
     }
-    if (idPreCommande) {
+    if (idOrder) {
       const fetchModels = async () => {
         try {
-          const data = await PrecommandeService.getPreCommandeById(
-            idPreCommande
-          );
+          const data = await PrecommandeService.getPreCommandeById(idOrder);
           setCommande(data);
           console.log(data);
         } catch (error) {
@@ -49,7 +49,7 @@ export default function PrePaymentValidationPage({ cart = true }) {
       };
       fetchModels();
     }
-  }, [location, idPreCommande, token]);
+  }, [location, idOrder, token]);
 
   const valide = async (e) => {
     e.preventDefault();

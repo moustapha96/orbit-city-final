@@ -77,11 +77,11 @@ const router = createBrowserRouter([
   },
 
   {
-    path: "/payment/:idCommande",
+    path: "/payment",
     element: <PaymentValidationPage />,
   },
   {
-    path: "/pre-payment/:idPreCommande/tranche/:tranche",
+    path: "/pre-payment",
     element: <PrePaymentValidationPage />,
   },
   // { path: "/pre-commandes/:id/détails", element: <PreCommandeDetailsPage /> },
