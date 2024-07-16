@@ -30,6 +30,7 @@ const PaydunyaModalService = ({
   const [paymentUrl, setPaymentUrl] = useState("");
   const [paymentResponse, setPaymentResponse] = useState(null);
   const [openModal, setOpenModal] = useState(true);
+  const [returnUtl, setReturnUrl] = useState(null);
   const [setup, setSetup] = useState(null);
   const [store, setStore] = useState(null);
 
@@ -43,6 +44,11 @@ const PaydunyaModalService = ({
     });
     setSetup(paydunyaSetup);
 
+    if (type === "commande") {
+      setReturnUrl("https://www.orbitcitydev.com/payment/");
+    } else if (type === "precommande") {
+      setReturnUrl("https://www.orbitcitydev.com/pre-payment/");
+    }
     const store = new paydunya.Store({
       name: "CCBM SHOP",
       email: "ccbm-shop@ccbm.sn",
@@ -51,6 +57,8 @@ const PaydunyaModalService = ({
       logoURL: "https://orbitcitydev.com/logo.png",
       websiteURL: "https://orbitcitydev.com",
       callbackURL: "https://www.orbitcitydev.com/profile",
+      // cancelURL: "https://www.orbitcitydev.com/profile#dashboard",
+      // returnURL: returnUtl,
     });
     setStore(store);
   }, []);
@@ -76,11 +84,11 @@ const PaydunyaModalService = ({
         invoice.callbackURL = "https://www.orbitcitydev.com/profile";
         invoice.cancelURL = "https://www.orbitcitydev.com/profile#dashboard";
 
-        if (type === "commande") {
-          invoice.returnURL = "https://www.orbitcitydev.com/payment/";
-        } else if (type === "precommande") {
-          invoice.returnURL = "https://www.orbitcitydev.com/pre-payment/";
-        }
+        // if (type === "commande") {
+        //   invoice.returnURL = "https://www.orbitcitydev.com/payment/";
+        // } else if (type === "precommande") {
+        //   invoice.returnURL = "https://www.orbitcitydev.com/pre-payment/";
+        // }
 
         invoice.addChannels([
           "card",
