@@ -12,12 +12,15 @@ import { toast } from "react-toastify";
 import { CartContext } from "../../contexts/CartContext ";
 import { Button } from "flowbite-react";
 import { Loader2 } from "lucide-react";
+import PaydunyaModalService from "../../services/PaydunyaModalService";
 export default function PreCartValidationPage() {
   const { preorder, preorderState, clearPreorder, setPreorderState } =
     useContext(CartContext);
   console.log(preorderState);
   const navigate = useNavigate();
   const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [tranche, setTranche] = useState(null);
+  const [montant, setMontant] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const handlePay = async (paymentData) => {
     toast.success("Payment Valider avec succés", {
@@ -31,44 +34,46 @@ export default function PreCartValidationPage() {
     });
     console.log("Payment data: ", paymentData);
     setIsLoading(true);
-    try {
-      const responsePaiment = await PaiementService.createPrecommandePaiment(
-        preorderState.id
-      );
-      console.log(preorderState);
-      console.log(responsePaiment);
-      toast.success(" Pré Commande validé avec succés", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-      clearPreorder();
-      setPreorderState(null);
-      navigate("/profile#preorder");
-      setShowPaymentModal(false);
-    } catch (error) {
-      toast.success(" Pré Commande non ", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-      console.error("Erreur lors de la creation de precommande", error);
-    }
+    // try {
+    //   const responsePaiment = await PaiementService.createPrecommandePaiment(
+    //     preorderState.id
+    //   );
+    //   console.log(preorderState);
+    //   console.log(responsePaiment);
+    //   toast.success(" Pré Commande validé avec succés", {
+    //     position: "top-right",
+    //     autoClose: 5000,
+    //     hideProgressBar: false,
+    //     closeOnClick: true,
+    //     pauseOnHover: true,
+    //     draggable: true,
+    //     progress: undefined,
+    //   });
+    //   clearPreorder();
+    //   setPreorderState(null);
+    //   navigate("/profile#preorder");
+    //   setShowPaymentModal(false);
+    // } catch (error) {
+    //   toast.success("Pré Commande non validé", {
+    //     position: "top-right",
+    //     autoClose: 5000,
+    //     hideProgressBar: false,
+    //     closeOnClick: true,
+    //     pauseOnHover: true,
+    //     draggable: true,
+    //     progress: undefined,
+    //   });
+    //   console.error("Erreur lors de la creation de precommande", error);
+    // }
     setIsLoading(false);
   };
 
   console.log(preorder);
   console.log(preorderState);
-  const validerPaiment = async (e) => {
+  const validerPaiment = async (e, tranche, montant) => {
     e.preventDefault();
+    setTranche(tranche);
+    setMontant(montant);
     console.log(preorder);
     setShowPaymentModal(true);
   };
@@ -295,32 +300,17 @@ export default function PreCartValidationPage() {
                     {preorderState.advance_payment_status == "not_paid" ||
                     preorderState.advance_payment_status == "partial" ? (
                       <div>
-                        <div className="shipping mt-[30px]">
-                          <ul className="flex flex-col space-y-1">
-                            <li>
-                              <div className="flex space-x-2.5 items-center mb-5">
-                                <div className="input-radio">
-                                  <input
-                                    type="radio"
-                                    name="price"
-                                    className="accent-pink-500"
-                                    id="bank"
-                                  />
-                                </div>
-                                <label
-                                  htmlFor="bank"
-                                  className="text-[18px] text-normal text-qblack"
-                                >
-                                  Credit/Debit Cards or Paypal
-                                </label>
-                              </div>
-                            </li>
-                          </ul>
-                        </div>
                         <div className="w-full h-[50px] black-btn flex justify-center items-center">
                           {!preorderState.first_payment_state && (
                             <Button
                               disabled={isLoading}
+                              onClick={(e) =>
+                                validerPaiment(
+                                  e,
+                                  1,
+                                  preorderState.first_payment_amount
+                                )
+                              }
                               className="rounded-lg px-5 py-2.5 font-medium w-full hover:bg-red-500 hover:text-white text-xl"
                             >
                               {" "}
@@ -334,6 +324,13 @@ export default function PreCartValidationPage() {
                             !preorderState.second_payment_state && (
                               <Button
                                 disabled={isLoading}
+                                onClick={(e) =>
+                                  validerPaiment(
+                                    e,
+                                    2,
+                                    preorderState.second_payment_amount
+                                  )
+                                }
                                 className="rounded-lg px-5 py-2.5 font-medium w-full hover:bg-red-500 hover:text-white text-xl"
                               >
                                 {isLoading && (
@@ -348,6 +345,13 @@ export default function PreCartValidationPage() {
                               <>
                                 <Button
                                   disabled={isLoading}
+                                  onClick={(e) =>
+                                    validerPaiment(
+                                      e,
+                                      3,
+                                      preorderState.third_payment_amount
+                                    )
+                                  }
                                   className="rounded-lg px-5 py-2.5 font-medium w-full hover:bg-red-500 hover:text-white text-xl"
                                 >
                                   {isLoading && (
@@ -358,6 +362,18 @@ export default function PreCartValidationPage() {
                               </>
                             )}
                         </div>
+                        {showPaymentModal && (
+                          <>
+                            <PaydunyaModalService
+                              handlePay={handlePay}
+                              totalAmount={montant}
+                              onClose={() => setShowPaymentModal(false)}
+                              order={preorderState}
+                              type={"precommande"}
+                              tranche={tranche}
+                            />
+                          </>
+                        )}
                       </div>
                     ) : (
                       <div className="w-full h-[50px] flex justify-center items-center">

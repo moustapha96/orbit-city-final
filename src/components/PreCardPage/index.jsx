@@ -1,7 +1,8 @@
+/* eslint-disable react/prop-types */
 import { Link, useNavigate } from "react-router-dom";
 import BreadcrumbCom from "../BreadcrumbCom";
 import EmptyCardError from "../EmptyCardError";
-import InputCom from "../Helpers/InputCom";
+
 import PageTitle from "../Helpers/PageTitle";
 import Layout from "../Partials/Layout";
 import ProductsTable from "./ProductsTable";
@@ -44,7 +45,7 @@ export default function PreCardPage({ cart = true }) {
     try {
       const response = await PrecommandeService.createPreCommande(modelData);
       console.log(response);
-      toast.success("Pré Commande validé avec succés", {
+      toast.success("Pré Commande enregistrée avec succés", {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -53,13 +54,13 @@ export default function PreCardPage({ cart = true }) {
         draggable: true,
         progress: undefined,
       });
-      navigate(`/validation-precommande`);
+      navigate(`/pre-commandes/${response.id}/détails`);
       console.log(response);
       setPreOrderState(response);
       clearPreorder();
       console.log(preorderState);
     } catch (error) {
-      toast.error("Pré Commande non validé " + error, {
+      toast.error("Pré Commande non enregistrée " + error, {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,

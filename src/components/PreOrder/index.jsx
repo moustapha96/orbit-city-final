@@ -12,6 +12,7 @@ import PrecommandeService from "../../services/precommandeService";
 import { Button } from "flowbite-react";
 import { Loader2 } from "lucide-react";
 import { toast } from "react-toastify";
+import PaydunyaModalService from "../../services/PaydunyaModalService";
 export default function PreOrderPage() {
   // const { state } = useLocation();
   const { id } = useParams();
@@ -19,7 +20,8 @@ export default function PreOrderPage() {
   const [precommande, setPrecommande] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [numpayment, setNumPayment] = useState(0);
-  const [pricepayment, setPricePayment] = useState(0);
+  const [pricepayment, setPricePayment] = useState(null);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
 
   console.log(id);
   useEffect(() => {
@@ -27,6 +29,7 @@ export default function PreOrderPage() {
       try {
         const data = await PrecommandeService.getPreCommandeById(id);
         setPrecommande(data);
+        console.log("page details precommande");
         console.log(data);
       } catch (error) {
         console.error("Erreur lors de la récupération des modèles", error);
@@ -38,47 +41,15 @@ export default function PreOrderPage() {
   const validerPaiment = async (e, idpayment, montant) => {
     e.preventDefault();
     setIsLoading(true);
-    // setNumPayment(idpayment);
-    // setPricePayment(montant);
-    // console.log(precommande);
-    // console.log("Num payment " + numpayment);
-    // console.log("id payment" + idpayment);
-    // if (montant && numpayment) {
-    //   handlePay();
-    // }
-    // setIsLoading(false);
-
-    try {
-      const responsePaiment =
-        await PaiementService.createPrecommandePaimentState(
-          precommande.id,
-          idpayment,
-          montant
-        );
-      console.log(precommande);
-      console.log(responsePaiment);
-      toast.success(" Pré Commande validé avec succés", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-      navigate(`/pre-commandes/${precommande.id}/détails`);
-    } catch (error) {
-      console.error("Erreur lors de la creation de precommande", error);
-      toast.error(" Pré Commande non éffectif", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+    setNumPayment(idpayment);
+    console.log(precommande);
+    console.log("Num payment " + numpayment);
+    console.log("id payment" + idpayment);
+    setPricePayment(montant);
+    if (idpayment != null && montant != null) {
+      setShowPaymentModal(true);
     }
+
     setIsLoading(false);
   };
   const handlePay = async () => {
@@ -141,7 +112,7 @@ export default function PreOrderPage() {
                     <a href="#">
                       <div className="w-full h-full bg-[#F6F6F6] text-qblack flex justify-center items-center">
                         <span className="text-[15px] font-medium">
-                          N°Commande <span>{precommande.name}</span>
+                          N°Pré Commande <span>{precommande.name}</span>
                         </span>
                       </div>
                     </a>
@@ -340,28 +311,6 @@ export default function PreOrderPage() {
                     {precommande.advance_payment_status == "not_paid" ||
                     precommande.advance_payment_status == "partial" ? (
                       <div>
-                        <div className="shipping mt-[30px]">
-                          <ul className="flex flex-col space-y-1">
-                            <li>
-                              <div className="flex space-x-2.5 items-center mb-5">
-                                <div className="input-radio">
-                                  <input
-                                    type="radio"
-                                    name="price"
-                                    className="accent-pink-500"
-                                    id="bank"
-                                  />
-                                </div>
-                                <label
-                                  htmlFor="bank"
-                                  className="text-[18px] text-normal text-qblack"
-                                >
-                                  Credit/Debit Cards or Paypal
-                                </label>
-                              </div>
-                            </li>
-                          </ul>
-                        </div>
                         <div className="w-full h-[50px] black-btn flex justify-center items-center">
                           {!precommande.first_payment_state && (
                             <Button
@@ -432,6 +381,16 @@ export default function PreOrderPage() {
                                 </Button>
                               </>
                             )}
+                          <>
+                            <PaydunyaModalService
+                              handlePay={handlePay}
+                              totalAmount={pricepayment}
+                              onClose={() => setShowPaymentModal(false)}
+                              order={precommande}
+                              type={"precommande"}
+                              tranche={numpayment}
+                            />
+                          </>
                         </div>
                       </div>
                     ) : (

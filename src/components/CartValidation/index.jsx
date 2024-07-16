@@ -11,7 +11,8 @@ import { toast } from "react-toastify";
 import { CartContext } from "../../contexts/CartContext ";
 import { Button } from "flowbite-react";
 import { Loader2 } from "lucide-react";
-import PayTechPaymentForm from "../../services/paytech_service";
+
+import PaydunyaModalService from "../../services/PaydunyaModalService";
 
 export default function CartValidationPage() {
   const { orderState } = useContext(CartContext);
@@ -19,7 +20,6 @@ export default function CartValidationPage() {
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   console.log(orderState);
 
-  console.log(orderState);
   // const validerPaiment = async (e) => {
   //   e.preventDefault();
   //   console.log(orderState);
@@ -267,12 +267,21 @@ export default function CartValidationPage() {
                             </Button>
                           )}
                           {showPaymentModal && (
-                            <PayTechPaymentForm
-                              handlePay={handlePay}
-                              totalAmount={orderState.amount_total}
-                              onClose={() => setShowPaymentModal(false)}
-                              order={orderState}
-                            />
+                            <>
+                              {/* <PayTechPaymentForm
+                                handlePay={handlePay}
+                                totalAmount={orderState.amount_total}
+                                onClose={() => setShowPaymentModal(false)}
+                                order={orderState}
+                              /> */}
+                              <PaydunyaModalService
+                                handlePay={handlePay}
+                                totalAmount={orderState.amount_total}
+                                onClose={() => setShowPaymentModal(false)}
+                                order={orderState}
+                                type={"commande"}
+                              />
+                            </>
                           )}
                         </div>
                       </div>

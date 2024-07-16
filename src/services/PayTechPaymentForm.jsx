@@ -14,7 +14,7 @@ const PayTechPaymentForm = ({ handlePay, totalAmount, onClose, order }) => {
 
   const [amount, setAmount] = useState(totalAmount);
   const [description, setDescription] = useState(order.name);
-  const [storeName, setStoreName] = useState("Orbit city test paydunya");
+  const [storeName, setStoreName] = useState("Orbit city test paytech");
   const [paymentUrl, setPaymentUrl] = useState("");
 
   console.log("payment moddal ");

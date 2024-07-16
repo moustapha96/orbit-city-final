@@ -1,21 +1,23 @@
-import { useLocation, useNavigate, useParams } from "react-router-dom";
-import InputCom from "../Helpers/InputCom";
+import { useParams } from "react-router-dom";
+
 import PageTitle from "../Helpers/PageTitle";
 import Layout from "../Partials/Layout";
 import { useEffect, useState } from "react";
-import PaiementService from "../../services/paimentService";
+
 import commandeService from "../../services/CommandeService";
 import formatDate from "../../utils/date-format";
 import formatPrice from "../../utils/formatPrice";
 import { Button } from "flowbite-react";
 import { Loader2 } from "lucide-react";
 import { toast } from "react-toastify";
+import PaydunyaModalService from "../../services/PaydunyaModalService";
 export default function OrderPage() {
-  const { state } = useLocation();
   const { id } = useParams();
-  const navigate = useNavigate();
+
   const [commande, setCommande] = useState(null);
+
   const [isLoading, setIsLoading] = useState(false);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
 
   useEffect(() => {
     const fetchModels = async () => {
@@ -30,38 +32,24 @@ export default function OrderPage() {
   }, []);
 
   const validerPaiment = async (e) => {
+    setIsLoading(true);
     e.preventDefault();
     console.log(commande);
-    setIsLoading(true);
-    try {
-      const responsePaiment = await PaiementService.createCommandePaiment(
-        commande.id
-      );
-      console.log(commande);
-      console.log(responsePaiment);
+    setShowPaymentModal(true);
+  };
 
-      navigate("/profile#order");
-      toast.success("Commande validée avec succés", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-    } catch (error) {
-      console.error("Erreur lors du payment ", error);
-      toast.success("Commande non validée ", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-    }
+  const handlePay = async (paymentData) => {
+    console.log("Payment data: ", paymentData);
+    setIsLoading(true);
+    toast.success("Payement valider avec succés", {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
     setIsLoading(false);
   };
   return (
@@ -135,7 +123,7 @@ export default function OrderPage() {
                     </div>
                     <div className="product-list w-full mb-[30px]">
                       <ul className="flex flex-col space-y-5">
-                        {commande.order_line.map((produit, index) => (
+                        {commande.order_lines.map((produit, index) => (
                           <>
                             <li key={index}>
                               <div className="flex justify-between items-center">
@@ -217,70 +205,6 @@ export default function OrderPage() {
 
                     {commande.advance_payment_status == "not_paid" ? (
                       <div>
-                        <div className="shipping mt-[30px]">
-                          <ul className="flex flex-col space-y-1">
-                            <li className=" mb-5">
-                              <div className="flex space-x-2.5 items-center mb-4">
-                                <div className="input-radio">
-                                  <input
-                                    type="radio"
-                                    name="price"
-                                    className="accent-pink-500"
-                                    id="transfer"
-                                  />
-                                </div>
-                                <label
-                                  htmlFor="transfer"
-                                  className="text-[18px] text-normal text-qblack"
-                                >
-                                  Direct Bank Transfer
-                                </label>
-                              </div>
-                              <p className="text-qgraytwo text-[15px] ml-6">
-                                Effectuez votre paiement directement sur notre
-                                banque compte. Veuillez utiliser votre numéro de
-                                commande comme moyen de paiement référence.
-                              </p>
-                            </li>
-                            <li>
-                              <div className="flex space-x-2.5 items-center mb-5">
-                                <div className="input-radio">
-                                  <input
-                                    type="radio"
-                                    name="price"
-                                    className="accent-pink-500"
-                                    id="delivery"
-                                  />
-                                </div>
-                                <label
-                                  htmlFor="delivery"
-                                  className="text-[18px] text-normal text-qblack"
-                                >
-                                  Cash on Delivery
-                                </label>
-                              </div>
-                            </li>
-                            <li>
-                              <div className="flex space-x-2.5 items-center mb-5">
-                                <div className="input-radio">
-                                  <input
-                                    type="radio"
-                                    name="price"
-                                    className="accent-pink-500"
-                                    id="bank"
-                                  />
-                                </div>
-                                <label
-                                  htmlFor="bank"
-                                  className="text-[18px] text-normal text-qblack"
-                                >
-                                  Credit/Debit Cards or Paypal
-                                </label>
-                              </div>
-                            </li>
-                          </ul>
-                        </div>
-
                         <Button
                           type="submit"
                           onClick={validerPaiment}
@@ -301,6 +225,16 @@ export default function OrderPage() {
                           Payment effectif
                         </span>
                       </div>
+                    )}
+                    {showPaymentModal && (
+                      <>
+                        <PaydunyaModalService
+                          handlePay={handlePay}
+                          totalAmount={commande.amount_total}
+                          onClose={() => setShowPaymentModal(false)}
+                          order={commande}
+                        />
+                      </>
                     )}
                   </div>
                 </div>
