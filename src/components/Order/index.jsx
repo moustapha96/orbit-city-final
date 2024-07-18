@@ -11,6 +11,7 @@ import { Button } from "flowbite-react";
 import { Loader2 } from "lucide-react";
 import { toast } from "react-toastify";
 import PaydunyaModalService from "../../services/PaydunyaModalService";
+import PaytechModalService from "../../services/PaytechModalService";
 export default function OrderPage() {
   const { id } = useParams();
 
@@ -231,7 +232,7 @@ export default function OrderPage() {
                     )}
                     {showPaymentModal && (
                       <>
-                        <PaydunyaModalService
+                        <PaytechModalService
                           handlePay={handlePay}
                           totalAmount={commande.amount_total}
                           onClose={() => setShowPaymentModal(false)}

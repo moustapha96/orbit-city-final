@@ -49,4 +49,9 @@ export default defineConfig({
   build: {
     outDir: "../deploy-ccbm-shop/",
   },
+  resolve: {
+    alias: {
+      "@": "./src",
+    },
+  },
 });
