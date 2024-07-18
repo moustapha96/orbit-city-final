@@ -29,10 +29,13 @@ export default function OrderPage() {
       }
     };
     fetchModels();
+    if (!showPaymentModal) {
+      setIsLoading(false);
+    }
   }, []);
 
   const validerPaiment = async (e) => {
-    setIsLoading(true);
+    // setIsLoading(true);
     e.preventDefault();
     console.log(commande);
     setShowPaymentModal(true);
@@ -40,7 +43,7 @@ export default function OrderPage() {
 
   const handlePay = async (paymentData) => {
     console.log("Payment data: ", paymentData);
-    setIsLoading(true);
+    setIsLoading(false);
     toast.success("Payement valider avec succés", {
       position: "top-center",
       autoClose: 5000,

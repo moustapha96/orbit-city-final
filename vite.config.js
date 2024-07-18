@@ -46,4 +46,7 @@ const pwaConfig = {
 export default defineConfig({
   basename: "/",
   plugins: [react(), VitePWA(pwaConfig), tailwind()],
+  build: {
+    outDir: "../deploy-ccbm-shop/",
+  },
 });

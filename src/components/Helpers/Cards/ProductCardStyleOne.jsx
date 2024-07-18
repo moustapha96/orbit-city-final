@@ -123,7 +123,7 @@ export default function ProductCardStyleOne({ datas, type = 3 }) {
       </div>
 
       <div className="product-card-details px-[30px] pb-[30px] relative">
-        <Link to="/single-product">
+        <Link onClick={(e) => handleDetails(e, datas)}>
           <p className="title mb-2 text-[15px] font-600 text-qblack leading-[24px] line-clamp-2 hover:text-blue-600">
             {datas.name}
           </p>

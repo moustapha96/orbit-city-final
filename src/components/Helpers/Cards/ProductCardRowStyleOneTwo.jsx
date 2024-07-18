@@ -52,11 +52,11 @@ export default function ProductCardRowStyleOneTwo({ className, datas }) {
             <ThinLove />
           </span>
         </Link>
-        <Link>
+        {/* <Link>
           <span className="w-10 h-10 flex justify-center items-center bg-primarygray rounded">
             <Compair />
           </span>
-        </Link>
+        </Link> */}
       </div>
     </div>
   );

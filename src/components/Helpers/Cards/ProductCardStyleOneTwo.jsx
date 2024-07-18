@@ -13,9 +13,7 @@ export default function ProductCardStyleOneTwo({ datas }) {
       <div
         className="product-card-img w-full h-[322px] mt-4"
         style={{
-          background: `url(${import.meta.env.VITE_PUBLIC_URL}/images/${
-            datas.image
-          }) no-repeat center`,
+          background: `url(/images/${datas.image}) no-repeat center`,
         }}
       ></div>
       <div className="product-card-details flex justify-center h-[102px] items-center  relative">
@@ -47,21 +45,21 @@ export default function ProductCardStyleOneTwo({ datas }) {
       </div>
       {/* quick-access-btns */}
       <div className="quick-access-btns flex flex-col space-y-2 absolute group-hover:right-[50px] -right-[50px] top-20  transition-all duration-300 ease-in-out">
-        <a href="#">
+        <Link>
           <span className="w-10 h-10 flex justify-center items-center bg-[#CCECEB] rounded">
             <QuickViewIco />
           </span>
-        </a>
-        <a href="#">
+        </Link>
+        <Link>
           <span className="w-10 h-10 flex justify-center items-center bg-[#CCECEB] rounded">
             <ThinLove />
           </span>
-        </a>
-        <a href="#">
+        </Link>
+        <Link>
           <span className="w-10 h-10 flex justify-center items-center bg-[#CCECEB] rounded">
             <Compair />
           </span>
-        </a>
+        </Link>
       </div>
     </div>
   );
