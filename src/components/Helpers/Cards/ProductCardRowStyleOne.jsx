@@ -71,6 +71,7 @@ export default function ProductCardRowStyleTwo({ className, datas, type = 3 }) {
       state: { produit },
     });
   };
+
   return (
     <div
       data-aos="fade-left"
@@ -100,7 +101,7 @@ export default function ProductCardRowStyleTwo({ className, datas, type = 3 }) {
                 </span>
               ))}
             </div>
-            <Link to="/single-product">
+            <Link onClick={(e) => handleDetails(e, datas)}>
               <p className="title mb-2 sm:text-[15px] text-[13px] font-600 text-qblack leading-[24px] line-clamp-2 hover:text-blue-600">
                 {datas.name}
               </p>
@@ -116,6 +117,7 @@ export default function ProductCardRowStyleTwo({ className, datas, type = 3 }) {
             {datas.quantite_en_stock > 0 && (
               <button
                 type="button"
+                onClick={handleAddToCart}
                 className="w-[110px] h-[30px] transition-all duration-300 ease-in-out "
               >
                 <span className={type === 3 ? "blue-logo-btn" : "yellow-btn"}>
@@ -127,7 +129,11 @@ export default function ProductCardRowStyleTwo({ className, datas, type = 3 }) {
             <br />
             <br />
             {datas.quanitty_virtuelle_disponible > 0 && (
-              <button type="button" className="w-[110px] h-[30px]">
+              <button
+                type="button"
+                onClick={handleAddToPreOrder}
+                className="w-[110px] h-[30px]"
+              >
                 <span className={type === 3 ? "blue-logo-btn" : "yellow-btn"}>
                   {" "}
                   Pré commande
@@ -161,11 +167,11 @@ export default function ProductCardRowStyleTwo({ className, datas, type = 3 }) {
             />
           </span>
         </Link>
-        <Link>
+        {/* <Link>
           <span className="w-10 h-10 flex justify-center items-center bg-primarygray rounded">
             <Compair />
           </span>
-        </Link>
+        </Link> */}
       </div>
     </div>
   );

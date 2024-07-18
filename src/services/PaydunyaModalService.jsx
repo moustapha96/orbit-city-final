@@ -35,6 +35,12 @@ const PaydunyaModalService = ({
   const [store, setStore] = useState(null);
 
   useEffect(() => {
+    localStorage.setItem("idOrderPayment", null);
+    localStorage.setItem("tokenOrderPayment", null);
+    localStorage.setItem("statusOrderPayment", null);
+    localStorage.setItem("tranchePayement", null);
+    localStorage.setItem("typePayment", null);
+
     const paydunyaSetup = new paydunya.Setup({
       masterKey: "3ApSagrZ-NkOP-M2GJ-tQr3-6F1TroNp8fL7",
       privateKey: "test_private_rLI7U4b3J0SjDBJQ7cEC9OCayn9",
@@ -44,11 +50,6 @@ const PaydunyaModalService = ({
     });
     setSetup(paydunyaSetup);
 
-    if (type === "commande") {
-      setReturnUrl("https://www.orbitcitydev.com/payment/");
-    } else if (type === "precommande") {
-      setReturnUrl("https://www.orbitcitydev.com/pre-payment/");
-    }
     const store = new paydunya.Store({
       name: "CCBM SHOP",
       email: "ccbm-shop@ccbm.sn",
@@ -57,8 +58,6 @@ const PaydunyaModalService = ({
       logoURL: "https://orbitcitydev.com/logo.png",
       websiteURL: "https://orbitcitydev.com",
       callbackURL: "https://www.orbitcitydev.com/profile",
-      // cancelURL: "https://www.orbitcitydev.com/profile#dashboard",
-      // returnURL: returnUtl,
     });
     setStore(store);
   }, []);
@@ -68,6 +67,7 @@ const PaydunyaModalService = ({
     event.preventDefault();
     if (setup && store) {
       const invoice = new CheckoutInvoice(setup, store);
+      console.log(invoice);
       try {
         order.order_lines.forEach((article) => {
           invoice.addItem(
@@ -83,12 +83,12 @@ const PaydunyaModalService = ({
           "Payment de " + totalAmount + "pour la commade " + order.name;
         invoice.callbackURL = "https://www.orbitcitydev.com/profile";
         invoice.cancelURL = "https://www.orbitcitydev.com/profile#dashboard";
-
-        if (type === "commande") {
-          invoice.returnURL = "https://www.orbitcitydev.com/payment";
-        } else if (type === "precommande") {
-          invoice.returnURL = "https://www.orbitcitydev.com/pre-payment";
-        }
+        invoice.returnURL = "https://www.orbitcitydev.com/payment";
+        // if (type === "commande") {
+        //   invoice.returnURL = "https://www.orbitcitydev.com/payment";
+        // } else if (type === "precommande") {
+        //   invoice.returnURL = "https://www.orbitcitydev.com/pre-payment";
+        // }
 
         invoice.addChannels([
           "card",
@@ -114,6 +114,8 @@ const PaydunyaModalService = ({
             localStorage.setItem("tokenOrderPayment", invoice.token);
             localStorage.setItem("statusOrderPayment", invoice.status);
             localStorage.setItem("tranchePayement", tranche);
+            localStorage.setItem("typePayment", type);
+
             localStorage.setItem(
               "responseTextOrderPayment",
               invoice.responseText
@@ -178,8 +180,10 @@ const PaydunyaModalService = ({
               </div>
 
               <p>
-                {" "}
-                <CircleX onClick={onClose} />{" "}
+                <CircleX
+                  onClick={onClose}
+                  className={`cursor-pointer hover:text-red-500 hover:scale-150 duration-300`}
+                />
               </p>
             </div>
 

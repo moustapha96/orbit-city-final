@@ -25,17 +25,21 @@ export default function PreOrderPage() {
 
   console.log(id);
   useEffect(() => {
+    let isMounted = true;
     const fetchModels = async () => {
       try {
         const data = await PrecommandeService.getPreCommandeById(id);
-        setPrecommande(data);
-        console.log("page details precommande");
-        console.log(data);
+        if (isMounted) {
+          setPrecommande(data);
+        }
       } catch (error) {
         console.error("Erreur lors de la récupération des modèles", error);
       }
     };
     fetchModels();
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const validerPaiment = async (e, idpayment, montant) => {
@@ -48,6 +52,7 @@ export default function PreOrderPage() {
     setPricePayment(montant);
     if (idpayment != null && montant != null) {
       setShowPaymentModal(true);
+      console.log(idpayment);
     }
 
     setIsLoading(false);
@@ -55,38 +60,38 @@ export default function PreOrderPage() {
   const handlePay = async () => {
     console.log(numpayment, pricepayment);
     setIsLoading(true);
-    try {
-      const responsePaiment =
-        await PaiementService.createPrecommandePaimentState(
-          precommande.id,
-          numpayment,
-          pricepayment
-        );
-      navigate(`/profile#preorder`);
-      console.log(precommande);
-      console.log(responsePaiment);
-      toast.success(" Pré Commande validé avec succés", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-      // navigate(`/pre-commandes/${precommande.id}/détails`);
-    } catch (error) {
-      console.error("Erreur lors de la creation de precommande", error);
-      toast.error(" Pré Commande non éffectif", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-    }
+    // try {
+    //   const responsePaiment =
+    //     await PaiementService.createPrecommandePaimentState(
+    //       precommande.id,
+    //       numpayment,
+    //       pricepayment
+    //     );
+    //   navigate(`/profile#preorder`);
+    //   console.log(precommande);
+    //   console.log(responsePaiment);
+    //   toast.success(" Pré Commande validé avec succés", {
+    //     position: "top-right",
+    //     autoClose: 5000,
+    //     hideProgressBar: false,
+    //     closeOnClick: true,
+    //     pauseOnHover: true,
+    //     draggable: true,
+    //     progress: undefined,
+    //   });
+    //   // navigate(`/pre-commandes/${precommande.id}/détails`);
+    // } catch (error) {
+    //   console.error("Erreur lors de la creation de precommande", error);
+    //   toast.error(" Pré Commande non éffectif", {
+    //     position: "top-right",
+    //     autoClose: 5000,
+    //     hideProgressBar: false,
+    //     closeOnClick: true,
+    //     pauseOnHover: true,
+    //     draggable: true,
+    //     progress: undefined,
+    //   });
+    // }
     setIsLoading(false);
   };
 
@@ -382,14 +387,16 @@ export default function PreOrderPage() {
                               </>
                             )}
                           <>
-                            <PaydunyaModalService
-                              handlePay={handlePay}
-                              totalAmount={pricepayment}
-                              onClose={() => setShowPaymentModal(false)}
-                              order={precommande}
-                              type={"precommande"}
-                              tranche={numpayment}
-                            />
+                            {numpayment && pricepayment && showPaymentModal && (
+                              <PaydunyaModalService
+                                handlePay={handlePay}
+                                totalAmount={pricepayment}
+                                onClose={() => setShowPaymentModal(false)}
+                                order={precommande}
+                                type={"precommande"}
+                                tranche={numpayment}
+                              />
+                            )}
                           </>
                         </div>
                       </div>

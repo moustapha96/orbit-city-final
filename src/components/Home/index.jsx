@@ -97,9 +97,7 @@ export default function Home() {
           className="products-ads-section mb-[60px]"
         />
         <SectionStyleOne
-          categoryBackground={`${
-            import.meta.env.VITE_PUBLIC_URL
-          }/images/section-category-2.jpg`}
+          categoryBackground={`/images/section-category-2.jpg`}
           products={productS.slice(4, productS.length)}
           brands={brands}
           categoryTitle="Electronics"

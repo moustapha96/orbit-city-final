@@ -56,7 +56,7 @@ export default function PreCardPage({ cart = true }) {
       });
       navigate(`/pre-commandes/${response.id}/détails`);
       console.log(response);
-      setPreOrderState(response);
+      // setPreOrderState(response);
       clearPreorder();
       console.log(preorderState);
     } catch (error) {
