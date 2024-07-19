@@ -89,7 +89,7 @@ const PayTechPaymentForm = ({ handlePay, totalAmount, onClose, order }) => {
           const fail_reason = response_confirm.fail_reason;
 
           toast.success(
-            "reponse confirmation => " +
+            "Réponse confirmation => " +
               response_confirm.data.invoice.description +
               " total_amount " +
               response_confirm.data.invoice.total_amount,
@@ -115,7 +115,7 @@ const PayTechPaymentForm = ({ handlePay, totalAmount, onClose, order }) => {
           });
         }
       } else {
-        toast.error("reponse =>" + response.data.response_text, {
+        toast.error("Réponse =>" + response.data.response_text, {
           position: "top-center",
           autoClose: 5000,
           hideProgressBar: false,
@@ -171,7 +171,7 @@ const PayTechPaymentForm = ({ handlePay, totalAmount, onClose, order }) => {
             <form onSubmit={handleSubmit}>
               <div className="my-8">
                 <label className="text-gray-800 text-sm">
-                  Nom de l'article :
+                  Noms des articles :
                   <select
                     multiple
                     className="border border-gray-300 rounded-lg px-4 py-2 mt-2 w-full"

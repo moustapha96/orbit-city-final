@@ -78,7 +78,7 @@ const PaydunyaModalService = ({
       invoice.description =
         "Payment de " +
         Math.ceil(totalAmount) +
-        "pour la commande " +
+        " pour la commande " +
         order.name;
       invoice.callbackURL = "https://www.orbitcitydev.com/profile";
       if (order.type_sale === "order") {
@@ -178,7 +178,7 @@ const PaydunyaModalService = ({
               <form onSubmit={handleSubmit}>
                 <div className="my-8">
                   <label className="text-gray-800 text-sm">
-                    Noms des larticle :
+                    Noms des articles :
                     <select
                       multiple
                       className="border border-gray-300 rounded-lg px-4 py-2 mt-2 w-full"
