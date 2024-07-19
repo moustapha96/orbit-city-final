@@ -55,7 +55,7 @@ export default function SingleProductPage() {
     addToCart(produit, quantity);
     console.log("Ajout au souhait :", cart);
     toast.success("Produit ajouté", {
-      position: "top-right",
+      position: "top-center",
       autoClose: 2000,
       hideProgressBar: false,
       closeOnClick: true,
@@ -70,7 +70,7 @@ export default function SingleProductPage() {
     addToWishlist(produit, quantity);
     console.log("Ajout au souhait :", wishList);
     toast.success("Produit ajouté", {
-      position: "top-right",
+      position: "top-center",
       autoClose: 2000,
       hideProgressBar: false,
       closeOnClick: true,
@@ -85,7 +85,7 @@ export default function SingleProductPage() {
     addToPreorder(produit, 1);
     console.log("Ajout au preorder :", preorder);
     toast.success("Produit ajouté", {
-      position: "top-right",
+      position: "top-center",
       autoClose: 2000,
       hideProgressBar: false,
       closeOnClick: true,

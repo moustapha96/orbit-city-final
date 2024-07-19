@@ -34,7 +34,7 @@ export default function CartValidationPage() {
   //     navigate("/profile#order");
   //     setShowPaymentModal(false);
   //     toast.success("Commande validée avec succés", {
-  //       position: "top-right",
+  //       position: "top-center",
   //       autoClose: 5000,
   //       hideProgressBar: false,
   //       closeOnClick: true,
@@ -45,7 +45,7 @@ export default function CartValidationPage() {
   //   } catch (error) {
   //     console.error("Erreur lors du payment ", error);
   //     toast.success("Commande non validée ", {
-  //       position: "top-right",
+  //       position: "top-center",
   //       autoClose: 5000,
   //       hideProgressBar: false,
   //       closeOnClick: true,
@@ -66,7 +66,7 @@ export default function CartValidationPage() {
   const handlePay = async (paymentData) => {
     console.log("Payment data: ", paymentData);
     setIsLoading(true);
-    toast.success("Payement valider avec succés", {
+    toast.success("Payment valider avec succés", {
       position: "top-center",
       autoClose: 5000,
       hideProgressBar: false,

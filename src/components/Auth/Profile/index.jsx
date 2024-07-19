@@ -8,7 +8,6 @@ import IcoCart from "./icons/IcoCart";
 import IcoDashboard from "./icons/IcoDashboard";
 import IcoLogout from "./icons/IcoLogout";
 import IcoLove from "./icons/IcoLove";
-import IcoPassword from "./icons/IcoPassword";
 
 import IcoPeople from "./icons/IcoPeople";
 
@@ -28,7 +27,8 @@ import PanierCommande from "./tabs/PanierCommande";
 import PanierPreCommande from "./tabs/PanierPreCommande";
 
 export default function Profile() {
-  const user = useSelector((state) => state.user.user);
+  // const user = useSelector((state) => state.user.user);
+  const user = JSON.parse(localStorage.getItem("user"));
   const token = useSelector((state) => state.user.token);
   const uid = useSelector((state) => state.user.uid);
   console.log(user, token, uid);

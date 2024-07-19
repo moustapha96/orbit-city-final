@@ -4,13 +4,7 @@ import { Link } from "react-router-dom";
 import Middlebar from "./Middlebar";
 import Navbar from "./Navbar";
 import TopBar from "./TopBar";
-import {
-  CircleUser,
-  Heart,
-  Menu,
-  ShoppingBag,
-  ShoppingCart,
-} from "lucide-react";
+import { Heart, Menu, ShoppingBag, ShoppingCart } from "lucide-react";
 import { CartContext } from "../../../../contexts/CartContext ";
 import { useContext } from "react";
 import { useSelector } from "react-redux";

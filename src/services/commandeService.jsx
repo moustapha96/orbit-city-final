@@ -13,7 +13,15 @@ const commandeService = {
       throw error;
     }
   },
-
+  getCommandeAny: async (id) => {
+    try {
+      const response = await axiosInstance.get(`/api/getcommande/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error("Erreur lors de la récupération des commandes", error);
+      throw error;
+    }
+  },
   getCommandeById: async (id) => {
     try {
       const response = await axiosInstance.get(`/api/commandes/${id}/details`);

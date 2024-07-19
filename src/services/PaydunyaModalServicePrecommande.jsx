@@ -9,15 +9,19 @@ import { CircleX, Loader2 } from "lucide-react";
 
 import paydunya from "paydunya";
 import CheckoutInvoice from "paydunya/lib/checkout-invoice";
-const PaydunyaModalService = ({
+const PaydunyaModalServicePrecommande = ({
   handlePay,
   totalAmount,
   onClose,
   order,
+
+  tranche,
   idOrder,
 }) => {
-  console.log("order " + idOrder);
-  console.log("motant " + totalAmount);
+  console.log(idOrder);
+  console.log(totalAmount);
+
+  console.log(tranche);
 
   const [isLoading, setIsloading] = useState(false);
   const [tokenP, setTokenP] = useState(null);
@@ -61,7 +65,7 @@ const PaydunyaModalService = ({
   const handleSubmit = (event) => {
     setIsloading(true);
     event.preventDefault();
-    console.log("passer au paiment");
+
     if (setup && store && totalAmount > 0) {
       const invoice = new CheckoutInvoice(setup, store);
 
@@ -78,14 +82,11 @@ const PaydunyaModalService = ({
       invoice.description =
         "Payment de " +
         Math.ceil(totalAmount) +
-        "pour la commande " +
+        "pour la précommade " +
         order.name;
       invoice.callbackURL = "https://www.orbitcitydev.com/profile";
-      if (order.type_sale === "order") {
-        invoice.cancelURL = `https://www.orbitcitydev.com/commandes/${idOrder}/détails`;
-      } else {
-        invoice.cancelURL = `https://www.orbitcitydev.com/pre-commandes/${idOrder}/détails`;
-      }
+      invoice.cancelURL = `https://www.orbitcitydev.com/pre-commandes/${idOrder}/détails`;
+      // invoice.returnURL = `https://www.orbitcitydev.com/payment-precommande/${idOrder}/${tranche}/${invoice.totalAmount}`;
       invoice.returnURL = `https://www.orbitcitydev.com/payment-state/${idOrder}/${invoice.totalAmount}`;
 
       invoice.addChannels([
@@ -115,6 +116,7 @@ const PaydunyaModalService = ({
           localStorage.setItem("idOrderPayment", idOrder);
           localStorage.setItem("tokenOrderPayment", invoice.token);
           localStorage.setItem("statusOrderPayment", invoice.status);
+          localStorage.setItem("tranchePayement", tranche);
           localStorage.setItem("montant", totalAmount);
 
           localStorage.setItem(
@@ -158,11 +160,10 @@ const PaydunyaModalService = ({
             <div className="flex items-start border-b border-gray-300 pb-4">
               <div className="flex-1">
                 <h3 className="text-gray-800 text-xl font-bold">
-                  Paiement{" "}
-                  {order.type_sale == "order" ? "Commande" : "Pré Commande"}{" "}
+                  Pré Commande
                 </h3>
                 <p className="text-gray-600 text-sm mt-1">
-                  Résumé détaillé de votre commande.
+                  Résumé détaillé de votre pré commande.
                 </p>
               </div>
 
@@ -178,7 +179,7 @@ const PaydunyaModalService = ({
               <form onSubmit={handleSubmit}>
                 <div className="my-8">
                   <label className="text-gray-800 text-sm">
-                    Noms des larticle :
+                    Noms de larticle :
                     <select
                       multiple
                       className="border border-gray-300 rounded-lg px-4 py-2 mt-2 w-full"
@@ -213,15 +214,8 @@ const PaydunyaModalService = ({
                       />
                     </label>
                     <br />
-                    Total à payer (en F CFA)
-                    <input
-                      type="text"
-                      value={formatPrice(Math.ceil(order.amount_total))}
-                      disabled
-                      className="border border-gray-300 rounded-lg px-4 py-2 mt-2 w-full"
-                    />
                     <br />
-                    Montant à payer (en F CFA)
+                    Total à payer (en F CFA)
                     <input
                       type="text"
                       value={formatPrice(Math.ceil(totalAmount))}
@@ -241,7 +235,7 @@ const PaydunyaModalService = ({
                         {isLoading && (
                           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                         )}
-                        Passer au paiement
+                        Effectuer le paiement
                       </Button>
                     )}
                   </div>
@@ -265,4 +259,4 @@ const PaydunyaModalService = ({
   );
 };
 
-export default PaydunyaModalService;
+export default PaydunyaModalServicePrecommande;

@@ -94,7 +94,7 @@ const PayTechPaymentForm = ({ handlePay, totalAmount, onClose, order }) => {
               " total_amount " +
               response_confirm.data.invoice.total_amount,
             {
-              position: "top-right",
+              position: "top-center",
               autoClose: 5000,
               hideProgressBar: false,
               closeOnClick: true,
@@ -105,7 +105,7 @@ const PayTechPaymentForm = ({ handlePay, totalAmount, onClose, order }) => {
           );
         } catch (error) {
           toast.error("erreur confirmation =>" + response_confirm, {
-            position: "top-right",
+            position: "top-center",
             autoClose: 5000,
             hideProgressBar: false,
             closeOnClick: true,
@@ -116,7 +116,7 @@ const PayTechPaymentForm = ({ handlePay, totalAmount, onClose, order }) => {
         }
       } else {
         toast.error("reponse =>" + response.data.response_text, {
-          position: "top-right",
+          position: "top-center",
           autoClose: 5000,
           hideProgressBar: false,
           closeOnClick: true,
@@ -125,7 +125,7 @@ const PayTechPaymentForm = ({ handlePay, totalAmount, onClose, order }) => {
           progress: undefined,
         });
         toast.error("code => " + response.data.response_code, {
-          position: "top-right",
+          position: "top-center",
           autoClose: 5000,
           hideProgressBar: false,
           closeOnClick: true,

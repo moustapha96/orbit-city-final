@@ -46,7 +46,7 @@ export default function CardPage({ cartt = true }) {
       const response = await commandeService.createCommande(modelData);
       console.log(response);
       toast.success("Commande créé avec succés", {
-        position: "top-right",
+        position: "top-center",
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -61,7 +61,7 @@ export default function CardPage({ cartt = true }) {
       console.log(orderState);
     } catch (error) {
       toast.error("Commande non validé ", {
-        position: "top-right",
+        position: "top-center",
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,

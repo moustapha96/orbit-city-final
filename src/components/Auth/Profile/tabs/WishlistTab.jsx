@@ -24,7 +24,7 @@ export default function WishlistTab({ className }) {
     e.preventDefault();
     addToCart(produit, produit.quantity);
     toast.success("Produit ajouté", {
-      position: "top-right",
+      position: "top-center",
       autoClose: 2000,
       hideProgressBar: false,
       closeOnClick: true,
@@ -39,7 +39,7 @@ export default function WishlistTab({ className }) {
     addToPreorder(produit, produit.quantity);
     console.log("Ajout au pré-commande :", preorder);
     toast.success("Produit ajouté", {
-      position: "top-right",
+      position: "top-center",
       autoClose: 1000,
       hideProgressBar: false,
       closeOnClick: true,

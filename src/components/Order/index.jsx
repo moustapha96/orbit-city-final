@@ -10,8 +10,9 @@ import formatPrice from "../../utils/formatPrice";
 import { Button } from "flowbite-react";
 import { Loader2 } from "lucide-react";
 import { toast } from "react-toastify";
+
 import PaydunyaModalService from "../../services/PaydunyaModalService";
-import PaytechModalService from "../../services/PaytechModalService";
+
 export default function OrderPage() {
   const { id } = useParams();
 
@@ -45,7 +46,7 @@ export default function OrderPage() {
   const handlePay = async (paymentData) => {
     console.log("Payment data: ", paymentData);
     setIsLoading(false);
-    toast.success("Payement valider avec succés", {
+    toast.success("Payment valider avec succés", {
       position: "top-center",
       autoClose: 5000,
       hideProgressBar: false,
@@ -127,30 +128,31 @@ export default function OrderPage() {
                     </div>
                     <div className="product-list w-full mb-[30px]">
                       <ul className="flex flex-col space-y-5">
-                        {commande.order_lines.map((produit, index) => (
-                          <>
-                            <li key={index}>
-                              <div className="flex justify-between items-center">
-                                <div>
-                                  <h4 className="text-[15px] text-qblack mb-2.5">
-                                    {produit.product_name}
-                                    <sup className="text-[13px] text-qgray ml-2 mt-2">
-                                      x {produit.product_uom_qty}
-                                    </sup>
-                                  </h4>
-                                  <p className="text-[13px] text-qgray">
-                                    {produit.description}
-                                  </p>
+                        {commande &&
+                          commande.order_lines.map((produit, index) => (
+                            <>
+                              <li key={index}>
+                                <div className="flex justify-between items-center">
+                                  <div>
+                                    <h4 className="text-[15px] text-qblack mb-2.5">
+                                      {produit.product_name}
+                                      <sup className="text-[13px] text-qgray ml-2 mt-2">
+                                        x {produit.product_uom_qty}
+                                      </sup>
+                                    </h4>
+                                    <p className="text-[13px] text-qgray">
+                                      {produit.description}
+                                    </p>
+                                  </div>
+                                  <div>
+                                    <span className="text-[15px] text-qblack font-medium">
+                                      {formatPrice(produit.price_total)}
+                                    </span>
+                                  </div>
                                 </div>
-                                <div>
-                                  <span className="text-[15px] text-qblack font-medium">
-                                    {formatPrice(produit.price_total)}
-                                  </span>
-                                </div>
-                              </div>
-                            </li>
-                          </>
-                        ))}
+                              </li>
+                            </>
+                          ))}
                       </ul>
                     </div>
                     <div className="w-full h-[1px] bg-[#EDEDED]"></div>
@@ -230,13 +232,21 @@ export default function OrderPage() {
                         </span>
                       </div>
                     )}
-                    {showPaymentModal && (
+                    {showPaymentModal && commande && (
                       <>
-                        <PaytechModalService
+                        {/* <PaydunyaModalServiceCommande
                           handlePay={handlePay}
                           totalAmount={commande.amount_total}
                           onClose={() => setShowPaymentModal(false)}
                           order={commande}
+                          idOrder={commande.id}
+                        /> */}
+                        <PaydunyaModalService
+                          handlePay={handlePay}
+                          totalAmount={commande.amount_total}
+                          onClose={() => setShowPaymentModal(false)}
+                          order={commande}
+                          idOrder={commande.id}
                         />
                       </>
                     )}

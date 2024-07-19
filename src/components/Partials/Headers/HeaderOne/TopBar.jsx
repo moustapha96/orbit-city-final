@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
-import Arrow from "../../../Helpers/icons/Arrow";
-import Selectbox from "../../../Helpers/Selectbox";
+
 import { useSelector } from "react-redux";
 
 export default function TopBar({ className }) {
@@ -38,19 +37,34 @@ export default function TopBar({ className }) {
                   )}
                 </li>
                 <li>
+                  <Link to="/">
+                    <span className="text-xs leading-6 text-qblack font-500">
+                      CCBM SHOP
+                    </span>
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/tracking-order">
+                    <span className="text-xs leading-6 text-qblack font-500">
+                      Contact : 33 800 00 00
+                    </span>
+                  </Link>
+                </li>
+
+                {/* <li>
                   <Link to="/tracking-order">
                     <span className="text-xs leading-6 text-qblack font-500">
                       Track Order
                     </span>
                   </Link>
-                </li>
-                <li>
+                </li> */}
+                {/* <li>
                   <Link to="/faq">
                     <span className="text-xs leading-6 text-qblack font-500">
                       Support
                     </span>
                   </Link>
-                </li>
+                </li> */}
               </ul>
             </div>
             {/* <div className="topbar-dropdowns sm:block hidden">

@@ -13,6 +13,17 @@ const PaiementService = {
       throw error;
     }
   },
+  createPrecommandePaimentMontant: async (idOrder, montant) => {
+    try {
+      const response = await axiosInstance.get(
+        `/api/precommande/${idOrder}/payment/${montant}`
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Erreur lors du paiement", error);
+      throw error;
+    }
+  },
   createPrecommandePaimentState: async (idOrder, rang, montant) => {
     try {
       const response = await axiosInstance.get(

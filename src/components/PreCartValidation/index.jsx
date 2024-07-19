@@ -24,7 +24,7 @@ export default function PreCartValidationPage() {
   const [isLoading, setIsLoading] = useState(false);
   const handlePay = async (paymentData) => {
     toast.success("Payment Valider avec succés", {
-      position: "top-right",
+      position: "top-center",
       autoClose: 5000,
       hideProgressBar: false,
       closeOnClick: true,
@@ -41,7 +41,7 @@ export default function PreCartValidationPage() {
     //   console.log(preorderState);
     //   console.log(responsePaiment);
     //   toast.success(" Pré Commande validé avec succés", {
-    //     position: "top-right",
+    //     position: "top-center",
     //     autoClose: 5000,
     //     hideProgressBar: false,
     //     closeOnClick: true,
@@ -55,7 +55,7 @@ export default function PreCartValidationPage() {
     //   setShowPaymentModal(false);
     // } catch (error) {
     //   toast.success("Pré Commande non validé", {
-    //     position: "top-right",
+    //     position: "top-center",
     //     autoClose: 5000,
     //     hideProgressBar: false,
     //     closeOnClick: true,

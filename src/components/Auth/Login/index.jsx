@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 
@@ -66,7 +67,7 @@ export default function Login() {
           } = response;
 
           toast.success("Connexion réussie !", {
-            position: "top-right",
+            position: "top-center",
             autoClose: 5000,
             hideProgressBar: false,
             closeOnClick: true,
@@ -90,6 +91,7 @@ export default function Login() {
           localStorage.setItem("user_context", JSON.stringify(user_context));
           localStorage.setItem("user", JSON.stringify(user_info));
           localStorage.setItem("partner_id", user_info.partner_id);
+
           navigate("/all-products");
         }
       } catch (error) {
@@ -108,7 +110,7 @@ export default function Login() {
       toast.error(
         "Connexion Echoué , Email ou Mot de passe incorrecte ou erreur serveur !",
         {
-          position: "top-right",
+          position: "top-center",
           autoClose: 5000,
           hideProgressBar: false,
           closeOnClick: true,
@@ -195,7 +197,7 @@ export default function Login() {
                     </div>
                     <div className="forgot-password-area flex justify-between items-center mb-7">
                       <div className="remember-checkbox flex items-center space-x-2.5">
-                        <button
+                        {/* <button
                           onClick={rememberMe}
                           type="button"
                           className="w-5 h-5 text-qblack flex justify-center items-center border border-light-gray"
@@ -214,13 +216,13 @@ export default function Login() {
                               />
                             </svg>
                           )}
-                        </button>
-                        <span
+                        </button> */}
+                        {/* <span
                           onClick={rememberMe}
                           className="text-base text-black"
                         >
                           Remember Me
-                        </span>
+                        </span> */}
                       </div>
                       <Link
                         to="/forgot-password"
@@ -244,7 +246,7 @@ hover:bg-red-500  bg-purple items-center"
                           Se connecter
                         </Button>
                       </div>
-                      <a
+                      {/* <a
                         href="#"
                         className="w-full border border-qgray-border h-[50px] flex space-x-3  justify-center bg-[#FAFAFA] items-center"
                       >
@@ -296,7 +298,7 @@ hover:bg-red-500  bg-purple items-center"
                         <span className="text-[18px] text-qgraytwo font-normal">
                           Sign In with Google
                         </span>
-                      </a>
+                      </a> */}
                     </div>
                     <div className="signup-area flex justify-center">
                       <p className="text-base text-qgraytwo font-normal">

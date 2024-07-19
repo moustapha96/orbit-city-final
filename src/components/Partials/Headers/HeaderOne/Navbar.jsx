@@ -1,12 +1,11 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Arrow from "../../../Helpers/icons/Arrow";
 import Categorieservice from "../../../../services/CategorieService";
 import { Asterisk, Menu, MoveRight } from "lucide-react";
 
 export default function Navbar({ className, type = 3 }) {
-  const navigate = useNavigate();
   const [categoryToggle, setToggle] = useState(false);
   const [elementsSize, setSize] = useState("0px");
   const [categories, setCategories] = useState([]);
@@ -56,7 +55,7 @@ export default function Navbar({ className, type = 3 }) {
                       <Menu></Menu>
                     </span>
                     <span className="text-sm font-600 text-qblacktext">
-                      Tout Catégories
+                      Nos Catégories
                     </span>
                   </div>
                   <div>
@@ -238,7 +237,7 @@ export default function Navbar({ className, type = 3 }) {
                       </span>
                     </Link>
                   </li>
-                  <li>
+                  {/* <li>
                     <Link to="/blogs">
                       <span
                         className={`flex items-center text-sm font-600 cursor-pointer ${
@@ -248,7 +247,7 @@ export default function Navbar({ className, type = 3 }) {
                         <span>Blog</span>
                       </span>
                     </Link>
-                  </li>
+                  </li> */}
                   <li>
                     <Link to="/contact">
                       <span

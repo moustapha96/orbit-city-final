@@ -23,7 +23,7 @@ export default function ProductCardStyleOne({ datas, type = 3 }) {
     addToCart(datas, 1);
     console.log("Ajout au souhait :", cart);
     toast.success("Produit ajouté", {
-      position: "top-right",
+      position: "top-center",
       autoClose: 2000,
       hideProgressBar: false,
       closeOnClick: true,
@@ -38,7 +38,7 @@ export default function ProductCardStyleOne({ datas, type = 3 }) {
     addToWishlist(datas, 1);
     console.log(wishlist);
     toast.success("Produit ajouté", {
-      position: "top-right",
+      position: "top-center",
       autoClose: 2000,
       hideProgressBar: false,
       closeOnClick: true,
@@ -53,7 +53,7 @@ export default function ProductCardStyleOne({ datas, type = 3 }) {
     addToPreorder(datas, 1);
     console.log("Ajout au preorder :", preorder);
     toast.success("Produit ajouté", {
-      position: "top-right",
+      position: "top-center",
       autoClose: 2000,
       hideProgressBar: false,
       closeOnClick: true,

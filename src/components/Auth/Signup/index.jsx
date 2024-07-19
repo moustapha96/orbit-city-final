@@ -76,7 +76,7 @@ export default function Signup() {
 
       if (response) {
         toast.success("Création compte réussie !", {
-          position: "top-right",
+          position: "top-center",
           autoClose: 5000,
           hideProgressBar: false,
           closeOnClick: true,
@@ -102,7 +102,7 @@ export default function Signup() {
     } else {
       console.log("Formulaire invalide!");
       toast.error("Création compte échouée , formulaire invalide", {
-        position: "top-right",
+        position: "top-center",
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,

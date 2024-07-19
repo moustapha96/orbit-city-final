@@ -26,7 +26,7 @@ export default function ProductCardRowStyleTwo({ className, datas, type = 3 }) {
     addToCart(datas, 1);
     console.log("Ajout au souhait :", cart);
     toast.success("Produit ajouté", {
-      position: "top-right",
+      position: "top-center",
       autoClose: 1000,
       hideProgressBar: false,
       closeOnClick: true,
@@ -40,7 +40,7 @@ export default function ProductCardRowStyleTwo({ className, datas, type = 3 }) {
     e.preventDefault();
     addToWishlist(datas, 1);
     toast.success("Produit ajouté", {
-      position: "top-right",
+      position: "top-center",
       autoClose: 1000,
       hideProgressBar: false,
       closeOnClick: true,
@@ -55,7 +55,7 @@ export default function ProductCardRowStyleTwo({ className, datas, type = 3 }) {
     addToPreorder(datas, 1);
     console.log("Ajout au preorder :", preorder);
     toast.success("Produit ajouté", {
-      position: "top-right",
+      position: "top-center",
       autoClose: 1000,
       hideProgressBar: false,
       closeOnClick: true,

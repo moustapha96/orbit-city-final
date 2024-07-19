@@ -25,7 +25,7 @@ export default function ProductView({ produit, className, reportHandler }) {
     addToCart(produit, 1);
     console.log("Ajout au souhait :", cart);
     toast.success("Produit ajouté", {
-      position: "top-right",
+      position: "top-center",
       autoClose: 2000,
       hideProgressBar: false,
       closeOnClick: true,
@@ -40,7 +40,7 @@ export default function ProductView({ produit, className, reportHandler }) {
     addToWishlist(produit, 1);
     console.log(wishlist);
     toast.success("Produit ajouté", {
-      position: "top-right",
+      position: "top-center",
       autoClose: 2000,
       hideProgressBar: false,
       closeOnClick: true,

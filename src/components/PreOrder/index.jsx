@@ -9,10 +9,11 @@ import PaiementService from "../../services/paimentService";
 import formatDate from "../../utils/date-format";
 import formatPrice from "../../utils/formatPrice";
 import PrecommandeService from "../../services/precommandeService";
-import { Button } from "flowbite-react";
+import { Button, Label, TextInput } from "flowbite-react";
 import { Loader2 } from "lucide-react";
 import { toast } from "react-toastify";
 import PaydunyaModalService from "../../services/PaydunyaModalService";
+import PaydunyaModalServicePrecommande from "../../services/PaydunyaModalServicePrecommande";
 export default function PreOrderPage() {
   // const { state } = useLocation();
   const { id } = useParams();
@@ -22,7 +23,7 @@ export default function PreOrderPage() {
   const [numpayment, setNumPayment] = useState(0);
   const [pricepayment, setPricePayment] = useState(null);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
-
+  const [montantAPayer, setMontantAPayer] = useState(0);
   console.log(id);
   useEffect(() => {
     let isMounted = true;
@@ -31,6 +32,8 @@ export default function PreOrderPage() {
         const data = await PrecommandeService.getPreCommandeById(id);
         if (isMounted) {
           setPrecommande(data);
+          console.log("Precommande");
+          console.log(data);
         }
       } catch (error) {
         console.error("Erreur lors de la récupération des modèles", error);
@@ -42,6 +45,24 @@ export default function PreOrderPage() {
     };
   }, []);
 
+  const validerPaimentMontant = async (e, montantAPayer) => {
+    e.preventDefault();
+    if (montantAPayer < 1000) {
+      toast.warning("Le Montant doit être strictement supérieur à 1000 F CFA", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    } else {
+      setShowPaymentModal(true);
+      console.log("show modal");
+    }
+    console.log(montantAPayer, precommande.id);
+  };
   const validerPaiment = async (e, idpayment, montant) => {
     e.preventDefault();
     setIsLoading(true);
@@ -54,45 +75,11 @@ export default function PreOrderPage() {
       setShowPaymentModal(true);
       console.log(idpayment);
     }
-
     setIsLoading(false);
   };
+
   const handlePay = async () => {
     console.log(numpayment, pricepayment);
-    setIsLoading(true);
-    // try {
-    //   const responsePaiment =
-    //     await PaiementService.createPrecommandePaimentState(
-    //       precommande.id,
-    //       numpayment,
-    //       pricepayment
-    //     );
-    //   navigate(`/profile#preorder`);
-    //   console.log(precommande);
-    //   console.log(responsePaiment);
-    //   toast.success(" Pré Commande validé avec succés", {
-    //     position: "top-right",
-    //     autoClose: 5000,
-    //     hideProgressBar: false,
-    //     closeOnClick: true,
-    //     pauseOnHover: true,
-    //     draggable: true,
-    //     progress: undefined,
-    //   });
-    //   // navigate(`/pre-commandes/${precommande.id}/détails`);
-    // } catch (error) {
-    //   console.error("Erreur lors de la creation de precommande", error);
-    //   toast.error(" Pré Commande non éffectif", {
-    //     position: "top-right",
-    //     autoClose: 5000,
-    //     hideProgressBar: false,
-    //     closeOnClick: true,
-    //     pauseOnHover: true,
-    //     draggable: true,
-    //     progress: undefined,
-    //   });
-    // }
-    setIsLoading(false);
   };
 
   return (
@@ -226,7 +213,7 @@ export default function PreOrderPage() {
                                 : "text-red-500"
                             }`}
                           >
-                            {precommande.first_payment_date}
+                            A payer avant le {precommande.first_payment_date}
                           </dd>
                           <dd
                             className={`text-base font-medium ${
@@ -238,7 +225,7 @@ export default function PreOrderPage() {
                             {formatPrice(precommande.first_payment_amount)}
                           </dd>
                         </dl>
-                        <dl className="flex items-center justify-between gap-4">
+                        {/* <dl className="flex items-center justify-between gap-4">
                           <dt className="text-gray-500 dark:text-gray-400">
                             Deuxieme Tranche
                           </dt>
@@ -260,8 +247,8 @@ export default function PreOrderPage() {
                           >
                             {formatPrice(precommande.second_payment_amount)}
                           </dd>
-                        </dl>
-                        <dl className="flex items-center justify-between gap-4">
+                        </dl> */}
+                        {/* <dl className="flex items-center justify-between gap-4">
                           <dt className="text-gray-500 dark:text-gray-400">
                             Troisieme Tranche
                           </dt>
@@ -283,7 +270,7 @@ export default function PreOrderPage() {
                           >
                             {formatPrice(precommande.third_payment_amount)}
                           </dd>
-                        </dl>
+                        </dl> */}
 
                         <dl className="flex items-center justify-between gap-4">
                           <dt className="text-gray-500 dark:text-gray-400">
@@ -303,111 +290,81 @@ export default function PreOrderPage() {
                           {formatPrice(precommande.amount_total)}
                         </dd>
                       </dl>
-                      <dl className="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700">
-                        <dt className="text-lg font-bold text-gray-900 dark:text-white">
-                          Total Restant
-                        </dt>
-                        <dd className="text-lg font-bold text-gray-900 dark:text-white">
-                          {formatPrice(precommande.amount_residual)}
-                        </dd>
-                      </dl>
+                      {precommande.amount_residual >= 0 && (
+                        <dl className="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700">
+                          <dt className="text-lg font-bold text-gray-900 dark:text-white">
+                            Total Restant
+                          </dt>
+                          <dd className="text-lg font-bold text-gray-900 dark:text-white">
+                            {formatPrice(precommande.amount_residual)}
+                          </dd>
+                        </dl>
+                      )}
                     </div>
 
-                    {precommande.advance_payment_status == "not_paid" ||
-                    precommande.advance_payment_status == "partial" ? (
-                      <div>
-                        <div className="w-full h-[50px] black-btn flex justify-center items-center">
-                          {!precommande.first_payment_state && (
-                            <Button
-                              type="submit"
-                              onClick={(e) =>
-                                validerPaiment(
-                                  e,
-                                  1,
-                                  precommande.first_payment_amount
-                                )
-                              }
-                              className="rounded-lg px-5 py-2.5 font-medium w-full hover:bg-red-500 hover:text-white text-xl"
-                              disabled={isLoading}
-                            >
-                              {isLoading && (
-                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                              )}
-                              Paiement de ({" "}
-                              {formatPrice(precommande.first_payment_amount)} )
-                            </Button>
-                          )}
-                          {precommande.first_payment_state &&
-                            !precommande.second_payment_state && (
-                              <Button
-                                type="submit"
-                                onClick={(e) =>
-                                  validerPaiment(
-                                    e,
-                                    2,
-                                    precommande.second_payment_amount
-                                  )
-                                }
-                                className="rounded-lg px-5 py-2.5 font-medium w-full hover:bg-red-500 hover:text-white text-xl"
-                                disabled={isLoading}
-                              >
-                                {isLoading && (
-                                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                )}
-                                Paiement de ({" "}
-                                {formatPrice(precommande.second_payment_amount)}{" "}
-                                )
-                              </Button>
-                            )}
-                          {precommande.first_payment_state &&
-                            precommande.second_payment_state &&
-                            !precommande.third_payment_state && (
-                              <>
-                                <Button
-                                  type="submit"
-                                  onClick={(e) =>
-                                    validerPaiment(
-                                      e,
-                                      3,
-                                      precommande.third_payment_amount
-                                    )
-                                  }
-                                  className="rounded-lg px-5 py-2.5 font-medium w-full hover:bg-red-500 hover:text-white text-xl"
-                                  disabled={isLoading}
-                                >
-                                  {isLoading && (
-                                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                  )}
-                                  Paiement de ({" "}
-                                  {formatPrice(
-                                    precommande.third_payment_amount
-                                  )}{" "}
-                                  )
-                                </Button>
-                              </>
-                            )}
-                          <>
-                            {numpayment && pricepayment && showPaymentModal && (
-                              <PaydunyaModalService
-                                handlePay={handlePay}
-                                totalAmount={pricepayment}
-                                onClose={() => setShowPaymentModal(false)}
-                                order={precommande}
-                                type={"precommande"}
-                                tranche={numpayment}
+                    <div>
+                      {(precommande.advance_payment_status === "not_paid" ||
+                        precommande.advance_payment_status === "partial") && (
+                        <>
+                          <div className="input-item mb-5">
+                            <div className="mb-2 inline-block">
+                              <Label
+                                htmlFor="montant"
+                                value="Montant A payer"
                               />
+                            </div>
+                            <TextInput
+                              id="montant"
+                              placeholder="1000"
+                              label="Montant*"
+                              name="montantAPayer"
+                              type="number"
+                              value={montantAPayer}
+                              max={precommande.amount_residual}
+                              min={1000}
+                              onChange={(e) => {
+                                const value = e.target.value;
+                                if (value <= precommande.amount_residual) {
+                                  setMontantAPayer(value);
+                                }
+                              }}
+                              required
+                              className="invalid:border-red-500 invalid:text-red-600 focus:invalid:border-red-500 focus:invalid:ring-red-500"
+                            />
+                          </div>
+
+                          <Button
+                            type="submit"
+                            onClick={(e) =>
+                              validerPaimentMontant(e, montantAPayer)
+                            }
+                            className="rounded-lg px-5 py-2.5 font-medium w-full hover:bg-red-500 hover:text-white text-xl"
+                            disabled={isLoading || montantAPayer < 1000}
+                          >
+                            {isLoading && (
+                              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                             )}
-                          </>
+                            Paiement de ({formatPrice(montantAPayer)} )
+                          </Button>
+                          {showPaymentModal && precommande && (
+                            <PaydunyaModalService
+                              handlePay={handlePay}
+                              totalAmount={montantAPayer}
+                              onClose={() => setShowPaymentModal(false)}
+                              order={precommande}
+                              idOrder={precommande.id}
+                            />
+                          )}
+                        </>
+                      )}
+                      {precommande.advance_payment_status === "paid" && (
+                        <div className="flex justify-center items-center mt-2">
+                          <span className="text-lg font-medium text-green-500 dark:text-white">
+                            Votre paiement est déjà réglé
+                          </span>
                         </div>
-                      </div>
-                    ) : (
-                      <div className="w-full h-[50px] flex justify-center items-center">
-                        <span className="text-green-500">
-                          {" "}
-                          Payment effectif
-                        </span>
-                      </div>
-                    )}
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>

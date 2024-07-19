@@ -93,7 +93,7 @@ const PaytechModalService = ({
       const jsonResponse = await response.json();
 
       if (jsonResponse.success === 1) {
-        toast.success("Payement validé avec succès", {
+        toast.success("Payment validé avec succès", {
           position: "top-center",
           autoClose: 5000,
           hideProgressBar: false,
@@ -113,7 +113,7 @@ const PaytechModalService = ({
         window.open(jsonResponse.redirect_url, "_blank");
         setOpenModal(false);
       } else {
-        toast.error("Payement non effectif", {
+        toast.error("Payment non effectif", {
           position: "top-center",
           autoClose: 5000,
           hideProgressBar: false,
@@ -125,7 +125,7 @@ const PaytechModalService = ({
       }
     } catch (error) {
       console.error(error);
-      toast.error("Payement non effectif " + error.message, {
+      toast.error("Payment non effectif " + error.message, {
         position: "top-center",
         autoClose: 5000,
         hideProgressBar: false,

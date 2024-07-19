@@ -1,5 +1,7 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import { useContext, useEffect, useState } from "react";
-import Compair from "../../Helpers/icons/Compair";
+
 import ThinLove from "../../Helpers/icons/ThinLove";
 import { Link } from "react-router-dom";
 import { CartContext } from "../../../contexts/CartContext ";
@@ -10,7 +12,7 @@ export default function Drawer({ className, open, action }) {
   const backgroundColor = "var(--bleu-logo)";
   const hoverBackgroundColor = "var(--bleu-claire)";
   const [tab, setTab] = useState("category");
-  const { cart, wishlist, preorder } = useContext(CartContext);
+  const { cart, wishlist } = useContext(CartContext);
   const [categories, setCategories] = useState([]);
   useEffect(() => {
     const fetchModels = async () => {
@@ -129,7 +131,7 @@ export default function Drawer({ className, open, action }) {
                 tab === "menu" ? "text-qblack" : "text-qgray "
               }`}
             >
-              Main Menu
+              Menu
             </span>
           </div>
           {tab === "category" ? (
@@ -234,7 +236,7 @@ export default function Drawer({ className, open, action }) {
                     </div>
                   </Link>
                 </li>
-                <li className="category-item">
+                {/* <li className="category-item">
                   <Link to="/Blogs">
                     <div
                       className="flex justify-between items-center px-5 h-12 bg-white transition-all duration-300 ease-in-out cursor-pointer"
@@ -255,7 +257,7 @@ export default function Drawer({ className, open, action }) {
                       </div>
                     </div>
                   </Link>
-                </li>
+                </li> */}
                 <li className="category-item">
                   <Link to="/contact">
                     <div

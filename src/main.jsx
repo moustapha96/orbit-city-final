@@ -8,6 +8,7 @@ import "react-range-slider-input/dist/style.css";
 import { registerSW } from "virtual:pwa-register";
 import { Provider } from "react-redux";
 import store from "./store";
+
 if (import.meta.env.MODE === "production") {
   registerSW();
 }

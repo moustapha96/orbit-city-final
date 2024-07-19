@@ -9,15 +9,15 @@ import { CircleX, Loader2 } from "lucide-react";
 
 import paydunya from "paydunya";
 import CheckoutInvoice from "paydunya/lib/checkout-invoice";
-const PaydunyaModalService = ({
+const PaydunyaModalServiceCommande = ({
   handlePay,
   totalAmount,
   onClose,
   order,
   idOrder,
 }) => {
-  console.log("order " + idOrder);
-  console.log("motant " + totalAmount);
+  console.log("amount " + totalAmount);
+  console.log("idorder " + idOrder);
 
   const [isLoading, setIsloading] = useState(false);
   const [tokenP, setTokenP] = useState(null);
@@ -32,114 +32,117 @@ const PaydunyaModalService = ({
   const [store, setStore] = useState(null);
 
   useEffect(() => {
-    const paydunyaSetup = new paydunya.Setup({
-      masterKey: "3ApSagrZ-NkOP-M2GJ-tQr3-6F1TroNp8fL7",
-      privateKey: "test_private_rLI7U4b3J0SjDBJQ7cEC9OCayn9",
-      publicKey: "test_public_4FEHuOo9gsFwgPjoQv27L1deBlx",
-      token: "UWVccdmuTo5tusRDkoZQ",
-      mode: "test",
-      // masterKey: "3ApSagrZ-NkOP-M2GJ-tQr3-6F1TroNp8fL7",
-      // publicKey: "live_public_YHBiR9AiLB8scwCFpcd5U2A62zU",
-      // privateKey: "live_private_vu4eNlAlyVQ15Z77gclxMiKtFkN",
-      // token: "J5rKrbWZxGitf5nXGrrh",
-      // mode: "live",
-    });
-    setSetup(paydunyaSetup);
+    const setupPaydunya = () => {
+      const paydunyaSetup = new paydunya.Setup({
+        masterKey: "3ApSagrZ-NkOP-M2GJ-tQr3-6F1TroNp8fL7",
+        privateKey: "test_private_rLI7U4b3J0SjDBJQ7cEC9OCayn9",
+        publicKey: "test_public_4FEHuOo9gsFwgPjoQv27L1deBlx",
+        token: "UWVccdmuTo5tusRDkoZQ",
+        mode: "test",
+      });
+      setSetup(paydunyaSetup);
+    };
 
-    const store = new paydunya.Store({
-      name: "CCBM SHOP",
-      email: "ccbm-shop@ccbm.sn",
-      tagline: "Votre boutique a vos portés",
-      phoneNumber: "784537547",
-      postalAddress: "Dakar",
-      logoURL: "https://orbitcitydev.com/logo.png",
-      websiteURL: "https://orbitcitydev.com",
-    });
-    setStore(store);
+    const setupStore = () => {
+      const store = new paydunya.Store({
+        name: "CCBM SHOP",
+        email: "ccbm-shop@ccbm.sn",
+        tagline: "Votre boutique a vos portés",
+        phoneNumber: "784537547",
+        postalAddress: "Dakar",
+        logoURL: "https://orbitcitydev.com/logo.png",
+        websiteURL: "https://orbitcitydev.com",
+      });
+      setStore(store);
+    };
+
+    setupPaydunya();
+    setupStore();
   }, []);
 
   const handleSubmit = (event) => {
     setIsloading(true);
     event.preventDefault();
-    console.log("passer au paiment");
-    if (setup && store && totalAmount > 0) {
-      const invoice = new CheckoutInvoice(setup, store);
 
-      order.order_lines.forEach((article) => {
-        invoice.addItem(
-          article.product_name,
-          article.product_uom_qty,
-          article.price_unit,
-          article.price_subtotal
-        );
+    if (!setup || !store || totalAmount <= 0) {
+      setIsloading(false);
+      return;
+    }
+
+    const invoice = new CheckoutInvoice(setup, store);
+
+    order.order_lines.forEach((article) => {
+      invoice.addItem(
+        article.product_name,
+        article.product_uom_qty,
+        article.price_unit,
+        article.price_subtotal
+      );
+    });
+
+    invoice.totalAmount = Math.ceil(totalAmount);
+    invoice.description = `Payment de ${Math.ceil(
+      totalAmount
+    )} pour la commande ${order.name}`;
+    invoice.callbackURL = "https://www.orbitcitydev.com/profile";
+    invoice.cancelURL = `https://www.orbitcitydev.com/commandes/${idOrder}/détails`;
+    // invoice.returnURL = `https://www.orbitcitydev.com/payment-commande/${idOrder}`;
+    invoice.returnURL = `https://www.orbitcitydev.com/payment-state/${idOrder}/${invoice.totalAmount}`;
+
+    invoice.addChannels([
+      "card",
+      "jonijoni-senegal",
+      "orange-money-senegal",
+      "wave-senegal",
+    ]);
+    console.log(invoice);
+    console.log("amount " + invoice.totalAmount);
+    console.log("desc " + invoice.description);
+    console.log("creation de la facture ");
+    invoice
+      .create()
+      .then(function () {
+        setPaymentResponse(invoice);
+        toast.success("Payment validé avec succès", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        setPaymentUrl(invoice.url);
+        localStorage.setItem("idOrderPayment", idOrder);
+        localStorage.setItem("tokenOrderPayment", invoice.token);
+        localStorage.setItem("statusOrderPayment", invoice.status);
+        localStorage.setItem("typePayment", "commande");
+
+        localStorage.setItem("responseTextOrderPayment", invoice.responseText);
+        console.log("invoice =>");
+        console.log(invoice);
+        setStatus(invoice.status);
+        console.log(invoice.status);
+        console.log(invoice.token);
+        setTokenP(invoice.token);
+        console.log(invoice.responseText);
+        setResponseText(invoice.responseText);
+        window.open(invoice.url, "_blank");
+        setOpenModal(false);
+      })
+      .catch(function (e) {
+        console.log(e);
+        toast.error("Payment non effectif " + e, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       });
 
-      invoice.totalAmount = Math.ceil(totalAmount);
-      invoice.description =
-        "Payment de " +
-        Math.ceil(totalAmount) +
-        "pour la commande " +
-        order.name;
-      invoice.callbackURL = "https://www.orbitcitydev.com/profile";
-      if (order.type_sale === "order") {
-        invoice.cancelURL = `https://www.orbitcitydev.com/commandes/${idOrder}/détails`;
-      } else {
-        invoice.cancelURL = `https://www.orbitcitydev.com/pre-commandes/${idOrder}/détails`;
-      }
-      invoice.returnURL = `https://www.orbitcitydev.com/payment-state/${idOrder}/${invoice.totalAmount}`;
-
-      invoice.addChannels([
-        "card",
-        "jonijoni-senegal",
-        "orange-money-senegal",
-        "wave-senegal",
-      ]);
-      console.log(invoice);
-      console.log("amount " + invoice.totalAmount);
-      console.log("desc " + invoice.description);
-      console.log("creation de la facture ");
-      invoice
-        .create()
-        .then(function () {
-          setPaymentResponse(invoice);
-          toast.success("Payment validé avec succès", {
-            position: "top-center",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          });
-          setPaymentUrl(invoice.url);
-          localStorage.setItem("idOrderPayment", idOrder);
-          localStorage.setItem("tokenOrderPayment", invoice.token);
-          localStorage.setItem("statusOrderPayment", invoice.status);
-          localStorage.setItem("montant", totalAmount);
-
-          localStorage.setItem(
-            "responseTextOrderPayment",
-            invoice.responseText
-          );
-          setStatus(invoice.status);
-          setTokenP(invoice.token);
-          setResponseText(invoice.responseText);
-          window.open(invoice.url, "_blank");
-          setOpenModal(false);
-        })
-        .catch(function (e) {
-          console.log(e);
-          toast.error("Payment non effectif " + e, {
-            position: "top-center",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          });
-        });
-    }
     setIsloading(false);
   };
 
@@ -157,10 +160,7 @@ const PaydunyaModalService = ({
           <div className="w-full max-w-lg bg-white shadow-lg rounded-lg p-8 relative">
             <div className="flex items-start border-b border-gray-300 pb-4">
               <div className="flex-1">
-                <h3 className="text-gray-800 text-xl font-bold">
-                  Paiement{" "}
-                  {order.type_sale == "order" ? "Commande" : "Pré Commande"}{" "}
-                </h3>
+                <h3 className="text-gray-800 text-xl font-bold">Commande</h3>
                 <p className="text-gray-600 text-sm mt-1">
                   Résumé détaillé de votre commande.
                 </p>
@@ -178,7 +178,7 @@ const PaydunyaModalService = ({
               <form onSubmit={handleSubmit}>
                 <div className="my-8">
                   <label className="text-gray-800 text-sm">
-                    Noms des larticle :
+                    Noms de larticle :
                     <select
                       multiple
                       className="border border-gray-300 rounded-lg px-4 py-2 mt-2 w-full"
@@ -213,15 +213,8 @@ const PaydunyaModalService = ({
                       />
                     </label>
                     <br />
-                    Total à payer (en F CFA)
-                    <input
-                      type="text"
-                      value={formatPrice(Math.ceil(order.amount_total))}
-                      disabled
-                      className="border border-gray-300 rounded-lg px-4 py-2 mt-2 w-full"
-                    />
                     <br />
-                    Montant à payer (en F CFA)
+                    Total à payer (en F CFA)
                     <input
                       type="text"
                       value={formatPrice(Math.ceil(totalAmount))}
@@ -241,7 +234,7 @@ const PaydunyaModalService = ({
                         {isLoading && (
                           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                         )}
-                        Passer au paiement
+                        Effectuer le paiement
                       </Button>
                     )}
                   </div>
@@ -265,4 +258,4 @@ const PaydunyaModalService = ({
   );
 };
 
-export default PaydunyaModalService;
+export default PaydunyaModalServiceCommande;

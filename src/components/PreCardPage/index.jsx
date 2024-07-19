@@ -46,7 +46,7 @@ export default function PreCardPage({ cart = true }) {
       const response = await PrecommandeService.createPreCommande(modelData);
       console.log(response);
       toast.success("Pré Commande enregistrée avec succés", {
-        position: "top-right",
+        position: "top-center",
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -61,7 +61,7 @@ export default function PreCardPage({ cart = true }) {
       console.log(preorderState);
     } catch (error) {
       toast.error("Pré Commande non enregistrée " + error, {
-        position: "top-right",
+        position: "top-center",
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,

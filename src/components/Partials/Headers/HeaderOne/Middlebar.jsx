@@ -1,20 +1,24 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { CartContext } from "../../../../contexts/CartContext ";
 import Cart from "../../../Cart";
 
-import SearchBox from "../../../Helpers/SearchBox";
 import { Link, useNavigate } from "react-router-dom";
-import { CircleUser, Heart, ShoppingBag, ShoppingCart } from "lucide-react";
+import { Heart, ShoppingBag, ShoppingCart } from "lucide-react";
 import PreCart from "../../../PreCart";
-import { UserContext } from "../../../../contexts/UserContext";
+
 import ThinPeople from "../../../Helpers/icons/ThinPeople";
-import { useSelector } from "react-redux";
 
 export default function Middlebar({ className, type = 3 }) {
-  const user = useSelector((state) => state.user.user);
+  const user = JSON.parse(localStorage.getItem("user"));
+
   const backgroundColor = type === 3 ? "var(--bleu-logo)" : "var(--qyellow)";
   const textColor = type === 3 ? "white" : "var(--qblack)";
   const { cart, wishlist, preorder } = useContext(CartContext);
+
+  useEffect(() => {
+    const userLocal = JSON.parse(localStorage.getItem("user"));
+    console.log(userLocal);
+  }, []);
 
   const navigate = useNavigate();
   const handleCart = (e) => {
@@ -47,9 +51,9 @@ export default function Middlebar({ className, type = 3 }) {
                 </Link>
               )}
             </div>
-            <div className="w-[517px] h-[44px]">
+            {/* <div className="w-[517px] h-[44px]">
               <SearchBox type={type} className="search-com" />
-            </div>
+            </div> */}
             <div className="flex space-x-6 items-center">
               <div className="favorite relative">
                 <Link to="/wishlist">
