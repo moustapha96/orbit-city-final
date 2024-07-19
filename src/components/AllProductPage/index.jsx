@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 import BreadcrumbCom from "../BreadcrumbCom";
 import ProductCardStyleOne from "../Helpers/Cards/ProductCardStyleOne";
@@ -48,6 +49,8 @@ export default function AllProductPage() {
       try {
         const data = await Categorieservice.getCategories();
         setCategories(data);
+
+        categories.push({ id: -1, name: "Tout" });
         const dataP = await ProduitService.getProduits();
         setProducts(dataP);
         setProduits(dataP);
@@ -73,17 +76,24 @@ export default function AllProductPage() {
     console.log(filteredProducts);
     setProduits(filteredProducts);
   };
+  const handleCategoryChange = (searchTerm) => {
+    const categorySelected = categories.find((c) => c.id === searchTerm);
 
-  const handleCategoryChange = (categoryId) => {
-    const categorySelected = categories.find((c) => c.id === categoryId);
+    const filteredProducts = products.filter((product) =>
+      product.categ_id.includes(categorySelected.name)
+    );
+    console.log(filteredProducts);
+    setProduits(filteredProducts);
+  };
+
+  const handleCategoryChangee = (categoryId) => {
+    // const categorySelected = categories.find((c) => c.id === categoryId);
 
     setFilter((prevState) => {
       const categoryIndex = prevState.category.indexOf(categoryId);
       if (categoryIndex === -1) {
-        // La catégorie n'est pas encore sélectionnée, on l'ajoute
         return { ...prevState, category: [...prevState.category, categoryId] };
       } else {
-        // La catégorie est déjà sélectionnée, on la retire
         return {
           ...prevState,
           category: prevState.category.filter((id) => id !== categoryId),
@@ -92,22 +102,23 @@ export default function AllProductPage() {
     });
 
     if (filters.category.length === 1) {
-      // Un seul filtre de catégorie est sélectionné, on filtre les produits en fonction de cette catégorie
+      const categoryName = categories.find(
+        (c) => c.id === filters.category[0]
+      ).name;
       const filteredProducts = products.filter(
-        (product) => product.categ_id === categorySelected.name
+        (product) => product.categ_id === categoryName
       );
       setProduits(filteredProducts);
     } else if (filters.category.length > 1) {
-      // Plusieurs filtres de catégorie sont sélectionnés, on filtre les produits en fonction de ces catégories
       const filteredProducts = products.filter((product) =>
         filters.category.includes(product.categ_id)
       );
       setProduits(filteredProducts);
     } else {
-      // Aucun filtre de catégorie n'est sélectionné, on affiche tous les produits
       setProduits(products);
     }
   };
+
   const [filters, setFilter] = useState({
     sizeS: false,
     sizeM: false,

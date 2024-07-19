@@ -78,7 +78,11 @@ export default function ProductsFilter({
                 //   </div>
                 // </li>
                 <li key={category.id}>
-                  <Link to={`/all-products/${category.name}`}>
+                  <Link
+                    id={`category-${category.id}`}
+                    name={`category-${category.id}`}
+                    onClick={() => handleCategoryChange(category.id)}
+                  >
                     <div
                       className={`flex justify-between items-center px-5 h-10 bg-white  transition-all duration-300 ease-in-out cursor-pointer text-qblack ${
                         type === 3
