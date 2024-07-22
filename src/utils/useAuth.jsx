@@ -1,35 +1,35 @@
 // Dans un fichier useAuth.js
-import { useDispatch, useSelector } from "react-redux";
-import refreshAccessToken from "../service/userService";
+import { useDispatch } from "react-redux";
+import refreshtoken from "../service/userService";
 
 import { setToken } from "../slices/userSlice";
+import { UserContext } from "../contexts/UserContext";
+import { useContext } from "react";
 
 const useAuth = () => {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user.user);
-  const accessToken = useSelector((state) => state.user.token);
-  const expiresIn = useSelector((state) => state.user.expiresIn);
+  const { user, expiresIn, token } = useContext(UserContext);
 
   const isTokenExpired = () => {
-    if (!accessToken || !expiresIn) return true;
+    if (!token || !expiresIn) return true;
 
     const currentTime = Math.floor(Date.now() / 1000);
     return currentTime >= expiresIn;
   };
 
-  const refreshAccessTokenF = async () => {
-    const newAccessToken = await refreshAccessToken();
+  const refreshtokenF = async () => {
+    const newtoken = await refreshtoken();
     console.log("fonction refresh token");
-    if (newAccessToken) {
+    if (newtoken) {
       // Mettez à jour le store Redux avec le nouveau token
-      dispatch(setToken(newAccessToken));
-      return newAccessToken;
+      dispatch(setToken(newtoken));
+      return newtoken;
     }
 
     return null;
   };
 
-  return { user, accessToken, isTokenExpired, refreshAccessTokenF };
+  return { user, token, isTokenExpired, refreshtokenF };
 };
 
 export default useAuth;

@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable no-unused-vars */
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import Layout from "../../Partials/Layout";
 import Thumbnail from "./Thumbnail";
@@ -10,21 +10,21 @@ import { toast } from "react-toastify";
 
 import userService from "../../../services/userService";
 import { Button, Label, TextInput } from "flowbite-react";
-import {
-  user,
-  token,
-  setUid,
-  setUser,
-  setToken,
-  setExpiresIn,
-  setUserContext,
-  setRefreshExpiresIn,
-  setRefresToken,
-} from "../../../features/user/userSlice";
 
 import { Loader2 } from "lucide-react";
+import { UserContext } from "../../../contexts/UserContext";
 export default function Login() {
-  const dispatch = useDispatch();
+  const {
+    user,
+    setUser,
+    setToken,
+    setUid,
+    setExpiresIn,
+    setRefreshExpiresIn,
+    setRefreshToken,
+    setUserContext,
+  } = useContext(UserContext);
+
   console.log(user);
 
   const [checked, setValue] = useState(false);
@@ -41,6 +41,84 @@ export default function Login() {
 
     return Object.values(error).every((error) => !error);
   };
+  // const handleSubmit = async (e) => {
+  //   setIsLoading(true);
+  //   e.preventDefault();
+  //   if (validateForm()) {
+  //     console.log(email, password);
+  //     try {
+  //       const response = await userService.login({
+  //         username: email,
+  //         password: password,
+  //       });
+  //       console.log(response);
+  //       if (response.error) {
+  //         console.log("erreur " + response.error);
+  //       } else {
+  //         const {
+  //           access_token,
+  //           refresh_token,
+  //           user_info,
+  //           uid,
+  //           expires_in,
+  //           user_context,
+  //           company_id,
+  //           refresh_expires_in,
+  //         } = response;
+
+  //         toast.success("Connexion réussie !", {
+  //           position: "top-center",
+  //           autoClose: 5000,
+  //           hideProgressBar: false,
+  //           closeOnClick: true,
+  //           pauseOnHover: true,
+  //           draggable: true,
+  //           progress: undefined,
+  //         });
+  //         setUid(uid);
+  //         setUser(user_info);
+  //         setToken(access_token);
+  //         setExpiresIn(expires_in);
+  //         setRefreshToken(refresh_token);
+  //         setExpiresIn(Date.now() + expires_in);
+  //         setRefreshExpiresIn(Date.now() + refresh_expires_in);
+  //         localStorage.setItem("company_id", company_id);
+  //         localStorage.setItem("user_context", JSON.stringify(user_context));
+  //         localStorage.setItem("partner_id", user_info.partner_id);
+
+  //         navigate("/all-products");
+  //       }
+  //     } catch (error) {
+  //       toast.error("Connexion Echouée , Email ou Mot de passe incorrecte!", {
+  //         position: "top-center",
+  //         autoClose: 5000,
+  //         hideProgressBar: false,
+  //         closeOnClick: true,
+  //         pauseOnHover: true,
+  //         draggable: true,
+  //         progress: undefined,
+  //       });
+  //       console.error("Erreur lors de l'obtention des jetons :", error);
+  //     }
+  //   } else {
+  //     toast.error(
+  //       "Connexion Echoué , Email ou Mot de passe incorrecte ou erreur serveur !",
+  //       {
+  //         position: "top-center",
+  //         autoClose: 5000,
+  //         hideProgressBar: false,
+  //         closeOnClick: true,
+  //         pauseOnHover: true,
+  //         draggable: true,
+  //         progress: undefined,
+  //       }
+  //     );
+  //     console.log("Formulaire invalide !");
+  //   }
+
+  //   setIsLoading(false);
+  // };
+
   const handleSubmit = async (e) => {
     setIsLoading(true);
     e.preventDefault();
@@ -52,9 +130,7 @@ export default function Login() {
           password: password,
         });
         console.log(response);
-        if (response.error) {
-          console.log("erreur " + response.error);
-        } else {
+        if (!response.error) {
           const {
             access_token,
             refresh_token,
@@ -66,6 +142,7 @@ export default function Login() {
             refresh_expires_in,
           } = response;
 
+          toast.dismiss();
           toast.success("Connexion réussie !", {
             position: "top-center",
             autoClose: 5000,
@@ -75,55 +152,63 @@ export default function Login() {
             draggable: true,
             progress: undefined,
           });
-          dispatch(setUid(uid));
-          dispatch(setUser(user_info));
-          dispatch(setToken(access_token));
-          dispatch(setExpiresIn(expires_in));
-          dispatch(setUserContext(user_context));
-          dispatch(setRefresToken(refresh_token));
-          dispatch(setRefreshExpiresIn(refresh_expires_in));
+          setUid(uid);
+          setUser(user_info);
+          setToken(access_token);
+          setExpiresIn(expires_in);
+          setRefreshToken(refresh_token);
+          setExpiresIn(Date.now() + expires_in);
+          setRefreshExpiresIn(Date.now() + refresh_expires_in);
 
+          localStorage.setItem("user", JSON.stringify(user_info));
+          localStorage.setItem("token", access_token);
           localStorage.setItem("uid", uid);
-          localStorage.setItem("accessToken", access_token);
-          localStorage.setItem("refreshToken", refresh_token);
-          localStorage.setItem("expires_in", expires_in);
+          localStorage.setItem("expires_in", Date.now() + expires_in);
+          localStorage.setItem(
+            "refresh_expires_in",
+            Date.now() + refresh_expires_in
+          );
+          localStorage.setItem("refresh_token", refresh_token);
+
           localStorage.setItem("company_id", company_id);
           localStorage.setItem("user_context", JSON.stringify(user_context));
-          localStorage.setItem("user", JSON.stringify(user_info));
           localStorage.setItem("partner_id", user_info.partner_id);
 
           navigate("/all-products");
         }
       } catch (error) {
-        toast.error("Connexion Echouée , Email ou Mot de passe incorrecte!", {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
+        toast.dismiss();
+        toast.error(
+          "Connexion Echouée , Email ou Mot de passe incorrecte ou erreur serveur!",
+          {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          }
+        );
         console.error("Erreur lors de l'obtention des jetons :", error);
       }
     } else {
-      toast.error(
-        "Connexion Echoué , Email ou Mot de passe incorrecte ou erreur serveur !",
-        {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        }
-      );
+      toast.dismiss();
+      toast.error("Connexion Echoué , Email ou Mot de passe incorrecte  !", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
       console.log("Formulaire invalide !");
     }
 
     setIsLoading(false);
   };
+
   const rememberMe = () => {
     setValue(!checked);
   };

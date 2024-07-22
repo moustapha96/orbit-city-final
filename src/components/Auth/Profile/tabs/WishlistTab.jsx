@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import React, { useContext } from "react";
 import InputQuantityCom from "../../../Helpers/InputQuantityCom";
 import { CartContext } from "../../../../contexts/CartContext ";
@@ -150,22 +152,27 @@ export default function WishlistTab({ className }) {
           </table>
         </div>
       </div>
-      <div className="w-full mt-[30px] flex sm:justify-end justify-start">
-        <div className="sm:flex sm:space-x-[30px] items-center">
-          <button type="button">
-            <div className="w-full text-sm font-semibold text-qred mb-5 sm:mb-0">
-              Supprimer la liste
-            </div>
-          </button>
-          <div className="w-[180px] h-[50px]">
-            <button type="button" className="blue-logo-btn">
-              <div className="w-full text-sm font-semibold">
-                Ajouter au panier
+      {wishlist.length > 0 && (
+        <div className="w-full mt-[30px] flex sm:justify-end justify-start">
+          <div className="sm:flex sm:space-x-[30px] items-center">
+            <button type="button">
+              <div className="w-full text-sm font-semibold text-qred mb-5 sm:mb-0">
+                Supprimer la liste
               </div>
             </button>
+            <div className="w-[180px] h-[50px]">
+              <button type="button" className="blue-logo-btn">
+                <div className="w-full text-sm font-semibold">
+                  Ajouter au panier
+                </div>
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+      )}
+      {wishlist.length == 0 && (
+        <p className="text-center mt-5 ">Votre liste de souhait est vide </p>
+      )}
     </>
   );
 }

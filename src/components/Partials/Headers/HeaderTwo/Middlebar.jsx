@@ -1,4 +1,5 @@
-import { useSelector } from "react-redux";
+/* eslint-disable react/prop-types */
+
 import Cart from "../../../Cart";
 import Compair from "../../../Helpers/icons/Compair";
 import ThinBag from "../../../Helpers/icons/ThinBag";
@@ -6,9 +7,13 @@ import ThinLove from "../../../Helpers/icons/ThinLove";
 import ThinPeople from "../../../Helpers/icons/ThinPeople";
 import SearchBox from "../../../Helpers/SearchBox";
 import { Link } from "react-router-dom";
+import { UserContext } from "../../../../contexts/UserContext";
+import { useContext } from "react";
 
 export default function Middlebar({ className }) {
-  const user = useSelector((state) => state.user.user);
+  // const { user } = useContext(UserContext);
+  const user = JSON.parse(localStorage.getItem("user"));
+  console.log(user);
   // const [toggleCart, setToggle] = useState(false);
   // const cartHandler = () => {
   //   setToggle(!toggleCart);

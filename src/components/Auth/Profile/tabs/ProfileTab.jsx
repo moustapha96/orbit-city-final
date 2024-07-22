@@ -1,13 +1,14 @@
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import InputCom from "../../../Helpers/InputCom";
 import { Label } from "flowbite-react";
 import { useSelector } from "react-redux";
 import { Pencil } from "lucide-react";
+import { UserContext } from "../../../../contexts/UserContext";
 
 export default function ProfileTab() {
   const [profileImg, setprofileImg] = useState(null);
   const profileImgInput = useRef(null);
-  const user = useSelector((state) => state.user.user);
+  const { user } = useContext(UserContext);
   console.log(user);
   const browseprofileImg = () => {
     profileImgInput.current.click();

@@ -1,17 +1,15 @@
 /* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { setToken } from "../slices/userSlice";
 import userService from "../service/userService";
+import { UserContext } from "../contexts/UserContext";
 
 const withAuth = (Component) => {
   const AuthenticatedComponent = (props) => {
     const dispatch = useDispatch();
-    const user = useSelector((state) => state.user.user);
-    const accessToken = useSelector((state) => state.user.token);
-    const expiresIn = useSelector((state) => state.user.expiresIn);
-    const token = localStorage.getItem("token");
+    const { user, token, expiresIn } = useContext(UserContext);
 
     const [timeLeft, setTimeLeft] = useState(null);
 
@@ -28,7 +26,7 @@ const withAuth = (Component) => {
     }, [expiresIn]);
 
     const isTokenExpired = () => {
-      if (!accessToken || !expiresIn) return true;
+      if (!token || !expiresIn) return true;
       const currentTime = Math.floor(Date.now() / 1000);
       return currentTime >= expiresIn;
     };

@@ -47,7 +47,7 @@ const router = createBrowserRouter([
   // { path: "/home-four", element: <HomeFour /> },
   // { path: "/home-five", element: <HomeFive /> },
   // { path: "/all-products", element: <AllProductPage /> },
-  { path: "/all-products/:name?", element: <AllProductPage /> },
+  { path: "/all-products", element: <AllProductPage /> },
   // { path: "/single-product", element: <SingleProductPage /> },
 
   { path: "/single-product/:id", element: <SingleProductPage /> },
@@ -82,7 +82,7 @@ const router = createBrowserRouter([
     element: <PaymentCommandePage />,
   },
   {
-    path: "/payment-state/:idOrder/:montant",
+    path: "/payment-state/:idOrder?/:montant?",
     element: <PaymentStatePage />,
   },
 

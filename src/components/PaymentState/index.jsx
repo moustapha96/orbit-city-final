@@ -10,7 +10,7 @@ import PageTitle from "../Helpers/PageTitle";
 import Layout from "../Partials/Layout";
 
 import { toast } from "react-toastify";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import commandeService from "../../services/CommandeService";
 import formatPrice from "../../utils/formatPrice";
 import formatDate from "../../utils/date-format";
@@ -19,17 +19,20 @@ import { Button } from "flowbite-react";
 import { Loader2 } from "lucide-react";
 
 export default function PaymentStatePage({ cart = true }) {
+  const user = JSON.parse(localStorage.getItem("user"));
+  const payment = JSON.parse(localStorage.getItem("payment"));
+
+  const [id_order, setIdOrder] = useState(payment.order.id);
+  const [montant_order, setMontantOrder] = useState(payment.totalAmount);
+
   const { idOrder, montant } = useParams();
 
+  console.log(user, payment);
   const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState(false);
-  const tokenOrderPayement = localStorage.getItem("tokenOrderPayment");
-  const statusOrderPayment = localStorage.getItem("statusOrderPayment");
-  const idOrderPayment = parseInt(localStorage.getItem("idOrderPayment"));
-  const montantPayment = localStorage.getItem("montant");
 
-  const [commande, setCommande] = useState(null);
+  const [commande, setCommande] = useState(payment.order);
   const location = useLocation();
   const [token, setToken] = useState(null);
   const [setup, setSetup] = useState(null);
@@ -54,7 +57,20 @@ export default function PaymentStatePage({ cart = true }) {
           console.error("Erreur lors de la récupération de la commande", error);
         }
       };
+      fetchModels();
+    } else {
+      console.log(id_order, montant_order);
 
+      const fetchModels = async () => {
+        try {
+          const data = await commandeService.getCommandeAny(id_order);
+          setCommande(data);
+          console.log(data);
+          console.log("order ");
+        } catch (error) {
+          console.error("Erreur lors de la récupération de la commande", error);
+        }
+      };
       fetchModels();
     }
   }, []);
@@ -98,8 +114,8 @@ export default function PaymentStatePage({ cart = true }) {
     e.preventDefault();
     try {
       const reposne = await PaiementService.createPrecommandePaimentMontant(
-        idOrder,
-        montant
+        id_order,
+        montant_order
       );
       console.log(reposne);
       setIsLoading(false);
@@ -116,7 +132,7 @@ export default function PaymentStatePage({ cart = true }) {
     } catch (error) {
       console.error("Erreur lors de la creation du paiement", error);
       setIsLoading(false);
-      navigate(`/pre-commandes/${commande.id}/détails`);
+      // navigate(`/pre-commandes/${commande.id}/détails`);
       toast.error("Paiement Pré Commande non éffectif", {
         position: "top-center",
         autoClose: 5000,
@@ -386,7 +402,12 @@ export default function PaymentStatePage({ cart = true }) {
                                           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                                         )}
                                         Valider le Paiement de ({" "}
-                                        {formatPrice(montant)} )
+                                        {montant ? (
+                                          <> {formatPrice(montant)} </>
+                                        ) : (
+                                          <> {formatPrice(montant_order)} </>
+                                        )}{" "}
+                                        )
                                       </Button>
                                     </div>
                                   ) : (

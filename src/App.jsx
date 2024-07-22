@@ -4,14 +4,20 @@ import Routers from "./Routers";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./global.css";
+import CategoryProvider from "./contexts/CategoryProvider";
+import PaymentProvider from "./contexts/PaymentProvider";
 
 function App() {
   return (
     <UserProvider>
       <ToastContainer />
-      <CartProvider>
-        <Routers />
-      </CartProvider>
+      <CategoryProvider>
+        <PaymentProvider>
+          <CartProvider>
+            <Routers />
+          </CartProvider>
+        </PaymentProvider>
+      </CategoryProvider>
     </UserProvider>
   );
 }

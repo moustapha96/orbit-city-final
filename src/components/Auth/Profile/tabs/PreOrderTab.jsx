@@ -127,6 +127,12 @@ export default function PreOrderTab() {
                   </td>
                 </tr>
               ))}
+
+            {precommandes.length == 0 && (
+              <p className="text-center mt-5 ">
+                Votre liste de pre commandes est vide{" "}
+              </p>
+            )}
           </tbody>
         </table>
       </div>

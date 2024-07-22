@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+/* eslint-disable react/prop-types */
 import Cart from "../../../Cart";
 import Compair from "../../../Helpers/icons/Compair";
 import ThinBag from "../../../Helpers/icons/ThinBag";
@@ -6,9 +6,11 @@ import ThinLove from "../../../Helpers/icons/ThinLove";
 import ThinPeople from "../../../Helpers/icons/ThinPeople";
 import SearchBox from "../../../Helpers/SearchBox";
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { UserContext } from "../../../../contexts/UserContext";
 
 export default function Middlebar({ className }) {
-  const user = useSelector((state) => state.user.user);
+  const { user } = useContext(UserContext);
   return (
     <div className={`w-full h-[86px] bg-white ${className}`}>
       <div className="container-x mx-auto h-full">

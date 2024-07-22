@@ -1,10 +1,9 @@
 /* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
 
-import { useSelector } from "react-redux";
-
 export default function TopBar({ className }) {
-  const user = useSelector((state) => state.user.user);
+  const user = JSON.parse(localStorage.getItem("user"));
+
   return (
     <>
       <div

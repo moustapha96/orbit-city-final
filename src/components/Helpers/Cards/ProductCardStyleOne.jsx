@@ -137,31 +137,38 @@ export default function ProductCardStyleOne({ datas, type = 3 }) {
           </span>
         </p>
         <div className=" w-full h-20 left-0 flex flex-col mt-3 ">
-          <button
-            type="button"
-            onClick={handleAddToCart}
-            className={type === 3 ? "blue-logo-btn" : "yellow-btn"}
-          >
-            <div className="flex items-center gap-2">
-              <span>
-                <ShoppingCart />
-              </span>
-              <span>Ajouter au panier</span>
-            </div>
-          </button>
-          <br />
-          <button
-            type="button"
-            onClick={handleAddToPreOrder}
-            className={type === 3 ? "blue-logo-btn" : "yellow-btn"}
-          >
-            <div className="flex items-center gap-2">
-              <span>
-                <ShoppingBag></ShoppingBag>
-              </span>
-              <span>Pré commander</span>
-            </div>
-          </button>
+          {datas.quantite_en_stock > 0 && (
+            <>
+              <button
+                type="button"
+                onClick={handleAddToCart}
+                className={type === 3 ? "blue-logo-btn" : "yellow-btn"}
+              >
+                <div className="flex items-center gap-2">
+                  <span>
+                    <ShoppingCart />
+                  </span>
+                  <span>Ajouter au panier</span>
+                </div>
+              </button>{" "}
+              <br />
+            </>
+          )}
+
+          {datas.quanitty_virtuelle_disponible > 0 && (
+            <button
+              type="button"
+              onClick={handleAddToPreOrder}
+              className={type === 3 ? "blue-logo-btn" : "yellow-btn"}
+            >
+              <div className="flex items-center gap-2">
+                <span>
+                  <ShoppingBag></ShoppingBag>
+                </span>
+                <span>Pré commander</span>
+              </div>
+            </button>
+          )}
         </div>
       </div>
 

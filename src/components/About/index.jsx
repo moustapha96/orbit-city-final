@@ -123,12 +123,7 @@ export default function About() {
                   </div>
                   <div className="flex items-center space-x-2.5 mt-3">
                     <div className="w-[50px] h-[50px] rounded-full overflow-hidden">
-                      <img
-                        src={`${
-                          import.meta.env.VITE_PUBLIC_URL
-                        }/images/comment-user-1.png`}
-                        alt="user"
-                      />
+                      <img src={`images/comment-user-1.png`} alt="user" />
                     </div>
                     <div>
                       <p className="text-[18px] text-qblack font-medium">
@@ -162,12 +157,7 @@ export default function About() {
                   </div>
                   <div className="flex items-center space-x-2.5 mt-3">
                     <div className="w-[50px] h-[50px] rounded-full overflow-hidden">
-                      <img
-                        src={`${
-                          import.meta.env.VITE_PUBLIC_URL
-                        }/images/comment-user-1.png`}
-                        alt="user"
-                      />
+                      <img src={`images/comment-user-1.png`} alt="user" />
                     </div>
                     <div>
                       <p className="text-[18px] text-qblack font-medium">
@@ -201,12 +191,7 @@ export default function About() {
                   </div>
                   <div className="flex items-center space-x-2.5 mt-3">
                     <div className="w-[50px] h-[50px] rounded-full overflow-hidden">
-                      <img
-                        src={`${
-                          import.meta.env.VITE_PUBLIC_URL
-                        }/images/comment-user-1.png`}
-                        alt="user"
-                      />
+                      <img src={`/images/comment-user-1.png`} alt="user" />
                     </div>
                     <div>
                       <p className="text-[18px] text-qblack font-medium">
@@ -240,12 +225,7 @@ export default function About() {
                   </div>
                   <div className="flex items-center space-x-2.5 mt-3">
                     <div className="w-[50px] h-[50px] rounded-full overflow-hidden">
-                      <img
-                        src={`${
-                          import.meta.env.VITE_PUBLIC_URL
-                        }/images/comment-user-1.png`}
-                        alt="user"
-                      />
+                      <img src={`/images/comment-user-1.png`} alt="user" />
                     </div>
                     <div>
                       <p className="text-[18px] text-qblack font-medium">
@@ -279,12 +259,7 @@ export default function About() {
                   </div>
                   <div className="flex items-center space-x-2.5 mt-3">
                     <div className="w-[50px] h-[50px] rounded-full overflow-hidden">
-                      <img
-                        src={`${
-                          import.meta.env.VITE_PUBLIC_URL
-                        }/images/comment-user-1.png`}
-                        alt="user"
-                      />
+                      <img src={`/images/comment-user-1.png`} alt="user" />
                     </div>
                     <div>
                       <p className="text-[18px] text-qblack font-medium">
@@ -318,12 +293,7 @@ export default function About() {
                   </div>
                   <div className="flex items-center space-x-2.5 mt-3">
                     <div className="w-[50px] h-[50px] rounded-full overflow-hidden">
-                      <img
-                        src={`${
-                          import.meta.env.VITE_PUBLIC_URL
-                        }/images/comment-user-1.png`}
-                        alt="user"
-                      />
+                      <img src={`/images/comment-user-1.png`} alt="user" />
                     </div>
                     <div>
                       <p className="text-[18px] text-qblack font-medium">
@@ -357,12 +327,7 @@ export default function About() {
                   </div>
                   <div className="flex items-center space-x-2.5 mt-3">
                     <div className="w-[50px] h-[50px] rounded-full overflow-hidden">
-                      <img
-                        src={`${
-                          import.meta.env.VITE_PUBLIC_URL
-                        }/images/comment-user-1.png`}
-                        alt="user"
-                      />
+                      <img src={`/images/comment-user-1.png`} alt="user" />
                     </div>
                     <div>
                       <p className="text-[18px] text-qblack font-medium">
@@ -396,12 +361,7 @@ export default function About() {
                   </div>
                   <div className="flex items-center space-x-2.5 mt-3">
                     <div className="w-[50px] h-[50px] rounded-full overflow-hidden">
-                      <img
-                        src={`${
-                          import.meta.env.VITE_PUBLIC_URL
-                        }/images/comment-user-1.png`}
-                        alt="user"
-                      />
+                      <img src={`/images/comment-user-1.png`} alt="user" />
                     </div>
                     <div>
                       <p className="text-[18px] text-qblack font-medium">
@@ -435,12 +395,7 @@ export default function About() {
                   </div>
                   <div className="flex items-center space-x-2.5 mt-3">
                     <div className="w-[50px] h-[50px] rounded-full overflow-hidden">
-                      <img
-                        src={`${
-                          import.meta.env.VITE_PUBLIC_URL
-                        }/images/comment-user-1.png`}
-                        alt="user"
-                      />
+                      <img src={`/images/comment-user-1.png`} alt="user" />
                     </div>
                     <div>
                       <p className="text-[18px] text-qblack font-medium">

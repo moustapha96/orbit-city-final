@@ -14,17 +14,32 @@ import formatPrice from "../../utils/formatPrice";
 import { toast } from "react-toastify";
 import { Button } from "flowbite-react";
 import { Loader2 } from "lucide-react";
-import commandeService from "../../services/commandeService";
+import commandeService from "../../services/CommandeService";
+import { UserContext } from "../../contexts/UserContext";
 
 export default function CardPage({ cartt = true }) {
   const { cart, getCartTotal, clearCart, setOrderState, orderState } =
     useContext(CartContext);
+  const { user } = useContext(UserContext);
 
   const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
 
   const handleValidePanier = async (e) => {
+    if (!user) {
+      toast.dismiss();
+      toast.warning("Merci de vous connecter", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      navigate("/login");
+    }
     e.preventDefault();
     setIsLoading(true);
 
@@ -73,6 +88,7 @@ export default function CardPage({ cartt = true }) {
     }
     setIsLoading(false);
   };
+
   return (
     <Layout childrenClasses={cartt ? "pt-0 pb-0" : ""}>
       {cartt === false ? (

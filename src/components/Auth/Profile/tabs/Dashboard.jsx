@@ -5,7 +5,6 @@ import { useSelector } from "react-redux";
 import { Car, ShoppingBag, ShoppingCart } from "lucide-react";
 
 export default function Dashboard() {
-  // const user = useSelector((state) => state.user.user);
   const user = JSON.parse(localStorage.getItem("user"));
   const token = useSelector((state) => state.user.token);
   const uid = useSelector((state) => state.user.uid);

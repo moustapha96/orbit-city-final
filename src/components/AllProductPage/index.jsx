@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import BreadcrumbCom from "../BreadcrumbCom";
 import ProductCardStyleOne from "../Helpers/Cards/ProductCardStyleOne";
 import DataIteration from "../Helpers/DataIteration";
@@ -9,6 +9,7 @@ import ProduitService from "../../services/produitService";
 import Categorieservice from "../../services/CategorieService";
 import { useParams } from "react-router-dom";
 import { Loader2 } from "lucide-react";
+import CategoryContext from "../../contexts/CategoryContext";
 
 export default function AllProductPage() {
   const { name } = useParams();
@@ -21,6 +22,9 @@ export default function AllProductPage() {
   const [showLoadMoreButton, setShowLoadMoreButton] = useState(true);
   const [search, setSearch] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  const { selectedCategory } = useContext(CategoryContext);
+
   const handleLoadMore = () => {
     if (endLength < produits.length) {
       setEndLength(endLength + 8);
@@ -44,19 +48,28 @@ export default function AllProductPage() {
   };
 
   useEffect(() => {
+    if (selectedCategory) {
+      if (selectedCategory.name == "All") {
+        setProduits(products);
+      } else {
+        const filteredProducts = products.filter(
+          (pro) => pro.categ_id === selectedCategory.name
+        );
+        setProduits(filteredProducts);
+      }
+    }
+  }, [selectedCategory]);
+
+  useEffect(() => {
     setIsLoading(true);
     const fetchModels = async () => {
       try {
         const data = await Categorieservice.getCategories();
         setCategories(data);
 
-        categories.push({ id: -1, name: "Tout" });
         const dataP = await ProduitService.getProduits();
         setProducts(dataP);
         setProduits(dataP);
-        if (name) {
-          setProduits(products.filter((pro) => pro.categ_id === name));
-        }
       } catch (error) {
         console.error("Erreur lors de la récupération des modèles", error);
       }
@@ -76,48 +89,57 @@ export default function AllProductPage() {
     console.log(filteredProducts);
     setProduits(filteredProducts);
   };
+
   const handleCategoryChange = (searchTerm) => {
     const categorySelected = categories.find((c) => c.id === searchTerm);
 
-    const filteredProducts = products.filter((product) =>
-      product.categ_id.includes(categorySelected.name)
-    );
-    console.log(filteredProducts);
-    setProduits(filteredProducts);
-  };
-
-  const handleCategoryChangee = (categoryId) => {
-    // const categorySelected = categories.find((c) => c.id === categoryId);
-
-    setFilter((prevState) => {
-      const categoryIndex = prevState.category.indexOf(categoryId);
-      if (categoryIndex === -1) {
-        return { ...prevState, category: [...prevState.category, categoryId] };
-      } else {
-        return {
-          ...prevState,
-          category: prevState.category.filter((id) => id !== categoryId),
-        };
-      }
-    });
-
-    if (filters.category.length === 1) {
-      const categoryName = categories.find(
-        (c) => c.id === filters.category[0]
-      ).name;
-      const filteredProducts = products.filter(
-        (product) => product.categ_id === categoryName
-      );
+    setSearch("");
+    if (categorySelected.name == "All") {
+      const filteredProducts = products;
       setProduits(filteredProducts);
-    } else if (filters.category.length > 1) {
-      const filteredProducts = products.filter((product) =>
-        filters.category.includes(product.categ_id)
-      );
-      setProduits(filteredProducts);
+      // setShowBackButton(false);
+      // setShowLoadMoreButton(true);
     } else {
-      setProduits(products);
+      const filteredProducts = products.filter((product) =>
+        product.categ_id.includes(categorySelected.name)
+      );
+      console.log(filteredProducts);
+      setProduits(filteredProducts);
     }
   };
+
+  // const handleCategoryChangee = (categoryId) => {
+  //   // const categorySelected = categories.find((c) => c.id === categoryId);
+
+  //   setFilter((prevState) => {
+  //     const categoryIndex = prevState.category.indexOf(categoryId);
+  //     if (categoryIndex === -1) {
+  //       return { ...prevState, category: [...prevState.category, categoryId] };
+  //     } else {
+  //       return {
+  //         ...prevState,
+  //         category: prevState.category.filter((id) => id !== categoryId),
+  //       };
+  //     }
+  //   });
+
+  //   if (filters.category.length === 1) {
+  //     const categoryName = categories.find(
+  //       (c) => c.id === filters.category[0]
+  //     ).name;
+  //     const filteredProducts = products.filter(
+  //       (product) => product.categ_id === categoryName
+  //     );
+  //     setProduits(filteredProducts);
+  //   } else if (filters.category.length > 1) {
+  //     const filteredProducts = products.filter((product) =>
+  //       filters.category.includes(product.categ_id)
+  //     );
+  //     setProduits(filteredProducts);
+  //   } else {
+  //     setProduits(products);
+  //   }
+  // };
 
   const [filters, setFilter] = useState({
     sizeS: false,
@@ -142,6 +164,7 @@ export default function AllProductPage() {
   const filterStorage = (value) => {
     setStorage(value);
   };
+
   const [filterToggle, setToggle] = useState(false);
   const handleVolumeChange = (event) => {
     if (!event.target) {

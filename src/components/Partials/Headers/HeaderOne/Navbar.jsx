@@ -1,14 +1,18 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Arrow from "../../../Helpers/icons/Arrow";
 import Categorieservice from "../../../../services/CategorieService";
 import { Asterisk, Menu, MoveRight } from "lucide-react";
+import CategoryContext from "../../../../contexts/CategoryContext";
 
 export default function Navbar({ className, type = 3 }) {
+  const navigate = useNavigate();
+
   const [categoryToggle, setToggle] = useState(false);
   const [elementsSize, setSize] = useState("0px");
   const [categories, setCategories] = useState([]);
+  const { selectCategory } = useContext(CategoryContext);
 
   const handler = () => {
     setToggle(!categoryToggle);
@@ -32,6 +36,19 @@ export default function Navbar({ className, type = 3 }) {
       setSize(`0px`);
     }
   }, [categoryToggle]);
+
+  const handleCategoryChange = (e, category) => {
+    e.preventDefault();
+    console.log(category);
+    selectCategory(category);
+
+    const isAllProductPage = window.location.pathname === "/all-products";
+    if (!isAllProductPage) {
+      navigate("/all-products");
+    }
+    setToggle(false);
+  };
+
   const backgroundColor = type === 3 ? "var(--bleu-logo)" : "bg-qyellow";
   return (
     <div
@@ -79,7 +96,9 @@ export default function Navbar({ className, type = 3 }) {
                   <ul className="categories-list">
                     {categories.map((category) => (
                       <li key={category.id}>
-                        <Link to={`/all-products/${category.name}`}>
+                        <Link
+                          onClick={(e) => handleCategoryChange(e, category)}
+                        >
                           <div
                             className={`flex justify-between items-center px-5 h-10 bg-white  transition-all duration-300 ease-in-out cursor-pointer text-qblack ${
                               type === 3

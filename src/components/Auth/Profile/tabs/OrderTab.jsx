@@ -103,6 +103,12 @@ export default function OrderTab() {
                   </td>
                 </tr>
               ))}
+            {commandes.length == 0 && (
+              <p className="text-center m-5">
+                {" "}
+                Votre Liste de commande est vide{" "}
+              </p>
+            )}
           </tbody>
         </table>
       </div>

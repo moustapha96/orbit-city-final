@@ -7,11 +7,13 @@ import TopBar from "./TopBar";
 import { Heart, Menu, ShoppingBag, ShoppingCart } from "lucide-react";
 import { CartContext } from "../../../../contexts/CartContext ";
 import { useContext } from "react";
-import { useSelector } from "react-redux";
+
 import ThinPeople from "../../../Helpers/icons/ThinPeople";
+import { UserContext } from "../../../../contexts/UserContext";
 
 export default function HeaderOne({ className, drawerAction, type = 3 }) {
-  const user = useSelector((state) => state.user.user);
+  const { user } = useContext(UserContext);
+
   const backgroundColor = type === 3 ? "var(--bleu-logo)" : "var(--qyellow)";
   const textColor = type === 3 ? "white" : "var(--qblack)";
   const { cart, wishlist, preorder } = useContext(CartContext);

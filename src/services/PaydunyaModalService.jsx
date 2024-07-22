@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import { Button, Modal } from "flowbite-react";
 import formatPrice from "../utils/formatPrice";
@@ -9,6 +9,8 @@ import { CircleX, Loader2 } from "lucide-react";
 
 import paydunya from "paydunya";
 import CheckoutInvoice from "paydunya/lib/checkout-invoice";
+import PaymentContext from "../contexts/PaymentContext";
+import { UserContext } from "../contexts/UserContext";
 const PaydunyaModalService = ({
   handlePay,
   totalAmount,
@@ -16,8 +18,15 @@ const PaydunyaModalService = ({
   order,
   idOrder,
 }) => {
-  console.log("order " + idOrder);
-  console.log("motant " + totalAmount);
+  const {
+    payment,
+    setUserPayment,
+    setOrder,
+    setPaymentDetails,
+    setTotalAmount,
+  } = useContext(PaymentContext);
+
+  const { user } = useContext(UserContext);
 
   const [isLoading, setIsloading] = useState(false);
   const [tokenP, setTokenP] = useState(null);
@@ -32,6 +41,13 @@ const PaydunyaModalService = ({
   const [store, setStore] = useState(null);
 
   useEffect(() => {
+    setUserPayment(user);
+    setOrder(order);
+    console.log("order " + idOrder);
+    console.log("motant " + totalAmount);
+    console.log("user");
+    console.log(user);
+
     const paydunyaSetup = new paydunya.Setup({
       masterKey: "3ApSagrZ-NkOP-M2GJ-tQr3-6F1TroNp8fL7",
       privateKey: "test_private_rLI7U4b3J0SjDBJQ7cEC9OCayn9",
@@ -45,11 +61,10 @@ const PaydunyaModalService = ({
       // mode: "live",
     });
     setSetup(paydunyaSetup);
-
     const store = new paydunya.Store({
       name: "CCBM SHOP",
       email: "ccbm-shop@ccbm.sn",
-      tagline: "Votre boutique a vos portés",
+      tagline: "Votre boutique pour vos matériels électroménéger",
       phoneNumber: "784537547",
       postalAddress: "Dakar",
       logoURL: "https://orbitcitydev.com/logo.png",
@@ -77,16 +92,16 @@ const PaydunyaModalService = ({
       invoice.totalAmount = Math.ceil(totalAmount);
       invoice.description =
         "Payment de " +
-        Math.ceil(totalAmount) +
+        formatPrice(Math.ceil(totalAmount)) +
         " pour la commande " +
         order.name;
-      invoice.callbackURL = "https://www.orbitcitydev.com/profile";
+      invoice.callbackURL = "https://orbitcity.sn//profile";
       if (order.type_sale === "order") {
-        invoice.cancelURL = `https://www.orbitcitydev.com/commandes/${idOrder}/détails`;
+        invoice.cancelURL = `https://orbitcity.sn/commandes/${idOrder}/détails`;
       } else {
-        invoice.cancelURL = `https://www.orbitcitydev.com/pre-commandes/${idOrder}/détails`;
+        invoice.cancelURL = `https://orbitcity.sn/pre-commandes/${idOrder}/détails`;
       }
-      invoice.returnURL = `https://www.orbitcitydev.com/payment-state/${idOrder}/${invoice.totalAmount}`;
+      invoice.returnURL = `https://orbitcity.sn/payment-state/${idOrder}/${invoice.totalAmount}`;
 
       invoice.addChannels([
         "card",
@@ -95,6 +110,8 @@ const PaydunyaModalService = ({
         "wave-senegal",
       ]);
       console.log(invoice);
+      setPaymentDetails(invoice);
+      setTotalAmount(invoice.totalAmount);
       console.log("amount " + invoice.totalAmount);
       console.log("desc " + invoice.description);
       console.log("creation de la facture ");
@@ -124,6 +141,8 @@ const PaydunyaModalService = ({
           setStatus(invoice.status);
           setTokenP(invoice.token);
           setResponseText(invoice.responseText);
+          // setPaymentDetails(invoice);
+          console.log(payment);
           window.open(invoice.url, "_blank");
           setOpenModal(false);
         })

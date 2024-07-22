@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import datas from "../../../data/products.json";
 import BreadcrumbCom from "../../BreadcrumbCom";
@@ -21,16 +21,17 @@ import ProfileTab from "./tabs/ProfileTab";
 import ReviewTab from "./tabs/ReviewTab";
 import SupportTab from "./tabs/SupportTab";
 import WishlistTab from "./tabs/WishlistTab";
-import { useSelector } from "react-redux";
 
 import PanierCommande from "./tabs/PanierCommande";
 import PanierPreCommande from "./tabs/PanierPreCommande";
+import { UserContext } from "../../../contexts/UserContext";
 
 export default function Profile() {
-  // const user = useSelector((state) => state.user.user);
-  const user = JSON.parse(localStorage.getItem("user"));
-  const token = useSelector((state) => state.user.token);
-  const uid = useSelector((state) => state.user.uid);
+  // const user = JSON.parse(localStorage.getItem("user"));
+  // const token = useSelector((state) => state.user.token);
+  // const uid = useSelector((state) => state.user.uid);
+  const { user, token, uid, logout } = useContext(UserContext);
+
   console.log(user, token, uid);
   const navigate = useNavigate();
   // const [switchDashboard, setSwitchDashboard] = useState(false);
@@ -45,8 +46,9 @@ export default function Profile() {
     );
   }, [getHashContent]);
 
-  function logout() {
+  function HandleLout() {
     // localStorage.removeItem("authToken");
+    logout();
     navigate("/login");
   }
   return (
@@ -210,7 +212,7 @@ export default function Profile() {
                     </div> */}
 
                     <div className="item group">
-                      <Link onClick={logout}>
+                      <Link onClick={HandleLout}>
                         <div className="flex space-x-3 items-center text-qgray hover:text-qblack">
                           <span>
                             <IcoLogout />

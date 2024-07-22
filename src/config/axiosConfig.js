@@ -1,8 +1,9 @@
 import axios from "axios";
 
+const urlBase = "https://orbitcity.sn:8916/";
 const axiosInstance = axios.create({
   // baseURL: "http://localhost:8016/",
-  baseURL: "https://orbitcity.sn:8916/",
+  baseURL: "http://orbitcity.sn:8916/",
 });
 
 const excludedEndpoints = ["/auth", "/users", "/produits", "/categories"];
@@ -46,10 +47,7 @@ axiosInstance.interceptors.response.use(
 
       try {
         const refreshToken = localStorage.getItem("refresh_token");
-        const response = await axios.post(
-          "http://localhost:8916/refresh-token",
-          { refreshToken }
-        );
+        const response = await axios.post(urlBase, { refreshToken });
 
         const { accessToken } = response.data;
         localStorage.setItem("access_token", accessToken);
