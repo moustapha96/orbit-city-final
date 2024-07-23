@@ -95,13 +95,13 @@ const PaydunyaModalService = ({
         formatPrice(Math.ceil(totalAmount)) +
         " pour la commande " +
         order.name;
-      invoice.callbackURL = "https://orbitcity.sn//profile";
+      invoice.callbackURL = "http://orbitcity.sn//profile";
       if (order.type_sale === "order") {
-        invoice.cancelURL = `https://orbitcity.sn/commandes/${idOrder}/détails`;
+        invoice.cancelURL = `http://orbitcity.sn/commandes/${idOrder}/détails`;
       } else {
-        invoice.cancelURL = `https://orbitcity.sn/pre-commandes/${idOrder}/détails`;
+        invoice.cancelURL = `http://orbitcity.sn/pre-commandes/${idOrder}/détails`;
       }
-      invoice.returnURL = `https://orbitcity.sn/payment-state/${idOrder}/${invoice.totalAmount}`;
+      invoice.returnURL = `http://orbitcity.sn/payment-state/${idOrder}/${invoice.totalAmount}`;
 
       invoice.addChannels([
         "card",

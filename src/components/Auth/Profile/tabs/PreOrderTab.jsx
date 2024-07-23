@@ -45,91 +45,98 @@ export default function PreOrderTab() {
               <td className="py-4 whitespace-nowrap  text-center">Action</td>
             </tr>
             {/* table heading end */}
-            {precommandes &&
-              precommandes.map((commande) => (
-                <tr
-                  className="bg-white border-b hover:bg-gray-50"
-                  key={commande.id}
-                >
-                  <td className="text-center py-4">
-                    <span className="text-lg text-qgray font-medium">
-                      #{commande.id} - {commande.name}
-                    </span>
-                  </td>
-                  <td className="text-center py-4 px-2">
-                    <span className="text-base text-qgray whitespace-nowrap">
-                      {formatDate(commande.date_order)}{" "}
-                    </span>
-                  </td>
-                  <td className="text-center py-4 px-2">
-                    <div className=" ">
-                      {commande.advance_payment_status === "not_paid" && (
-                        <span className="text-red-500">Non Effectif</span>
-                      )}
-                      {commande.advance_payment_status === "partial" && (
-                        <span className="text-yellow-500">
-                          Partiellement payé
-                        </span>
-                      )}
-                      {commande.advance_payment_status === "paid" && (
-                        <span className="text-green-500">Effectif</span>
-                      )}
-                      <p>
-                        {commande.advance_payment_status === "partial" && (
-                          <> Reste : {formatPrice(commande.amount_residual)}</>
-                        )}
-                      </p>
-                    </div>
-                  </td>
-                  <td className="text-center py-4 px-2">
-                    <span className="text-base text-qblack whitespace-nowrap px-2 ">
-                      {commande.advance_payment_status == "not_paid" ||
-                        (commande.advance_payment_status == "partial" && (
-                          <>
-                            {" "}
-                            <span className="text-yellow-500">
-                              {" "}
-                              {formatPrice(commande.amount_total)}
-                            </span>
-                          </>
-                        ))}
-                      {commande.advance_payment_status == "paid" && (
-                        <>
-                          {" "}
-                          <span className="text-green-500">
-                            {" "}
-                            {formatPrice(commande.amount_total)}
-                          </span>
-                        </>
-                      )}
-                      {commande.advance_payment_status == "not_paid" &&
-                        commande.amount_residual == commande.amount_total && (
-                          <>
-                            {" "}
-                            <span className="text-red-500">
-                              {" "}
-                              {formatPrice(commande.amount_total)}
-                            </span>
-                          </>
-                        )}
-                      <br />
-                    </span>
-                  </td>
-                  <td className="text-center py-4">
-                    <button
-                      type="button"
-                      title="voir les détails"
-                      onClick={(event) => handleDetails(event, commande)}
-                      className="w-[116px] h-[46px] bg-qyellow text-qblack font-bold"
-                    >
-                      Voir les détails
-                    </button>
-                  </td>
-                </tr>
-              ))}
 
-            {precommandes.length == 0 && (
-              <p className="text-center mt-5 ">
+            {Array.isArray(precommandes) && precommandes.length != 0 && (
+              <>
+                {precommandes.map((commande) => (
+                  <tr
+                    className="bg-white border-b hover:bg-gray-50"
+                    key={commande.id}
+                  >
+                    <td className="text-center py-4">
+                      <span className="text-lg text-qgray font-medium">
+                        #{commande.id} - {commande.name}
+                      </span>
+                    </td>
+                    <td className="text-center py-4 px-2">
+                      <span className="text-base text-qgray whitespace-nowrap">
+                        {formatDate(commande.date_order)}{" "}
+                      </span>
+                    </td>
+                    <td className="text-center py-4 px-2">
+                      <div className=" ">
+                        {commande.advance_payment_status === "not_paid" && (
+                          <span className="text-red-500">Non Effectif</span>
+                        )}
+                        {commande.advance_payment_status === "partial" && (
+                          <span className="text-yellow-500">
+                            Partiellement payé
+                          </span>
+                        )}
+                        {commande.advance_payment_status === "paid" && (
+                          <span className="text-green-500">Effectif</span>
+                        )}
+                        <p>
+                          {commande.advance_payment_status === "partial" && (
+                            <>
+                              {" "}
+                              Reste : {formatPrice(commande.amount_residual)}
+                            </>
+                          )}
+                        </p>
+                      </div>
+                    </td>
+                    <td className="text-center py-4 px-2">
+                      <span className="text-base text-qblack whitespace-nowrap px-2 ">
+                        {commande.advance_payment_status == "not_paid" ||
+                          (commande.advance_payment_status == "partial" && (
+                            <>
+                              {" "}
+                              <span className="text-yellow-500">
+                                {" "}
+                                {formatPrice(commande.amount_total)}
+                              </span>
+                            </>
+                          ))}
+                        {commande.advance_payment_status == "paid" && (
+                          <>
+                            {" "}
+                            <span className="text-green-500">
+                              {" "}
+                              {formatPrice(commande.amount_total)}
+                            </span>
+                          </>
+                        )}
+                        {commande.advance_payment_status == "not_paid" &&
+                          commande.amount_residual == commande.amount_total && (
+                            <>
+                              {" "}
+                              <span className="text-red-500">
+                                {" "}
+                                {formatPrice(commande.amount_total)}
+                              </span>
+                            </>
+                          )}
+                        <br />
+                      </span>
+                    </td>
+                    <td className="text-center py-4">
+                      <button
+                        type="button"
+                        title="voir les détails"
+                        onClick={(event) => handleDetails(event, commande)}
+                        className="w-[116px] h-[46px] bg-qyellow text-qblack font-bold"
+                      >
+                        Voir les détails
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </>
+            )}
+
+            {!precommandes == 0 && (
+              <p className="py-4 block whitespace-nowrap text-center mt-5 ">
                 Votre liste de pre commandes est vide{" "}
               </p>
             )}

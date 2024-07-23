@@ -1,13 +1,31 @@
 /* eslint-disable no-unused-vars */
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../../../contexts/UserContext";
 import { useSelector } from "react-redux";
 import { Car, ShoppingBag, ShoppingCart } from "lucide-react";
+import userService from "../../../../services/userService";
 
 export default function Dashboard() {
   const user = JSON.parse(localStorage.getItem("user"));
   const token = useSelector((state) => state.user.token);
   const uid = useSelector((state) => state.user.uid);
+  const [compte, setCompte] = useState([]);
+
+  useEffect(() => {
+    const fetchModels = async () => {
+      try {
+        const response = await userService.getCompte(user.partner_id);
+        if (response) {
+          setCompte(response);
+          console.log(compte);
+        }
+      } catch (error) {
+        console.error("Erreur lors de la récupération des données user", error);
+      }
+    };
+    fetchModels();
+  }, []);
+
   console.log(user);
   return (
     <>
@@ -22,8 +40,9 @@ export default function Dashboard() {
           </h1>
         </div>
       </div>
+
       <div className="quick-view-grid w-full flex justify-between items-center mt-3 ">
-        <div className="qv-item w-[252px] h-[208px] bg-qblack group hover:bg-qyellow transition-all duration-300 ease-in-out p-6">
+        <div className="qv-item w-[200px] h-[200px] bg-qblack group hover:bg-qyellow transition-all duration-300 ease-in-out p-6 mx-2">
           <div className="w-[62px] h-[62px] rounded bg-white flex justify-center items-center">
             <span>
               <ShoppingCart></ShoppingCart>
@@ -33,36 +52,52 @@ export default function Dashboard() {
             Commandes
           </p>
           <span className="text-[40px] text-white group-hover:text-qblacktext font-bold leading-none mt-1 block">
-            656
+            {compte && <> {compte.order_count} </>}
           </span>
         </div>
-        <div className="qv-item w-[252px] h-[208px] bg-qblack group hover:bg-qyellow transition-all duration-300 ease-in-out p-6">
+        <div className="qv-item w-[200px] h-[200px] bg-qblack group hover:bg-qyellow transition-all duration-300 ease-in-out p-6 mx-2">
+          <div className="w-[62px] h-[62px] rounded bg-white flex justify-center items-center">
+            <span>
+              <ShoppingBag></ShoppingBag>
+            </span>
+          </div>
+          <p className="text-xl text-white group-hover:text-qblacktext mt-3">
+            Pré commandes
+          </p>
+          <span className="text-[40px] text-white group-hover:text-qblacktext font-bold leading-none mt-1 block">
+            {compte && <> {compte.preorder_count} </>}
+          </span>
+        </div>
+
+        <div className="qv-item w-[200px] h-[200px] bg-qblack group hover:bg-qyellow transition-all duration-300 ease-in-out p-6 mx-2">
           <div className="w-[62px] h-[62px] rounded bg-white flex justify-center items-center">
             <span>
               <Car></Car>
             </span>
           </div>
           <p className="text-xl text-white group-hover:text-qblacktext mt-5">
-            Commandes Livrées
+            Livrées
           </p>
           <span className="text-[40px] text-white group-hover:text-qblacktext font-bold leading-none mt-1 block">
-            656
+            {compte && <> {compte.delivered_count} </>}
           </span>
         </div>
-        <div className="qv-item w-[252px] h-[208px] bg-qblack group hover:bg-qyellow transition-all duration-300 ease-in-out p-6">
+
+        <div className="qv-item w-[200px] h-[200px] bg-qblack group hover:bg-qyellow transition-all duration-300 ease-in-out p-6 mx-2">
           <div className="w-[62px] h-[62px] rounded bg-white flex justify-center items-center">
             <span>
               <ShoppingBag></ShoppingBag>
             </span>
           </div>
           <p className="text-xl text-white group-hover:text-qblacktext mt-5">
-            Pré commandes
+            En cours
           </p>
           <span className="text-[40px] text-white group-hover:text-qblacktext font-bold leading-none mt-1 block">
-            656
+            {compte && <> {compte.progress_count} </>}
           </span>
         </div>
       </div>
+
       {/* <div className="dashboard-info mt-8 flex grid grid-flow-col justify-stretch  bg-primarygray px-7 py-7">
         <div className="">
           <p className="title text-[22px] font-semibold">

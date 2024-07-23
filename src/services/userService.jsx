@@ -11,7 +11,18 @@ const userService = {
       throw error;
     }
   },
-
+  getCompte: async (id) => {
+    try {
+      const response = await axiosInstance.get(`/api/users/${id}/compte`);
+      return response.data;
+    } catch (error) {
+      console.error(
+        `Erreur lors de la récupération du modèle avec l'ID ${id}`,
+        error
+      );
+      throw error;
+    }
+  },
   getUserById: async (id) => {
     try {
       const response = await axiosInstance.get(`/api/users/${id}`);

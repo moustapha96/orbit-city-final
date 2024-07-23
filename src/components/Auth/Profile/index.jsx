@@ -38,6 +38,7 @@ export default function Profile() {
   const location = useLocation();
   const getHashContent = location.hash.split("#");
   const [active, setActive] = useState("dashboard");
+
   useEffect(() => {
     setActive(
       getHashContent && getHashContent.length > 1

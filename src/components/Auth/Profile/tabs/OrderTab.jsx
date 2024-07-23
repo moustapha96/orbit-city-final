@@ -43,68 +43,72 @@ export default function OrderTab() {
               <td className="py-4 whitespace-nowrap  text-center">Action</td>
             </tr>
             {/* table heading end */}
-            {commandes &&
-              commandes.map((commande) => (
-                <tr
-                  className="bg-white border-b hover:bg-gray-50"
-                  key={commande.id}
-                >
-                  <td className="text-center py-4">
-                    <span className="text-lg text-qgray font-medium">
-                      #{commande.id} - {commande.name}
-                    </span>
-                  </td>
-                  <td className="text-center py-4 px-2">
-                    <span className="text-base text-qgray whitespace-nowrap">
-                      {formatDate(commande.date_order)}{" "}
-                    </span>
-                  </td>
-                  <td className="text-center py-4 px-2">
-                    <span
-                      className={`text-sm rounded p-2 ${
-                        commande.advance_payment_status !== "not_paid"
-                          ? "text-green-500 bg-green-100"
-                          : "text-red-500 bg-red-100"
-                      }`}
-                    >
-                      {commande.advance_payment_status == "not_paid"
-                        ? "Non Payé"
-                        : "Payé"}
-                    </span>
-                  </td>
-                  <td className="text-center py-4 px-2">
-                    <span className="text-base text-qblack whitespace-nowrap px-2 ">
-                      {commande.advance_payment_status == "not_paid" ? (
-                        <>
-                          {" "}
-                          <span className="text-red-500">
+
+            {Array.isArray(commandes) && commandes.length != 0 && (
+              <>
+                {commandes.map((commande) => (
+                  <tr
+                    className="bg-white border-b hover:bg-gray-50"
+                    key={commande.id}
+                  >
+                    <td className="text-center py-4">
+                      <span className="text-lg text-qgray font-medium">
+                        #{commande.id} - {commande.name}
+                      </span>
+                    </td>
+                    <td className="text-center py-4 px-2">
+                      <span className="text-base text-qgray whitespace-nowrap">
+                        {formatDate(commande.date_order)}{" "}
+                      </span>
+                    </td>
+                    <td className="text-center py-4 px-2">
+                      <span
+                        className={`text-sm rounded p-2 ${
+                          commande.advance_payment_status !== "not_paid"
+                            ? "text-green-500 bg-green-100"
+                            : "text-red-500 bg-red-100"
+                        }`}
+                      >
+                        {commande.advance_payment_status == "not_paid"
+                          ? "Non Payé"
+                          : "Payé"}
+                      </span>
+                    </td>
+                    <td className="text-center py-4 px-2">
+                      <span className="text-base text-qblack whitespace-nowrap px-2 ">
+                        {commande.advance_payment_status == "not_paid" ? (
+                          <>
+                            {" "}
+                            <span className="text-red-500">
+                              {" "}
+                              {formatPrice(commande.amount_total)}{" "}
+                            </span>
+                          </>
+                        ) : (
+                          <span className="text-green-500">
                             {" "}
                             {formatPrice(commande.amount_total)}{" "}
                           </span>
-                        </>
-                      ) : (
-                        <span className="text-green-500">
-                          {" "}
-                          {formatPrice(commande.amount_total)}{" "}
-                        </span>
-                      )}{" "}
-                      <br />
-                    </span>
-                  </td>
-                  <td className="text-center py-4">
-                    <button
-                      type="button"
-                      title="voir les détails"
-                      onClick={(event) => handleDetails(event, commande)}
-                      className="w-[116px] h-[46px] bg-qyellow text-qblack font-bold"
-                    >
-                      Voir les détails
-                    </button>
-                  </td>
-                </tr>
-              ))}
+                        )}{" "}
+                        <br />
+                      </span>
+                    </td>
+                    <td className="text-center py-4">
+                      <button
+                        type="button"
+                        title="voir les détails"
+                        onClick={(event) => handleDetails(event, commande)}
+                        className="w-[116px] h-[46px] bg-qyellow text-qblack font-bold"
+                      >
+                        Voir les détails
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </>
+            )}
             {commandes.length == 0 && (
-              <p className="text-center m-5">
+              <p className="py-4 block whitespace-nowrap text-center m-5">
                 {" "}
                 Votre Liste de commande est vide{" "}
               </p>

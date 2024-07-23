@@ -122,6 +122,23 @@ export default function Login() {
   const handleSubmit = async (e) => {
     setIsLoading(true);
     e.preventDefault();
+    if (!validateForm()) {
+      toast.dismiss();
+      toast.error(
+        "Connexion Echoué , champs Email ou Mot de passe incorrecte  !",
+        {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        }
+      );
+      console.log("Formulaire invalide !");
+    }
+
     if (validateForm()) {
       console.log(email, password);
       try {
@@ -130,80 +147,64 @@ export default function Login() {
           password: password,
         });
         console.log(response);
-        if (!response.error) {
-          const {
-            access_token,
-            refresh_token,
-            user_info,
-            uid,
-            expires_in,
-            user_context,
-            company_id,
-            refresh_expires_in,
-          } = response;
+        const {
+          access_token,
+          refresh_token,
+          user_info,
+          uid,
+          expires_in,
+          user_context,
+          company_id,
+          refresh_expires_in,
+        } = response;
 
-          toast.dismiss();
-          toast.success("Connexion réussie !", {
-            position: "top-center",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          });
-          setUid(uid);
-          setUser(user_info);
-          setToken(access_token);
-          setExpiresIn(expires_in);
-          setRefreshToken(refresh_token);
-          setExpiresIn(Date.now() + expires_in);
-          setRefreshExpiresIn(Date.now() + refresh_expires_in);
-
-          localStorage.setItem("user", JSON.stringify(user_info));
-          localStorage.setItem("token", access_token);
-          localStorage.setItem("uid", uid);
-          localStorage.setItem("expires_in", Date.now() + expires_in);
-          localStorage.setItem(
-            "refresh_expires_in",
-            Date.now() + refresh_expires_in
-          );
-          localStorage.setItem("refresh_token", refresh_token);
-
-          localStorage.setItem("company_id", company_id);
-          localStorage.setItem("user_context", JSON.stringify(user_context));
-          localStorage.setItem("partner_id", user_info.partner_id);
-
-          navigate("/all-products");
-        }
-      } catch (error) {
         toast.dismiss();
-        toast.error(
-          "Connexion Echouée , Email ou Mot de passe incorrecte ou erreur serveur!",
-          {
-            position: "top-center",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          }
+        toast.success("Connexion réussie !", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        setIsLoading(false);
+        setUid(uid);
+        setUser(user_info);
+        setToken(access_token);
+        setExpiresIn(expires_in);
+        setRefreshToken(refresh_token);
+        setExpiresIn(Date.now() + expires_in);
+        setRefreshExpiresIn(Date.now() + refresh_expires_in);
+
+        localStorage.setItem("user", JSON.stringify(user_info));
+        localStorage.setItem("token", access_token);
+        localStorage.setItem("uid", uid);
+        localStorage.setItem("expires_in", Date.now() + expires_in);
+        localStorage.setItem(
+          "refresh_expires_in",
+          Date.now() + refresh_expires_in
         );
+        localStorage.setItem("refresh_token", refresh_token);
+
+        localStorage.setItem("company_id", company_id);
+        localStorage.setItem("user_context", JSON.stringify(user_context));
+        localStorage.setItem("partner_id", user_info.partner_id);
+        navigate("/all-products");
+      } catch (error) {
+        setIsLoading(false);
+        toast.dismiss();
+        toast.error("Connexion Echouée , Email ou mot de passse incorrecte", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
         console.error("Erreur lors de l'obtention des jetons :", error);
       }
-    } else {
-      toast.dismiss();
-      toast.error("Connexion Echoué , Email ou Mot de passe incorrecte  !", {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-      console.log("Formulaire invalide !");
     }
 
     setIsLoading(false);
@@ -254,11 +255,12 @@ export default function Login() {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
+                        pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}\$"
                         placeholder="name@flowbite.com"
                         className="
-                      focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
-                      invalid:border-red-500 invalid:text-red-600
-                      focus:invalid:border-red-500 focus:invalid:ring-red-500"
+                                        focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
+                            invalid:border-red-500 invalid:text-red-600
+                            focus:invalid:border-red-500 focus:invalid:ring-red-500"
                       />
                     </div>
 
@@ -273,6 +275,8 @@ export default function Login() {
                         name="password"
                         type="password"
                         value={password}
+                        minLength={4}
+                        maxLength={20}
                         onChange={(e) => setPassword(e.target.value)}
                         required
                         className="

@@ -72,9 +72,8 @@ export default function Signup() {
         company_name: "Client WEB",
       };
 
-      const response = await userService.createUser(data);
-
-      if (response) {
+      try {
+        const response = await userService.createUser(data);
         toast.success("Création compte réussie !", {
           position: "top-center",
           autoClose: 5000,
@@ -85,11 +84,14 @@ export default function Signup() {
           progress: undefined,
         });
         console.log(response);
+        setIsLoading(false);
         navigate("/login");
-      } else {
-        console.log("response " + response);
-        alert("erreur : " + response.error);
-        toast.error("Création compte Echouée , " + response.error, {
+      } catch (error) {
+        setIsLoading(false);
+        console.log("response " + error);
+        console.log("response " + error.response.data);
+
+        toast.error("Création compte Echouée , " + error.response.data, {
           position: "top-center",
           autoClose: 5000,
           hideProgressBar: false,
