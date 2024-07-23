@@ -65,7 +65,7 @@ export default function Signup() {
         password: password,
         company_name: "Client WEB",
       };
-
+      console.log(data);
       try {
         const response = await userService.createUser(data);
         toast.success("Création compte réussie !", {

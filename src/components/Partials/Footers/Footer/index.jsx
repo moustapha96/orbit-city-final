@@ -57,13 +57,6 @@ export default function Footer({ type = 3 }) {
                       </span>
                     </Link>
                   </li>
-                  <li>
-                    <Link to="/all-products">
-                      <span className="text-[#9A9A9A] text-[15px] hover:text-qblack border-b border-transparent hover:border-qblack cursor-pointer capitalize">
-                        Meilleurs produits
-                      </span>
-                    </Link>
-                  </li>
                 </ul>
               </div>
             </div>
@@ -91,12 +84,19 @@ export default function Footer({ type = 3 }) {
                       </Link>
                     </li>
                     <li>
+                      <Link to="/all-products">
+                        <span className="text-[#9A9A9A] text-[15px] hover:text-qblack border-b border-transparent hover:border-qblack cursor-pointer capitalize">
+                          Meilleurs produits
+                        </span>
+                      </Link>
+                    </li>
+                    {/* <li>
                       <Link to="/become-saller">
                         <span className="text-[#9A9A9A] text-[15px] hover:text-qblack border-b border-transparent hover:border-qblack cursor-pointer capitalize">
                           Devenez vendeur
                         </span>
                       </Link>
-                    </li>
+                    </li> */}
                   </ul>
                 </div>
               </div>
@@ -124,13 +124,13 @@ export default function Footer({ type = 3 }) {
                         </span>
                       </Link>
                     </li>
-                    <li>
+                    {/* <li>
                       <Link to="/about">
                         <span className="text-[#9A9A9A] text-[15px] hover:text-qblack border-b border-transparent hover:border-qblack cursor-pointer capitalize">
                           Soutien
                         </span>
                       </Link>
-                    </li>
+                    </li> */}
                   </ul>
                 </div>
               </div>
