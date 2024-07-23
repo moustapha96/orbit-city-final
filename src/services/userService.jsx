@@ -48,7 +48,10 @@ const userService = {
 
   updateUser: async (id, modelData) => {
     try {
-      const response = await axiosInstance.put(`/api/users/${id}`, modelData);
+      const response = await axiosInstance.put(
+        `/api/users/${id}/update`,
+        modelData
+      );
       return response.data;
     } catch (error) {
       console.error(

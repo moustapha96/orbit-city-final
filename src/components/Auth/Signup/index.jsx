@@ -13,12 +13,6 @@ export default function Signup() {
   const [checked, setValue] = useState(false);
   const navigate = useNavigate();
 
-  const [stateListe, setStateListe] = useState(null);
-  const [stateListeFilter, setStateListeFilter] = useState(null);
-  const [state, setState] = useState(null);
-  const [pays, setPays] = useState(null);
-
-  const [countryListe, setCountryListe] = useState([]);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
