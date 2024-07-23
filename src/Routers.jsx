@@ -31,8 +31,6 @@ import PreOrderPaymentPage from "./components/PreCartValidation/index.jsx";
 
 import PreCartValidationPage from "./components/PreCartValidation/index.jsx";
 import CartValidationPage from "./components/CartValidation/index.jsx";
-import PaymentCommandePage from "./components/PaymentValidation/PaymentCommandePage.jsx";
-import PaymentPreCommandePage from "./components/PaymentValidation/PaymentPreCommandePage.jsx";
 import PaymentStatePage from "./components/PaymentState/index.jsx";
 
 // import HomeTwo from "./components/HomeTwo";
@@ -77,19 +75,19 @@ const router = createBrowserRouter([
     element: <CartValidationPage />,
   },
 
-  {
-    path: "/payment-commande/:idOrder",
-    element: <PaymentCommandePage />,
-  },
+  // {
+  //   path: "/payment-commande/:idOrder",
+  //   element: <PaymentCommandePage />,
+  // },
   {
     path: "/payment-state/:idOrder?/:montant?",
     element: <PaymentStatePage />,
   },
 
-  {
-    path: "/payment-precommande/:idOrder/:tranche/:montant",
-    element: <PaymentPreCommandePage />,
-  },
+  // {
+  //   path: "/payment-precommande/:idOrder/:tranche/:montant",
+  //   element: <PaymentPreCommandePage />,
+  // },
 
   // { path: "/pre-commandes/:id/détails", element: <PreCommandeDetailsPage /> },
 

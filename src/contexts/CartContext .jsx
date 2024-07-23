@@ -7,10 +7,8 @@ export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
-
   const [wishlist, setWishlist] = useState([]);
   const [preorder, setPreorder] = useState([]);
-
   const [preorderState, setPreorderState] = useState(null);
   const [orderState, setOrderState] = useState(null);
 

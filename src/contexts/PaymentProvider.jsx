@@ -14,7 +14,12 @@ const PaymentProvider = ({ children }) => {
   }, [payment]);
 
   const setUserPayment = (user) => {
-    setPayment({ ...payment, userPayment: user });
+    if (!user) {
+      const userLocal = JSON.parse(localStorage.getItem("user"));
+      setPayment({ ...payment, userPayment: userLocal });
+    } else {
+      setPayment({ ...payment, userPayment: user });
+    }
   };
 
   const setOrder = (order) => {

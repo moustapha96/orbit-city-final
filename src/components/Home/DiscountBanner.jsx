@@ -1,4 +1,6 @@
+/* eslint-disable react/prop-types */
 export default function DiscountBanner({ className, type }) {
+  const bgColor = "var(--bleu-logo)";
   return (
     <div
       className={`discount-banner w-full h-[307px] bg-cover flex justify-center items-center ${
@@ -213,41 +215,24 @@ export default function DiscountBanner({ className, type }) {
         <div>
           <div data-aos="fade-up">
             <h1 className="sm:text-3xl text-xl font-700 text-qblack mb-2 text-center">
-              Get <span className="mx-1 text-qyellow">20%</span> Off Discount
-              Coupon
+              <span className="mx-1 text-qyellow">CCBM</span>{" "}
+              <span className="mx-1" style={{ color: bgColor }}>
+                SHOP
+              </span>
+              - Commandez en ligne et faites-vous livrer à domicile!
             </h1>
+
             <p className="text-center sm:text-[18px] text-sm font-400">
-              by Subscribe our Newsletter
+              Le choix, la qualité et le service à votre porte
             </p>
           </div>
-          <div
+          {/* <div
             data-aos="fade-right"
             className="sm:w-[543px] w-[300px] h-[54px] flex mt-8"
           >
             <div className="flex-1 bg-white pl-4 flex space-x-2 items-center h-full focus-within:text-qyellow text-qblack">
               <span>
-                <svg
-                  width="17"
-                  height="15"
-                  viewBox="0 0 17 15"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M15 14H2C1.4 14 1 13.6 1 13V2C1 1.4 1.4 1 2 1H15C15.6 1 16 1.4 16 2V13C16 13.6 15.6 14 15 14Z"
-                    stroke="currentColor"
-                    strokeMiterlimit="10"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M3 4L8.5 8.5L14 4"
-                    stroke="currentColor"
-                    strokeMiterlimit="10"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
+                <Mail></Mail>
               </span>
               <input
                 type="email"
@@ -262,7 +247,7 @@ export default function DiscountBanner({ className, type }) {
             >
               Get the Coupon
             </button>
-          </div>
+          </div> */}
         </div>
       )}
     </div>

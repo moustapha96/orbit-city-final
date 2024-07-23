@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import {
   Loader2,
   Mail,
@@ -8,7 +9,7 @@ import {
   Trophy,
   Truck,
 } from "lucide-react";
-import InputCom from "../Helpers/InputCom";
+
 import PageTitle from "../Helpers/PageTitle";
 import Layout from "../Partials/Layout";
 import { useState } from "react";
@@ -238,7 +239,7 @@ export default function Contact() {
                       Livraison gratuite
                     </p>
                     <p className="text-sm text-white">
-                      Lors d'une commande de plus de 10000 F CFA
+                      Lors d&apos;une commande de plus de 10000 F CFA
                     </p>
                   </div>
                 </div>

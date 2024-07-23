@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useState } from "react";
 import DiscountBanner from "../Home/DiscountBanner";
 import Drawer from "../Mobile/Drawer";

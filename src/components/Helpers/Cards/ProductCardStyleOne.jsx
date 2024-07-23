@@ -129,9 +129,11 @@ export default function ProductCardStyleOne({ datas, type = 3 }) {
           </p>
         </Link>
         <p className="price">
-          <span className="main-price text-qgray line-through font-600 text-[18px]">
-            {formatPrice(datas.standard_price)}
-          </span>
+          {datas.standard_price != 0 && (
+            <span className="main-price text-qgray line-through font-600 text-[18px]">
+              {formatPrice(datas.standard_price)}
+            </span>
+          )}
           <span className="offer-price text-qred font-600 text-[18px] ml-2">
             {formatPrice(datas.list_price)}
           </span>

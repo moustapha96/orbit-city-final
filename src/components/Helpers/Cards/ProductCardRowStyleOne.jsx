@@ -107,9 +107,11 @@ export default function ProductCardRowStyleTwo({ className, datas, type = 3 }) {
               </p>
             </Link>
             <p className="price mb-[26px]">
-              <span className="main-price text-qgray line-through font-600 sm:text-[18px] text-base">
-                {datas.standard_price}
-              </span>
+              {datas.standard_price != 0 && (
+                <span className="main-price text-qgray line-through font-600 sm:text-[18px] text-base">
+                  {datas.standard_price}
+                </span>
+              )}
               <span className="offer-price text-qred font-600 sm:text-[18px] text-base ml-2">
                 {formatPrice(datas.list_price)}{" "}
               </span>

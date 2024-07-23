@@ -9,159 +9,137 @@ export default function TermsCondition() {
           <PageTitle
             breadcrumb={[
               { name: "Accueil", path: "/" },
-              { name: "Terms and condition", path: "/terms-conditions" },
+              { name: "Termes et conditions", path: "/terms-condition" },
             ]}
-            title="Terms and Condition"
+            title="Termes et conditions"
           />
         </div>
         <div className="w-full">
           <div className="container-x mx-auto">
             <div className="content-item w-full mb-10">
               <h2 className="text-[18px] font-medium text-qblack mb-5">
-                1. What Are Terms and Conditions?
+                1. Introduction
               </h2>
               <p className="text-[15px] text-qgraytwo leading-7">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s, when an unknown printer took a galley
-                of type and scrambled it to make a type specimen book. It has
-                survived not only five centuries but also the on leap into
-                electronic typesetting, remaining essentially unchanged. It
-                wasn’t popularised in the 1960s with the release of Letraset
-                sheets containing Lorem Ipsum passages, andei more recently with
-                desktop publishing software like Aldus PageMaker including
-                versions of Lorem Ipsum to make a type specimen book.
+                Les présentes conditions générales régissent l'utilisation de la
+                plateforme de vente en ligne Orbit City, exploitée par le groupe
+                CCBM au Sénégal. En accédant et en utilisant ce site web, vous
+                acceptez d'être lié par ces termes et conditions.
               </p>
-            </div>
-            <div className="content-item w-full mb-10">
-              <h2 className="text-[18px] font-medium text-qblack mb-5">
-                2. Does My Online Shop Need Terms and Conditions?
-              </h2>
-              <p className="text-[15px] text-qgraytwo leading-7 mb-10">
-                While it’s not legally required for ecommerce websites to have a
-                terms and conditions agreement, adding one will help protect
-                your online business.As terms and conditions are legally
-                enforceable rules, they allow you to set standards for how users
-                interact with your site. Here are some of the major benefits of
-                including terms and conditions on your ecommerce site:
-                <br />
-                <br />
-                has survived not only five centuries but also the on leap into
-                electronic typesetting, remaining essentially unchanged. It
-                wasn’t popularised in the 1960s with the release of Letraset
-                sheets containing Lorem Ipsum passages, andei more recently with
-                desktop.
-              </p>
-              <div>
-                <h2 className="text-[18px] font-medium text-qblack mb-5">
-                  2. Does My Online Shop Need Terms and Conditions?
-                </h2>
-
-                <ul className="list-disc ml-5">
-                  <li className="text-[15px] text-qgraytwo leading-7">
-                    slim body with metal cover
-                  </li>
-                  <li className="text-[15px] text-qgraytwo leading-7">
-                    latest Intel Core i5-1135G7 import.metaor (4 cores / 8
-                    threads)
-                  </li>
-                  <li className="text-[15px] text-qgraytwo leading-7">
-                    8GB DDR4 RAM and fast 512GB PCIe SSD
-                  </li>
-                  <li className="text-[15px] text-qgraytwo leading-7">
-                    NVIDIA GeForce MX350 2GB GDDR5 graphics card backlit
-                    keyboard, touchpad with gesture support
-                  </li>
-                </ul>
-              </div>
             </div>
 
             <div className="content-item w-full mb-10">
               <h2 className="text-[18px] font-medium text-qblack mb-5">
-                3. Protect Your Property
+                2. Utilisation de la plateforme
               </h2>
               <p className="text-[15px] text-qgraytwo leading-7">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s, when an unknown printer took a galley
-                of type and scrambled it to make a type specimen book. It has
-                survived not only five centuries but also the on leap into
-                electronic typesetting, remaining essentially unchanged. It
-                wasn’t popularised in the 1960s with the release of Letraset
-                sheets containing Lorem Ipsum passages, andei more recently with
-                desktop publishing software like Aldus PageMaker including
-                versions of Lorem Ipsum to make a type specimen book. five
-                centuries but also the on leap into electronic typesetting,
-                remaining essentially unchanged. It wasn’t popularised in the
-                1960s with the release of Letraset sheets containing Lorem Ipsum
-                passages, andei more recently with desktop publishing software
-                like Aldus PageMaker including versions of Lorem Ipsum to make a
-                type specimen book.
+                Vous vous engagez à utiliser la plateforme de manière légale,
+                éthique et dans le respect des présentes conditions. Vous
+                acceptez de fournir des informations exactes et à jour lors de
+                votre inscription et de vos transactions. Orbit City se réserve
+                le droit de suspendre ou de résilier votre compte en cas de
+                violation des présentes conditions.
               </p>
             </div>
+
             <div className="content-item w-full mb-10">
               <h2 className="text-[18px] font-medium text-qblack mb-5">
-                4. What to Include in Terms and Conditions for Online Stores
+                3. Produits et services
               </h2>
               <p className="text-[15px] text-qgraytwo leading-7">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s, when an unknown printer took a galley
-                of type and scrambled it to make a type specimen book. It has
-                survived not only five centuries but also the on leap into
-                electronic typesetting, remaining essentially unchanged. It
-                wasn’t popularised in the 1960s with the release of Letraset
-                sheets containing Lorem Ipsum passages, andei more recently with
-                desktop publishing software like Aldus PageMaker including
-                versions of Lorem Ipsum to make a type specimen book.
-                <br />
-                <br />
-                five centuries but also the on leap into electronic typesetting,
-                remaining essentially unchanged. It wasn’t popularised in the
-                1960s with the release of Letraset sheets containing Lorem Ipsum
-                passages, andei more recently with desktop publishing software
-                like Aldus PageMaker including versions of Lorem Ipsum to make a
-                type specimen book. It wasn’t popularised in the 1960s with the
-                release of Letraset sheets containing Lorem Ipsum passages,
-                andei more recently with desktop publishing software like Aldus
-                PageMaker including versions of Lorem Ipsum to make a type
-                specimen book.
+                Les produits proposés sur Orbit City sont soumis à
+                disponibilité. Orbit City s'efforce de fournir des informations
+                précises sur les produits, mais ne garantit pas que les
+                descriptions ou les images soient complètement exactes. Orbit
+                City se réserve le droit de modifier les prix et les promotions
+                sans préavis.
               </p>
             </div>
+
             <div className="content-item w-full mb-10">
               <h2 className="text-[18px] font-medium text-qblack mb-5">
-                05.Pricing and Payment Terms
+                4. Paiement et livraison
               </h2>
               <p className="text-[15px] text-qgraytwo leading-7">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s, when an unknown printer took a galley
-                of type and scrambled it to make a type specimen book. It has
-                survived not only five centuries but also the on leap into
-                electronic typesetting, remaining essentially unchanged. It
-                wasn’t popularised in the 1960s with the release of Letraset
-                sheets containing Lorem Ipsum passages, andei more recently with
-                desktop publishing software like Aldus PageMaker including
-                versions of Lorem Ipsum to make a type specimen book.
-                <br />
-                <br />
-                five centuries but also the on leap into electronic typesetting,
-                remaining essentially unchanged. It wasn’t popularised in the
-                1960s with the release of Letraset sheets containing Lorem Ipsum
-                passages, andei more recently with desktop publishing software
-                like Aldus PageMaker including versions of Lorem Ipsum to make a
-                type specimen book. It wasn’t popularised in the 1960s with the
-                release of Letraset sheets containing Lorem Ipsum passages,
-                andei more recently with desktop publishing software like Aldus
-                PageMaker including versions of Lorem Ipsum to make a type
-                specimen book.
-                <br />
-                <br />
-                It has survived not only five centuries but also the on leap
-                into electronic typesetting, remaining essentially unchanged. It
-                wasn’t popularised in the 1960s with the release of Letraset
-                sheets containing Lorem Ipsum passages, andei more recently with
-                desktop
+                Vous acceptez de payer le prix total indiqué lors de la
+                commande, y compris les frais de livraison applicables. Les
+                délais de livraison sont approximatifs et peuvent varier en
+                fonction de la destination et des conditions de transport. Orbit
+                City ne peut être tenu responsable des retards ou des dommages
+                causés par des tiers pendant le transport.
+              </p>
+            </div>
+
+            <div className="content-item w-full mb-10">
+              <h2 className="text-[18px] font-medium text-qblack mb-5">
+                5. Droit de rétractation et retours
+              </h2>
+              <p className="text-[15px] text-qgraytwo leading-7">
+                Vous disposez d'un droit de rétractation de 14 jours pour
+                retourner un produit, conformément à la loi en vigueur. Les
+                produits retournés doivent être dans leur état d'origine, avec
+                tous les accessoires et emballages. Des frais de restockage
+                peuvent s'appliquer dans certains cas.
+              </p>
+            </div>
+
+            <div className="content-item w-full mb-10">
+              <h2 className="text-[18px] font-medium text-qblack mb-5">
+                6. Garantie et service après-vente
+              </h2>
+              <p className="text-[15px] text-qgraytwo leading-7">
+                Tous les produits sont couverts par la garantie légale contre
+                les défauts de conformité. Orbit City propose des extensions de
+                garantie optionnelles pour une protection supplémentaire. Pour
+                toute question ou réclamation, veuillez contacter notre service
+                client.
+              </p>
+            </div>
+
+            <div className="content-item w-full mb-10">
+              <h2 className="text-[18px] font-medium text-qblack mb-5">
+                7. Propriété intellectuelle
+              </h2>
+              <p className="text-[15px] text-qgraytwo leading-7">
+                Tous les contenus du site web, y compris les textes, les images
+                et les logos, sont la propriété d'Orbit City et du groupe CCBM.
+                Toute reproduction ou utilisation non autorisée est strictement
+                interdite.
+              </p>
+            </div>
+
+            <div className="content-item w-full mb-10">
+              <h2 className="text-[18px] font-medium text-qblack mb-5">
+                8. Limitation de responsabilité
+              </h2>
+              <p className="text-[15px] text-qgraytwo leading-7">
+                Orbit City ne peut être tenu responsable des dommages directs ou
+                indirects résultant de l'utilisation de la plateforme ou de
+                l'achat de produits. Orbit City ne peut être tenu responsable
+                des interruptions de service ou des erreurs techniques.
+              </p>
+            </div>
+
+            <div className="content-item w-full mb-10">
+              <h2 className="text-[18px] font-medium text-qblack mb-5">
+                9. Modification des conditions
+              </h2>
+              <p className="text-[15px] text-qgraytwo leading-7">
+                Orbit City se réserve le droit de modifier les présentes
+                conditions à tout moment sans préavis. Il est de votre
+                responsabilité de consulter régulièrement les conditions en
+                vigueur.
+              </p>
+            </div>
+
+            <div className="content-item w-full mb-10">
+              <h2 className="text-[18px] font-medium text-qblack mb-5">
+                10. Droit applicable et juridiction
+              </h2>
+              <p className="text-[15px] text-qgraytwo leading-7">
+                Les présentes conditions sont régies par le droit sénégalais.
+                Tout litige sera soumis à la compétence exclusive des tribunaux
+                de Dakar.
               </p>
             </div>
           </div>

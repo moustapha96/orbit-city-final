@@ -297,7 +297,7 @@ export default function Banner({ className }) {
               </button>
             </div>
             <SimpleSlider settings={settings} selector={sliderRef}>
-              <div className="item w-full xl:h-[733px] h-[500px]">
+              <div className="item w-full xl:h-[533px] h-[400px]">
                 <div
                   className="w-full h-full relative"
                   style={{
@@ -316,7 +316,7 @@ export default function Banner({ className }) {
                           Plongez dans notre univers d'électronique
                         </h1> */}
 
-                        <Link to="#" passhref="true">
+                        <Link passhref="true">
                           <div rel="noopener noreferrer">
                             <div
                               className={`w-[160px] h-[52px] flex justify-center items-center group rounded bg-qh3-blue text-white relative transition-all duration-300 ease-in-out overflow-hidden cursor-pointer ${
@@ -342,7 +342,7 @@ export default function Banner({ className }) {
                   </div>
                 </div>
               </div>
-              <div className="item w-full xl:h-[733px] h-[500px]">
+              <div className="item w-full xl:h-[533px] h-[400px]">
                 <div
                   style={{
                     backgroundImage: `url(/banner2.png)`,
@@ -387,7 +387,7 @@ export default function Banner({ className }) {
                   </div>
                 </div>
               </div>
-              <div className="item w-full xl:h-[733px] h-[500px]">
+              <div className="item w-full xl:h-[533px] h-[400px]">
                 <div
                   style={{
                     backgroundImage: `url(image5.jpg)`,
