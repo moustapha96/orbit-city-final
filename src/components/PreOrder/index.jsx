@@ -24,6 +24,7 @@ export default function PreOrderPage() {
   const [pricepayment, setPricePayment] = useState(null);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [montantAPayer, setMontantAPayer] = useState(0);
+  const [errorMontantAPayer, setErrorMontantAPayer] = useState("");
   console.log(id);
   useEffect(() => {
     let isMounted = true;
@@ -303,6 +304,13 @@ export default function PreOrderPage() {
                     </div>
 
                     <div>
+                      {!precommande.first_payment_state && (
+                        <p className="text-center text-yellow-500 mt-4">
+                          Vous devez payer minimum une somme supérieur ou égale
+                          à la première tranche ({" "}
+                          {formatPrice(precommande.first_payment_amount)} ) .
+                        </p>
+                      )}
                       {(precommande.advance_payment_status === "not_paid" ||
                         precommande.advance_payment_status === "partial") && (
                         <>
@@ -313,6 +321,7 @@ export default function PreOrderPage() {
                                 value="Montant A payer"
                               />
                             </div>
+
                             <TextInput
                               id="montant"
                               placeholder="1000"
@@ -327,10 +336,27 @@ export default function PreOrderPage() {
                                 if (value <= precommande.amount_residual) {
                                   setMontantAPayer(value);
                                 }
+                                if (
+                                  !precommande.first_payment_state &&
+                                  value < precommande.first_payment_amount
+                                ) {
+                                  setErrorMontantAPayer(
+                                    `Le montant entré doit être supérieur ou égal à la première tranche de ${formatPrice(
+                                      precommande.first_payment_amount
+                                    )}.`
+                                  );
+                                } else {
+                                  setErrorMontantAPayer("");
+                                }
                               }}
                               required
                               className="invalid:border-red-500 invalid:text-red-600 focus:invalid:border-red-500 focus:invalid:ring-red-500"
                             />
+                            {errorMontantAPayer && (
+                              <p className="text-red-600">
+                                {errorMontantAPayer}
+                              </p>
+                            )}
                           </div>
 
                           <Button

@@ -135,7 +135,7 @@ export default function PreOrderTab() {
               </>
             )}
 
-            {!precommandes == 0 && (
+            {precommandes.length == 0 && (
               <p className="py-4 block whitespace-nowrap text-center mt-5 ">
                 Votre liste de pre commandes est vide{" "}
               </p>
