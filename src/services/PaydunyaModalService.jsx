@@ -67,8 +67,8 @@ const PaydunyaModalService = ({
       tagline: "Votre boutique pour vos matériels électroménéger",
       phoneNumber: "784537547",
       postalAddress: "Dakar",
-      logoURL: "https://orbitcitydev.com/logo.png",
-      websiteURL: "https://orbitcitydev.com",
+      logoURL: "http://orbitcity.sn/logo.png",
+      websiteURL: "http://orbitcity.sn",
     });
     setStore(store);
   }, []);
@@ -95,7 +95,7 @@ const PaydunyaModalService = ({
         formatPrice(Math.ceil(totalAmount)) +
         " pour la commande " +
         order.name;
-      invoice.callbackURL = "http://orbitcity.sn//profile";
+      invoice.callbackURL = "http://orbitcity.sn/profile";
       if (order.type_sale === "order") {
         invoice.cancelURL = `http://orbitcity.sn/commandes/${idOrder}/détails`;
       } else {

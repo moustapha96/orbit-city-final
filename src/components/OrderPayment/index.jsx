@@ -1,17 +1,15 @@
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+/* eslint-disable no-unused-vars */
 
 import PageTitle from "../Helpers/PageTitle";
 import Layout from "../Partials/Layout";
-import { useContext, useEffect, useState } from "react";
-import PaiementService from "../../services/paimentService";
+import { useContext, useState } from "react";
 
 import formatDate from "../../utils/date-format";
 import formatPrice from "../../utils/formatPrice";
-import PrecommandeService from "../../services/precommandeService";
+
 import { CartContext } from "../../contexts/CartContext ";
 
 export default function OrderPaymentPage() {
-  const navigate = useNavigate();
   const [commande, setCommande] = useState(null);
 
   const { cart } = useContext(CartContext);

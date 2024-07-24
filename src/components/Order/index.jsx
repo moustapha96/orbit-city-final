@@ -70,6 +70,18 @@ export default function OrderPage() {
             ]}
           />
         </div>
+        {!commande && (
+          <div className="checkout-main-content w-full">
+            <div className="container-x mx-auto">
+              <div className="w-full sm:mb-10 mb-5">
+                <div className="text-center">
+                  <Loader2 className="inline-block w-[20px] h-[20px]" />
+                  <span className="ml-[5px]">Chargement en cours...</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
         {commande && (
           <div className="checkout-main-content w-full">
             <div className="container-x mx-auto">

@@ -1,9 +1,9 @@
 import axios from "axios";
 
-const urlBase = "https://orbitcity.sn:8916/";
+const urlBase = "http://orbitcity.sn:8916/";
 const axiosInstance = axios.create({
   // baseURL: "http://localhost:8016/",
-  baseURL: "https://orbitcity.sn:8916/",
+  baseURL: "http://orbitcity.sn:8916/",
 });
 
 const excludedEndpoints = [
@@ -12,7 +12,7 @@ const excludedEndpoints = [
   "/produits",
   "/categories",
   "/new_compte",
-  "/commandes_search",
+  "/tracking",
 ];
 
 axiosInstance.interceptors.request.use(

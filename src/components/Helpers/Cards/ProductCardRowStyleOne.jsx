@@ -142,6 +142,12 @@ export default function ProductCardRowStyleTwo({ className, datas, type = 3 }) {
                 </span>
               </button>
             )}
+            {datas.quantite_en_stock == 0 &&
+              datas.quanitty_virtuelle_disponible == 0 && (
+                <>
+                  <p className="text-red-400">Rupture de stock </p>
+                </>
+              )}
           </div>
         </div>
       </div>

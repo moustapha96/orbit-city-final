@@ -295,12 +295,18 @@ export default function ProductView({ produit, className, reportHandler }) {
                   Pré comamnder
                 </button>
               )}
+              {produit.quantite_en_stock == 0 &&
+                produit.quanitty_virtuelle_disponible == 0 && (
+                  <>
+                    <p className="text-red-400">Rupture de stock </p>
+                  </>
+                )}
             </div>
           </div>
 
           <div data-aos="fade-up" className="mb-[20px]">
             <p className="text-[13px] text-qgray leading-7">
-              <span className="text-qblack">Categorie :</span>{" "}
+              <span className="text-qblack">Catégorie :</span>{" "}
               {produit.categ_id}
             </p>
             {/* <p className="text-[13px] text-qgray leading-7">

@@ -15,10 +15,7 @@ const commandeService = {
   },
   getCommandeTracking: async (modelData) => {
     try {
-      const response = await axiosInstance.post(
-        "/api/commandes_search",
-        modelData
-      );
+      const response = await axiosInstance.post("/api/tracking", modelData);
       return response.data;
     } catch (error) {
       console.error("Erreur lors de la réccuperation de la commande", error);

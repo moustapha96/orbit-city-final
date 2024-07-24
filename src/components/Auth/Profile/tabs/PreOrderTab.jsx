@@ -1,10 +1,11 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PreCommandeService from "../../../../services/precommandeService";
 import formatDate from "../../../../utils/date-format";
 import formatPrice from "../../../../utils/formatPrice";
-export default function PreOrderTab() {
+export default function PreOrderTab({ type = 3 }) {
   const [precommandes, setPreCommandes] = useState([]);
 
   useEffect(() => {
@@ -55,7 +56,7 @@ export default function PreOrderTab() {
                   >
                     <td className="text-center py-4">
                       <span className="text-lg text-qgray font-medium">
-                        #{commande.id} - {commande.name}
+                        # - {commande.name}
                       </span>
                     </td>
                     <td className="text-center py-4 px-2">
@@ -135,7 +136,7 @@ export default function PreOrderTab() {
               </>
             )}
 
-            {precommandes.length == 0 && (
+            {Array.isArray(precommandes) && precommandes.length == 0 && (
               <p className="py-4 block whitespace-nowrap text-center mt-5 ">
                 Votre liste de pre commandes est vide{" "}
               </p>
