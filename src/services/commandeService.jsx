@@ -13,6 +13,18 @@ const commandeService = {
       throw error;
     }
   },
+  getCommandeTracking: async (modelData) => {
+    try {
+      const response = await axiosInstance.post(
+        "/api/commandes_search",
+        modelData
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Erreur lors de la réccuperation de la commande", error);
+      throw error;
+    }
+  },
   getCommandeAny: async (id) => {
     try {
       const response = await axiosInstance.get(`/api/getcommande/${id}`);

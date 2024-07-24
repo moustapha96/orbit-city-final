@@ -41,83 +41,6 @@ export default function Login() {
 
     return Object.values(error).every((error) => !error);
   };
-  // const handleSubmit = async (e) => {
-  //   setIsLoading(true);
-  //   e.preventDefault();
-  //   if (validateForm()) {
-  //     console.log(email, password);
-  //     try {
-  //       const response = await userService.login({
-  //         username: email,
-  //         password: password,
-  //       });
-  //       console.log(response);
-  //       if (response.error) {
-  //         console.log("erreur " + response.error);
-  //       } else {
-  //         const {
-  //           access_token,
-  //           refresh_token,
-  //           user_info,
-  //           uid,
-  //           expires_in,
-  //           user_context,
-  //           company_id,
-  //           refresh_expires_in,
-  //         } = response;
-
-  //         toast.success("Connexion réussie !", {
-  //           position: "top-center",
-  //           autoClose: 5000,
-  //           hideProgressBar: false,
-  //           closeOnClick: true,
-  //           pauseOnHover: true,
-  //           draggable: true,
-  //           progress: undefined,
-  //         });
-  //         setUid(uid);
-  //         setUser(user_info);
-  //         setToken(access_token);
-  //         setExpiresIn(expires_in);
-  //         setRefreshToken(refresh_token);
-  //         setExpiresIn(Date.now() + expires_in);
-  //         setRefreshExpiresIn(Date.now() + refresh_expires_in);
-  //         localStorage.setItem("company_id", company_id);
-  //         localStorage.setItem("user_context", JSON.stringify(user_context));
-  //         localStorage.setItem("partner_id", user_info.partner_id);
-
-  //         navigate("/all-products");
-  //       }
-  //     } catch (error) {
-  //       toast.error("Connexion Echouée , Email ou Mot de passe incorrecte!", {
-  //         position: "top-center",
-  //         autoClose: 5000,
-  //         hideProgressBar: false,
-  //         closeOnClick: true,
-  //         pauseOnHover: true,
-  //         draggable: true,
-  //         progress: undefined,
-  //       });
-  //       console.error("Erreur lors de l'obtention des jetons :", error);
-  //     }
-  //   } else {
-  //     toast.error(
-  //       "Connexion Echoué , Email ou Mot de passe incorrecte ou erreur serveur !",
-  //       {
-  //         position: "top-center",
-  //         autoClose: 5000,
-  //         hideProgressBar: false,
-  //         closeOnClick: true,
-  //         pauseOnHover: true,
-  //         draggable: true,
-  //         progress: undefined,
-  //       }
-  //     );
-  //     console.log("Formulaire invalide !");
-  //   }
-
-  //   setIsLoading(false);
-  // };
 
   const handleSubmit = async (e) => {
     setIsLoading(true);
@@ -326,7 +249,7 @@ export default function Login() {
                           type="submit"
                           variant="failure"
                           className=" black-btn mb-6 text-sm text-white w-full h-[50px] font-semibold flex justify-center 
-hover:bg-red-500  bg-purple items-center"
+                              hover:bg-red-500  bg-purple items-center"
                           disabled={isLoading}
                         >
                           {isLoading && (
