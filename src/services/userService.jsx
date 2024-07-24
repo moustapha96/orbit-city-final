@@ -38,7 +38,7 @@ const userService = {
 
   createUser: async (modelData) => {
     try {
-      const response = await axiosInstance.post("/api/users", modelData);
+      const response = await axiosInstance.post("/api/new_compte", modelData);
       return response.data;
     } catch (error) {
       console.error("Erreur lors de la création du modèle", error);
