@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import InputQuantityPreCommande from "../Helpers/InputQuantityPreCommande";
 import { useContext, useState } from "react";
-import { CartContext } from "../../contexts/CartContext ";
+import { CartContext } from "../../contexts/CartContext";
 import formatPrice from "../../utils/formatPrice";
 import { CircleX } from "lucide-react";
 

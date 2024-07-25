@@ -135,14 +135,13 @@ export default function PreOrderTab({ type = 3 }) {
                 ))}
               </>
             )}
-
-            {Array.isArray(precommandes) && precommandes.length == 0 && (
-              <p className="py-4 block whitespace-nowrap text-center mt-5 ">
-                Votre liste de pre commandes est vide{" "}
-              </p>
-            )}
           </tbody>
         </table>
+        {!Array.isArray(precommandes) && (
+          <p className="text-center mt-5 ">
+            Votre Liste de pré commandes est vide{" "}
+          </p>
+        )}
       </div>
     </>
   );

@@ -11,7 +11,7 @@ import ProductView from "./ProductView";
 import Reviews from "./Reviews";
 import SallerInfo from "./SallerInfo";
 import { useLocation, useParams } from "react-router-dom";
-import { CartContext } from "../../contexts/CartContext ";
+import { CartContext } from "../../contexts/CartContext";
 import ProduitService from "../../services/produitService";
 import { toast } from "react-toastify";
 
@@ -151,7 +151,7 @@ export default function SingleProductPage() {
                       Déscription
                     </span>
                   </li>
-                  <li>
+                  {/* <li>
                     <span
                       onClick={() => setTab("info")}
                       className={`py-[15px] sm:text-[15px] text-sm sm:block border-b font-medium cursor-pointer ${
@@ -162,7 +162,7 @@ export default function SingleProductPage() {
                     >
                       Informations sur le vendeur
                     </span>
-                  </li>
+                  </li> */}
                 </ul>
               </div>
               <div className="w-full h-[1px] bg-[#E8E8E8] absolute left-0 sm:top-[50px] top-[36px] -z-10"></div>
@@ -172,7 +172,7 @@ export default function SingleProductPage() {
                 {tab === "des" && (
                   <div data-aos="fade-up" className="w-full tab-content-item">
                     <h6 className="text-[18px] font-medium text-qblack mb-2">
-                      Introduction
+                      Description
                     </h6>
                     <p className="text-[15px] text-qgray text-normal mb-10">
                       Lorem Ipsum is simply dummy text of the printing and

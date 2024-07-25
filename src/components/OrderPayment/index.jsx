@@ -7,7 +7,7 @@ import { useContext, useState } from "react";
 import formatDate from "../../utils/date-format";
 import formatPrice from "../../utils/formatPrice";
 
-import { CartContext } from "../../contexts/CartContext ";
+import { CartContext } from "../../contexts/CartContext";
 
 export default function OrderPaymentPage() {
   const [commande, setCommande] = useState(null);

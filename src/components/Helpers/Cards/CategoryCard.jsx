@@ -27,7 +27,7 @@ export default function CategoryCard({ background, title, brands = [] }) {
             ))}
           </ul>
         </div>
-        <a href="#">
+        <Link href="#">
           <div className="flex space-x-2 items-center">
             <span className="text-qblack font-600 text-sm">Shop Now</span>
             <span>
@@ -57,7 +57,7 @@ export default function CategoryCard({ background, title, brands = [] }) {
               </svg>
             </span>
           </div>
-        </a>
+        </Link>
       </div>
     </div>
   );

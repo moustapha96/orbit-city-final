@@ -22,10 +22,7 @@ export default function Login() {
     setExpiresIn,
     setRefreshExpiresIn,
     setRefreshToken,
-    setUserContext,
   } = useContext(UserContext);
-
-  console.log(user);
 
   const [checked, setValue] = useState(false);
   const navigate = useNavigate();

@@ -85,10 +85,7 @@ export default function CampaignCountDown({
               className="download-app flex-1 lg:h-full h-[430px] xl:p-12 p-5"
               style={{
                 background: `url(${
-                  counterbg ||
-                  `${
-                    import.meta.env.VITE_PUBLIC_URL
-                  }/images/download-app-cover.png`
+                  counterbg || `/images/download-app-cover.png`
                 }) no-repeat`,
                 backgroundSize: "cover",
               }}
@@ -121,9 +118,7 @@ export default function CampaignCountDown({
                         <img
                           width="170"
                           height="69"
-                          src={`${
-                            import.meta.env.VITE_PUBLIC_URL
-                          }/images/apple-store.png`}
+                          src={`/images/apple-store.png`}
                           alt=""
                         />
                       </a>

@@ -4,6 +4,7 @@ import { UserContext } from "../../../../contexts/UserContext";
 import { useSelector } from "react-redux";
 import { Car, ShoppingBag, ShoppingCart } from "lucide-react";
 import userService from "../../../../services/userService";
+import { Link } from "react-router-dom";
 
 export default function Dashboard() {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -48,9 +49,12 @@ export default function Dashboard() {
               <ShoppingCart></ShoppingCart>
             </span>
           </div>
-          <p className="text-xl text-white group-hover:text-qblacktext mt-5">
-            Commandes
-          </p>
+          <Link to="/profile#order">
+            <p className="text-xl text-white group-hover:text-qblacktext mt-3">
+              Mes commandes
+            </p>
+          </Link>
+
           <span className="text-[40px] text-white group-hover:text-qblacktext font-bold leading-none mt-1 block">
             {compte && <> {compte.order_count} </>}
           </span>
@@ -61,9 +65,11 @@ export default function Dashboard() {
               <ShoppingBag></ShoppingBag>
             </span>
           </div>
-          <p className="text-xl text-white group-hover:text-qblacktext mt-3">
-            Pré commandes
-          </p>
+          <Link to="/profile#preorder">
+            <p className="text-xl text-white group-hover:text-qblacktext mt-2">
+              Mes Pré-commandes
+            </p>
+          </Link>
           <span className="text-[40px] text-white group-hover:text-qblacktext font-bold leading-none mt-1 block">
             {compte && <> {compte.preorder_count} </>}
           </span>

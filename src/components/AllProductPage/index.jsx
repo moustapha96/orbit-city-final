@@ -5,33 +5,33 @@ import ProductCardStyleOne from "../Helpers/Cards/ProductCardStyleOne";
 import DataIteration from "../Helpers/DataIteration";
 import Layout from "../Partials/Layout";
 import ProductsFilter from "./ProductsFilter";
-import ProduitService from "../../services/produitService";
-import Categorieservice from "../../services/CategorieService";
 import { useParams } from "react-router-dom";
 import { Loader2 } from "lucide-react";
-import CategoryContext from "../../contexts/CategoryContext";
+import { CategoryContext } from "../../contexts/CategoryContext";
+import { ProductContext } from "../../contexts/ProductContext";
 
 export default function AllProductPage() {
   const { name } = useParams();
-  const [categories, setCategories] = useState([]);
+  // const [categories, setCategories] = useState([]);
   const [startLength, setStartLength] = useState(0);
   const [endLength, setEndLength] = useState(6);
-  const [products, setProducts] = useState([]);
+  // const [products, setProducts] = useState([]);
   const [produits, setProduits] = useState([]);
   const [showBackButton, setShowBackButton] = useState(false);
   const [showLoadMoreButton, setShowLoadMoreButton] = useState(true);
   const [search, setSearch] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const { selectedCategory } = useContext(CategoryContext);
-
+  const { selectedCategory, categories } = useContext(CategoryContext);
+  const { products } = useContext(ProductContext);
+  console.log(categories);
   const handleLoadMore = () => {
-    if (endLength < produits.length) {
+    if (endLength < products.length) {
       setEndLength(endLength + 8);
       setStartLength(Math.max(0, endLength));
       setShowBackButton(true);
     }
-    if (endLength + 8 >= produits.length) {
+    if (endLength + 8 >= products.length) {
       setShowLoadMoreButton(false);
     }
   };
@@ -61,21 +61,7 @@ export default function AllProductPage() {
   }, [selectedCategory]);
 
   useEffect(() => {
-    setIsLoading(true);
-    const fetchModels = async () => {
-      try {
-        const data = await Categorieservice.getCategories();
-        setCategories(data);
-
-        const dataP = await ProduitService.getProduits();
-        setProducts(dataP);
-        setProduits(dataP);
-      } catch (error) {
-        console.error("Erreur lors de la récupération des modèles", error);
-      }
-      setIsLoading(false);
-    };
-    fetchModels();
+    setProduits(products);
   }, []);
 
   const handleSearch = (event) => {
@@ -97,8 +83,6 @@ export default function AllProductPage() {
     if (categorySelected.name == "All") {
       const filteredProducts = products;
       setProduits(filteredProducts);
-      // setShowBackButton(false);
-      // setShowLoadMoreButton(true);
     } else {
       const filteredProducts = products.filter((product) =>
         product.categ_id.includes(categorySelected.name)

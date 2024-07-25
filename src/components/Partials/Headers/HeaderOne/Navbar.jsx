@@ -2,31 +2,20 @@
 import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Arrow from "../../../Helpers/icons/Arrow";
-import Categorieservice from "../../../../services/CategorieService";
 import { Asterisk, Menu, MoveRight } from "lucide-react";
-import CategoryContext from "../../../../contexts/CategoryContext";
+import { CategoryContext } from "../../../../contexts/CategoryContext";
 
 export default function Navbar({ className, type = 3 }) {
   const navigate = useNavigate();
 
   const [categoryToggle, setToggle] = useState(false);
   const [elementsSize, setSize] = useState("0px");
-  const [categories, setCategories] = useState([]);
-  const { selectCategory } = useContext(CategoryContext);
+  const { selectCategory, categories } = useContext(CategoryContext);
 
   const handler = () => {
     setToggle(!categoryToggle);
   };
   useEffect(() => {
-    const fetchModels = async () => {
-      try {
-        const data = await Categorieservice.getCategories();
-        setCategories(data);
-      } catch (error) {
-        console.error("Erreur lors de la récupération des modèles", error);
-      }
-    };
-    fetchModels();
     if (categoryToggle) {
       const getItems = document.querySelectorAll(`.categories-list li`).length;
       if (categoryToggle && getItems > 0) {

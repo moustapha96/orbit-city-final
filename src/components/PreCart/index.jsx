@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
-import { CartContext } from "../../contexts/CartContext ";
+import { CartContext } from "../../contexts/CartContext";
 import { useContext } from "react";
 import { Trash } from "lucide-react";
 import formatPrice from "../../utils/formatPrice";

@@ -7,7 +7,7 @@ import PageTitle from "../Helpers/PageTitle";
 import Layout from "../Partials/Layout";
 import ProductsTable from "./ProductsTable";
 import { useContext, useState } from "react";
-import { CartContext } from "../../contexts/CartContext ";
+import { CartContext } from "../../contexts/CartContext";
 import formatPrice from "../../utils/formatPrice";
 
 import PrecommandeService from "../../services/precommandeService";

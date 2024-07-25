@@ -7,7 +7,7 @@ import EmptyCardError from "../EmptyCardError";
 import PageTitle from "../Helpers/PageTitle";
 import Layout from "../Partials/Layout";
 import ProductsTable from "./ProductsTable";
-import { CartContext } from "../../contexts/CartContext ";
+import { CartContext } from "../../contexts/CartContext";
 import { useContext, useEffect, useState } from "react";
 import formatPrice from "../../utils/formatPrice";
 

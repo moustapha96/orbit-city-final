@@ -2,7 +2,7 @@
 import { Link, useNavigate } from "react-router-dom";
 
 import { Eye, Heart, ShoppingBag, ShoppingCart } from "lucide-react";
-import { CartContext } from "../../../contexts/CartContext ";
+import { CartContext } from "../../../contexts/CartContext";
 import { useContext } from "react";
 import formatPrice from "../../../utils/formatPrice";
 import { toast } from "react-toastify";

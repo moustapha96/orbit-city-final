@@ -4,28 +4,18 @@ import { useContext, useEffect, useState } from "react";
 
 import ThinLove from "../../Helpers/icons/ThinLove";
 import { Link } from "react-router-dom";
-import { CartContext } from "../../../contexts/CartContext ";
-import Categorieservice from "../../../services/CategorieService";
+import { CartContext } from "../../../contexts/CartContext";
 import { ChevronRight, Dot, Search, ShoppingCart } from "lucide-react";
+import { CategoryContext } from "../../../contexts/CategoryContext";
 
 export default function Drawer({ className, open, action }) {
   const backgroundColor = "var(--bleu-logo)";
   const hoverBackgroundColor = "var(--bleu-claire)";
   const [tab, setTab] = useState("category");
   const { cart, wishlist } = useContext(CartContext);
-  const [categories, setCategories] = useState([]);
-  useEffect(() => {
-    const fetchModels = async () => {
-      try {
-        const data = await Categorieservice.getCategories();
-        setCategories(data);
-        console.log(data);
-      } catch (error) {
-        console.error("Erreur lors de la récupération des modèles", error);
-      }
-    };
-    fetchModels();
-  }, []);
+
+  const { categories } = useContext(CategoryContext);
+
   return (
     <>
       <div

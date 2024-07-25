@@ -2,7 +2,7 @@
 /* eslint-disable react/prop-types */
 import React, { useContext } from "react";
 import InputQuantityCom from "../../../Helpers/InputQuantityCom";
-import { CartContext } from "../../../../contexts/CartContext ";
+import { CartContext } from "../../../../contexts/CartContext";
 import { PlusCircleIcon, Trash } from "lucide-react";
 import formatPrice from "../../../../utils/formatPrice";
 import { toast } from "react-toastify";

@@ -35,10 +35,10 @@ export default function Footer({ type = 3 }) {
             </p>
           </div>
           <div className="flex-1 lg:flex">
-            <div className="lg:w-1/3 w-full mb-10 lg:mb-0">
+            <div className="lg:w-1/2 w-full mb-10 lg:mb-0">
               <div className="mb-5">
                 <h6 className="text-[18] font-500 text-[#2F2F2F]">
-                  Fonctionnalité
+                  Liens Utiles
                 </h6>
               </div>
               <div>
@@ -50,17 +50,24 @@ export default function Footer({ type = 3 }) {
                       </span>
                     </Link>
                   </li>
-                  <li>
+                  {/* <li>
                     <Link to="/terms-condition">
                       <span className="text-[#9A9A9A] text-[15px] hover:text-qblack border-b border-transparent hover:border-qblack cursor-pointer capitalize">
                         Termes et conditions
+                      </span>
+                    </Link>
+                  </li> */}
+                  <li>
+                    <Link to="/tracking-order">
+                      <span className="text-[#9A9A9A] text-[15px] hover:text-qblack border-b border-transparent hover:border-qblack cursor-pointer capitalize">
+                        Suivre Commande
                       </span>
                     </Link>
                   </li>
                 </ul>
               </div>
             </div>
-            <div className="lg:w-1/3 lg:flex lg:flex-col items-center w-full mb-10 lg:mb-0 ">
+            {/* <div className="lg:w-1/3 lg:flex lg:flex-col items-center w-full mb-10 lg:mb-0 ">
               <div>
                 <div className="mb-5">
                   <h6 className="text-[18] font-500 text-[#2F2F2F]">
@@ -69,20 +76,14 @@ export default function Footer({ type = 3 }) {
                 </div>
                 <div>
                   <ul className="flex flex-col space-y-4 ">
-                    {/* <li>
+                    <li>
                       <Link to="/blogs">
                         <span className="text-[#9A9A9A] text-[15px] hover:text-qblack border-b border-transparent hover:border-qblack cursor-pointer capitalize">
                           Blog
                         </span>
                       </Link>
-                    </li> */}
-                    <li>
-                      <Link to="/tracking-order">
-                        <span className="text-[#9A9A9A] text-[15px] hover:text-qblack border-b border-transparent hover:border-qblack cursor-pointer capitalize">
-                          Tracking Order
-                        </span>
-                      </Link>
                     </li>
+
                     <li>
                       <Link to="/all-products">
                         <span className="text-[#9A9A9A] text-[15px] hover:text-qblack border-b border-transparent hover:border-qblack cursor-pointer capitalize">
@@ -90,33 +91,48 @@ export default function Footer({ type = 3 }) {
                         </span>
                       </Link>
                     </li>
-                    {/* <li>
+                    <li>
+                      <Link to="/conditions-generales-de-vente">
+                        <span className="text-[#9A9A9A] text-[15px] hover:text-qblack border-b border-transparent hover:border-qblack cursor-pointer capitalize">
+                          Conditions générales de vente
+                        </span>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/achats-securises">
+                        <span className="text-[#9A9A9A] text-[15px] hover:text-qblack border-b border-transparent hover:border-qblack cursor-pointer capitalize">
+                          Achats Sécurises
+                        </span>
+                      </Link>
+                    </li>
+
+                    <li>
                       <Link to="/become-saller">
                         <span className="text-[#9A9A9A] text-[15px] hover:text-qblack border-b border-transparent hover:border-qblack cursor-pointer capitalize">
                           Devenez vendeur
                         </span>
                       </Link>
-                    </li> */}
+                    </li>
                   </ul>
                 </div>
               </div>
-            </div>
-            <div className="lg:w-1/3 lg:flex lg:flex-col items-center w-full mb-10 lg:mb-0">
+            </div> */}
+            <div className="lg:w-1/2 lg:flex lg:flex-col items-center w-full mb-10 lg:mb-0">
               <div>
                 <div className="mb-5">
                   <h6 className="text-[18] font-500 text-[#2F2F2F]">
-                    Liens Utiles
+                    Nos Services
                   </h6>
                 </div>
                 <div>
                   <ul className="flex flex-col space-y-4 ">
-                    <li>
+                    {/* <li>
                       <Link to="/flash-sale">
                         <span className="text-[#9A9A9A] text-[15px] hover:text-qblack border-b border-transparent hover:border-qblack cursor-pointer capitalize">
                           Vente flash
                         </span>
                       </Link>
-                    </li>
+                    </li> */}
                     <li>
                       <Link to="/faq">
                         <span className="text-[#9A9A9A] text-[15px] hover:text-qblack border-b border-transparent hover:border-qblack cursor-pointer capitalize">
@@ -124,10 +140,17 @@ export default function Footer({ type = 3 }) {
                         </span>
                       </Link>
                     </li>
-                    {/* <li>
-                      <Link to="/about">
+                    <li>
+                      <Link to="/politique-de-confidentialite">
                         <span className="text-[#9A9A9A] text-[15px] hover:text-qblack border-b border-transparent hover:border-qblack cursor-pointer capitalize">
-                          Soutien
+                          Politique de confidentialité
+                        </span>
+                      </Link>
+                    </li>
+                    {/* <li>
+                      <Link to="/livraison-et-retours">
+                        <span className="text-[#9A9A9A] text-[15px] hover:text-qblack border-b border-transparent hover:border-qblack cursor-pointer capitalize">
+                          Livraison et Retours
                         </span>
                       </Link>
                     </li> */}

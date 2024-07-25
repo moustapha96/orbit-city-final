@@ -53,6 +53,11 @@ export const CartProvider = ({ children }) => {
     // setOrderState(null);
   };
 
+  const addAllWhislistToCart = () => {
+    wishlist.map((item) => {
+      addToCart(item, item.quantity);
+    });
+  };
   const addToWishlist = (product, quantity) => {
     console.log(product);
     if (!isProductInWishlist(product)) {
@@ -205,6 +210,7 @@ export const CartProvider = ({ children }) => {
         updateCart,
         clearCart,
         addToWishlist,
+        addAllWhislistToCart,
         removeFromWishlist,
         updateWishlist,
         clearWishlist,

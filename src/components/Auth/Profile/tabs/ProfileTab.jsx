@@ -25,8 +25,7 @@ export default function ProfileTab() {
   const [isLoading, setIsLoading] = useState(false);
 
   const profileImgInput = useRef(null);
-  const { user, setUser } = useContext(UserContext);
-  console.log(user);
+  const { user, setUser, token, uid, logout } = useContext(UserContext);
 
   const browseprofileImg = () => {
     profileImgInput.current.click();
@@ -62,9 +61,9 @@ export default function ProfileTab() {
     };
 
     try {
-      const response = await userService.updateUser(user.id, data);
-      setUser(response);
-      toast.success("Modification compte réussie !", {
+      const response = await userService.updateUser(user.partner_id, data);
+
+      toast.success("Modification Informations réussie !", {
         position: "top-center",
         autoClose: 5000,
         hideProgressBar: false,
@@ -73,13 +72,14 @@ export default function ProfileTab() {
         draggable: true,
         progress: undefined,
       });
+      logout();
       console.log(response);
       setIsLoading(false);
-      navigate("/profile");
+
+      navigate("/login");
     } catch (error) {
       setIsLoading(false);
-      console.log("response " + error);
-      console.log("response " + error);
+      // console.log("response " + error);
       navigate("/profile");
       toast.error("Modification compte Echouée , " + error, {
         position: "top-center",

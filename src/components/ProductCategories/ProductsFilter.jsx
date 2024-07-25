@@ -2,9 +2,9 @@
 /* eslint-disable react/prop-types */
 import RangeSlider from "react-range-slider-input";
 import Checkbox from "../Helpers/Checkbox";
-import { useEffect, useState } from "react";
-import Categorieservice from "../../services/Categorieservice";
+import { useContext, useEffect, useState } from "react";
 import { Plus } from "lucide-react";
+import { CategoryContext } from "../../contexts/CategoryContext";
 
 export default function ProductsFilter({
   filters,
@@ -19,19 +19,7 @@ export default function ProductsFilter({
   handleCategoryChange,
 }) {
   console.log(volume);
-  const [categories, setCategories] = useState([]);
-  useEffect(() => {
-    const fetchModels = async () => {
-      try {
-        const data = await Categorieservice.getCategories();
-        setCategories(data);
-        console.log(data);
-      } catch (error) {
-        console.error("Erreur lors de la récupération des modèles", error);
-      }
-    };
-    fetchModels();
-  }, []);
+  const { categories } = useContext(CategoryContext);
 
   return (
     <>

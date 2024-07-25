@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 // import { useEffect, useState } from "react";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import datas from "../../data/products.json";
 import SectionStyleFour from "../Helpers/SectionStyleFour";
 import SectionStyleOne from "../Helpers/SectionStyleOne";
@@ -15,36 +15,28 @@ import BrandSection from "./BrandSection";
 import CampaignCountDown from "./CampaignCountDown";
 import ProductsAds from "./ProductsAds";
 
-import ProduitService from "../../services/produitService";
-import Categorieservice from "../../services/CategorieService";
+import { ProductContext } from "../../contexts/ProductContext";
+import { CategoryContext } from "../../contexts/CategoryContext";
 
 export default function Home() {
-  const [categories, setCategories] = useState([]);
-  const [productS, setProducts] = useState([]);
   const [newProduits, setNewProduits] = useState([]);
 
+  const { products } = useContext(ProductContext);
+  const { categories } = useContext(CategoryContext);
+
   useEffect(() => {
-    const fetchModels = async () => {
-      try {
-        const data = await Categorieservice.getCategories();
-        setCategories(data);
-        const dataProduct = await ProduitService.getProduits();
-        setProducts(dataProduct);
-        setNewProduits(dataProduct.slice(0, 6));
-        console.log("produits new ", newProduits);
-        console.log("Catégories récupérées", data);
-      } catch (error) {
-        console.error("Erreur lors de la récupération des modèles", error);
-      }
-    };
-    fetchModels();
+    if (products.length > 0) {
+      setNewProduits(products.slice(0, 6));
+    }
   }, []);
 
-  const { products } = datas;
+  // const { products } = datas;
   const brands = [];
-  products.forEach((product) => {
-    brands.push(product.brand);
-  });
+  if (products.length != 0) {
+    products.forEach((product) => {
+      brands.push(product.categ_id);
+    });
+  }
   // const [ads, setAds] = useState(false);
   // const adsHandle = () => {
   //   setAds(false);
@@ -65,10 +57,10 @@ export default function Home() {
           className="brand-section-wrapper mb-[60px]"
         />
         <SectionStyleOne
-          products={productS}
+          products={products}
           brands={brands}
           categoryTitle="Mobile & Tablet"
-          sectionTitle="Gamer World"
+          sectionTitle="Nos Catégories"
           seeMoreUrl="/all-products"
           className="category-products mb-[60px]"
         />
@@ -82,7 +74,7 @@ export default function Home() {
           seeMoreUrl="/all-products"
           categoryTitle="Produits les plus vendus"
         >
-          <SectionStyleTwo products={productS.slice(3, productS.length)} />
+          <SectionStyleTwo products={products.slice(3, products.length)} />
         </ViewMoreTitle>
         <ViewMoreTitle
           className="best-sallers-section mb-[60px]"
@@ -98,7 +90,7 @@ export default function Home() {
         />
         <SectionStyleOne
           categoryBackground={`/images/section-category-2.jpg`}
-          products={productS.slice(4, productS.length)}
+          products={products.slice(4, products.length)}
           brands={brands}
           categoryTitle="Electronics"
           sectionTitle="Ventes populaires"

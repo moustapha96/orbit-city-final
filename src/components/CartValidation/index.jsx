@@ -8,7 +8,7 @@ import formatDate from "../../utils/date-format";
 import formatPrice from "../../utils/formatPrice";
 
 import { toast } from "react-toastify";
-import { CartContext } from "../../contexts/CartContext ";
+import { CartContext } from "../../contexts/CartContext";
 import { Button } from "flowbite-react";
 import { Loader2 } from "lucide-react";
 

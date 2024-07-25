@@ -1,11 +1,15 @@
 /* eslint-disable react/prop-types */
 import { useContext } from "react";
 import InputQuantityCom from "../Helpers/InputQuantityCom";
-import { CartContext } from "../../contexts/CartContext ";
+import { CartContext } from "../../contexts/CartContext";
 import formatPrice from "../../utils/formatPrice";
 import { PlusCircleIcon, Trash } from "lucide-react";
 
-export default function ProductsTable({ className }) {
+export default function ProductsTable({
+  className,
+  cleanWishist,
+  addAllToCart,
+}) {
   const {
     wishlist,
     removeFromWishlist,
@@ -36,14 +40,20 @@ export default function ProductsTable({ className }) {
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
           <tbody>
             {/* table heading */}
-            <tr className="text-[13px] font-medium text-black bg-[#F6F6F6] whitespace-nowrap px-2 border-b default-border-bottom uppercase">
-              <td className="py-4 pl-10 block whitespace-nowrap  w-[380px]">
+            <tr className="text-[13px] font-medium text-black bg-[#F6F6F6] whitespace-nowrap px-2 border-b default-border-bottom uppercase  default-border-bottom">
+              <td className="py-4 pl-10 block whitespace-nowrap w-[380px] sm:w-auto">
                 Produit
               </td>
 
-              <td className="py-4 whitespace-nowrap text-center">PRIX</td>
-              <td className="py-4 whitespace-nowrap  text-center">Quantité</td>
-              <td className="py-4 whitespace-nowrap  text-center">total</td>
+              <td className="py-4 whitespace-nowrap text-center hidden sm:table-cell">
+                PRIX
+              </td>
+              <td className="py-4 whitespace-nowrap text-center hidden sm:table-cell">
+                Quantité
+              </td>
+              <td className="py-4 whitespace-nowrap text-center hidden sm:table-cell">
+                total
+              </td>
               <td className="py-4 whitespace-nowrap text-right w-[114px] block"></td>
             </tr>
             {wishlist.map((produit, index) => {
@@ -122,7 +132,34 @@ export default function ProductsTable({ className }) {
             })}
           </tbody>
         </table>
+        {wishlist.length == 0 && (
+          <div className="text-center mt-5 ">
+            <p> Votre liste de souhait est vide </p>
+          </div>
+        )}
       </div>
+      {wishlist.length > 0 && (
+        <div className="w-full  text-sm text-left mt-[30px] flex sm:justify-end justify-start">
+          <div className="sm:flex sm:space-x-[30px] items-center">
+            <button type="button" onClick={cleanWishist}>
+              <div className="w-full text-sm font-semibold text-qred mb-5 sm:mb-0">
+                Nettoyer la liste
+              </div>
+            </button>
+            <div className="w-[180px] h-[50px]">
+              <button
+                type="button"
+                onClick={addAllToCart}
+                className="blue-logo-btn"
+              >
+                <div className="w-full text-sm font-semibold">
+                  Ajouter au panier
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

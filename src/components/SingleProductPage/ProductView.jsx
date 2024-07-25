@@ -5,7 +5,7 @@ import Star from "../Helpers/icons/Star";
 import Selectbox from "../Helpers/Selectbox";
 import formatPrice from "../../utils/formatPrice";
 import { Facebook, Flag, Heart, Linkedin, Twitter } from "lucide-react";
-import { CartContext } from "../../contexts/CartContext ";
+import { CartContext } from "../../contexts/CartContext";
 import { toast } from "react-toastify";
 
 export default function ProductView({ produit, className, reportHandler }) {
@@ -97,8 +97,9 @@ export default function ProductView({ produit, className, reportHandler }) {
               alt=""
               className="object-contain"
             />
-            <div className="w-[80px] h-[80px] rounded-full bg-qyellow text-qblack flex justify-center items-center text-xl font-medium absolute left-[30px] top-[30px]">
-              <span>-50%</span>
+            <div className="w-[100px] h-[30px] rounded-full bg-qyellow text-qblack flex justify-center items-center font-medium absolute left-[30px] top-[30px]">
+              {/* <span>-50%</span> */}
+              <span>{produit.categ_id}</span>
             </div>
           </div>
           <div className="flex gap-2 flex-wrap">

@@ -1,7 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable no-unused-vars */
 import { useState } from "react";
-import InputCom from "../../Helpers/InputCom";
 import Layout from "../../Partials/Layout";
 import Thumbnail from "./Thumbnail";
 import { Link, useNavigate } from "react-router-dom";
@@ -9,6 +8,7 @@ import { Button, Checkbox, Label, TextInput } from "flowbite-react";
 import { Loader2 } from "lucide-react";
 import userService from "../../../services/userService";
 import { toast } from "react-toastify";
+import { isValidEmail, isValidPhoneNumber } from "../../../utils/validations";
 export default function Signup() {
   const [checked, setValue] = useState(false);
   const navigate = useNavigate();
@@ -36,12 +36,17 @@ export default function Signup() {
         : "",
       prenom: !prenom ? "Le prénom est obligatoire." : "",
       nom: !nom ? "Le nom est obligatoire." : "",
-      telephone: !telephone ? "Le téléphone est obligatoire." : "",
+      telephone: !telephone
+        ? "Le téléphone est obligatoire."
+        : !isValidPhoneNumber(telephone)
+        ? "Le numéro de téléphone est invalide."
+        : "",
       adresse: !adresse ? "L'adresse est obligatoire." : "",
-      email: !email ? "L'adresse email est obligatoire." : "",
-      // typeProfile: !typeProfile
-      //   ? "Veuillez sélectionner un type de profil."
-      //   : "",
+      email: !email
+        ? "L'adresse email est obligatoire."
+        : !isValidEmail(email)
+        ? "L'adresse email est invalide."
+        : "",
       password: !password ? "Le mot de passe est obligatoire." : "",
       passwordError: validatePassword(password, confirmPassword),
     };
@@ -143,7 +148,7 @@ export default function Signup() {
                 <div className="input-area">
                   <form onSubmit={handleSubmit}>
                     <div className="flex sm:flex-row flex-col space-y-5 sm:space-y-0 sm:space-x-5 mb-5">
-                      <div className="w-1/2">
+                      <div className="sm:w-1/2 md:w-full ">
                         <div className="mb-2 block">
                           <Label htmlFor="prenom" value="Prénom" />
                           {error.prenom && (
@@ -164,17 +169,17 @@ export default function Signup() {
                       focus:invalid:border-red-500 focus:invalid:ring-red-500"
                         />
                       </div>
-                      <div className="w-1/2">
+                      <div className="sm:w-1/2 md:w-full ">
                         <div className="mb-2 block">
                           <Label htmlFor="nom" value="Nom" />
                           {error.nom && (
                             <p className="text-red-600">{error.nom}</p>
                           )}
-                          <Label htmlFor="nom" value="Nom" />
                         </div>
                         <input
                           id="nom"
                           type="text"
+                          placeholder="Nom"
                           value={nom}
                           onChange={(e) => setNom(e.target.value)}
                           required
@@ -186,7 +191,7 @@ export default function Signup() {
                       </div>
                     </div>
                     <div className="flex sm:flex-row flex-col space-y-5 sm:space-y-0 sm:space-x-5 mb-5">
-                      <div className="w-1/2">
+                      <div className="sm:w-1/2 md:w-full ">
                         <div className="mb-2 block">
                           {error.email && (
                             <p className="text-red-600">{error.email}</p>
@@ -207,7 +212,7 @@ export default function Signup() {
                         />
                       </div>
 
-                      <div className="w-1/2">
+                      <div className="sm:w-1/2 md:w-full">
                         <div className="mb-2 block">
                           {error.telephone && (
                             <p className="text-red-600">{error.telephone}</p>
@@ -229,7 +234,7 @@ export default function Signup() {
                       </div>
                     </div>
 
-                    <div className="input-item mb-5">
+                    <div className="w-full input-item mb-5">
                       <div className="mb-2 block">
                         {error.adresse && (
                           <p className="text-red-600">{error.adresse}</p>
@@ -251,7 +256,7 @@ export default function Signup() {
                     </div>
 
                     <div className="flex sm:flex-row flex-col space-y-5 sm:space-y-0 sm:space-x-5 mb-5">
-                      <div className="w-1/2">
+                      <div className="sm:w-1/2 md:w-full">
                         <div className="mb-2 block">
                           {error.password && (
                             <p className="text-red-600">{error.password}</p>
@@ -272,7 +277,7 @@ export default function Signup() {
                         />
                       </div>
 
-                      <div className="w-1/2">
+                      <div className="sm:w-1/2 md:w-full">
                         <div className="mb-2 block">
                           <Label
                             htmlFor="confpassword"
@@ -310,6 +315,7 @@ export default function Signup() {
                         </div>
                       </div>
                     </div>
+
                     <div className="signin-area mb-3">
                       <div className="flex justify-center">
                         <Button

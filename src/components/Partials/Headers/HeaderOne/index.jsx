@@ -5,7 +5,7 @@ import Middlebar from "./Middlebar";
 import Navbar from "./Navbar";
 import TopBar from "./TopBar";
 import { Heart, Menu, ShoppingBag, ShoppingCart } from "lucide-react";
-import { CartContext } from "../../../../contexts/CartContext ";
+import { CartContext } from "../../../../contexts/CartContext";
 import { useContext } from "react";
 
 import ThinPeople from "../../../Helpers/icons/ThinPeople";

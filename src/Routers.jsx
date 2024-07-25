@@ -32,6 +32,10 @@ import PreOrderPaymentPage from "./components/PreCartValidation/index.jsx";
 import PreCartValidationPage from "./components/PreCartValidation/index.jsx";
 import CartValidationPage from "./components/CartValidation/index.jsx";
 import PaymentStatePage from "./components/PaymentState/index.jsx";
+import LivraisonEtRetoursPage from "./components/LivraisonEtRetours/index.jsx";
+import AchatSecurisesPage from "./components/AchatsSecurises/index.jsx";
+import ConditionGeneralDeVentePage from "./components/ConditionsGeneralesDeVente/index.jsx";
+import PolitiqueDeConfidentialitePage from "./components/PolitiqueDeConfidentialite/index.jsx";
 
 // import HomeTwo from "./components/HomeTwo";
 // import HomeThree from "./components/HomeThree";
@@ -40,10 +44,7 @@ import PaymentStatePage from "./components/PaymentState/index.jsx";
 
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
-  // { path: "/home-two", element: <HomeTwo /> },
-  // { path: "/home-three", element: <HomeThree /> },
-  // { path: "/home-four", element: <HomeFour /> },
-  // { path: "/home-five", element: <HomeFive /> },
+
   // { path: "/all-products", element: <AllProductPage /> },
   { path: "/all-products", element: <AllProductPage /> },
   // { path: "/single-product", element: <SingleProductPage /> },
@@ -80,7 +81,7 @@ const router = createBrowserRouter([
   //   element: <PaymentCommandePage />,
   // },
   {
-    path: "/payment-state/:idOrder?/:montant?",
+    path: "/payment-state",
     element: <PaymentStatePage />,
   },
 
@@ -111,6 +112,16 @@ const router = createBrowserRouter([
   { path: "/become-saller", element: <BecomeSaller /> },
   { path: "/privacy-policy", element: <PrivacyPolicy /> },
   { path: "/terms-condition", element: <TermsCondition /> },
+  {
+    path: "/conditions-generales-de-vente",
+    element: <ConditionGeneralDeVentePage />,
+  },
+  { path: "/livraison-et-retours", element: <LivraisonEtRetoursPage /> },
+  { path: "/achats-securises", element: <AchatSecurisesPage /> },
+  {
+    path: "/politique-de-confidentialite",
+    element: <PolitiqueDeConfidentialitePage />,
+  },
   { path: "*", element: <FourZeroFour /> },
 ]);
 

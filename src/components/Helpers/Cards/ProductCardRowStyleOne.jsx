@@ -6,7 +6,7 @@ import QuickViewIco from "../icons/QuickViewIco";
 import Star from "../icons/Star";
 import ThinLove from "../icons/ThinLove";
 import formatPrice from "../../../utils/formatPrice";
-import { CartContext } from "../../../contexts/CartContext ";
+import { CartContext } from "../../../contexts/CartContext";
 import { Eye, Heart, ShoppingCart } from "lucide-react";
 import { useContext } from "react";
 import { toast } from "react-toastify";

@@ -25,7 +25,7 @@ export default function PaymentStatePage({ cart = true }) {
   const [id_order, setIdOrder] = useState(payment.order.id);
   const [montant_order, setMontantOrder] = useState(payment.totalAmount);
 
-  const { idOrder, montant } = useParams();
+  // const { idOrder, montant } = useParams();
 
   console.log(user, payment);
   const navigate = useNavigate();
@@ -46,21 +46,7 @@ export default function PaymentStatePage({ cart = true }) {
       console.log(token);
     }
 
-    if (idOrder != null) {
-      const fetchModels = async () => {
-        try {
-          const data = await commandeService.getCommandeAny(idOrder);
-          setCommande(data);
-          console.log(data);
-          console.log("order ");
-        } catch (error) {
-          console.error("Erreur lors de la récupération de la commande", error);
-        }
-      };
-      fetchModels();
-    } else {
-      console.log(id_order, montant_order);
-
+    if (id_order != null) {
       const fetchModels = async () => {
         try {
           const data = await commandeService.getCommandeAny(id_order);
@@ -156,7 +142,7 @@ export default function PaymentStatePage({ cart = true }) {
                 { name: "Tableau de bord", path: "/profile" },
                 {
                   name: "Validation Payment",
-                  path: `/payment-state/${idOrder}/${montant}`,
+                  path: `/payment-state`,
                 },
               ]}
             />
@@ -177,7 +163,7 @@ export default function PaymentStatePage({ cart = true }) {
                 { name: "Tableau de bord", path: "/profile" },
                 {
                   name: "Validation Payment",
-                  path: `/payment-state/${idOrder}/${montant}`,
+                  path: `/payment-state`,
                 },
               ]}
             />
@@ -402,10 +388,15 @@ export default function PaymentStatePage({ cart = true }) {
                                           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                                         )}
                                         Valider le Paiement de ({" "}
-                                        {montant ? (
-                                          <> {formatPrice(montant)} </>
-                                        ) : (
+                                        {montant_order ? (
                                           <> {formatPrice(montant_order)} </>
+                                        ) : (
+                                          <>
+                                            {" "}
+                                            {formatPrice(
+                                              payment.order.amount_total
+                                            )}{" "}
+                                          </>
                                         )}{" "}
                                         )
                                       </Button>

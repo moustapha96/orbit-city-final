@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { CartContext } from "../../contexts/CartContext ";
+import { CartContext } from "../../contexts/CartContext";
 
 export default function InputQuantityPreCommande({ produit }) {
   const { updatePreorder } = useContext(CartContext);

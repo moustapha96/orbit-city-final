@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import { Link } from "react-router-dom";
-import { CartContext } from "../../contexts/CartContext ";
+import { CartContext } from "../../contexts/CartContext";
 import { useContext } from "react";
 import { CircleX, Trash } from "lucide-react";
 import formatPrice from "../../utils/formatPrice";

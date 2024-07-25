@@ -1,14 +1,33 @@
+/* eslint-disable react/prop-types */
 import { useContext } from "react";
 import BreadcrumbCom from "../BreadcrumbCom";
 import EmptyWishlistError from "../EmptyWishlistError";
 import PageTitle from "../Helpers/PageTitle";
 import Layout from "../Partials/Layout";
 import ProductsTable from "./ProductsTable";
-import { CartContext } from "../../contexts/CartContext ";
+import { CartContext } from "../../contexts/CartContext";
+
+import { toast } from "react-toastify";
 
 export default function Wishlist({ wishlist = true }) {
-  const { clearWishlist } = useContext(CartContext);
+  const { clearWishlist, addAllWhislistToCart } = useContext(CartContext);
 
+  const addAllToCart = () => {
+    try {
+      addAllWhislistToCart();
+      toast.success("Produits ajouter au panier avec succès", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
   const cleanWishist = () => {
     clearWishlist();
   };
@@ -39,23 +58,11 @@ export default function Wishlist({ wishlist = true }) {
           </div>
           <div className="w-full mt-[23px]">
             <div className="container-x mx-auto">
-              <ProductsTable className="mb-[30px]" />
-              <div className="w-full mt-[30px] flex sm:justify-end justify-start">
-                <div className="sm:flex sm:space-x-[30px] items-center">
-                  <button type="button" onClick={cleanWishist}>
-                    <div className="w-full text-sm font-semibold text-qred mb-5 sm:mb-0">
-                      Nettoyer la liste
-                    </div>
-                  </button>
-                  <div className="w-[180px] h-[50px]">
-                    <button type="button" className="blue-logo-btn">
-                      <div className="w-full text-sm font-semibold">
-                        Ajouter au panier
-                      </div>
-                    </button>
-                  </div>
-                </div>
-              </div>
+              <ProductsTable
+                addAllToCart={addAllToCart}
+                cleanWishist={cleanWishist}
+                className="mb-[30px]"
+              />
             </div>
           </div>
         </div>

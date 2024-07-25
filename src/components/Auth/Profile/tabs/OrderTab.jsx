@@ -107,14 +107,15 @@ export default function OrderTab() {
                 ))}
               </>
             )}
-            {commandes.length == 0 && (
-              <p className="py-4 block whitespace-nowrap text-center m-5">
-                {" "}
-                Votre Liste de commande est vide{" "}
-              </p>
-            )}
           </tbody>
         </table>
+        {!Array.isArray(commandes) ||
+          (commandes.length == 0 && (
+            <p className="text-center m-5">
+              {" "}
+              Votre Liste de commande est vide{" "}
+            </p>
+          ))}
       </div>
     </>
   );

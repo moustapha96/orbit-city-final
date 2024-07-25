@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useContext } from "react";
 import InputCom from "../../../Helpers/InputQuantityCom";
-import { CartContext } from "../../../../contexts/CartContext ";
+import { CartContext } from "../../../../contexts/CartContext";
 
 import { Link } from "react-router-dom";
 import ProductsTable from "../../../CartPage/ProductsTable";

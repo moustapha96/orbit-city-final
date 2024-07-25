@@ -101,7 +101,8 @@ const PaydunyaModalService = ({
       } else {
         invoice.cancelURL = `http://orbitcity.sn/pre-commandes/${idOrder}/détails`;
       }
-      invoice.returnURL = `http://orbitcity.sn/payment-state/${idOrder}/${invoice.totalAmount}`;
+      invoice.returnURL = `http://orbitcity.sn/payment-state`;
+      // invoice.returnURL = `http://orbitcity.sn/payment-state/${idOrder}/${invoice.totalAmount}`;
 
       invoice.addChannels([
         "card",
