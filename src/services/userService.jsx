@@ -87,6 +87,17 @@ const userService = {
     }
   },
 
+  resetPassword: async (email) => {
+    try {
+      const response = await axiosInstance.get(
+        `/api/sendResetPasswordMail/${email}`
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Erreur lors de la récupération des tokens", error);
+      throw error;
+    }
+  },
   refreshAccessToken: async () => {
     const refreshToken = localStorage.getItem("refresh_token");
 

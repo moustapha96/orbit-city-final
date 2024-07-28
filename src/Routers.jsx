@@ -36,6 +36,7 @@ import LivraisonEtRetoursPage from "./components/LivraisonEtRetours/index.jsx";
 import AchatSecurisesPage from "./components/AchatsSecurises/index.jsx";
 import ConditionGeneralDeVentePage from "./components/ConditionsGeneralesDeVente/index.jsx";
 import PolitiqueDeConfidentialitePage from "./components/PolitiqueDeConfidentialite/index.jsx";
+import ResetPassword from "./components/Auth/ResetPassword/index.jsx";
 
 // import HomeTwo from "./components/HomeTwo";
 // import HomeThree from "./components/HomeThree";
@@ -107,6 +108,7 @@ const router = createBrowserRouter([
   { path: "/contact", element: <Contact /> },
   { path: "/faq", element: <Faq /> },
   { path: "/login", element: <Login /> },
+  { path: "/forgot-password", element: <ResetPassword /> },
   { path: "/signup", element: <Signup /> },
   { path: "/profile", element: <Profile /> },
   { path: "/become-saller", element: <BecomeSaller /> },

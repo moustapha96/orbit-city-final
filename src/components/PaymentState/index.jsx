@@ -41,11 +41,56 @@ export default function PaymentStatePage({ cart = true }) {
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     const paymentToken = searchParams.get("token");
+
     if (paymentToken) {
       setToken(paymentToken);
       console.log(token);
+      // const paydunyaSetup = new paydunya.Setup({
+      //   masterKey: "3ApSagrZ-NkOP-M2GJ-tQr3-6F1TroNp8fL7",
+      //   privateKey: "test_private_rLI7U4b3J0SjDBJQ7cEC9OCayn9",
+      //   publicKey: "test_public_4FEHuOo9gsFwgPjoQv27L1deBlx",
+      //   token: "UWVccdmuTo5tusRDkoZQ",
+      //   mode: "test",
+      // });
+      // setSetup(paydunyaSetup);
+      // const store = new paydunya.Store({
+      //   name: "CCBM SHOP",
+      //   email: "ccbm-shop@ccbm.sn",
+      //   tagline: "Votre boutique a vos portés",
+      //   phoneNumber: "784537547",
+      //   postalAddress: "Dakar",
+      //   logoURL: "https://orbitcitydev.com/logo.png",
+      //   websiteURL: "https://orbitcitydev.com",
+      // });
+      // setStore(store);
+      // const invoice = new CheckoutInvoice(setup, store);
+      // invoice
+      //   .confirm(paymentToken)
+      //   .then(function () {
+      //     console.log(invoice);
+      //     toast.success("Payement validé avec succès", {
+      //       position: "top-center",
+      //       autoClose: 5000,
+      //       hideProgressBar: false,
+      //       closeOnClick: true,
+      //       pauseOnHover: true,
+      //       draggable: true,
+      //       progress: undefined,
+      //     });
+      //   })
+      //   .catch(function (e) {
+      //     console.log(e);
+      //     toast.error("Payement non effectif " + e, {
+      //       position: "top-center",
+      //       autoClose: 5000,
+      //       hideProgressBar: false,
+      //       closeOnClick: true,
+      //       pauseOnHover: true,
+      //       draggable: true,
+      //       progress: undefined,
+      //     });
+      //   });
     }
-
     if (id_order != null) {
       const fetchModels = async () => {
         try {

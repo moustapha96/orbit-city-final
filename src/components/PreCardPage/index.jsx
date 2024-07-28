@@ -15,19 +15,14 @@ import { toast } from "react-toastify";
 import { Button } from "flowbite-react";
 import { Loader2 } from "lucide-react";
 export default function PreCardPage({ cart = true }) {
-  const {
-    getPreorderTotal,
-    preorder,
-    clearPreorder,
-    setPreOrderState,
-    preorderState,
-  } = useContext(CartContext);
+  const { getPreorderTotal, preorder, clearPreorder, preorderState } =
+    useContext(CartContext);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleValidePanier = async (e) => {
     e.preventDefault();
-    console.log("creation dela commande sur le odoo ");
+    console.log("creation de la commande sur le odoo ");
     console.log(preorder);
 
     const modelData = {
@@ -54,7 +49,11 @@ export default function PreCardPage({ cart = true }) {
         draggable: true,
         progress: undefined,
       });
-      navigate(`/pre-commandes/${response.id}/détails`);
+      if (response) {
+        navigate(`/pre-commandes/${response.id}/détails`);
+      } else {
+        console.log("erreur sur les données renvoyer");
+      }
       console.log(response);
       // setPreOrderState(response);
       clearPreorder();

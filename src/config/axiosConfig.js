@@ -13,6 +13,7 @@ const excludedEndpoints = [
   "/categories",
   "/new_compte",
   "/tracking",
+  "/sendResetPasswordMail",
 ];
 
 axiosInstance.interceptors.request.use(

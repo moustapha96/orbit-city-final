@@ -5,13 +5,8 @@ import { useContext } from "react";
 import { Trash } from "lucide-react";
 import formatPrice from "../../utils/formatPrice";
 export default function PreCart({ className, type }) {
-  const { preorder, getPreorderTotal, removeFromPreorder } =
-    useContext(CartContext);
+  const { preorder, getPreorderTotal } = useContext(CartContext);
 
-  const handleRemoveToPreCart = (e, produit) => {
-    e.preventDefault();
-    // removeFromPreorder(produit);
-  };
   return (
     <>
       {preorder.length > 0 && (

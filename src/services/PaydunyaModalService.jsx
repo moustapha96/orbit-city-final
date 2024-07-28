@@ -11,6 +11,7 @@ import paydunya from "paydunya";
 import CheckoutInvoice from "paydunya/lib/checkout-invoice";
 import PaymentContext from "../contexts/PaymentContext";
 import { UserContext } from "../contexts/UserContext";
+import { useNavigate } from "react-router-dom";
 const PaydunyaModalService = ({
   handlePay,
   totalAmount,
@@ -18,6 +19,7 @@ const PaydunyaModalService = ({
   order,
   idOrder,
 }) => {
+  const navigate = useNavigate();
   const {
     payment,
     setUserPayment,
@@ -163,6 +165,17 @@ const PaydunyaModalService = ({
     setIsloading(false);
   };
 
+  // const handleSubmit = (event) => {
+  //   setIsloading(true);
+  //   event.preventDefault();
+  //   console.log("passer au paiment");
+  //   localStorage.setItem("idOrderPayment", idOrder);
+  //   localStorage.setItem("montant", totalAmount);
+  //   navigate("/payment-state");
+  //   console.log(payment);
+
+  //   setIsloading(false);
+  // };
   return (
     <Modal
       size="xl"
