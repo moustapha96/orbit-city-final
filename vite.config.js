@@ -9,7 +9,7 @@ const pwaConfig = {
   registerType: "autoUpdate",
   includeAssets: ["logo-color.svg"],
   workbox: {
-    globPatterns: ["**/*.{js,css,html,png,jpg,gif,svg}"], // Include your asset types
+    globPatterns: ["**/*.{js,css,html,png,jpg,gif,svg,jpeg}"], // Include your asset types
     navigateFallback: "/", // The fallback for client-side routing
     navigateFallbackAllowlist: [/^(?!\/__).*/], // Allowlist for navigateFallback
     runtimeCaching: [

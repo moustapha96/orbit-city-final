@@ -86,7 +86,15 @@ const userService = {
       throw error;
     }
   },
-
+  verifiedCompte: async (mail) => {
+    try {
+      const response = await axiosInstance.get(`/api/users/verified/${mail}`);
+      return response.data;
+    } catch (error) {
+      console.error("Erreur lors de la vérification de votre compte", error);
+      throw error;
+    }
+  },
   resetPassword: async (email) => {
     try {
       const response = await axiosInstance.get(
@@ -140,12 +148,19 @@ const userService = {
     }
   },
 
-  updateUserAvatar: async (avatarData) => {
+  updateUserAvatar: async (avatar) => {
+    const partner_id = localStorage.getItem("partner_id");
     try {
       const response = await axiosInstance.put(
-        "/api/users/me/avatar",
-        avatarData
+        `/api/users/avatar/${partner_id}`,
+        { avatar }, // Assurez-vous que l'objet est correctement formaté
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
       );
+      console.log(response);
       return response.data;
     } catch (error) {
       console.error("Erreur lors de la mise à jour de l'avatar", error);

@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from "react";
 
 import Layout from "../../Partials/Layout";
 import Thumbnail from "./Thumbnail";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
@@ -14,6 +14,9 @@ import { Button, Label, TextInput } from "flowbite-react";
 import { Loader2 } from "lucide-react";
 import { UserContext } from "../../../contexts/UserContext";
 export default function Login() {
+  const searchParams = new URLSearchParams(location.search);
+  const mail = searchParams.get("mail");
+  const isVerified = searchParams.get("isVerified");
   const {
     user,
     setUser,
@@ -22,6 +25,7 @@ export default function Login() {
     setExpiresIn,
     setRefreshExpiresIn,
     setRefreshToken,
+    setIsVerified,
   } = useContext(UserContext);
 
   const [checked, setValue] = useState(false);
@@ -66,6 +70,7 @@ export default function Login() {
           username: email,
           password: password,
         });
+        setIsLoading(false);
         console.log(response);
         const {
           access_token,
@@ -76,41 +81,58 @@ export default function Login() {
           user_context,
           company_id,
           refresh_expires_in,
+          is_verified,
         } = response;
 
-        toast.dismiss();
-        toast.success("Connexion réussie !", {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
-        setIsLoading(false);
-        setUid(uid);
-        setUser(user_info);
-        setToken(access_token);
-        setExpiresIn(expires_in);
-        setRefreshToken(refresh_token);
-        setExpiresIn(Date.now() + expires_in);
-        setRefreshExpiresIn(Date.now() + refresh_expires_in);
+        if (is_verified != "1") {
+          toast.dismiss();
+          toast.error("Connexion Echouée ,Merci de vérifier votre compte", {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+          navigate("/login");
+        } else {
+          toast.dismiss();
+          toast.success("Connexion réussie !", {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+          setIsLoading(false);
+          setUid(uid);
+          setUser(user_info);
+          setToken(access_token);
+          setExpiresIn(expires_in);
+          setRefreshToken(refresh_token);
+          setExpiresIn(Date.now() + expires_in);
+          setRefreshExpiresIn(Date.now() + refresh_expires_in);
+          setIsVerified(is_verified);
 
-        localStorage.setItem("user", JSON.stringify(user_info));
-        localStorage.setItem("token", access_token);
-        localStorage.setItem("uid", uid);
-        localStorage.setItem("expires_in", Date.now() + expires_in);
-        localStorage.setItem(
-          "refresh_expires_in",
-          Date.now() + refresh_expires_in
-        );
-        localStorage.setItem("refresh_token", refresh_token);
+          localStorage.setItem("user", JSON.stringify(user_info));
+          localStorage.setItem("token", access_token);
+          localStorage.setItem("uid", uid);
+          localStorage.setItem("expires_in", Date.now() + expires_in);
+          localStorage.setItem("is_verified", is_verified);
+          localStorage.setItem(
+            "refresh_expires_in",
+            Date.now() + refresh_expires_in
+          );
+          localStorage.setItem("refresh_token", refresh_token);
 
-        localStorage.setItem("company_id", company_id);
-        localStorage.setItem("user_context", JSON.stringify(user_context));
-        localStorage.setItem("partner_id", user_info.partner_id);
-        navigate("/all-products");
+          localStorage.setItem("company_id", company_id);
+          localStorage.setItem("user_context", JSON.stringify(user_context));
+          localStorage.setItem("partner_id", user_info.partner_id);
+          navigate("/all-products");
+        }
       } catch (error) {
         setIsLoading(false);
         toast.dismiss();
@@ -133,10 +155,58 @@ export default function Login() {
   const rememberMe = () => {
     setValue(!checked);
   };
+
   useEffect(() => {
-    console.log("user");
-    console.log(user);
+    setIsLoading(true);
+    const fetchModels = async () => {
+      if (mail && isVerified) {
+        try {
+          const resp = await userService.verifiedCompte(mail);
+          console.log(resp.status);
+          setIsLoading(false);
+          if (resp.status == "success") {
+            toast.dismiss();
+            toast.success(resp.message, {
+              position: "top-center",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
+          } else {
+            toast.dismiss();
+            toast.success("Votre compte a été vérifié avec succès!", {
+              position: "top-center",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
+            setEmail(mail);
+          }
+          setIsLoading(false);
+        } catch (error) {
+          setIsLoading(false);
+          toast.error("Erreur lors de la vérification ", {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+        }
+      }
+    };
+    fetchModels();
+    setIsLoading(false);
   }, []);
+
   return (
     <Layout childrenClasses="pt-0 pb-0">
       <div className="login-page-wrapper w-full py-10">
@@ -149,6 +219,10 @@ export default function Login() {
                     <h1 className="text-[34px] font-bold leading-[74px] text-qblack">
                       Connexion
                     </h1>
+                    <div>
+                      {mail && <p>Email: {mail}</p>}
+                      {isVerified && <p>Is Verified: {isVerified}</p>}
+                    </div>
                     <div className="shape -mt-6">
                       <svg
                         width="172"
@@ -175,7 +249,6 @@ export default function Login() {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
-                        pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}\$"
                         placeholder="name@flowbite.com"
                         className="
                                         focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500

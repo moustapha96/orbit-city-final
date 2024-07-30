@@ -69,8 +69,10 @@ const PaydunyaModalService = ({
       tagline: "Votre boutique pour vos matériels électroménéger",
       phoneNumber: "784537547",
       postalAddress: "Dakar",
-      logoURL: "http://orbitcity.sn/logo.png",
-      websiteURL: "http://orbitcity.sn",
+      // logoURL: "http://orbitcity.sn/logo.png",
+      logoURL: "https://orbitcitydev.com/logo.png",
+      // websiteURL: "http://orbitcity.sn",
+      websiteURL: "https://orbitcitydev.com/",
     });
     setStore(store);
   }, []);
@@ -97,13 +99,17 @@ const PaydunyaModalService = ({
         formatPrice(Math.ceil(totalAmount)) +
         " pour la commande " +
         order.name;
-      invoice.callbackURL = "http://orbitcity.sn/profile";
+      // invoice.callbackURL = "http://orbitcity.sn/profile";
+      invoice.callbackURL = "https://orbitcitydev.com/profile";
       if (order.type_sale === "order") {
-        invoice.cancelURL = `http://orbitcity.sn/commandes/${idOrder}/détails`;
+        // invoice.cancelURL = `http://orbitcity.sn/commandes/${idOrder}/détails`;
+        invoice.cancelURL = `https://orbitcitydev.com/commandes/${idOrder}/détails`;
       } else {
-        invoice.cancelURL = `http://orbitcity.sn/pre-commandes/${idOrder}/détails`;
+        // invoice.cancelURL = `http://orbitcity.sn/pre-commandes/${idOrder}/détails`;
+        invoice.cancelURL = `https://orbitcitydev.com/pre-commandes/${idOrder}/détails`;
       }
-      invoice.returnURL = `http://orbitcity.sn/payment-state`;
+      // invoice.returnURL = `http://orbitcity.sn/payment-state`;
+      invoice.returnURL = `https://orbitcitydev.com/payment-state`;
       // invoice.returnURL = `http://orbitcity.sn/payment-state/${idOrder}/${invoice.totalAmount}`;
 
       invoice.addChannels([

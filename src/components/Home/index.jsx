@@ -21,8 +21,8 @@ import { CategoryContext } from "../../contexts/CategoryContext";
 export default function Home() {
   const [newProduits, setNewProduits] = useState([]);
 
-  const { products } = useContext(ProductContext);
-  const { categories } = useContext(CategoryContext);
+  const { products, isLoadingProduct } = useContext(ProductContext);
+  const { categories, isLoadingCategorie } = useContext(CategoryContext);
 
   useEffect(() => {
     if (products.length > 0) {

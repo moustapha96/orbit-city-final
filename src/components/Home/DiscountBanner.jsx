@@ -7,7 +7,7 @@ export default function DiscountBanner({ className, type }) {
         className || ""
       }`}
       style={{
-        background: `url(images/discount-banner-1.jpg) no-repeat`,
+        background: `url(/images/discount-banner-1.jpg) no-repeat`,
         backgroundSize: "cover",
       }}
     >

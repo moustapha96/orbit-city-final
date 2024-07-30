@@ -2,7 +2,7 @@
 import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Arrow from "../../../Helpers/icons/Arrow";
-import { Asterisk, Menu, MoveRight } from "lucide-react";
+import { Asterisk, Loader2, Menu, MoveRight } from "lucide-react";
 import { CategoryContext } from "../../../../contexts/CategoryContext";
 
 export default function Navbar({ className, type = 3 }) {
@@ -10,7 +10,8 @@ export default function Navbar({ className, type = 3 }) {
 
   const [categoryToggle, setToggle] = useState(false);
   const [elementsSize, setSize] = useState("0px");
-  const { selectCategory, categories } = useContext(CategoryContext);
+  const { selectCategory, categories, isLoadingCategorie } =
+    useContext(CategoryContext);
 
   const handler = () => {
     setToggle(!categoryToggle);
@@ -61,7 +62,13 @@ export default function Navbar({ className, type = 3 }) {
                       <Menu></Menu>
                     </span>
                     <span className="text-sm font-600 text-qblacktext">
-                      Nos Catégories
+                      Nos Catégories &nbsp;
+                      {isLoadingCategorie && (
+                        <Loader2
+                          size={100}
+                          className="mr-2 h-4 text-center w-4 animate-spin"
+                        />
+                      )}
                     </span>
                   </div>
                   <div>
@@ -82,37 +89,52 @@ export default function Navbar({ className, type = 3 }) {
                   className="category-dropdown w-full absolute left-0 top-[53px] overflow-hidden"
                   style={{ height: `${elementsSize} ` }}
                 >
-                  <ul className="categories-list">
-                    {categories.map((category) => (
-                      <li key={category.id}>
-                        <Link
-                          onClick={(e) => handleCategoryChange(e, category)}
-                        >
-                          <div
-                            className={`flex justify-between items-center px-5 h-10 bg-white  transition-all duration-300 ease-in-out cursor-pointer text-qblack ${
-                              type === 3
-                                ? "hover:bg-qh3-blue hover:text-white"
-                                : "hover:bg-qyellow"
-                            }`}
-                          >
-                            <div className="flex items-center space-x-6">
-                              <span>
-                                <Asterisk></Asterisk>
-                              </span>
-                              <span className="text-xs font-400">
-                                {category.name}
-                              </span>
-                            </div>
-                            <div>
-                              <span>
-                                <MoveRight></MoveRight>
-                              </span>
-                            </div>
-                          </div>
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
+                  {isLoadingCategorie ? (
+                    <>
+                      {" "}
+                      <div className="flex justify-center">
+                        <Loader2
+                          size={100}
+                          className="mr-2 h-4 text-center w-4 animate-spin"
+                        />
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      {" "}
+                      <ul className="categories-list">
+                        {categories.map((category) => (
+                          <li key={category.id}>
+                            <Link
+                              onClick={(e) => handleCategoryChange(e, category)}
+                            >
+                              <div
+                                className={`flex justify-between items-center px-5 h-10 bg-white  transition-all duration-300 ease-in-out cursor-pointer text-qblack ${
+                                  type === 3
+                                    ? "hover:bg-qh3-blue hover:text-white"
+                                    : "hover:bg-qyellow"
+                                }`}
+                              >
+                                <div className="flex items-center space-x-6">
+                                  <span>
+                                    <Asterisk></Asterisk>
+                                  </span>
+                                  <span className="text-xs font-400">
+                                    {category.name}
+                                  </span>
+                                </div>
+                                <div>
+                                  <span>
+                                    <MoveRight></MoveRight>
+                                  </span>
+                                </div>
+                              </div>
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>{" "}
+                    </>
+                  )}
                 </div>
               </div>
 

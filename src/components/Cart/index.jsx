@@ -9,7 +9,7 @@ import useAuth from "../../hooks/useAuthHooks";
 import { UserContext } from "../../contexts/UserContext";
 export default function Cart({ className, type = 3 }) {
   const { cart, getCartTotal, removeFromCart } = useContext(CartContext);
-  console.log(cart);
+
   const handleRemoveToCart = (e, produit) => {
     e.preventDefault();
     removeFromCart(produit);

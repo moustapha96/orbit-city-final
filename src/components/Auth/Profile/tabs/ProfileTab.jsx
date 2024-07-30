@@ -35,13 +35,16 @@ export default function ProfileTab() {
     if (!user) {
       navigate("/login");
     }
+
     setEmail(user.email);
     setTelephone(user.partner_phone);
     setAdresse(user.partner_city);
     setName(user.name);
     const name = "avatar_" + user.id;
     const storedAvatar = localStorage.getItem(name);
-    if (storedAvatar) {
+    if (user.avatar) {
+      setprofileImg(user.avatar);
+    } else if (storedAvatar) {
       setprofileImg(storedAvatar);
     } else {
       setprofileImg("avatar.png");
@@ -100,9 +103,24 @@ export default function ProfileTab() {
     const name = "avatar_" + user.id;
     if (file) {
       const imgReader = new FileReader();
-      imgReader.onload = (event) => {
+      imgReader.onload = async (event) => {
         setprofileImg(event.target.result);
         localStorage.setItem(name, event.target.result);
+        const response = await userService.updateUserAvatar(
+          event.target.result
+        );
+        if (response.status == "success") {
+          toast.success(response.message, {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+          console.log(response);
+        }
       };
       imgReader.readAsDataURL(file);
     } else {

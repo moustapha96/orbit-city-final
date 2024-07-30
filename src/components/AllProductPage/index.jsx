@@ -22,8 +22,9 @@ export default function AllProductPage() {
   const [search, setSearch] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const { selectedCategory, categories } = useContext(CategoryContext);
-  const { products } = useContext(ProductContext);
+  const { selectedCategory, categories, isLoadingCategorie } =
+    useContext(CategoryContext);
+  const { products, isLoadingProduct } = useContext(ProductContext);
   console.log(categories);
   const handleLoadMore = () => {
     if (endLength < products.length) {
@@ -192,7 +193,7 @@ export default function AllProductPage() {
             <BreadcrumbCom />
             <div className="w-full lg:flex lg:space-x-[30px]">
               <div className="lg:w-[270px]">
-                {isLoading ? (
+                {isLoadingCategorie ? (
                   <div className="flex justify-center">
                     <Loader2
                       size={100}
@@ -280,24 +281,38 @@ export default function AllProductPage() {
                       </div>
                     </div>
 
-                    <div className="grid xl:grid-cols-3 sm:grid-cols-2 grid-cols-1 xl:gap-[30px] gap-5 mb-[40px]">
-                      <DataIteration
-                        // datas={produits.filter((product) =>
-                        //   filters.category.length
-                        //     ? filters.category.includes(product.categ_id)
-                        //     : true
-                        // )}
-                        datas={produits}
-                        startLength={Math.max(0, startLength)}
-                        endLength={Math.min(endLength, produits.length)}
-                      >
-                        {({ datas }) => (
-                          <div data-aos="fade-up" key={datas.id}>
-                            <ProductCardStyleOne datas={datas} />
-                          </div>
-                        )}
-                      </DataIteration>
-                    </div>
+                    {isLoadingProduct ? (
+                      <>
+                        <div className="flex justify-center">
+                          <Loader2
+                            size={100}
+                            className="mr-2 h-4 text-center w-4 animate-spin"
+                          />
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <div className="grid xl:grid-cols-3 sm:grid-cols-2 grid-cols-1 xl:gap-[30px] gap-5 mb-[40px]">
+                          <DataIteration
+                            // datas={produits.filter((product) =>
+                            //   filters.category.length
+                            //     ? filters.category.includes(product.categ_id)
+                            //     : true
+                            // )}
+                            datas={produits}
+                            startLength={Math.max(0, startLength)}
+                            endLength={Math.min(endLength, produits.length)}
+                          >
+                            {({ datas }) => (
+                              <div data-aos="fade-up" key={datas.id}>
+                                <ProductCardStyleOne datas={datas} />
+                              </div>
+                            )}
+                          </DataIteration>{" "}
+                        </div>{" "}
+                      </>
+                    )}
+
                     <div className="flex space-x-3 items-center">
                       {showBackButton && (
                         <div className="flex space-x-3 items-center border-b border-b-qgray">

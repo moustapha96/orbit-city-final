@@ -27,7 +27,7 @@ export default function PreCardPage({ cart = true }) {
 
     const modelData = {
       partner_id: parseInt(localStorage.getItem("partner_id")),
-      type_sale: "order",
+      type_sale: "preorder",
       state: "sale",
       commitment_date: new Date(),
       order_lines: preorder.map((orde) => ({
@@ -36,28 +36,40 @@ export default function PreCardPage({ cart = true }) {
         list_price: orde.list_price,
       })),
     };
+    console.log(modelData);
     setIsLoading(true);
     try {
       const response = await PrecommandeService.createPreCommande(modelData);
       console.log(response);
-      toast.success("Pré Commande enregistrée avec succés", {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-      if (response) {
-        navigate(`/pre-commandes/${response.id}/détails`);
+      if (response.status == "error") {
+        toast.error(response.message, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        setIsLoading(false);
+        return;
       } else {
-        console.log("erreur sur les données renvoyer");
+        toast.success("Pré Commande enregistrée avec succés", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        setIsLoading(false);
+        navigate(`/pre-commandes/${response.id}/détails`);
+        console.log(response);
+        // setPreOrderState(response);
+        clearPreorder();
+        console.log(preorderState);
       }
-      console.log(response);
-      // setPreOrderState(response);
-      clearPreorder();
-      console.log(preorderState);
     } catch (error) {
       toast.error("Pré Commande non enregistrée " + error, {
         position: "top-center",

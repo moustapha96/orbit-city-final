@@ -57,6 +57,7 @@ export default function CardPage({ cartt = true }) {
         list_price: orde.list_price,
       })),
     };
+    console.log(modelData);
     try {
       const response = await commandeService.createCommande(modelData);
       console.log(response);

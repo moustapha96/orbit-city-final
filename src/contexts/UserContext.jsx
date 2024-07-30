@@ -7,6 +7,7 @@ const getInitialState = () => {
   const storedToken = localStorage.getItem("accessToken");
   const storedUid = localStorage.getItem("uid");
   const storedExpiresIn = localStorage.getItem("expires_in");
+  const is_verified = localStorage.getItem("is_verified");
 
   const storedRefreshExpiresIn = localStorage.getItem("refresh_expires_in");
   const storedRefreshToken = localStorage.getItem("refresh_token");
@@ -17,6 +18,7 @@ const getInitialState = () => {
     expiresIn: storedExpiresIn || null,
     refreshExpiresIn: storedRefreshExpiresIn || null,
     refreshToken: storedRefreshToken || null,
+    is_verified: is_verified || null,
   };
 };
 
@@ -28,6 +30,8 @@ export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(getInitialState().user);
   const [token, setToken] = useState(getInitialState().token);
   const [uid, setUid] = useState(getInitialState().uid);
+  const [is_verified, setIsVerified] = useState(getInitialState().is_verified);
+
   const [expiresIn, setExpiresIn] = useState(getInitialState().expiresIn);
   const [refreshToken, setRefreshToken] = useState(
     getInitialState().refreshToken
@@ -43,6 +47,7 @@ export const UserProvider = ({ children }) => {
     localStorage.setItem("expires_in", userContext.expiresIn);
     localStorage.setItem("refresh_expires_in", userContext.refreshExpiresIn);
     localStorage.setItem("refresh_token", userContext.refreshToken);
+    localStorage.setItem("is_verified", userContext.is_verified);
   }, [userContext]);
 
   const logout = () => {
@@ -52,6 +57,7 @@ export const UserProvider = ({ children }) => {
     localStorage.removeItem("expires_in");
     localStorage.removeItem("refresh_expires_in");
     localStorage.removeItem("refresh_token");
+    localStorage.removeItem("is_verified");
 
     setUser(null);
     setToken(null);
@@ -60,6 +66,7 @@ export const UserProvider = ({ children }) => {
     setRefreshToken(null);
     setRefreshExpiresIn(null);
     setUserContext(getInitialState());
+    setIsVerified(null);
   };
   const value = {
     user,
@@ -69,6 +76,7 @@ export const UserProvider = ({ children }) => {
     refreshToken,
     refreshExpiresIn,
     userContext,
+    is_verified,
     setUid,
     setUser,
     setToken,
@@ -76,6 +84,7 @@ export const UserProvider = ({ children }) => {
     setRefreshToken,
     setRefreshExpiresIn,
     setUserContext,
+    setIsVerified,
     logout,
   };
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;

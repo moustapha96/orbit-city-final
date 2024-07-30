@@ -87,7 +87,8 @@ export default function Signup() {
         navigate("/login");
       } catch (error) {
         setIsLoading(false);
-        console.log("response " + error);
+        console.log("response ");
+        console.log(error);
 
         toast.error("Création compte Echouée " + error.response.data, {
           position: "top-center",
