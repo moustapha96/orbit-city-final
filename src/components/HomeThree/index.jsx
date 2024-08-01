@@ -33,7 +33,7 @@ export default function HomeThree() {
           className="new-products mb-[60px]"
         />
         <ProductsAds
-          ads={[`${import.meta.env.VITE_PUBLIC_URL}/images/ads-3.png`]}
+          ads={[`/images/ads-3.png`]}
           className="products-ads-section mb-[60px]"
         />
 

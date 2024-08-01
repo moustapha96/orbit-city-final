@@ -82,11 +82,11 @@ export default function Cart({ className, type = 3 }) {
               <div className="product-action-btn">
                 <Link to="/cart">
                   <div className="gray-btn w-full h-[50px] mb-[10px] ">
-                    <span>Voir Panier Commande</span>
+                    <span>Panier Commande</span>
                   </div>
                 </Link>
 
-                <Link>
+                {/* <Link>
                   <div className="w-full h-[50px]">
                     <div
                       className={type === 3 ? "blue-logo-btn" : "yellow-btn"}
@@ -94,7 +94,7 @@ export default function Cart({ className, type = 3 }) {
                       <span className="text-sm">Passer à la caisse</span>
                     </div>
                   </div>
-                </Link>
+                </Link> */}
               </div>
             </div>
 

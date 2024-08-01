@@ -166,12 +166,12 @@ export default function ProductView({ produit, className, reportHandler }) {
             </span>
           </div>
 
-          <p
+          {/* <p
             data-aos="fade-up"
             className="text-qgray text-sm text-normal mb-[30px] leading-7"
           >
             {produit.description}
-          </p>
+          </p> */}
 
           {/* <div data-aos="fade-up" className="colors mb-[30px]">
             <span className="text-sm font-normal uppercase text-qgray mb-[14px] inline-block">

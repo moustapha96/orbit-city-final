@@ -19,14 +19,21 @@ import { ProductContext } from "../../contexts/ProductContext";
 import { CategoryContext } from "../../contexts/CategoryContext";
 
 export default function Home() {
-  const [newProduits, setNewProduits] = useState([]);
-
   const { products, isLoadingProduct } = useContext(ProductContext);
   const { categories, isLoadingCategorie } = useContext(CategoryContext);
 
+  const [newProduits, setNewProduits] = useState([]);
+
+  const [precommandes, setPrecommandes] = useState([]);
+
+  const [commandes, setCommandes] = useState([]);
   useEffect(() => {
     if (products.length > 0) {
       setNewProduits(products.slice(0, 6));
+      setCommandes(products.filter((p) => p.quantite_en_stock > 0));
+      setPrecommandes(
+        products.filter((p) => p.quanitty_virtuelle_disponible > 0)
+      );
     }
   }, []);
 
@@ -37,14 +44,8 @@ export default function Home() {
       brands.push(product.categ_id);
     });
   }
-  // const [ads, setAds] = useState(false);
-  // const adsHandle = () => {
-  //   setAds(false);
-  // };
-  // useEffect(() => gs
-  // {
-  //   setAds(true);
-  // }, []);
+  const [ads, setAds] = useState(false);
+
   return (
     <>
       <Layout type={3} childrenClasses="pt-0">
@@ -72,22 +73,31 @@ export default function Home() {
         <ViewMoreTitle
           className="top-selling-product mb-[60px]"
           seeMoreUrl="/all-products"
-          categoryTitle="Produits les plus vendus"
+          categoryTitle="Disponible en commande"
         >
-          <SectionStyleTwo products={products.slice(3, products.length)} />
+          <SectionStyleTwo products={commandes.slice(3, commandes.length)} />
         </ViewMoreTitle>
-        <ViewMoreTitle
+        {/* <ViewMoreTitle
           className="best-sallers-section mb-[60px]"
           seeMoreUrl="/sallers"
           categoryTitle="Meilleur vendeur"
         >
           <BestSellers />
-        </ViewMoreTitle>
+        </ViewMoreTitle> */}
         <ProductsAds
-          ads={[`/image1.jpg`, `/image2.jpg`]}
-          sectionHeight="sm:h-[295px] h-full"
-          className="products-ads-section mb-[60px]"
+          ads={[`/creation/television1.png`, `creation/television2.png`]}
+          sectionHeight="sm:h-[295px]  h-full"
+          className="products-ads-section mb-[60px] "
         />
+        <ViewMoreTitle
+          className="top-selling-product mb-[60px]"
+          seeMoreUrl="/pre-commandes"
+          categoryTitle="Disponible en précommandes"
+        >
+          <SectionStyleTwo
+            products={precommandes.slice(3, precommandes.length)}
+          />
+        </ViewMoreTitle>
         <SectionStyleOne
           categoryBackground={`/images/section-category-2.jpg`}
           products={products.slice(4, products.length)}
@@ -97,8 +107,9 @@ export default function Home() {
           seeMoreUrl="/all-products"
           className="category-products mb-[60px]"
         />
+
         <ProductsAds
-          ads={[`/image3.jpg`]}
+          ads={[`/creation/image_ccbm_shop_4.png`]}
           className="products-ads-section mb-[60px]"
         />
         <SectionStyleThree
@@ -109,7 +120,7 @@ export default function Home() {
         />
         <ProductsAds
           sectionHeight="164"
-          ads={[`/image4.jpg`]}
+          ads={[`/creation/image_ccbm_shop_6.png`]}
           className="products-ads-section mb-[60px]"
         />
         {/* <SectionStyleFour

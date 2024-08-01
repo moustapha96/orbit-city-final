@@ -1,13 +1,28 @@
-import { Link } from "react-router-dom";
+/* eslint-disable react/prop-types */
+import { ArrowBigRight } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { CategoryContext } from "../../../contexts/CategoryContext";
+import { useContext } from "react";
 
 export default function CategoryCard({ background, title, brands = [] }) {
+  const { selectCategory } = useContext(CategoryContext);
+
+  const navigate = useNavigate();
+  const handleCategoryChange = (e, category) => {
+    e.preventDefault();
+    console.log(category);
+    selectCategory(category);
+    const isAllProductPage = window.location.pathname === "/all-products";
+    if (!isAllProductPage) {
+      navigate("/all-products");
+    }
+  };
   return (
     <div
       className="category-card-wrappwer w-full h-full p-[30px]"
       style={{
         background: `url(${
-          background ||
-          `${import.meta.env.VITE_PUBLIC_URL}/images/section-category-1.jpg`
+          background || `/images/section-category-1.jpg`
         }) no-repeat`,
         backgroundSize: "cover",
       }}
@@ -18,7 +33,7 @@ export default function CategoryCard({ background, title, brands = [] }) {
           <ul>
             {brands.map((brand) => (
               <li key={brand + Math.random()}>
-                <Link to="/all-products">
+                <Link onClick={(e) => handleCategoryChange(e, brand)}>
                   <span className="text-sm text-qgray hober:text-qBlack border-b border-transparent hover:border-qblack hover:text-qblack capitalize">
                     {brand}
                   </span>
@@ -27,34 +42,13 @@ export default function CategoryCard({ background, title, brands = [] }) {
             ))}
           </ul>
         </div>
-        <Link href="#">
+        <Link to="/all-products">
           <div className="flex space-x-2 items-center">
-            <span className="text-qblack font-600 text-sm">Shop Now</span>
+            <span className="text-qblack font-600 text-sm">
+              Achetez maintenant
+            </span>
             <span>
-              <svg
-                width="7"
-                height="11"
-                viewBox="0 0 7 11"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <rect
-                  x="2.08984"
-                  y="0.636719"
-                  width="6.94219"
-                  height="1.54271"
-                  transform="rotate(45 2.08984 0.636719)"
-                  fill="#1D1D1D"
-                />
-                <rect
-                  x="7"
-                  y="5.54492"
-                  width="6.94219"
-                  height="1.54271"
-                  transform="rotate(135 7 5.54492)"
-                  fill="#1D1D1D"
-                />
-              </svg>
+              <ArrowBigRight></ArrowBigRight>
             </span>
           </div>
         </Link>

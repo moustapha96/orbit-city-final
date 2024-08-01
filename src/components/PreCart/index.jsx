@@ -75,15 +75,15 @@ export default function PreCart({ className, type }) {
               <div className="product-action-btn">
                 <Link to="/pre-cart">
                   <div className="gray-btn w-full h-[50px] mb-[10px] ">
-                    <span>Voir Panier Precommande</span>
+                    <span>Panier Précommande</span>
                   </div>
                 </Link>
 
-                <div className="w-full h-[50px]">
+                {/* <div className="w-full h-[50px]">
                   <div className={type === 3 ? "blue-logo-btn" : "yellow-btn"}>
                     <span className="text-sm">Passer à la caisse</span>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
 

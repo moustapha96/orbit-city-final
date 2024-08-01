@@ -138,7 +138,7 @@ export default function ProductCardStyleOne({ datas, type = 3 }) {
             {formatPrice(datas.list_price)}
           </span>
         </p>
-        <div className=" w-full h-20 left-0 flex flex-col mt-3 ">
+        {/* <div className=" w-full h-20 left-0 flex flex-col mt-3 ">
           {datas.quantite_en_stock > 0 && (
             <>
               <button
@@ -157,6 +157,15 @@ export default function ProductCardStyleOne({ datas, type = 3 }) {
             </>
           )}
 
+          {datas.quantite_en_stock == 0 &&
+            datas.quanitty_virtuelle_disponible == 0 && (
+              <>
+                <p className="text-red-400">Rupture de stock </p>
+              </>
+            )}
+        </div> */}
+
+        {/* <div className=" w-full h-20 left-0 flex flex-col mt-3 ">
           {datas.quanitty_virtuelle_disponible > 0 && (
             <button
               type="button"
@@ -169,6 +178,41 @@ export default function ProductCardStyleOne({ datas, type = 3 }) {
                 </span>
                 <span>Pré commander</span>
               </div>
+            </button>
+          )}
+          {datas.quantite_en_stock == 0 &&
+            datas.quanitty_virtuelle_disponible == 0 && (
+              <>
+                <p className="text-red-400">Rupture de stock </p>
+              </>
+            )}
+        </div> */}
+        {/* le nouveau */}
+        <div className="w-full left-0 flex flex-col gap-4 mt-3">
+          {datas.quantite_en_stock > 0 && (
+            <button
+              type="button"
+              onClick={handleAddToCart}
+              className={`w-full h-10 flex items-center justify-center gap-2 ${
+                type === 3 ? "blue-logo-btn" : "yellow-btn"
+              }`}
+            >
+              <ShoppingCart />
+              <span>Ajouter au panier</span>
+            </button>
+          )}
+          {datas.quanitty_virtuelle_disponible > 0 && (
+            <button
+              type="button"
+              onClick={handleAddToPreOrder}
+              className={`w-full h-10 flex items-center justify-center gap-2 ${
+                type === 3 ? "blue-logo-btn" : "yellow-btn"
+              }`}
+            >
+              <span>
+                <ShoppingBag></ShoppingBag>
+              </span>
+              <span>Pré commander</span>
             </button>
           )}
           {datas.quantite_en_stock == 0 &&

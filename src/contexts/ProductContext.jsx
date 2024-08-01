@@ -13,7 +13,8 @@ export const ProductProvider = ({ children }) => {
     const fetchModels = async () => {
       try {
         const data = await ProduitService.getProduits();
-        setProducts(data);
+        const filsteredPro = data.filter((p) => p.type != "service");
+        setProducts(filsteredPro);
         setIsLoading(false);
       } catch (error) {
         console.error("Erreur lors de la récupération des modèles", error);

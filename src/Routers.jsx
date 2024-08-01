@@ -37,6 +37,7 @@ import AchatSecurisesPage from "./components/AchatsSecurises/index.jsx";
 import ConditionGeneralDeVentePage from "./components/ConditionsGeneralesDeVente/index.jsx";
 import PolitiqueDeConfidentialitePage from "./components/PolitiqueDeConfidentialite/index.jsx";
 import ResetPassword from "./components/Auth/ResetPassword/index.jsx";
+import ProductPrecommandePage from "./components/ProductPrecommandePage/index.jsx";
 
 // import HomeTwo from "./components/HomeTwo";
 // import HomeThree from "./components/HomeThree";
@@ -48,7 +49,7 @@ const router = createBrowserRouter([
 
   // { path: "/all-products", element: <AllProductPage /> },
   { path: "/all-products", element: <AllProductPage /> },
-  // { path: "/single-product", element: <SingleProductPage /> },
+  { path: "/pre-commandes", element: <ProductPrecommandePage /> },
 
   { path: "/single-product/:id", element: <SingleProductPage /> },
 

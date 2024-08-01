@@ -26,6 +26,7 @@ export const CategoryProvider = ({ children }) => {
   }, []);
 
   const selectCategory = (category) => {
+    console.log("Catégorie sélectionnée :", category);
     setSelectedCategory(category);
   };
 

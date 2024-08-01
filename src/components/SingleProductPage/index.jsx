@@ -175,20 +175,9 @@ export default function SingleProductPage() {
                       Description
                     </h6>
                     <p className="text-[15px] text-qgray text-normal mb-10">
-                      Lorem Ipsum is simply dummy text of the printing and
-                      typesetting industry. Lorem Ipsum has been the industry's
-                      standard dummy text ever since the 1500s, when an unknown
-                      printer took a galley of type and scrambled it to make a
-                      type specimen book. It has survived not only five
-                      centuries but also the on leap into electronic
-                      typesetting, remaining essentially unchanged. It wasn’t
-                      popularised in the 1960s with the release of Letraset
-                      sheets containing Lorem Ipsum passages, andei more
-                      recently with desktop publishing software like Aldus
-                      PageMaker including versions of Lorem Ipsum to make a type
-                      specimen book.
+                      {produit.description && <>{produit.description}</>}
                     </p>
-                    <div>
+                    {/* <div>
                       <h6 className="text-[18px] text-medium mb-4">
                         Features :
                       </h6>
@@ -208,7 +197,7 @@ export default function SingleProductPage() {
                           keyboard, touchpad with gesture support
                         </li>
                       </ul>
-                    </div>
+                    </div> */}
                   </div>
                 )}
                 {tab === "info" && (

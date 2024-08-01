@@ -19,11 +19,11 @@ export default function CampaignCountDown({
               data-aos="fade-right"
               className="campaign-countdown lg:w-1/2 h-full w-full mb-5 lg:mb-0"
               style={{
-                background: `url(/images/campaign-cover-countdown.jpg) no-repeat`,
+                background: `url(/creation/television1.png) no-repeat`,
                 backgroundSize: "cover",
               }}
             >
-              <Link to="/flash-sale">
+              <Link to="/all-products">
                 <div className="w-full xl:p-12 p-5">
                   <div className="countdown-wrapper w-full flex lg:justify-between justify-evenly mb-10">
                     <div className="countdown-item">
@@ -69,7 +69,7 @@ export default function CampaignCountDown({
                   </div>
                   <div className="countdown-title mb-4">
                     <h1 className="text-[44px] text-qblack font-600">
-                      COURTISER! Vente flash
+                      Télévision LED
                     </h1>
                   </div>
                   <div className="inline-flex space-x-2 items-center border-b border-qyellow">
@@ -92,41 +92,31 @@ export default function CampaignCountDown({
             >
               <div className="flex flex-col h-full justify-between">
                 <div className="get-app">
-                  <p className="text-[13px] font-600 text-qblack mb-3">
-                    MOBILE APP VERSION
-                  </p>
-                  <h1 className="text-[30px] font-600 text-qblack leading-10 mb-8">
-                    Get Our
-                    <span className="text-qred border-b-2 border-qred mx-2">
-                      Mobile App
+                  <h1 className="text-[30px] font-600 text-qblack leading-10">
+                    Obtenez notre
+                    <span className="text-bleu-logo border-b-2 border-bleu-logo mx-2">
+                      Gamme de produits électroménagers
                     </span>
-                    <br /> It’s Make easy for you life !
+                    <br />
+                    Cela vous simplifie la vie !
                   </h1>
-                  <div className="flex space-x-5 items-center">
-                    <div>
-                      <a href="#">
-                        <img
-                          width="170"
-                          height="69"
-                          src={`banner1.png`}
-                          alt=""
-                        />
-                      </a>
-                    </div>
-                    <div>
-                      <a href="#">
-                        <img
-                          width="170"
-                          height="69"
-                          src={`/images/apple-store.png`}
-                          alt=""
-                        />
-                      </a>
-                    </div>
-                  </div>
+
+                  {/* <div className="flex justify-center mb-0 items-center ">
+                    <Link>
+                      <img
+                        width="370"
+                        height="90"
+                        src={`/creation/image_ccbm_shop_10.png`}
+                        alt="cuisiniere ccbm shop"
+                      />
+                    </Link>
+                  </div> */}
                 </div>
-                <div className="app-screen">
-                  <img src={appscreen || `banner1.png`} alt="" />
+                <div className="app-screen flex justify-center items-center">
+                  <img
+                    src={appscreen || `/creation/image_ccbm_shop_10.png`}
+                    alt=""
+                  />
                 </div>
               </div>
             </div>

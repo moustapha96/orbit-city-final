@@ -21,7 +21,7 @@ export default function TopBar({ className }) {
                       {" "}
                       <Link to="/login">
                         <span className="text-xs leading-6 text-qblack font-500">
-                          Mon compte
+                          Se connecter
                         </span>
                       </Link>
                     </>
@@ -43,20 +43,20 @@ export default function TopBar({ className }) {
                   </Link>
                 </li>
                 <li>
-                  <Link to="/tracking-order">
+                  <Link>
                     <span className="text-xs leading-6 text-qblack font-500">
                       Contact : 33 800 00 00
                     </span>
                   </Link>
                 </li>
 
-                {/* <li>
+                <li className="hidden md:block">
                   <Link to="/tracking-order">
                     <span className="text-xs leading-6 text-qblack font-500">
-                      Track Order
+                      Suivre Commande
                     </span>
                   </Link>
-                </li> */}
+                </li>
                 {/* <li>
                   <Link to="/faq">
                     <span className="text-xs leading-6 text-qblack font-500">

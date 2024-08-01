@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Arrow from "../../../Helpers/icons/Arrow";
 import { Asterisk, Loader2, Menu, MoveRight } from "lucide-react";
 import { CategoryContext } from "../../../../contexts/CategoryContext";
+import { UserContext } from "../../../../contexts/UserContext";
 
 export default function Navbar({ className, type = 3 }) {
   const navigate = useNavigate();
@@ -12,6 +13,7 @@ export default function Navbar({ className, type = 3 }) {
   const [elementsSize, setSize] = useState("0px");
   const { selectCategory, categories, isLoadingCategorie } =
     useContext(CategoryContext);
+  const { user } = useContext(UserContext);
 
   const handler = () => {
     setToggle(!categoryToggle);
@@ -162,6 +164,17 @@ export default function Navbar({ className, type = 3 }) {
                       </span>
                     </Link>
                   </li>
+                  <li>
+                    <Link to="/pre-commandes">
+                      <span
+                        className={`flex items-center text-sm font-600 cursor-pointer ${
+                          type === 3 ? "text-white" : "text-qblacktext"
+                        }`}
+                      >
+                        <span>Pré commandes</span>
+                      </span>
+                    </Link>
+                  </li>
                   {/* <li className="relative">
                     <span
                       className={`flex items-center text-sm font-600 cursor-pointer ${
@@ -289,17 +302,19 @@ export default function Navbar({ className, type = 3 }) {
                       </span>
                     </Link>
                   </li>
-                  <li>
-                    <Link to="/login">
-                      <span
-                        className={`flex items-center text-sm font-600 cursor-pointer ${
-                          type === 3 ? "text-white" : "text-qblacktext"
-                        }`}
-                      >
-                        <span>Connexion</span>
-                      </span>
-                    </Link>
-                  </li>
+                  {!user && (
+                    <li>
+                      <Link to="/login">
+                        <span
+                          className={`flex items-center text-sm font-600 cursor-pointer ${
+                            type === 3 ? "text-white" : "text-qblacktext"
+                          }`}
+                        >
+                          <span>Connexion</span>
+                        </span>
+                      </Link>
+                    </li>
+                  )}
                 </ul>
               </div>
             </div>

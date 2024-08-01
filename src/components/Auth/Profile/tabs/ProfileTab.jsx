@@ -137,7 +137,7 @@ export default function ProfileTab() {
             <div className="input-item flex space-x-2.5 mb-8">
               <div className="w-full h-full">
                 <div className="mb-4">
-                  <div className="mb-2 block">
+                  <div className="mb-2 block dark:text-qwhite  ">
                     <Label htmlFor="nom" value="Nom Complet" />
                   </div>
                   <input
@@ -239,7 +239,7 @@ export default function ProfileTab() {
             {isLoading == true ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                <span> Mise à jour</span>
+                <span> Mise à jour en cours</span>
               </>
             ) : (
               <span> Mettre a jour</span>
@@ -266,12 +266,14 @@ export default function ProfileTab() {
                 </svg>
               </span>
             </h1>
-            <p className="text-sm text-qgraytwo mb-5 ">
+
+            {/* <p className="text-sm text-qgraytwo mb-5 ">
               Profil d'au moins Taille
               <span className="ml-1 text-qblack">300x300</span>. Les gifs
               fonctionnent aussi.
               <span className="ml-1 text-qblack">Max 5 Mo</span>.
-            </p>
+            </p> */}
+
             <div className="flex xl:justify-center justify-start">
               <div className="relative">
                 <div className="sm:w-[198px] sm:h-[198px] w-[199px] h-[199px] rounded-full overflow-hidden relative">

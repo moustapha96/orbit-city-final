@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
 import SimpleSlider from "../Helpers/SliderCom";
@@ -17,44 +18,22 @@ export default function Banner({ className }) {
     <>
       {/* <div className={`w-full xl:h-[733px] h-[500px] ${className || ""}`}> */}
       <div className={`w-full ${className || ""}`}>
-        <div className="main-wrapper w-full h-full  mx-auto">
-          <div className="hero-slider-wrapper xl:h-full mb-20 xl:mb-0  w-full relative">
-            <div className="absolute left-0 top-0 w-full h-full items-center justify-between hidden xl:flex">
-              <button
-                type="button"
-                onClick={() => sliderRef.current.slickPrev()}
-                className="relative hover:text-qh3-blue text-[#8cb1f6] 2xl:left-32 left-5 cursor-pointer z-10"
-              >
-                <ArrowLeft size={90}></ArrowLeft>
-              </button>
-              <button
-                type="button"
-                onClick={() => sliderRef.current.slickNext()}
-                className="relative hover:text-qh3-blue text-[#8cb1f6]  2xl:right-32 right-5 cursor-pointer z-10"
-              >
-                <ArrowRight size={90} />
-              </button>
-            </div>
+        <div className="main-wrapper w-full h-full mx-auto mt-5">
+          <div className="hero-slider-wrapper xl:h-full mb-20 xl:mb-0 w-full relative">
             <SimpleSlider settings={settings} selector={sliderRef}>
               <div className="item w-full xl:h-[533px] h-[400px]">
                 <div
                   className="w-full h-full relative"
                   style={{
-                    backgroundImage: `url(/banner3.png)`,
+                    backgroundImage: `url(/creation/image_ccbm_shop_4.png)`,
                     backgroundRepeat: "no-repeat",
-                    backgroundSize: "cover",
+                    backgroundSize: "80% auto",
+                    backgroundPosition: "center",
                   }}
                 >
-                  <div className="container-x mx-auto flex items-center  h-full">
+                  <div className="container-x mx-auto flex items-center h-full">
                     <div className="w-full h-full xl:flex items-center pt-20 xl:pt-0">
                       <div className="xl:w-[626px] w-full">
-                        {/* <p className="md:text-[34px] text-[20px] font-medium text-white mb-[7px]">
-                          Shop CCBM
-                        </p> */}
-                        {/* <h1 className="md:text-[66px] text-[40px]  font-bold text-white md:leading-[80px] leading-[40px] mb-[44px]">
-                          Plongez dans notre univers d'électronique
-                        </h1> */}
-
                         <Link passhref="true">
                           <div rel="noopener noreferrer">
                             <div
@@ -84,22 +63,16 @@ export default function Banner({ className }) {
               <div className="item w-full xl:h-[533px] h-[400px]">
                 <div
                   style={{
-                    backgroundImage: `url(/banner2.png)`,
+                    backgroundImage: `url(/creation/image_ccbm_shop_5.png)`,
                     backgroundRepeat: "no-repeat",
-                    backgroundSize: "cover",
+                    backgroundSize: "80% auto",
+                    backgroundPosition: "center",
                   }}
                   className="w-full h-full relative"
                 >
-                  <div className="container-x mx-auto flex items-center  h-full">
+                  <div className="container-x mx-auto flex items-center h-full">
                     <div className="w-full h-full xl:flex items-center pt-20 xl:pt-0">
                       <div className="xl:w-[626px] w-full">
-                        {/* <p className="md:text-[34px] text-[20px] font-medium text-black mb-[7px]">
-                          Matériel Electronique
-                        </p> */}
-                        {/* <h1 className="md:text-[66px] text-[40px]  font-bold text-black md:leading-[80px] leading-[40px] mb-[44px]">
-                          Des matériels de qualité supérieure
-                        </h1> */}
-
                         <Link to="#" passhref="true">
                           <div rel="noopener noreferrer">
                             <div
@@ -129,22 +102,16 @@ export default function Banner({ className }) {
               <div className="item w-full xl:h-[533px] h-[400px]">
                 <div
                   style={{
-                    backgroundImage: `url(image5.jpg)`,
+                    backgroundImage: `url(/creation/image_ccbm_shop_7.png)`,
                     backgroundRepeat: "no-repeat",
-                    backgroundSize: "cover",
+                    backgroundSize: "80% auto",
+                    backgroundPosition: "center",
                   }}
                   className="w-full h-full relative"
                 >
-                  <div className="container-x mx-auto flex items-center  h-full">
+                  <div className="container-x mx-auto flex items-center h-full">
                     <div className="w-full h-full xl:flex items-center pt-20 xl:pt-0">
                       <div className="xl:w-[626px] w-full">
-                        {/* <p className="md:text-[34px] text-[20px] font-medium text-qh3-blue mb-[7px]">
-                          Shop CCBM
-                        </p>
-                        <h1 className="md:text-[66px] text-[40px]  font-bold text-qblack md:leading-[80px] leading-[40px] mb-[44px]">
-                          Plongez dans notre univers d'électronique
-                        </h1> */}
-
                         <Link to="#" passhref="true">
                           <div rel="noopener noreferrer">
                             <div
