@@ -52,15 +52,15 @@ export default function Home() {
         {/* {ads && <Ads handler={adsHandle} />} */}
         {/* <div className="btn w-5 h-5 "></div> */}
         <Banner className="banner-wrapper mb-[60px]" />
-        <BrandSection
+        {/* <BrandSection
           type={3}
           sectionTitle="Nos Marques"
           className="brand-section-wrapper mb-[60px]"
-        />
+        /> */}
         <SectionStyleOne
           products={products}
           brands={brands}
-          categoryTitle="Mobile & Tablet"
+          categoryTitle="Nos Catégories"
           sectionTitle="Nos Catégories"
           seeMoreUrl="/all-products"
           className="category-products mb-[60px]"
@@ -70,13 +70,13 @@ export default function Home() {
           className="mb-[60px]"
           lastDate="2024-9-07 10:00:00"
         />
-        <ViewMoreTitle
+        {/* <ViewMoreTitle
           className="top-selling-product mb-[60px]"
           seeMoreUrl="/all-products"
           categoryTitle="Disponible en commande"
         >
           <SectionStyleTwo products={commandes.slice(3, commandes.length)} />
-        </ViewMoreTitle>
+        </ViewMoreTitle> */}
         {/* <ViewMoreTitle
           className="best-sallers-section mb-[60px]"
           seeMoreUrl="/sallers"
@@ -84,11 +84,11 @@ export default function Home() {
         >
           <BestSellers />
         </ViewMoreTitle> */}
-        <ProductsAds
+        {/* <ProductsAds
           ads={[`/creation/television1.png`, `creation/television2.png`]}
           sectionHeight="sm:h-[295px]  h-full"
           className="products-ads-section mb-[60px] "
-        />
+        /> */}
         <ViewMoreTitle
           className="top-selling-product mb-[60px]"
           seeMoreUrl="/pre-commandes"
@@ -98,31 +98,31 @@ export default function Home() {
             products={precommandes.slice(3, precommandes.length)}
           />
         </ViewMoreTitle>
-        <SectionStyleOne
-          categoryBackground={`/images/section-category-2.jpg`}
+        {/* <SectionStyleOne
+          categoryBackground={`/creation/side_bar_image_ccbm_shop.png`}
           products={products.slice(4, products.length)}
           brands={brands}
           categoryTitle="Electronics"
           sectionTitle="Ventes populaires"
           seeMoreUrl="/all-products"
           className="category-products mb-[60px]"
-        />
+        /> */}
 
-        <ProductsAds
+        {/* <ProductsAds
           ads={[`/creation/image_ccbm_shop_4.png`]}
           className="products-ads-section mb-[60px]"
-        />
-        <SectionStyleThree
+        /> */}
+        {/* <SectionStyleThree
           products={newProduits}
           sectionTitle="Nouvelles Arrivées"
           seeMoreUrl="/all-products"
           className="new-products mb-[60px]"
-        />
-        <ProductsAds
+        /> */}
+        {/* <ProductsAds
           sectionHeight="164"
           ads={[`/creation/image_ccbm_shop_6.png`]}
           className="products-ads-section mb-[60px]"
-        />
+        /> */}
         {/* <SectionStyleFour
           products={productS}
           sectionTitle="Popular Sales"

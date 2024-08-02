@@ -221,7 +221,7 @@ export default function Contact() {
               </form>
             </div>
           </div>
-          <div className="container-x mx-auto my-[60px]">
+          {/* <div className="container-x mx-auto my-[60px]">
             <div
               data-aos="fade-down"
               className="best-services w-full  flex flex-col space-y-10 lg:space-y-0 lg:flex-row lg:justify-between lg:items-center lg:h-[110px] px-10 lg:py-0 py-10"
@@ -297,7 +297,7 @@ export default function Contact() {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </Layout>

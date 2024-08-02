@@ -20,7 +20,7 @@ export default function Banner({ className }) {
       <div className={`w-full ${className || ""}`}>
         <div className="main-wrapper w-full h-full  mx-auto mt-5 ">
           <div className="hero-slider-wrapper xl:h-full mb-20 xl:mb-0  w-full relative">
-            <div className="absolute left-0 top-0 w-full h-full items-center justify-between hidden xl:flex">
+            {/* <div className="absolute left-0 top-0 w-full h-full items-center justify-between hidden xl:flex">
               <button
                 type="button"
                 onClick={() => sliderRef.current.slickPrev()}
@@ -35,7 +35,7 @@ export default function Banner({ className }) {
               >
                 <ArrowRight size={90} />
               </button>
-            </div>
+            </div> */}
             <SimpleSlider settings={settings} selector={sliderRef}>
               <div className="item w-full xl:h-[533px] h-[400px]">
                 <div

@@ -14,7 +14,7 @@ import { useLocation, useParams } from "react-router-dom";
 import { CartContext } from "../../contexts/CartContext";
 import ProduitService from "../../services/produitService";
 import { toast } from "react-toastify";
-
+import DOMPurify from "dompurify";
 export default function SingleProductPage() {
   const [produits, setProduits] = useState([]);
   const location = useLocation();
@@ -175,7 +175,13 @@ export default function SingleProductPage() {
                       Description
                     </h6>
                     <p className="text-[15px] text-qgray text-normal mb-10">
-                      {produit.description && <>{produit.description}</>}
+                      {produit.description && (
+                        <div
+                          dangerouslySetInnerHTML={{
+                            __html: DOMPurify.sanitize(produit.description),
+                          }}
+                        />
+                      )}
                     </p>
                     {/* <div>
                       <h6 className="text-[18px] text-medium mb-4">

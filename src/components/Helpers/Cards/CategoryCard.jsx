@@ -22,7 +22,7 @@ export default function CategoryCard({ background, title, brands = [] }) {
       className="category-card-wrappwer w-full h-full p-[30px]"
       style={{
         background: `url(${
-          background || `/images/section-category-1.jpg`
+          background || `/creation/side_bar_image_ccbm_shop.png`
         }) no-repeat`,
         backgroundSize: "cover",
       }}

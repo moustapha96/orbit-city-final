@@ -97,7 +97,7 @@ export default function ProductView({ produit, className, reportHandler }) {
               alt=""
               className="object-contain"
             />
-            <div className="w-[100px] h-[30px] rounded-full bg-qyellow text-qblack flex justify-center items-center font-medium absolute left-[30px] top-[30px]">
+            <div className="w-[150px] h-[40px] rounded-full bg-qyellow text-qblack flex justify-center items-center font-medium absolute left-[30px] top-[30px]">
               {/* <span>-50%</span> */}
               <span>{produit.categ_id}</span>
             </div>

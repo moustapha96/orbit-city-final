@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import Star from "../Helpers/icons/Star";
 import InputCom from "../Helpers/InputCom";
 import LoaderStyleOne from "../Helpers/Loaders/LoaderStyleOne";

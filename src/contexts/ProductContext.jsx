@@ -13,7 +13,15 @@ export const ProductProvider = ({ children }) => {
     const fetchModels = async () => {
       try {
         const data = await ProduitService.getProduits();
-        const filsteredPro = data.filter((p) => p.type != "service");
+        const filsteredPro = data.filter(
+          (p) =>
+            p.type != "service" &&
+            p.categ_id != "Services" &&
+            p.categ_id != "Expenses" &&
+            p.categ_id != "Internal" &&
+            p.categ_id != "Consumable" &&
+            p.categ_id != "Saleable"
+        );
         setProducts(filsteredPro);
         setIsLoading(false);
       } catch (error) {

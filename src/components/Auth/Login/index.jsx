@@ -165,29 +165,30 @@ export default function Login() {
           console.log(resp.status);
           setIsLoading(false);
           if (resp.status == "success") {
-            toast.dismiss();
-            toast.success(resp.message, {
-              position: "top-center",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-            });
-          } else {
-            toast.dismiss();
-            toast.success("Votre compte a été vérifié avec succès!", {
-              position: "top-center",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-            });
             setEmail(mail);
+            // toast.dismiss();
+            // toast.success("Votre compte a été vérifié avec succès!", {
+            //   position: "top-center",
+            //   autoClose: 5000,
+            //   hideProgressBar: false,
+            //   closeOnClick: true,
+            //   pauseOnHover: true,
+            //   draggable: true,
+            //   progress: undefined,
+            // });
           }
+          // else {
+          //   toast.dismiss();
+          //   toast.success("Votre compte a été vérifié avec succès!", {
+          //     position: "top-center",
+          //     autoClose: 5000,
+          //     hideProgressBar: false,
+          //     closeOnClick: true,
+          //     pauseOnHover: true,
+          //     draggable: true,
+          //     progress: undefined,
+          //   });
+          // }
           setIsLoading(false);
         } catch (error) {
           setIsLoading(false);
@@ -219,10 +220,7 @@ export default function Login() {
                     <h1 className="text-[34px] font-bold leading-[74px] text-qblack">
                       Connexion
                     </h1>
-                    <div>
-                      {mail && <p>Email: {mail}</p>}
-                      {isVerified && <p>Is Verified: {isVerified}</p>}
-                    </div>
+
                     <div className="shape -mt-6">
                       <svg
                         width="172"

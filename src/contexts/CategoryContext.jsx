@@ -14,7 +14,15 @@ export const CategoryProvider = ({ children }) => {
     const fetchModels = async () => {
       try {
         const data = await Categorieservice.getCategories();
-        setCategories(data);
+        const filstered = data.filter(
+          (c) =>
+            c.name != "Services" &&
+            c.name != "Expenses" &&
+            c.name != "Internal" &&
+            c.name != "Consumable" &&
+            c.name != "Saleable"
+        );
+        setCategories(filstered);
         setIsLoadingCategorie(false);
       } catch (error) {
         console.error("Erreur lors de la récupération des modèles", error);
