@@ -21,7 +21,7 @@ export default function ProductsFilter({
   type = 3,
 }) {
   console.log(volume);
-  const { categories } = useContext(CategoryContext);
+  const { categories, selectedCategory } = useContext(CategoryContext);
 
   return (
     <>
@@ -39,32 +39,6 @@ export default function ProductsFilter({
           <div className="filter-items">
             <ul>
               {categories.map((category) => (
-                // <li
-                //   key={category.id}
-                //   className="item flex justify-between items-center mb-5"
-                // >
-                //   <div className="flex space-x-[14px] items-center">
-                //     <div>
-                //       <Checkbox
-                //         id={`category-${category.id}`}
-                //         name={`category-${category.id}`}
-                //         handleChange={() => handleCategoryChange(category.id)}
-                //         checked={filters.category.includes(category.id)}
-                //       />
-                //     </div>
-                //     <div>
-                //       <label
-                //         htmlFor={`category-${category.id}`}
-                //         className="text-xs font-black font-400 capitalize"
-                //       >
-                //         {category.name}
-                //       </label>
-                //     </div>
-                //   </div>
-                //   <div>
-                //     <Plus></Plus>
-                //   </div>
-                // </li>
                 <li key={category.id}>
                   <Link
                     id={`category-${category.id}`}
@@ -72,15 +46,23 @@ export default function ProductsFilter({
                     onClick={() => handleCategoryChange(category.id)}
                   >
                     <div
-                      className={`flex justify-between items-center px-5 h-10 bg-white  transition-all duration-300 ease-in-out cursor-pointer text-qblack ${
+                      className={`flex justify-between items-center px-5 h-10 bg-white transition-all duration-300 ease-in-out cursor-pointer text-qblack ${
                         type === 3
-                          ? "hover:bg-qh3-blue hover:text-white"
+                          ? "hover:bg-bleu-logo hover:text-white"
                           : "hover:bg-qyellow"
+                      } ${
+                        selectedCategory.id === category.id
+                          ? "bg-qyellow  text-bleu-logo"
+                          : ""
                       }`}
                     >
-                      <div className="flex items-center space-x-6">
+                      <div className={`flex items-center space-x-6 `}>
                         <span className="text-xs font-400">
-                          {category.name}
+                          {category.name == "All" ? (
+                            <>Tout</>
+                          ) : (
+                            <> {category.name} </>
+                          )}
                         </span>
                       </div>
                       <div>

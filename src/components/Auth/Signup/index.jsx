@@ -9,6 +9,7 @@ import { Loader2 } from "lucide-react";
 import userService from "../../../services/userService";
 import { toast } from "react-toastify";
 import { isValidEmail, isValidPhoneNumber } from "../../../utils/validations";
+import isStrongPassword from "../../../utils/verifPassword";
 export default function Signup() {
   const [checked, setValue] = useState(false);
   const navigate = useNavigate();
@@ -24,11 +25,12 @@ export default function Signup() {
   const [error, setError] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const validatePassword = (password, confirmPassword) =>
-    password !== confirmPassword
-      ? "Les mots de passe ne correspondent pas."
-      : "";
-
+  const validatePassword = (password, confirmPassword) => {
+    if (password !== confirmPassword) {
+      return "Les mots de passe ne correspondent pas.";
+    }
+    return "";
+  };
   const validateForm = () => {
     const errors = {
       checked: !checked
@@ -47,7 +49,11 @@ export default function Signup() {
         : !isValidEmail(email)
         ? "L'adresse email est invalide."
         : "",
-      password: !password ? "Le mot de passe est obligatoire." : "",
+      password: !password
+        ? "Le mot de passe est obligatoire."
+        : !isStrongPassword(password)
+        ? "Le mot de passe doit contenir au moins 8 caractères, une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial."
+        : "",
       passwordError: validatePassword(password, confirmPassword),
     };
     console.log(errors);
@@ -149,13 +155,12 @@ export default function Signup() {
                 <div className="input-area">
                   <form onSubmit={handleSubmit}>
                     <div className="flex sm:flex-row flex-col space-y-5 sm:space-y-0 sm:space-x-5 mb-5">
-                      <div className="sm:w-1/2 md:w-full ">
+                      <div className="sm:w-1/2 md:w-full">
                         <div className="mb-2 block">
                           <Label htmlFor="prenom" value="Prénom" />
                           {error.prenom && (
                             <p className="text-red-600">{error.prenom}</p>
                           )}
-                          <Label htmlFor="prenom" value="Prénom" />
                         </div>
                         <input
                           type="text"
@@ -170,7 +175,7 @@ export default function Signup() {
                       focus:invalid:border-red-500 focus:invalid:ring-red-500"
                         />
                       </div>
-                      <div className="sm:w-1/2 md:w-full ">
+                      <div className="sm:w-1/2 md:w-full">
                         <div className="mb-2 block">
                           <Label htmlFor="nom" value="Nom" />
                           {error.nom && (
@@ -192,7 +197,7 @@ export default function Signup() {
                       </div>
                     </div>
                     <div className="flex sm:flex-row flex-col space-y-5 sm:space-y-0 sm:space-x-5 mb-5">
-                      <div className="sm:w-1/2 md:w-full ">
+                      <div className="sm:w-1/2 md:w-full">
                         <div className="mb-2 block">
                           {error.email && (
                             <p className="text-red-600">{error.email}</p>
@@ -212,7 +217,6 @@ export default function Signup() {
                       focus:invalid:border-red-500 focus:invalid:ring-red-500"
                         />
                       </div>
-
                       <div className="sm:w-1/2 md:w-full">
                         <div className="mb-2 block">
                           {error.telephone && (
@@ -234,7 +238,6 @@ export default function Signup() {
                         />
                       </div>
                     </div>
-
                     <div className="w-full input-item mb-5">
                       <div className="mb-2 block">
                         {error.adresse && (
@@ -255,7 +258,6 @@ export default function Signup() {
                       focus:invalid:border-red-500 focus:invalid:ring-red-500"
                       />
                     </div>
-
                     <div className="flex sm:flex-row flex-col space-y-5 sm:space-y-0 sm:space-x-5 mb-5">
                       <div className="sm:w-1/2 md:w-full">
                         <div className="mb-2 block">
@@ -277,7 +279,6 @@ export default function Signup() {
                       focus:invalid:border-red-500 focus:invalid:ring-red-500"
                         />
                       </div>
-
                       <div className="sm:w-1/2 md:w-full">
                         <div className="mb-2 block">
                           <Label
@@ -302,7 +303,6 @@ export default function Signup() {
                         )}
                       </div>
                     </div>
-
                     <div className="forgot-password-area mb-7">
                       <div className="remember-checkbox flex items-center space-x-2.5">
                         <div className="flex items-center space-x-2">
@@ -316,14 +316,13 @@ export default function Signup() {
                         </div>
                       </div>
                     </div>
-
                     <div className="signin-area mb-3">
                       <div className="flex justify-center">
                         <Button
                           type="submit"
                           variant="failure"
-                          className=" black-btn mb-6 text-sm text-white w-full h-[50px] font-semibold flex justify-center 
-                       hover:bg-red-500  bg-purple items-center"
+                          className=" hover:bg-bleu-logo black-btn mb-6 text-sm text-white w-full h-[50px] font-semibold flex justify-center
+                        bg-purple items-center"
                           disabled={isLoading}
                         >
                           {isLoading == true ? (
@@ -337,11 +336,13 @@ export default function Signup() {
                         </Button>
                       </div>
                     </div>
-
                     <div className="signup-area flex justify-center">
                       <p className="text-base text-qgraytwo font-normal">
                         Vous avez déjà un compte?
-                        <Link to="/login" className="ml-2 text-qblack">
+                        <Link
+                          to="/login"
+                          className="ml-2 hover:text-bleu-logo text-qblack"
+                        >
                           Se connecter
                         </Link>
                       </p>
@@ -350,7 +351,7 @@ export default function Signup() {
                 </div>
               </div>
             </div>
-            <div className="flex-1 lg:flex hidden transform scale-60 xl:scale-100   xl:justify-center">
+            <div className="flex-1 lg:flex hidden transform scale-60 xl:scale-100 xl:justify-center">
               <div
                 className="absolute xl:-right-20 -right-[138px]"
                 style={{ top: "calc(50% - 258px)" }}

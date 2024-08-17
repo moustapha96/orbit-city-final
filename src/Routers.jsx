@@ -4,21 +4,16 @@ import AllProductPage from "./components/AllProductPage";
 import Login from "./components/Auth/Login/index";
 import Profile from "./components/Auth/Profile";
 import Signup from "./components/Auth/Signup";
-import BecomeSaller from "./components/BecomeSaller";
-import Blogs from "./components/Blogs";
-import Blog from "./components/Blogs/Blog.jsx";
 import CardPage from "./components/CartPage";
 
 import CheakoutPage from "./components/CheakoutPage";
 import Contact from "./components/Contact";
 import Faq from "./components/Faq";
-import FlashSale from "./components/FlashSale";
 import FourZeroFour from "./components/FourZeroFour";
 import Home from "./components/Home";
 import PrivacyPolicy from "./components/PrivacyPolicy";
 import ProductsCompaire from "./components/ProductsCompaire/index";
-import SallerPage from "./components/SallerPage";
-import Sallers from "./components/Sellers";
+
 import SingleProductPage from "./components/SingleProductPage";
 import TermsCondition from "./components/TermsCondition/index";
 import TrackingOrder from "./components/TrackingOrder";
@@ -38,16 +33,11 @@ import ConditionGeneralDeVentePage from "./components/ConditionsGeneralesDeVente
 import PolitiqueDeConfidentialitePage from "./components/PolitiqueDeConfidentialite/index.jsx";
 import ResetPassword from "./components/Auth/ResetPassword/index.jsx";
 import ProductPrecommandePage from "./components/ProductPrecommandePage/index.jsx";
-
-// import HomeTwo from "./components/HomeTwo";
-// import HomeThree from "./components/HomeThree";
-// import HomeFour from "./components/HomeFour";
-// import HomeFive from "./components/HomeFive";
+import NewPassword from "./components/Auth/NewPassword/index.jsx";
 
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
 
-  // { path: "/all-products", element: <AllProductPage /> },
   { path: "/all-products", element: <AllProductPage /> },
   { path: "/pre-commandes", element: <ProductPrecommandePage /> },
 
@@ -78,41 +68,27 @@ const router = createBrowserRouter([
     element: <CartValidationPage />,
   },
 
-  // {
-  //   path: "/payment-commande/:idOrder",
-  //   element: <PaymentCommandePage />,
-  // },
   {
     path: "/payment-state",
     element: <PaymentStatePage />,
   },
 
-  // {
-  //   path: "/payment-precommande/:idOrder/:tranche/:montant",
-  //   element: <PaymentPreCommandePage />,
-  // },
-
-  // { path: "/pre-commandes/:id/détails", element: <PreCommandeDetailsPage /> },
-
   { path: "/cart", element: <CardPage /> },
   { path: "/pre-cart", element: <PreCardPage /> },
   { path: "/checkout", element: <CheakoutPage /> },
   { path: "/wishlist", element: <Wishlist /> },
-  { path: "/flash-sale", element: <FlashSale /> },
-  { path: "/saller-page", element: <SallerPage /> },
+
   { path: "/products-compaire", element: <ProductsCompaire /> },
-  { path: "/sallers", element: <Sallers /> },
+
   { path: "/about", element: <About /> },
-  { path: "/blogs", element: <Blogs /> },
-  { path: "/blogs/blog", element: <Blog /> },
   { path: "/tracking-order", element: <TrackingOrder /> },
   { path: "/contact", element: <Contact /> },
   { path: "/faq", element: <Faq /> },
   { path: "/login", element: <Login /> },
+  { path: "/new-password", element: <NewPassword /> },
   { path: "/forgot-password", element: <ResetPassword /> },
   { path: "/signup", element: <Signup /> },
   { path: "/profile", element: <Profile /> },
-  { path: "/become-saller", element: <BecomeSaller /> },
   { path: "/privacy-policy", element: <PrivacyPolicy /> },
   { path: "/terms-condition", element: <TermsCondition /> },
   {

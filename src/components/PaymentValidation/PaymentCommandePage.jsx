@@ -2,7 +2,6 @@
 /* eslint-disable react/prop-types */
 import { useLocation, useNavigation, useParams } from "react-router-dom";
 import BreadcrumbCom from "../BreadcrumbCom";
-import EmptyCardError from "../EmptyCardError";
 
 import PageTitle from "../Helpers/PageTitle";
 import Layout from "../Partials/Layout";
@@ -150,7 +149,6 @@ export default function PaymentCommandePage({ cart = true }) {
                 { name: "Validation Payment Commande", path: "/payment" },
               ]}
             />
-            <EmptyCardError />
           </div>
         </div>
       ) : (
@@ -349,7 +347,7 @@ export default function PaymentCommandePage({ cart = true }) {
                               <div className="w-full h-[50px] flex justify-center items-center">
                                 <span className="text-green-500">
                                   {" "}
-                                  Payment effectif
+                                  le paiement a été effectué avec succès
                                 </span>
                               </div>
                             )}

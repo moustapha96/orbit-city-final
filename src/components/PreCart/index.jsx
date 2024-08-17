@@ -40,7 +40,7 @@ export default function PreCart({ className, type }) {
 
                         <p className="price">
                           <span className="offer-price text-qred font-600 text-[15px] ml-2">
-                            Prix : {formatPrice(produit.list_price)} X{" "}
+                            Prix : {formatPrice(produit.preorder_price)} X{" "}
                             {produit.quantity}
                           </span>
                         </p>

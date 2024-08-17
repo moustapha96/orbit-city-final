@@ -98,7 +98,7 @@ export default function OrderTab() {
                         type="button"
                         title="voir les détails"
                         onClick={(event) => handleDetails(event, commande)}
-                        className="w-[116px] h-[46px] bg-qyellow text-qblack font-bold"
+                        className="w-[116px] h-[46px] bg-bleu-logo text-white hover:bg-bleu-claire font-bold"
                       >
                         Voir les détails
                       </button>

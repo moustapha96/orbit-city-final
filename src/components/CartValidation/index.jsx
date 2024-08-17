@@ -289,7 +289,7 @@ export default function CartValidationPage() {
                       <div className="w-full h-[50px] flex justify-center items-center">
                         <span className="text-green-500">
                           {" "}
-                          Payment effectif
+                          le paiement a été effectué avec succès
                         </span>
                       </div>
                     )}

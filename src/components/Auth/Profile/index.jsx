@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import datas from "../../../data/products.json";
+
 import BreadcrumbCom from "../../BreadcrumbCom";
 import Layout from "../../Partials/Layout";
 
@@ -25,6 +25,8 @@ import WishlistTab from "./tabs/WishlistTab";
 import PanierCommande from "./tabs/PanierCommande";
 import PanierPreCommande from "./tabs/PanierPreCommande";
 import { UserContext } from "../../../contexts/UserContext";
+import PaymentDetailsTab from "./tabs/PaymentDetailsTab";
+import OrderDraftTab from "./tabs/OrderDraftTab";
 
 export default function Profile() {
   // const user = JSON.parse(localStorage.getItem("user"));
@@ -38,7 +40,10 @@ export default function Profile() {
   const location = useLocation();
   const getHashContent = location.hash.split("#");
   const [active, setActive] = useState("dashboard");
-
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
   useEffect(() => {
     setActive(
       getHashContent && getHashContent.length > 1
@@ -63,27 +68,13 @@ export default function Profile() {
                 { name: "profile", path: "/profile" },
               ]}
             />
-            <div className="w-full bg-white px-10 py-9">
+            {/* <div className="w-full bg-white px-10 py-9   sm:px-6 sm:py-4">
               <div className="title-area w-full flex justify-between items-center">
                 <h1 className="text-[22px] font-bold text-qblack">
                   Tableau de bord
                 </h1>
-                {/* <div className="switch-dashboard flex space-x-3 items-center">
-                  <p className="text-qgray text-base">Switch Dashboard</p>
-                  <button
-                    onClick={() => setSwitchDashboard(!switchDashboard)}
-                    type="button"
-                    className="w-[73px] h-[31px] border border-[#D9D9D9] rounded-full relative "
-                  >
-                    <div
-                      className={`w-[23px] h-[23px] bg-qblack rounded-full absolute top-[3px] transition-all duration-300 ease-in-out ${
-                        switchDashboard ? "left-[44px]" : "left-[4px]"
-                      }`}
-                    ></div>
-                  </button>
-                </div> */}
               </div>
-              <div className="profile-wrapper w-full mt-8 flex space-x-10">
+              <div className="profile-wrapper w-full mt-8 flex space-x-10 ">
                 <div className="w-[236px] min-h-[600px] border-r border-[rgba(0, 0, 0, 0.1)]">
                   <div className="flex flex-col space-y-10">
                     <div className="item group">
@@ -99,32 +90,6 @@ export default function Profile() {
                       </Link>
                     </div>
 
-                    {/* <div className="item group">
-                      <Link to="/profile#paniercommande">
-                        <div className="flex space-x-3 items-center text-qgray hover:text-qblack">
-                          <span>
-                            <ShoppingCart />
-                          </span>
-                          <span className=" font-normal text-base">
-                            Panier Commande
-                          </span>
-                        </div>
-                      </Link>
-                    </div> */}
-
-                    {/* <div className="item group">
-                      <Link to="/profile#panierprecommande">
-                        <div className="flex space-x-3 items-center text-qgray hover:text-qblack">
-                          <span>
-                            <ShoppingBag />
-                          </span>
-                          <span className=" font-normal text-base">
-                            Panier Pré Commande
-                          </span>
-                        </div>
-                      </Link>
-                    </div> */}
-
                     <div className="item group">
                       <Link to="/profile#profile">
                         <div className="flex space-x-3 items-center text-qgray hover:text-qblack">
@@ -138,18 +103,6 @@ export default function Profile() {
                       </Link>
                     </div>
 
-                    {/* <div className="item group">
-                      <Link to="/profile#payment">
-                        <div className="flex space-x-3 items-center text-qgray hover:text-qblack">
-                          <span>
-                            <IcoPayment />
-                          </span>
-                          <span className=" font-normal text-base">
-                            Méthode de Payment
-                          </span>
-                        </div>
-                      </Link>
-                    </div> */}
                     <div className="item group">
                       <Link to="/profile#order">
                         <div className="flex space-x-3 items-center text-qgray hover:text-qblack">
@@ -186,31 +139,6 @@ export default function Profile() {
                         </div>
                       </Link>
                     </div>
-                    {/* <div className="item group">
-                      <Link to="/profile#address">
-                        <div className="flex space-x-3 items-center text-qgray hover:text-qblack">
-                          <span>
-                            <IcoAdress />
-                          </span>
-                          <span className=" font-normal text-base">
-                            Adresse
-                          </span>
-                        </div>
-                      </Link>
-                    </div> */}
-
-                    {/* <div className="item group">
-                      <Link to="/profile#password">
-                        <div className="flex space-x-3 items-center text-qgray hover:text-qblack">
-                          <span>
-                            <IcoPassword />
-                          </span>
-                          <span className=" font-normal text-base">
-                            Mot de passe
-                          </span>
-                        </div>
-                      </Link>
-                    </div> */}
 
                     <div className="item group">
                       <Link onClick={HandleLout}>
@@ -274,6 +202,199 @@ export default function Profile() {
                       <>
                         <PanierPreCommande />
                       </>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div> */}
+            <div className="w-full bg-white px-4 sm:px-10 py-9">
+              <div className="title-area w-full flex justify-between items-center">
+                <h1 className="text-[22px] font-bold text-qblack sm:text-xl">
+                  Tableau de bord
+                </h1>
+                <button
+                  className="block sm:hidden text-qblack"
+                  onClick={toggleMenu}
+                >
+                  {/* Icône Hamburger */}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={2}
+                    stroke="currentColor"
+                    className="w-6 h-6"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M4 6h16M4 12h16m-7 6h7"
+                    />
+                  </svg>
+                </button>
+              </div>
+              <div className="profile-wrapper w-full mt-8 flex space-x-10">
+                {/* Menu sur les écrans plus grands */}
+                <div
+                  className={`w-[236px] min-h-[600px] border-r border-[rgba(0, 0, 0, 0.1)] ${
+                    isMenuOpen ? "block" : "hidden"
+                  } sm:block`}
+                >
+                  <div className="flex flex-col space-y-10">
+                    <div className="item group">
+                      <Link
+                        to="/profile#dashboard"
+                        onClick={() => setActive("dashboard")}
+                      >
+                        <div className="flex space-x-3 items-center text-qgray hover:text-qblack">
+                          <span>
+                            <IcoDashboard />
+                          </span>
+                          <span className="font-normal text-base">
+                            Tableau de bord
+                          </span>
+                        </div>
+                      </Link>
+                    </div>
+                    <div className="item group">
+                      <Link
+                        to="/profile#profile"
+                        onClick={() => setActive("profile")}
+                      >
+                        <div className="flex space-x-3 items-center text-qgray hover:text-qblack">
+                          <span>
+                            <IcoPeople />
+                          </span>
+                          <span className="font-normal text-base">
+                            Information Personnel
+                          </span>
+                        </div>
+                      </Link>
+                    </div>
+                    <div className="item group">
+                      <Link
+                        to="/profile#orderDraft"
+                        onClick={() => setActive("orderDraft")}
+                      >
+                        <div className="flex space-x-3 items-center text-qgray hover:text-qblack">
+                          <span>
+                            <IcoCart />
+                          </span>
+                          <span className="font-normal text-base">
+                            Commandes Brouillons
+                          </span>
+                        </div>
+                      </Link>
+                    </div>
+                    <div className="item group">
+                      <Link
+                        to="/profile#order"
+                        onClick={() => setActive("order")}
+                      >
+                        <div className="flex space-x-3 items-center text-qgray hover:text-qblack">
+                          <span>
+                            <IcoCart />
+                          </span>
+                          <span className="font-normal text-base">
+                            Commandes
+                          </span>
+                        </div>
+                      </Link>
+                    </div>
+
+                    <div className="item group">
+                      <Link
+                        to="/profile#preorder"
+                        onClick={() => setActive("preorder")}
+                      >
+                        <div className="flex space-x-3 items-center text-qgray hover:text-qblack">
+                          <span>
+                            <IcoCart />
+                          </span>
+                          <span className="font-normal text-base">
+                            Précommandes
+                          </span>
+                        </div>
+                      </Link>
+                    </div>
+                    <div className="item group">
+                      <Link
+                        to="/profile#wishlist"
+                        onClick={() => setActive("wishlist")}
+                      >
+                        <div className="flex space-x-3 items-center text-qgray hover:text-qblack">
+                          <span>
+                            <IcoLove />
+                          </span>
+                          <span className="font-normal text-base">
+                            Liste de souhaits
+                          </span>
+                        </div>
+                      </Link>
+                    </div>
+                    <div className="item group">
+                      <Link
+                        to="/profile#payments"
+                        onClick={() => setActive("payments")}
+                      >
+                        <div className="flex space-x-3 items-center text-qgray hover:text-qblack">
+                          <span>
+                            <IcoLove />
+                          </span>
+                          <span className="font-normal text-base">
+                            Transactions
+                          </span>
+                        </div>
+                      </Link>
+                    </div>
+                    <div className="item group">
+                      <Link onClick={HandleLout}>
+                        <div className="flex space-x-3 items-center text-qgray hover:text-qblack">
+                          <span>
+                            <IcoLogout />
+                          </span>
+                          <span className="font-normal text-base">
+                            Déconnexion
+                          </span>
+                        </div>
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Contenu principal */}
+                <div className="flex-1">
+                  <div className="item-body dashboard-wrapper w-full">
+                    {active === "dashboard" ? (
+                      <Dashboard />
+                    ) : active === "profile" ? (
+                      <ProfileTab />
+                    ) : active === "payment" ? (
+                      <Payment />
+                    ) : active === "order" ? (
+                      <OrderTab />
+                    ) : active === "orderDraft" ? (
+                      <OrderDraftTab />
+                    ) : active === "payments" ? (
+                      <PaymentDetailsTab />
+                    ) : active === "preorder" ? (
+                      <PreOrderTab />
+                    ) : active === "wishlist" ? (
+                      <WishlistTab />
+                    ) : active === "address" ? (
+                      <AddressesTab />
+                    ) : active === "password" ? (
+                      <PasswordTab />
+                    ) : active === "support" ? (
+                      <SupportTab />
+                    ) : active === "review" ? (
+                      <ReviewTab products={datas.products} />
+                    ) : active === "paniercommande" ? (
+                      <PanierCommande />
+                    ) : active === "panierprecommande" ? (
+                      <PanierPreCommande />
                     ) : (
                       ""
                     )}

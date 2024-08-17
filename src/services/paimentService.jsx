@@ -46,6 +46,59 @@ const PaiementService = {
       throw error;
     }
   },
+  setPaymentDetails: async (paymentDetails) => {
+    try {
+      const response = await axiosInstance.post(
+        `/api/payment/set`,
+        paymentDetails
+      );
+      return response.data;
+    } catch (error) {
+      console.error(
+        "Erreur lors de l'enregistrement des détails du paiement",
+        error
+      );
+      throw error;
+    }
+  },
+  getPaymentDetails: async (transactionId) => {
+    try {
+      const response = await axiosInstance.get(
+        `/api/payment/get/${transactionId}`
+      );
+      return response.data;
+    } catch (error) {
+      console.error(
+        "Erreur lors de la récupération des détails du paiement",
+        error
+      );
+      throw error;
+    }
+  },
+  getPaymentsPartner: async (id) => {
+    try {
+      const response = await axiosInstance.get(`/api/payment/partner/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error(
+        "Erreur lors de la récupération des détails du paiement",
+        error
+      );
+      throw error;
+    }
+  },
+  getPaymentDetailsById: async (id) => {
+    try {
+      const response = await axiosInstance.get(`/api/payment/byId/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error(
+        "Erreur lors de la récupération des détails du paiement",
+        error
+      );
+      throw error;
+    }
+  },
 };
 
 export default PaiementService;

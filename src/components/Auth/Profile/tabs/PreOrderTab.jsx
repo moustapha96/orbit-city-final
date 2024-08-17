@@ -38,7 +38,7 @@ export default function PreOrderTab({ type = 3 }) {
             {/* table heading */}
             <tr className="text-base text-qgray whitespace-nowrap px-2 border-b default-border-bottom ">
               <td className="py-4 block whitespace-nowrap text-center">
-                Commande
+                PréCommande
               </td>
               <td className="py-4 whitespace-nowrap text-center">Date</td>
               <td className="py-4 whitespace-nowrap text-center">Statut</td>
@@ -126,7 +126,7 @@ export default function PreOrderTab({ type = 3 }) {
                         type="button"
                         title="voir les détails"
                         onClick={(event) => handleDetails(event, commande)}
-                        className="w-[116px] h-[46px] bg-qyellow text-qblack font-bold"
+                        className="w-[116px] h-[46px] bg-bleu-logo text-white hover:bg-bleu-claire font-bold"
                       >
                         Voir les détails
                       </button>
@@ -139,7 +139,7 @@ export default function PreOrderTab({ type = 3 }) {
         </table>
         {!Array.isArray(precommandes) && (
           <p className="text-center mt-5 ">
-            Votre Liste de pré commandes est vide{" "}
+            Votre Liste de précommandes est vide{" "}
           </p>
         )}
       </div>

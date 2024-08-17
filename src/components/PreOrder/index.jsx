@@ -91,7 +91,7 @@ export default function PreOrderPage() {
             title="Détails Pré Commande"
             breadcrumb={[
               { name: "Accueil", path: "/" },
-              { name: "Pré Commandes", path: "/profile#preorder" },
+              { name: "Précommandes", path: "/profile#preorder" },
               { name: "Détails Pré Commande " },
             ]}
           />
@@ -117,7 +117,7 @@ export default function PreOrderPage() {
                     <a href="#">
                       <div className="w-full h-full bg-[#F6F6F6] text-qblack flex justify-center items-center">
                         <span className="text-[15px] font-medium">
-                          N°Pré Commande <span>{precommande.name}</span>
+                          N° PréCommande <span>{precommande.name}</span>
                         </span>
                       </div>
                     </a>
@@ -153,6 +153,25 @@ export default function PreOrderPage() {
                     <div className="w-full h-full bg-[#F6F6F6] text-qblack flex justify-center items-center">
                       Date de prévisionnelle livraison &nbsp;
                       <span>{formatDate(precommande.commitment_date)}</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="sm:flex sm:space-x-[18px] s">
+                  <div className="sm:w-1/2 w-full mb-5 h-[70px]">
+                    <div className="w-full h-full bg-[#F6F6F6] text-qblack flex justify-center items-center">
+                      Total Payé &nbsp;
+                      <span>
+                        {" "}
+                        {formatPrice(
+                          precommande.amount_total - precommande.amount_residual
+                        )}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex-1 h-[70px]">
+                    <div className="w-full h-full bg-[#F6F6F6] text-qblack flex justify-center items-center">
+                      Total Restant &nbsp;
+                      <span> {formatPrice(precommande.amount_residual)}</span>
                     </div>
                   </div>
                 </div>
@@ -238,7 +257,7 @@ export default function PreOrderPage() {
                             {formatPrice(precommande.first_payment_amount)}
                           </dd>
                         </dl>
-                        {/* <dl className="flex items-center justify-between gap-4">
+                        <dl className="flex items-center justify-between gap-4">
                           <dt className="text-gray-500 dark:text-gray-400">
                             Deuxieme Tranche
                           </dt>
@@ -260,8 +279,8 @@ export default function PreOrderPage() {
                           >
                             {formatPrice(precommande.second_payment_amount)}
                           </dd>
-                        </dl> */}
-                        {/* <dl className="flex items-center justify-between gap-4">
+                        </dl>
+                        <dl className="flex items-center justify-between gap-4">
                           <dt className="text-gray-500 dark:text-gray-400">
                             Troisieme Tranche
                           </dt>
@@ -283,7 +302,7 @@ export default function PreOrderPage() {
                           >
                             {formatPrice(precommande.third_payment_amount)}
                           </dd>
-                        </dl> */}
+                        </dl>
 
                         <dl className="flex items-center justify-between gap-4">
                           <dt className="text-gray-500 dark:text-gray-400">
@@ -297,12 +316,25 @@ export default function PreOrderPage() {
 
                       <dl className="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700">
                         <dt className="text-lg font-bold text-gray-900 dark:text-white">
-                          Total
+                          Total à payer
                         </dt>
                         <dd className="text-lg font-bold text-gray-900 dark:text-white">
                           {formatPrice(precommande.amount_total)}
                         </dd>
                       </dl>
+                      {precommande.amount_residual >= 0 && (
+                        <dl className="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700">
+                          <dt className="text-lg font-bold text-gray-900 dark:text-white">
+                            Total Payé
+                          </dt>
+                          <dd className="text-lg font-bold text-green-500 dark:text-white">
+                            {formatPrice(
+                              precommande.amount_total -
+                                precommande.amount_residual
+                            )}
+                          </dd>
+                        </dl>
+                      )}
                       {precommande.amount_residual >= 0 && (
                         <dl className="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700">
                           <dt className="text-lg font-bold text-gray-900 dark:text-white">
@@ -382,7 +414,7 @@ export default function PreOrderPage() {
                             {isLoading && (
                               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                             )}
-                            Paiement de ({formatPrice(montantAPayer)} )
+                            Passer à la caisse ({formatPrice(montantAPayer)} )
                           </Button>
                           {showPaymentModal && precommande && (
                             <PaydunyaModalService

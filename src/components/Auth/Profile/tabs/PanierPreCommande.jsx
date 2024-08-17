@@ -16,7 +16,7 @@ export default function PanierPreCommande({ className }) {
       <div className="welcome-msg w-full">
         <div>
           <h1 className="font-bold text-[24px] text-qblack">
-            Panier Pré Commande
+            Panier Précommande
           </h1>
         </div>
       </div>

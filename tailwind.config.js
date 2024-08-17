@@ -6,6 +6,26 @@ export default {
   content: ["./src/**/*.{js,jsx,ts,tsx}", flowbite.content()],
   theme: {
     extend: {
+      keyframes: {
+        refine: {
+          "0%": { left: "0%" },
+          "20%": { left: "-50%" },
+          "40%": { left: "0%" },
+          "60%": { left: "50%" },
+          "80%": { left: "0%" },
+          "100%": { left: "0%" },
+        },
+        wave: {
+          "0%": { transform: "rotate(0.0deg)" },
+          "10%": { transform: "rotate(14deg)" },
+          "20%": { transform: "rotate(-8deg)" },
+          "30%": { transform: "rotate(14deg)" },
+          "40%": { transform: "rotate(-4deg)" },
+          "50%": { transform: "rotate(10.0deg)" },
+          "60%": { transform: "rotate(0.0deg)" },
+          "100%": { transform: "rotate(0.0deg)" },
+        },
+      },
       colors: {
         primarygray: "#f8f8f8",
         // qblack: "#222222",
@@ -20,7 +40,8 @@ export default {
         "qh4-pink": "#FDB2BB",
         "qh5-bwhite": "#95D7DE",
         // "qh3-blue": "#1868D5",
-        "bleu-logo": "#0678d8",
+        "bleu-logo": "#2D7DBA",
+        // "bleu-logo": "#0678d8",
         "bleu-claire": "#09aef8",
         "qh3-blue": "#1a56db",
         qyellow: "#ffc107",
@@ -30,6 +51,9 @@ export default {
       scale: {
         60: "0.6",
       },
+    },
+    animation: {
+      "waving-hand": "wave 2s linear infinite",
     },
   },
   variants: {

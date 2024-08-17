@@ -41,13 +41,11 @@ export default function Navbar({ className, type = 3 }) {
     setToggle(false);
   };
 
-  const backgroundColor = type === 3 ? "var(--bleu-logo)" : "bg-qyellow";
   return (
     <div
-      className={`nav-widget-wrapper w-full h-[60px] relative z-30 ${
+      className={`nav-widget-wrapper w-full h-[60px] relative z-30 bg-bleu-logo ${
         className || ""
       }`}
-      style={{ backgroundColor }}
     >
       <div className="container-x mx-auto h-full">
         <div className="w-full h-full relative">
@@ -113,7 +111,7 @@ export default function Navbar({ className, type = 3 }) {
                               <div
                                 className={`flex justify-between items-center px-5 h-10 bg-white  transition-all duration-300 ease-in-out cursor-pointer text-qblack ${
                                   type === 3
-                                    ? "hover:bg-qh3-blue hover:text-white"
+                                    ? "hover:bg-bleu-logo hover:text-white"
                                     : "hover:bg-qyellow"
                                 }`}
                               >
@@ -171,7 +169,7 @@ export default function Navbar({ className, type = 3 }) {
                           type === 3 ? "text-white" : "text-qblacktext"
                         }`}
                       >
-                        <span>Pré commandes</span>
+                        <span>Précommandes</span>
                       </span>
                     </Link>
                   </li>

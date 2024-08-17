@@ -63,7 +63,6 @@ export const CartProvider = ({ children }) => {
     if (!isProductInWishlist(product)) {
       setWishlist([...wishlist, { ...product, quantity }]);
     }
-    console.log(wishlist);
   };
 
   const removeFromWishlist = (product) => {
@@ -136,7 +135,7 @@ export const CartProvider = ({ children }) => {
 
   const getPreorderTotal = () => {
     const preorderTotal = preorder.reduce(
-      (total, item) => total + item.list_price * item.quantity,
+      (total, item) => total + item.preorder_price * item.quantity,
       0
     );
 
@@ -144,7 +143,7 @@ export const CartProvider = ({ children }) => {
   };
   const getPremierTranche = () => {
     const preorderTotal = preorder.reduce(
-      (total, item) => total + item.list_price * item.quantity,
+      (total, item) => total + item.preorder_price * item.quantity,
       0
     );
     const premierTranche = preorderTotal * 0.3;
@@ -154,7 +153,7 @@ export const CartProvider = ({ children }) => {
 
   const getDeuxiemeTranche = () => {
     const preorderTotal = preorder.reduce(
-      (total, item) => total + item.list_price * item.quantity,
+      (total, item) => total + item.preorder_price * item.quantity,
       0
     );
     const deuxiemeTranche = preorderTotal * 0.3;
@@ -163,7 +162,7 @@ export const CartProvider = ({ children }) => {
   };
   const getTroisiemeTranche = () => {
     const preorderTotal = preorder.reduce(
-      (total, item) => total + item.list_price * item.quantity,
+      (total, item) => total + item.preorder_price * item.quantity,
       0
     );
     const troisiemeTranche = preorderTotal * 0.4;

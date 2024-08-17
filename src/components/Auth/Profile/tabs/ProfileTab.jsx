@@ -131,122 +131,8 @@ export default function ProfileTab() {
 
   return (
     <>
-      <div className="flex space-x-8">
-        <form onSubmit={handleSubmit}>
-          <div className="w-[570px] ">
-            <div className="input-item flex space-x-2.5 mb-8">
-              <div className="w-full h-full">
-                <div className="mb-4">
-                  <div className="mb-2 block dark:text-qwhite  ">
-                    <Label htmlFor="nom" value="Nom Complet" />
-                  </div>
-                  <input
-                    type="text"
-                    placeholder="Nom complet"
-                    value={`${name}`}
-                    onChange={(e) => setName(e.target.value)}
-                    name="nom"
-                    required
-                    className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
-                      focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
-                                    invalid:text-red-600
-                      focus:invalid:border-red-500 focus:invalid:ring-red-500"
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="input-item flex space-x-2.5 mb-8">
-              <div className="w-1/2 h-full">
-                <div className="mb-2 block">
-                  <Label htmlFor="email" value="Email" />
-                </div>
-                <input
-                  type="text"
-                  placeholder="Email"
-                  value={`${email}`}
-                  onChange={(e) => setEmail(e.target.value)}
-                  name="email"
-                  required
-                  className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
-                      focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
-                                    invalid:text-red-600
-                      focus:invalid:border-red-500 focus:invalid:ring-red-500"
-                />
-              </div>
-              <div className="w-1/2 h-full">
-                <div className="mb-2 block">
-                  <Label htmlFor="tel" value="Téléphone" />
-                </div>
-                <input
-                  type="text"
-                  placeholder="Téléphone"
-                  value={`${telephone}`}
-                  onChange={(e) => setTelephone(e.target.value)}
-                  name="phone"
-                  required
-                  className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
-                      focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
-                                    invalid:text-red-600
-                      focus:invalid:border-red-500 focus:invalid:ring-red-500"
-                />
-              </div>
-            </div>
-            <div className="input-item mb-8">
-              <div className="w-full">
-                <div className="mb-2 block">
-                  <Label htmlFor="pays" value="Pays" />
-                </div>
-                <input
-                  type="text"
-                  placeholder="Pays"
-                  value={`${user.country_name}`}
-                  name="nom"
-                  required
-                  className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
-                      focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
-                                    invalid:text-red-600
-                      focus:invalid:border-red-500 focus:invalid:ring-red-500"
-                />
-              </div>
-            </div>
-            <div className="input-item mb-8">
-              <div className="w-full">
-                <div className="mb-2 block">
-                  <Label htmlFor="adresse" value="Adresse" />
-                </div>
-                <input
-                  type="text"
-                  placeholder="Adresse"
-                  value={`${adresse}`}
-                  onChange={(e) => setAdresse(e.target.value)}
-                  name="adresse"
-                  required
-                  className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
-                      focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
-                                    invalid:text-red-600
-                      focus:invalid:border-red-500 focus:invalid:ring-red-500"
-                />
-              </div>
-            </div>
-          </div>
-          <Button
-            type="submit"
-            variant="failure"
-            className=" black-btn mb-6 text-sm text-white w-full h-[50px] font-semibold flex justify-center 
-                       hover:bg-red-500  bg-purple items-center"
-            disabled={isLoading}
-          >
-            {isLoading == true ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                <span> Mise à jour en cours</span>
-              </>
-            ) : (
-              <span> Mettre a jour</span>
-            )}
-          </Button>
-        </form>
-        <div className="flex-1">
+      <div className="flex flex-col md:flex-row space-x-0 md:space-x-8">
+        <div className="flex-1 w-full md:w-1/3 order-first md:order-none">
           <div className="update-logo w-full mb-9">
             <h1 className="text-xl tracking-wide font-bold text-qblack flex items-center mb-2">
               Mettre à jour le profil
@@ -267,13 +153,6 @@ export default function ProfileTab() {
               </span>
             </h1>
 
-            {/* <p className="text-sm text-qgraytwo mb-5 ">
-              Profil d'au moins Taille
-              <span className="ml-1 text-qblack">300x300</span>. Les gifs
-              fonctionnent aussi.
-              <span className="ml-1 text-qblack">Max 5 Mo</span>.
-            </p> */}
-
             <div className="flex xl:justify-center justify-start">
               <div className="relative">
                 <div className="sm:w-[198px] sm:h-[198px] w-[199px] h-[199px] rounded-full overflow-hidden relative">
@@ -291,7 +170,7 @@ export default function ProfileTab() {
                 />
                 <div
                   onClick={browseprofileImg}
-                  className="w-[32px] h-[32px] absolute bottom-7 sm:right-0 right-[105px]  bg-blue rounded-full cursor-pointer"
+                  className="w-[32px] h-[32px] absolute bottom-7 sm:right-0 right-[105px] bg-blue rounded-full cursor-pointer"
                 >
                   <Pencil></Pencil>
                 </div>
@@ -299,6 +178,121 @@ export default function ProfileTab() {
             </div>
           </div>
         </div>
+
+        <form onSubmit={handleSubmit} className="w-full md:w-2/3">
+          <div className="w-full md:w-[570px]">
+            <div className="input-item flex flex-col md:flex-row space-x-0 md:space-x-2.5 mb-8">
+              <div className="w-full h-full">
+                <div className="mb-4">
+                  <div className="mb-2 block dark:text-qwhite">
+                    <Label htmlFor="nom" value="Nom Complet" />
+                  </div>
+                  <input
+                    type="text"
+                    placeholder="Nom complet"
+                    value={`${name}`}
+                    onChange={(e) => setName(e.target.value)}
+                    name="nom"
+                    required
+                    className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
+                focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
+                              invalid:text-red-600
+                focus:invalid:border-red-500 focus:invalid:ring-red-500"
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="input-item flex flex-col md:flex-row space-x-0 md:space-x-2.5 mb-8">
+              <div className="w-full md:w-1/2 h-full">
+                <div className="mb-2 block">
+                  <Label htmlFor="email" value="Email" />
+                </div>
+                <input
+                  type="text"
+                  placeholder="Email"
+                  value={`${email}`}
+                  onChange={(e) => setEmail(e.target.value)}
+                  name="email"
+                  required
+                  className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
+              focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
+                            invalid:text-red-600
+              focus:invalid:border-red-500 focus:invalid:ring-red-500"
+                />
+              </div>
+              <div className="w-full md:w-1/2 h-full">
+                <div className="mb-2 block">
+                  <Label htmlFor="tel" value="Téléphone" />
+                </div>
+                <input
+                  type="text"
+                  placeholder="Téléphone"
+                  value={`${telephone}`}
+                  onChange={(e) => setTelephone(e.target.value)}
+                  name="phone"
+                  required
+                  className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
+              focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
+                            invalid:text-red-600
+              focus:invalid:border-red-500 focus:invalid:ring-red-500"
+                />
+              </div>
+            </div>
+            <div className="input-item mb-8">
+              <div className="w-full">
+                <div className="mb-2 block">
+                  <Label htmlFor="pays" value="Pays" />
+                </div>
+                <input
+                  type="text"
+                  placeholder="Pays"
+                  value={`${user.country_name}`}
+                  name="nom"
+                  required
+                  className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
+              focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
+                            invalid:text-red-600
+              focus:invalid:border-red-500 focus:invalid:ring-red-500"
+                />
+              </div>
+            </div>
+            <div className="input-item mb-8">
+              <div className="w-full">
+                <div className="mb-2 block">
+                  <Label htmlFor="adresse" value="Adresse" />
+                </div>
+                <input
+                  type="text"
+                  placeholder="Adresse"
+                  value={`${adresse}`}
+                  onChange={(e) => setAdresse(e.target.value)}
+                  name="adresse"
+                  required
+                  className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
+              focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
+                            invalid:text-red-600
+              focus:invalid:border-red-500 focus:invalid:ring-red-500"
+                />
+              </div>
+            </div>
+          </div>
+          <Button
+            type="submit"
+            variant="failure"
+            className="black-btn mb-6 text-sm text-white w-full h-[50px] font-semibold flex justify-center
+               hover:bg-red-500 bg-purple items-center"
+            disabled={isLoading}
+          >
+            {isLoading == true ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                <span> Mise à jour en cours</span>
+              </>
+            ) : (
+              <span> Mettre a jour</span>
+            )}
+          </Button>
+        </form>
       </div>
     </>
   );

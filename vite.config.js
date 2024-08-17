@@ -18,6 +18,7 @@ const pwaConfig = {
         handler: "StaleWhileRevalidate", // Caching strategy
       },
     ],
+    maximumFileSizeToCacheInBytes: 10 * 1024 * 1024, // 10 MB
   },
   manifest: {
     name: "ccbm-shop",
@@ -48,6 +49,14 @@ export default defineConfig({
   plugins: [react(), VitePWA(pwaConfig), tailwind()],
   build: {
     outDir: "../deploy-ccbm-shop/",
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ["react", "react-dom", "react-router-dom"],
+        },
+      },
+    },
+    chunkSizeWarningLimit: 1000, // 1 MB
   },
   resolve: {
     alias: {

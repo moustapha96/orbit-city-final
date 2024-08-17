@@ -5,10 +5,10 @@ import Layout from "../Partials/Layout";
 import Thumbnail from "./Thumbnail";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
-import commandeService from "../../services/commandeService";
 import { toast } from "react-toastify";
 import formatPrice from "../../utils/formatPrice";
 import formatDate from "../../utils/date-format";
+import commandeService from "../../services/CommandeService";
 
 export default function TrackingOrder() {
   const [commande, setCommande] = useState(null);
@@ -377,7 +377,8 @@ export default function TrackingOrder() {
                                               <div className="w-full h-[50px] flex justify-center items-center">
                                                 <span className="text-green-500">
                                                   {" "}
-                                                  Payment effectif
+                                                  le paiement a été effectué
+                                                  avec succès
                                                 </span>
                                               </div>
                                             )}
@@ -396,7 +397,8 @@ export default function TrackingOrder() {
                                               <div className="w-full h-[50px] flex justify-center items-center">
                                                 <span className="text-green-500">
                                                   {" "}
-                                                  Payment effectif
+                                                  le paiement a été effectué
+                                                  avec succès
                                                 </span>
                                               </div>
                                             )}

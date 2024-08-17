@@ -77,7 +77,7 @@ export default function ResetPassword() {
       } catch (error) {
         setIsLoading(false);
         toast.dismiss();
-        toast.error("Veuillez réessayer , " + error.response.data, {
+        toast.error("Merci de vérifier l'adresse mail renseignée ", {
           position: "top-center",
           autoClose: 5000,
           hideProgressBar: false,

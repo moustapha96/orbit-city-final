@@ -149,7 +149,8 @@ export default function OrderPage() {
                                     <h4 className="text-[15px] text-qblack mb-2.5">
                                       {produit.product_name}
                                       <sup className="text-[13px] text-qgray ml-2 mt-2">
-                                        x {produit.product_uom_qty}
+                                        = {produit.product_uom_qty} x{" "}
+                                        {produit.price_total}
                                       </sup>
                                     </h4>
                                     <p className="text-[13px] text-qgray">
@@ -169,7 +170,7 @@ export default function OrderPage() {
                     </div>
                     <div className="w-full h-[1px] bg-[#EDEDED]"></div>
 
-                    <div className="mt-[30px]">
+                    {/* <div className="mt-[30px]">
                       <div className=" flex justify-between mb-5">
                         <p className="text-[13px] font-medium text-qblack uppercase">
                           SUBTOTAL
@@ -178,9 +179,9 @@ export default function OrderPage() {
                           {formatPrice(commande.amount_untaxed)}
                         </p>
                       </div>
-                    </div>
+                    </div> */}
 
-                    <div className="w-full mt-[30px]">
+                    {/* <div className="w-full mt-[30px]">
                       <div className="sub-total mb-6">
                         <div className=" flex justify-between mb-5">
                           <div>
@@ -194,7 +195,7 @@ export default function OrderPage() {
                         </div>
                         <div className="w-full h-[1px] bg-[#EDEDED]"></div>
                       </div>
-                    </div>
+                    </div> */}
 
                     <div className="mt-[30px]">
                       <div className=" flex justify-between mb-5">
@@ -232,7 +233,7 @@ export default function OrderPage() {
                           {isLoading && (
                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                           )}
-                          Valider le Panier de ({" "}
+                          Passer à la caisse ({" "}
                           {formatPrice(commande.amount_total)} )
                         </Button>
                       </div>
@@ -240,7 +241,7 @@ export default function OrderPage() {
                       <div className="w-full h-[50px] flex justify-center items-center">
                         <span className="text-green-500">
                           {" "}
-                          Payment effectif
+                          le paiement a été effectué avec succès
                         </span>
                       </div>
                     )}

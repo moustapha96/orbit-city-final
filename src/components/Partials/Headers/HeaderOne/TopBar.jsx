@@ -7,7 +7,7 @@ export default function TopBar({ className }) {
   return (
     <>
       <div
-        className={`w-full bg-white h-10 border-b border-qgray-border ${
+        className={`w-full bg-white h-10 border-b  border-qgray-border ${
           className || ""
         }`}
       >
@@ -36,19 +36,19 @@ export default function TopBar({ className }) {
                   )}
                 </li>
                 <li>
-                  <Link to="/">
+                  <Link to="/contact">
                     <span className="text-xs leading-6 text-qblack font-500">
-                      CCBM SHOP
+                      Contact
                     </span>
                   </Link>
                 </li>
-                <li>
+                {/* <li>
                   <Link>
                     <span className="text-xs leading-6 text-qblack font-500">
                       Contact : 33 800 00 00
                     </span>
                   </Link>
-                </li>
+                </li> */}
 
                 <li className="hidden md:block">
                   <Link to="/tracking-order">

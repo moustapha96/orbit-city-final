@@ -11,11 +11,13 @@ import { useContext } from "react";
 import ThinPeople from "../../../Helpers/icons/ThinPeople";
 import { UserContext } from "../../../../contexts/UserContext";
 
+import PromotionalHeader from "./PromotionalHeader";
 export default function HeaderOne({ className, drawerAction, type = 3 }) {
   const { user } = useContext(UserContext);
 
   const backgroundColor = type === 3 ? "var(--bleu-logo)" : "var(--qyellow)";
   const textColor = type === 3 ? "white" : "var(--qblack)";
+
   const { cart, wishlist, preorder } = useContext(CartContext);
 
   return (

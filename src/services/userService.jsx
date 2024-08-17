@@ -97,9 +97,16 @@ const userService = {
   },
   resetPassword: async (email) => {
     try {
-      const response = await axiosInstance.get(
-        `/api/sendResetPasswordMail/${email}`
-      );
+      const response = await axiosInstance.get(`/api/reset-password/${email}`);
+      return response.data;
+    } catch (error) {
+      console.error("Erreur lors de la récupération des tokens", error);
+      throw error;
+    }
+  },
+  newPassword: async (modelData) => {
+    try {
+      const response = await axiosInstance.post(`/api/new-password`, modelData);
       return response.data;
     } catch (error) {
       console.error("Erreur lors de la récupération des tokens", error);

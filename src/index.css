@@ -5,7 +5,111 @@
   --qyellow: #ffc107;
   --qblack: #000000;
   --qwhite: #ffffff;
+  --rouge-claire: red;
 }
+
+@media (max-width: 640px) {
+  .mobile-collapsed {
+    margin-bottom: 0;
+    margin-top: 0;
+  }
+}
+
+@keyframes moveUpDown {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.animate-up-down {
+  animation: moveUpDown 2s infinite;
+}
+
+.menu-item .category-item div {
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+.menu-item .category-item div:hover {
+  background-color: var(--bleu-logo);
+}
+
+.menu-item.category-item div:active {
+  background-color: var(--bleu-logo);
+  transform: scale(1.05);
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  40% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+}
+
+.modal {
+  display: flex;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.modal.fade-in {
+  opacity: 1;
+  animation: fadeIn 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.modal.fade-out {
+  opacity: 0;
+  animation: fadeOut 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.modal {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: none;
+  border: none;
+  z-index: 1000;
+}
+
+img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
 @font-face {
   font-family: "Inter";
   src: url("/fonts/Inter-Black.ttf");
@@ -124,12 +228,22 @@ body {
   line-height: 0;
 }
 .blue-btn {
-  @apply w-full text-[13px] text-white font-semibold bg-qh3-blue flex justify-center items-center h-full;
+  @apply w-full text-[13px] text-white font-semibold bg-bleu-logo flex justify-center items-center h-full;
   line-height: 0;
 }
 .blue-logo-btn {
-  @apply w-full text-[13px] text-white font-semibold bg-qh3-blue transition-all duration-300 ease-in-out flex justify-center items-center h-full rounded-lg;
+  @apply w-full text-[13px] text-white font-semibold bg-bleu-logo transition-all duration-300 ease-in-out flex justify-center items-center h-full rounded-lg;
   line-height: 0;
+}
+
+.red-btn {
+  @apply w-full text-[13px] text-white font-semibold bg-red-700 transition-all duration-300 ease-in-out flex justify-center items-center h-full rounded-lg;
+  line-height: 0;
+}
+
+.red-btn:hover {
+  transform: scale(1.05);
+  background-color: var(--rouge-claire);
 }
 
 .blue-logo-btn:hover {
@@ -138,9 +252,10 @@ body {
 }
 
 .blue-logo-btn-detail {
-  @apply w-full text-[13px] text-sm font-semibold  h-full text-white  bg-qh3-blue transition-all duration-300 ease-in-out flex justify-center items-center;
+  @apply w-full text-[13px] text-sm font-semibold  h-full text-white  bg-bleu-logo transition-all duration-300 ease-in-out flex justify-center items-center;
   line-height: 0;
 }
+
 .blue-logo-btn-detail:hover {
   transform: scale(1.05);
   background-color: var(--bleu-claire);

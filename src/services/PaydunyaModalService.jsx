@@ -12,6 +12,7 @@ import CheckoutInvoice from "paydunya/lib/checkout-invoice";
 import PaymentContext from "../contexts/PaymentContext";
 import { UserContext } from "../contexts/UserContext";
 import { useNavigate } from "react-router-dom";
+import PaiementService from "./paimentService";
 const PaydunyaModalService = ({
   handlePay,
   totalAmount,
@@ -19,6 +20,8 @@ const PaydunyaModalService = ({
   order,
   idOrder,
 }) => {
+  localStorage.setItem("idOrderPayment", null);
+  localStorage.setItem("montant", null);
   const navigate = useNavigate();
   const {
     payment,
@@ -69,10 +72,10 @@ const PaydunyaModalService = ({
       tagline: "Votre boutique pour vos matériels électroménéger",
       phoneNumber: "784537547",
       postalAddress: "Dakar",
-      logoURL: "http://orbitcity.sn/logo.png",
-      // logoURL: "https://orbitcitydev.com/logo.png",
-      websiteURL: "http://orbitcity.sn",
-      // websiteURL: "https://orbitcitydev.com/",
+      // logoURL: "http://orbitcity.sn/logo.png",
+      logoURL: "https://orbitcitydev.com/logo.png",
+      // websiteURL: "http://orbitcity.sn",
+      websiteURL: "https://orbitcitydev.com/",
     });
     setStore(store);
   }, []);
@@ -123,20 +126,42 @@ const PaydunyaModalService = ({
       setTotalAmount(invoice.totalAmount);
       console.log("amount " + invoice.totalAmount);
       console.log("desc " + invoice.description);
-      console.log("creation de la facture ");
+      console.log("création de la facture sur paydunya ");
       invoice
         .create()
-        .then(function () {
+        .then(async function () {
           setPaymentResponse(invoice);
-          toast.success("Payment validé avec succès", {
-            position: "top-center",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          });
+          console.log(invoice);
+          // toast.success("Payment validé avec succès", {
+          //   position: "top-center",
+          //   autoClose: 5000,
+          //   hideProgressBar: false,
+          //   closeOnClick: true,
+          //   pauseOnHover: true,
+          //   draggable: true,
+          //   progress: undefined,
+          // });
+          const timestamp = new Date().getTime();
+          const data = {
+            transaction_id: `${user.partner_id}-${idOrder}-${totalAmount}`,
+            amount: totalAmount,
+            order_id: idOrder,
+            order_type: order.type_sale,
+            partner_id: user.partner_id,
+            payment_token: invoice.token,
+            payment_state: invoice.status,
+          };
+          console.log(data);
+          try {
+            const response = await PaiementService.setPaymentDetails(data);
+            console.log("enregistrement data payment");
+            console.log(response);
+            localStorage.setItem("idDataPayment", response.id);
+          } catch (error) {
+            console.error("erreur lors de l'enregistrement details payment");
+            console.error(error);
+          }
+
           setPaymentUrl(invoice.url);
           localStorage.setItem("idOrderPayment", idOrder);
           localStorage.setItem("tokenOrderPayment", invoice.token);
@@ -154,6 +179,9 @@ const PaydunyaModalService = ({
           console.log(payment);
           window.open(invoice.url, "_blank");
           setOpenModal(false);
+          setTimeout(() => {
+            window.close();
+          }, 1000);
         })
         .catch(function (e) {
           console.log(e);
@@ -252,7 +280,7 @@ const PaydunyaModalService = ({
                       />
                     </label>
                     <br />
-                    Total à payer (en F CFA)
+                    Total à payer (en FCFA)
                     <input
                       type="text"
                       value={formatPrice(Math.ceil(order.amount_total))}
@@ -260,7 +288,7 @@ const PaydunyaModalService = ({
                       className="border border-gray-300 rounded-lg px-4 py-2 mt-2 w-full"
                     />
                     <br />
-                    Montant à payer (en F CFA)
+                    Montant à payer (en FCFA)
                     <input
                       type="text"
                       value={formatPrice(Math.ceil(totalAmount))}
@@ -284,7 +312,7 @@ const PaydunyaModalService = ({
                       </Button>
                     )}
                   </div>
-                  {paymentResponse && (
+                  {/* {paymentResponse && (
                     <div className="mt-8">
                       <p className="text-gray-800 text-sm">
                         Réponse du paiement :
@@ -293,7 +321,7 @@ const PaydunyaModalService = ({
                         {JSON.stringify(paymentResponse, null, 2)}
                       </pre>
                     </div>
-                  )}
+                  )} */}
                 </div>
               </form>
             )}

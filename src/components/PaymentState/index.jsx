@@ -4,23 +4,26 @@ import { useLocation, useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 import BreadcrumbCom from "../BreadcrumbCom";
-import EmptyCardError from "../EmptyCardError";
 
 import PageTitle from "../Helpers/PageTitle";
 import Layout from "../Partials/Layout";
 
 import { toast } from "react-toastify";
 import { useContext, useEffect, useState } from "react";
-import commandeService from "../../services/CommandeService";
 import formatPrice from "../../utils/formatPrice";
 import formatDate from "../../utils/date-format";
 import PaiementService from "../../services/paimentService";
 import { Button } from "flowbite-react";
 import { Loader2 } from "lucide-react";
 
+import paydunya from "paydunya";
+import CheckoutInvoice from "paydunya/lib/checkout-invoice";
 export default function PaymentStatePage({ cart = true }) {
   const user = JSON.parse(localStorage.getItem("user"));
   const payment = JSON.parse(localStorage.getItem("payment"));
+  // const idDataPayment = localStorage.getItem("idDataPayment");
+  // console.log(idDataPayment);
+  const [paymentDetails, setPaymentDetails] = useState(null);
 
   const [id_order, setIdOrder] = useState(payment.order.id);
   const [montant_order, setMontantOrder] = useState(payment.totalAmount);
@@ -41,69 +44,78 @@ export default function PaymentStatePage({ cart = true }) {
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     const paymentToken = searchParams.get("token");
+    // try {
+    //   const response = PaiementService.getPaymentDetailsById(idDataPayment);
+    //   setPaymentDetails(response);
+    //   console.log(response);
+    // } catch (error) {
+    //   console.error("erreur lors de l'enregistrement details payment");
+    //   console.error(error);
+    // }
 
-    if (paymentToken) {
-      setToken(paymentToken);
-      console.log(token);
-      // const paydunyaSetup = new paydunya.Setup({
-      //   masterKey: "3ApSagrZ-NkOP-M2GJ-tQr3-6F1TroNp8fL7",
-      //   privateKey: "test_private_rLI7U4b3J0SjDBJQ7cEC9OCayn9",
-      //   publicKey: "test_public_4FEHuOo9gsFwgPjoQv27L1deBlx",
-      //   token: "UWVccdmuTo5tusRDkoZQ",
-      //   mode: "test",
-      // });
-      // setSetup(paydunyaSetup);
-      // const store = new paydunya.Store({
-      //   name: "CCBM SHOP",
-      //   email: "ccbm-shop@ccbm.sn",
-      //   tagline: "Votre boutique a vos portés",
-      //   phoneNumber: "784537547",
-      //   postalAddress: "Dakar",
-      //   logoURL: "https://orbitcitydev.com/logo.png",
-      //   websiteURL: "https://orbitcitydev.com",
-      // });
-      // setStore(store);
-      // const invoice = new CheckoutInvoice(setup, store);
-      // invoice
-      //   .confirm(paymentToken)
-      //   .then(function () {
-      //     console.log(invoice);
-      //     toast.success("Payement validé avec succès", {
-      //       position: "top-center",
-      //       autoClose: 5000,
-      //       hideProgressBar: false,
-      //       closeOnClick: true,
-      //       pauseOnHover: true,
-      //       draggable: true,
-      //       progress: undefined,
-      //     });
-      //   })
-      //   .catch(function (e) {
-      //     console.log(e);
-      //     toast.error("Payement non effectif " + e, {
-      //       position: "top-center",
-      //       autoClose: 5000,
-      //       hideProgressBar: false,
-      //       closeOnClick: true,
-      //       pauseOnHover: true,
-      //       draggable: true,
-      //       progress: undefined,
-      //     });
-      //   });
-    }
-    if (id_order != null) {
-      const fetchModels = async () => {
-        try {
-          const data = await commandeService.getCommandeAny(id_order);
-          setCommande(data);
-          console.log(data);
-          console.log("order ");
-        } catch (error) {
-          console.error("Erreur lors de la récupération de la commande", error);
-        }
-      };
-      fetchModels();
-    }
+    // if (paymentToken) {
+    //   setToken(paymentToken);
+    //   console.log(token);
+    //   const paydunyaSetup = new paydunya.Setup({
+    //     masterKey: "3ApSagrZ-NkOP-M2GJ-tQr3-6F1TroNp8fL7",
+    //     privateKey: "test_private_rLI7U4b3J0SjDBJQ7cEC9OCayn9",
+    //     publicKey: "test_public_4FEHuOo9gsFwgPjoQv27L1deBlx",
+    //     token: "UWVccdmuTo5tusRDkoZQ",
+    //     mode: "test",
+    //   });
+    //   setSetup(paydunyaSetup);
+    //   const store = new paydunya.Store({
+    //     name: "CCBM SHOP",
+    //     email: "ccbm-shop@ccbm.sn",
+    //     tagline: "Votre boutique a vos portés",
+    //     phoneNumber: "784537547",
+    //     postalAddress: "Dakar",
+    //     logoURL: "https://orbitcitydev.com/logo.png",
+    //     websiteURL: "https://orbitcitydev.com",
+    //   });
+    //   setStore(store);
+
+    //   const invoice = new CheckoutInvoice(setup, store);
+    //   invoice
+    //     .confirm(paymentToken)
+    //     .then(function () {
+    //       console.log(invoice);
+    //       toast.success("Payement validé avec succès", {
+    //         position: "top-center",
+    //         autoClose: 5000,
+    //         hideProgressBar: false,
+    //         closeOnClick: true,
+    //         pauseOnHover: true,
+    //         draggable: true,
+    //         progress: undefined,
+    //       });
+    //     })
+    //     .catch(function (e) {
+    //       console.log(e);
+    //       toast.error("Payement non effectif " + e, {
+    //         position: "top-center",
+    //         autoClose: 5000,
+    //         hideProgressBar: false,
+    //         closeOnClick: true,
+    //         pauseOnHover: true,
+    //         draggable: true,
+    //         progress: undefined,
+    //       });
+    //     });
+    // }
+    // if (id_order != null) {
+    //   const fetchModels = async () => {
+    //     try {
+    //       const data = await commandeService.getCommandeAny(id_order);
+    //       setCommande(data);
+    //       console.log(data);
+    //       console.log("order ");
+    //     } catch (error) {
+    //       console.error("Erreur lors de la récupération de la commande", error);
+    //     }
+    //   };
+    //   fetchModels();
+    // }
   }, []);
 
   const validerPaimentCommande = async (e) => {
@@ -191,7 +203,6 @@ export default function PaymentStatePage({ cart = true }) {
                 },
               ]}
             />
-            <EmptyCardError />
           </div>
         </div>
       ) : (
@@ -450,7 +461,7 @@ export default function PaymentStatePage({ cart = true }) {
                                     <div className="w-full h-[50px] flex justify-center items-center">
                                       <span className="text-green-500">
                                         {" "}
-                                        Payment effectif
+                                        le paiement a été effectué avec succès
                                       </span>
                                     </div>
                                   )}
@@ -477,7 +488,7 @@ export default function PaymentStatePage({ cart = true }) {
                                     <div className="w-full h-[50px] flex justify-center items-center">
                                       <span className="text-green-500">
                                         {" "}
-                                        Payment effectif
+                                        le paiement a été effectué avec succès
                                       </span>
                                     </div>
                                   )}

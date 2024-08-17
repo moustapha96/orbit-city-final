@@ -2,7 +2,6 @@
 /* eslint-disable react/prop-types */
 import { Link, useNavigate } from "react-router-dom";
 import BreadcrumbCom from "../BreadcrumbCom";
-import EmptyCardError from "../EmptyCardError";
 
 import PageTitle from "../Helpers/PageTitle";
 import Layout from "../Partials/Layout";
@@ -16,6 +15,7 @@ import { Button } from "flowbite-react";
 import { Loader2 } from "lucide-react";
 import commandeService from "../../services/CommandeService";
 import { UserContext } from "../../contexts/UserContext";
+import BannerPub from "../About/BannerPub";
 
 export default function CardPage({ cartt = true }) {
   const { cart, getCartTotal, clearCart, setOrderState, orderState } =
@@ -101,7 +101,6 @@ export default function CardPage({ cartt = true }) {
                 { name: "Panier Commandes", path: "/cart" },
               ]}
             />
-            <EmptyCardError />
           </div>
         </div>
       ) : (
@@ -157,7 +156,7 @@ export default function CardPage({ cartt = true }) {
                   {getCartTotal() != 0 && (
                     <Button
                       type="submit"
-                      className="hover:bg-red-500  w-full"
+                      className="hover:bg-red-500  w-full bg-bleu-logo "
                       onClick={(e) => handleValidePanier(e)}
                       disabled={isLoading}
                     >
@@ -173,6 +172,7 @@ export default function CardPage({ cartt = true }) {
           </div>
         </div>
       )}
+      <BannerPub />
     </Layout>
   );
 }

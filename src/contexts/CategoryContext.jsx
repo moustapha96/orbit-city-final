@@ -20,7 +20,8 @@ export const CategoryProvider = ({ children }) => {
             c.name != "Expenses" &&
             c.name != "Internal" &&
             c.name != "Consumable" &&
-            c.name != "Saleable"
+            c.name != "Saleable" &&
+            c.name != "Software"
         );
         setCategories(filstered);
         setIsLoadingCategorie(false);

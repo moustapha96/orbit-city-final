@@ -86,7 +86,7 @@ export default function Login() {
 
         if (is_verified != "1") {
           toast.dismiss();
-          toast.error("Connexion Echouée ,Merci de vérifier votre compte", {
+          toast.error("Merci de vérifier votre compte pour se connecter", {
             position: "top-center",
             autoClose: 5000,
             hideProgressBar: false,
@@ -136,7 +136,7 @@ export default function Login() {
       } catch (error) {
         setIsLoading(false);
         toast.dismiss();
-        toast.error("Connexion Echouée , Email ou mot de passse incorrecte", {
+        toast.error("Email ou mot de passse incorrecte", {
           position: "top-center",
           autoClose: 5000,
           hideProgressBar: false,
@@ -166,29 +166,7 @@ export default function Login() {
           setIsLoading(false);
           if (resp.status == "success") {
             setEmail(mail);
-            // toast.dismiss();
-            // toast.success("Votre compte a été vérifié avec succès!", {
-            //   position: "top-center",
-            //   autoClose: 5000,
-            //   hideProgressBar: false,
-            //   closeOnClick: true,
-            //   pauseOnHover: true,
-            //   draggable: true,
-            //   progress: undefined,
-            // });
           }
-          // else {
-          //   toast.dismiss();
-          //   toast.success("Votre compte a été vérifié avec succès!", {
-          //     position: "top-center",
-          //     autoClose: 5000,
-          //     hideProgressBar: false,
-          //     closeOnClick: true,
-          //     pauseOnHover: true,
-          //     draggable: true,
-          //     progress: undefined,
-          //   });
-          // }
           setIsLoading(false);
         } catch (error) {
           setIsLoading(false);
@@ -276,37 +254,10 @@ export default function Login() {
                       />
                     </div>
                     <div className="forgot-password-area flex justify-between items-center mb-7">
-                      <div className="remember-checkbox flex items-center space-x-2.5">
-                        {/* <button
-                          onClick={rememberMe}
-                          type="button"
-                          className="w-5 h-5 text-qblack flex justify-center items-center border border-light-gray"
-                        >
-                          {checked && (
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              className="h-5 w-5"
-                              viewBox="0 0 20 20"
-                              fill="currentColor"
-                            >
-                              <path
-                                fillRule="evenodd"
-                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                clipRule="evenodd"
-                              />
-                            </svg>
-                          )}
-                        </button> */}
-                        {/* <span
-                          onClick={rememberMe}
-                          className="text-base text-black"
-                        >
-                          Remember Me
-                        </span> */}
-                      </div>
+                      <div className="remember-checkbox flex items-center space-x-2.5"></div>
                       <Link
                         to="/forgot-password"
-                        className="text-base text-qyellow"
+                        className="text-base text-qyellow  hover:text-bleu-logo "
                       >
                         Mot de passe oublié
                       </Link>
@@ -316,8 +267,8 @@ export default function Login() {
                         <Button
                           type="submit"
                           variant="failure"
-                          className=" black-btn mb-6 text-sm text-white w-full h-[50px] font-semibold flex justify-center 
-                              hover:bg-red-500  bg-purple items-center"
+                          className=" hover:bg-bleu-logo black-btn mb-6 text-sm text-white w-full h-[50px] font-semibold flex justify-center 
+                                items-center"
                           disabled={isLoading}
                         >
                           {isLoading && (
@@ -383,7 +334,10 @@ export default function Login() {
                     <div className="signup-area flex justify-center">
                       <p className="text-base text-qgraytwo font-normal">
                         Vous n'avez pas de compte ?
-                        <Link to="/signup" className="ml-2 text-qblack">
+                        <Link
+                          to="/signup"
+                          className=" hover:text-bleu-logo ml-2 text-qblack"
+                        >
                           Inscription
                         </Link>
                       </p>

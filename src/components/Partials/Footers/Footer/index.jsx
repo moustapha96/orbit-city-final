@@ -29,9 +29,9 @@ export default function Footer({ type = 3 }) {
               À propos de nous
             </h1>
             <p className="text-[#9A9A9A] text-[15px] w-[247px] leading-[28px]">
-              Orbit City est la nouvelle plateforme de vente du groupe CCBM,
-              offrant une large gamme de produits tout en garantissant un
-              service après-vente, y compris des extensions de garantie
+              Orbit City, la plateforme de vente du groupe CCBM, propose une
+              vaste sélection de produits et un service après-vente avec des
+              options de garantie étendues.
             </p>
           </div>
           <div className="flex-1 lg:flex">
@@ -166,10 +166,10 @@ export default function Footer({ type = 3 }) {
               <Link href="#">
                 <Instagram className="fill-current text-qgray hover:text-qblack" />
               </Link>
-              <Link href="#">
+              <Link href="https://www.facebook.com/Orbitcityccbm">
                 <Facebook className="fill-current text-qgray hover:text-qblack" />
               </Link>
-              <Link href="#">
+              <Link href="https://www.youtube.com/@orbitcitybyccbm2908">
                 <Youtube className="fill-current text-qgray hover:text-qblack" />
               </Link>
             </div>
@@ -181,7 +181,7 @@ export default function Footer({ type = 3 }) {
                 rel="noreferrer"
                 className="font-500 text-qblack mx-1"
               >
-                Shop-CCBM
+                CCBM-Shop
               </a>
               Tous droits réservés
             </span>
@@ -191,7 +191,7 @@ export default function Footer({ type = 3 }) {
               <img
                 width="318"
                 height="28"
-                src={`/images/payment-getways.png`}
+                src={`/paydunya.png`}
                 alt="payment-getways"
               />
             </Link>

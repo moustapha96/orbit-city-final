@@ -1,9 +1,9 @@
+/* eslint-disable no-unused-vars */
 import { useNavigate } from "react-router-dom";
 
 import PageTitle from "../Helpers/PageTitle";
 import Layout from "../Partials/Layout";
 import { useContext, useState } from "react";
-import PaiementService from "../../services/paimentService";
 
 import formatDate from "../../utils/date-format";
 import formatPrice from "../../utils/formatPrice";
@@ -86,7 +86,7 @@ export default function PreCartValidationPage() {
             title="Validation Pré Commande"
             breadcrumb={[
               { name: "Accueil", path: "/" },
-              { name: "Pré Commandes", path: "/profile#preorder" },
+              { name: "Précommandes", path: "/profile#preorder" },
               { name: "Validation Pré Commande" },
             ]}
           />
@@ -379,7 +379,7 @@ export default function PreCartValidationPage() {
                       <div className="w-full h-[50px] flex justify-center items-center">
                         <span className="text-green-500">
                           {" "}
-                          Payment effectif
+                          le paiement a été effectué avec succès
                         </span>
                       </div>
                     )}

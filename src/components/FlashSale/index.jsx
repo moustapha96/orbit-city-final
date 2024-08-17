@@ -1,4 +1,3 @@
-import products from "../../data/products.json";
 import ProductCardStyleOne from "../Helpers/Cards/ProductCardStyleOne";
 import CountDown from "../Helpers/CountDown";
 import DataIteration from "../Helpers/DataIteration";

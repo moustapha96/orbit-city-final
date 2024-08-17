@@ -22,6 +22,16 @@ const commandeService = {
       throw error;
     }
   },
+  deleteCommande: async (id) => {
+    try {
+      const response = await axiosInstance.get(`/api/commande/${id}/delete`);
+      return response.data;
+    } catch (error) {
+      console.error("Erreur lors de la suppression de la commande", error);
+      throw error;
+    }
+  },
+
   getCommandeAny: async (id) => {
     try {
       const response = await axiosInstance.get(`/api/getcommande/${id}`);
@@ -64,19 +74,6 @@ const commandeService = {
     } catch (error) {
       console.error(
         `Erreur lors de la mise à jour du modèle avec l'ID ${id}`,
-        error
-      );
-      throw error;
-    }
-  },
-
-  deleteCommande: async (id) => {
-    try {
-      const response = await axiosInstance.delete(`/api/commandes/${id}`);
-      return response.data;
-    } catch (error) {
-      console.error(
-        `Erreur lors de la suppression du Commande avec l'ID ${id}`,
         error
       );
       throw error;

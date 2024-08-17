@@ -1,9 +1,10 @@
-import { useNavigate } from "react-router-dom";
+/* eslint-disable react/prop-types */
+
 import InputQuantityPreCommande from "../Helpers/InputQuantityPreCommande";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { CartContext } from "../../contexts/CartContext";
 import formatPrice from "../../utils/formatPrice";
-import { CircleX } from "lucide-react";
+import { Trash } from "lucide-react";
 
 export default function ProductsTable({ className }) {
   const { preorder, removeFromPreorder } = useContext(CartContext);
@@ -57,7 +58,7 @@ export default function ProductsTable({ className }) {
                   <div className="flex space-x-1 items-center justify-center">
                     <span className="text-[15px] font-normal">
                       {" "}
-                      {formatPrice(produit.list_price)}
+                      {formatPrice(produit.preorder_price)}
                     </span>
                   </div>
                 </td>
@@ -70,15 +71,18 @@ export default function ProductsTable({ className }) {
                   <div className="flex space-x-1 items-center justify-center">
                     <span className="text-[15px] font-normal">
                       {" "}
-                      {formatPrice(produit.list_price * produit.quantity)}
+                      {formatPrice(produit.preorder_price * produit.quantity)}
                     </span>
                   </div>
                 </td>
                 <td className="text-right py-4">
                   <div className="flex space-x-1 items-center justify-center">
-                    <CircleX
+                    <button
                       onClick={(e) => HandleDeleteProduct(e, produit)}
-                    ></CircleX>
+                      className="duration-200 hover:scale-150"
+                    >
+                      <Trash className="hover:text-red-500" />
+                    </button>
                   </div>
                 </td>
               </tr>

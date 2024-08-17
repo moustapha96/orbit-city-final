@@ -24,7 +24,6 @@ export default function ProductCardRowStyleTwo({ className, datas, type = 3 }) {
   const handleAddToCart = (e) => {
     e.preventDefault();
     addToCart(datas, 1);
-    console.log("Ajout au souhait :", cart);
     toast.success("Produit ajouté", {
       position: "top-center",
       autoClose: 1000,
@@ -53,7 +52,6 @@ export default function ProductCardRowStyleTwo({ className, datas, type = 3 }) {
   const handleAddToPreOrder = (e) => {
     e.preventDefault();
     addToPreorder(datas, 1);
-    console.log("Ajout au preorder :", preorder);
     toast.success("Produit ajouté", {
       position: "top-center",
       autoClose: 1000,
@@ -107,47 +105,53 @@ export default function ProductCardRowStyleTwo({ className, datas, type = 3 }) {
               </p>
             </Link>
             <p className="price mb-[26px]">
-              {datas.standard_price != 0 && (
-                <span className="main-price text-qgray line-through font-600 sm:text-[18px] text-base">
-                  {datas.standard_price}
-                </span>
-              )}
-              <span className="offer-price text-qred font-600 sm:text-[18px] text-base ml-2">
-                {formatPrice(datas.list_price)}{" "}
+              <span className="offer-price   text-bleu-logo font-600 sm:text-[14px] text-base ">
+                {formatPrice(datas.list_price)}
               </span>
-            </p>
-            {datas.quantite_en_stock > 0 && (
-              <button
-                type="button"
-                onClick={handleAddToCart}
-                className="w-[110px] h-[30px] transition-all duration-300 ease-in-out "
-              >
-                <span className={type === 3 ? "blue-logo-btn" : "yellow-btn"}>
-                  {" "}
-                  <ShoppingCart /> Acheter
-                </span>
-              </button>
-            )}
-            <br />
-            <br />
-            {datas.quanitty_virtuelle_disponible > 0 && (
-              <button
-                type="button"
-                onClick={handleAddToPreOrder}
-                className="w-[110px] h-[30px]"
-              >
-                <span className={type === 3 ? "blue-logo-btn" : "yellow-btn"}>
-                  {" "}
-                  Pré commande
-                </span>
-              </button>
-            )}
-            {datas.quantite_en_stock == 0 &&
-              datas.quanitty_virtuelle_disponible == 0 && (
+              {datas.is_preorder && (
                 <>
-                  <p className="text-red-400">Rupture de stock </p>
+                  <br />
+                  <span className="main-price text-qred font-500 text-[14px] ">
+                    {formatPrice(datas.preorder_price)} <br /> En précommande
+                  </span>
+                  <br />
                 </>
               )}
+            </p>
+            <div className="flex justify-between gap-2 md:gap-2">
+              {datas.quantite_en_stock > 0 && (
+                <button
+                  type="button"
+                  onClick={handleAddToCart}
+                  className="w-[110px] h-[30px] transition-all duration-300 ease-in-out "
+                >
+                  <span className={type === 3 ? "blue-logo-btn" : "yellow-btn"}>
+                    {" "}
+                    <ShoppingCart /> Acheter
+                  </span>
+                </button>
+              )}
+
+              {datas.is_preorder && (
+                <button
+                  type="button"
+                  onClick={handleAddToPreOrder}
+                  className="w-[120px] h-[30px]"
+                >
+                  <span className={type === 3 ? "red-btn" : "yellow-btn"}>
+                    {" "}
+                    Pré commander
+                  </span>
+                </button>
+              )}
+              {datas.sale_ok &&
+                datas.quantite_en_stock == 0 &&
+                !datas.is_preorder && (
+                  <>
+                    <p className="text-red-400">Rupture de stock </p>
+                  </>
+                )}
+            </div>
           </div>
         </div>
       </div>

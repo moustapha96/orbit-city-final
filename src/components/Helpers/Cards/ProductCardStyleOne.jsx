@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { Link, useNavigate } from "react-router-dom";
 
@@ -21,7 +22,6 @@ export default function ProductCardStyleOne({ datas, type = 3 }) {
   const handleAddToCart = (e) => {
     e.preventDefault();
     addToCart(datas, 1);
-    console.log("Ajout au souhait :", cart);
     toast.success("Produit ajouté", {
       position: "top-center",
       autoClose: 2000,
@@ -36,7 +36,6 @@ export default function ProductCardStyleOne({ datas, type = 3 }) {
   const handleAddToWishlist = (e) => {
     e.preventDefault();
     addToWishlist(datas, 1);
-    console.log(wishlist);
     toast.success("Produit ajouté", {
       position: "top-center",
       autoClose: 2000,
@@ -51,7 +50,6 @@ export default function ProductCardStyleOne({ datas, type = 3 }) {
   const handleAddToPreOrder = (e) => {
     e.preventDefault();
     addToPreorder(datas, 1);
-    console.log("Ajout au preorder :", preorder);
     toast.success("Produit ajouté", {
       position: "top-center",
       autoClose: 2000,
@@ -124,72 +122,30 @@ export default function ProductCardStyleOne({ datas, type = 3 }) {
 
       <div className="product-card-details px-[30px] pb-[30px] relative">
         <Link onClick={(e) => handleDetails(e, datas)}>
-          <p className="title mb-2 text-[15px] font-600 text-qblack leading-[24px] line-clamp-2 hover:text-blue-600">
+          <p className="title mb-2 text-[15px] font-600 text-qblack leading-[24px] line-clamp-2 hover:text-bleu-logo">
             {datas.name}
           </p>
         </Link>
         <p className="price">
-          {datas.standard_price != 0 && (
-            <span className="main-price text-qgray line-through font-600 text-[18px]">
-              {formatPrice(datas.standard_price)}
-            </span>
-          )}
-          <span className="offer-price text-qred font-600 text-[18px] ml-2">
+          <span className="offer-price text-bleu-logo   font-600 text-[18px] ">
             {formatPrice(datas.list_price)}
           </span>
+          <span className="main-price text-qred font-500 text-[16px]">
+            {datas.is_preorder ? (
+              <>
+                {" "}
+                <br /> {formatPrice(datas.preorder_price)} <br /> en précommande
+              </>
+            ) : (
+              <>
+                <p className="h-12"></p>
+              </>
+            )}
+          </span>
         </p>
-        {/* <div className=" w-full h-20 left-0 flex flex-col mt-3 ">
-          {datas.quantite_en_stock > 0 && (
-            <>
-              <button
-                type="button"
-                onClick={handleAddToCart}
-                className={type === 3 ? "blue-logo-btn" : "yellow-btn"}
-              >
-                <div className="flex items-center gap-2">
-                  <span>
-                    <ShoppingCart />
-                  </span>
-                  <span>Ajouter au panier</span>
-                </div>
-              </button>{" "}
-              <br />
-            </>
-          )}
 
-          {datas.quantite_en_stock == 0 &&
-            datas.quanitty_virtuelle_disponible == 0 && (
-              <>
-                <p className="text-red-400">Rupture de stock </p>
-              </>
-            )}
-        </div> */}
-
-        {/* <div className=" w-full h-20 left-0 flex flex-col mt-3 ">
-          {datas.quanitty_virtuelle_disponible > 0 && (
-            <button
-              type="button"
-              onClick={handleAddToPreOrder}
-              className={type === 3 ? "blue-logo-btn" : "yellow-btn"}
-            >
-              <div className="flex items-center gap-2">
-                <span>
-                  <ShoppingBag></ShoppingBag>
-                </span>
-                <span>Pré commander</span>
-              </div>
-            </button>
-          )}
-          {datas.quantite_en_stock == 0 &&
-            datas.quanitty_virtuelle_disponible == 0 && (
-              <>
-                <p className="text-red-400">Rupture de stock </p>
-              </>
-            )}
-        </div> */}
-        {/* le nouveau */}
-        <div className="w-full left-0 flex flex-col gap-4 mt-3">
-          {datas.quantite_en_stock > 0 && (
+        <div className="w-full left-0 flex flex-col gap-4 mt-3 items-center">
+          {datas.sale_ok && datas.quantite_en_stock > 0 && (
             <button
               type="button"
               onClick={handleAddToCart}
@@ -201,13 +157,11 @@ export default function ProductCardStyleOne({ datas, type = 3 }) {
               <span>Ajouter au panier</span>
             </button>
           )}
-          {datas.quanitty_virtuelle_disponible > 0 && (
+          {datas.is_preorder && (
             <button
               type="button"
               onClick={handleAddToPreOrder}
-              className={`w-full h-10 flex items-center justify-center gap-2 ${
-                type === 3 ? "blue-logo-btn" : "yellow-btn"
-              }`}
+              className={`w-full h-10 flex items-center justify-center gap-2  red-btn  `}
             >
               <span>
                 <ShoppingBag></ShoppingBag>
@@ -215,13 +169,47 @@ export default function ProductCardStyleOne({ datas, type = 3 }) {
               <span>Pré commander</span>
             </button>
           )}
-          {datas.quantite_en_stock == 0 &&
-            datas.quanitty_virtuelle_disponible == 0 && (
-              <>
-                <p className="text-red-400">Rupture de stock </p>
-              </>
-            )}
+
+          {datas.quantite_en_stock == 0 && !datas.is_preorder && (
+            <>
+              <p className="text-red-400 w-full  flex items-center justify-center ">
+                Rupture de stock{" "}
+              </p>
+            </>
+          )}
         </div>
+
+        {/* <div className="w-full flex flex-col gap-4 mt-3 items-center">
+          {isInStock && (
+            <button
+              type="button"
+              onClick={handleAddToCart}
+              className={`w-auto h-${
+                10 * buttonCount
+              } flex items-center justify-center gap-2 ${
+                type === 3 ? "blue-logo-btn" : "yellow-btn"
+              }`}
+            >
+              <ShoppingCart />
+              <span>Ajouter au panier</span>
+            </button>
+          )}
+          {isPreorderAvailable && (
+            <button
+              type="button"
+              onClick={handleAddToPreOrder}
+              className={`w-auto h-${
+                10 * buttonCount
+              } flex items-center justify-center gap-2 ${
+                type === 3 ? "blue-logo-btn" : "yellow-btn"
+              }`}
+            >
+              <ShoppingBag />
+              <span>Pré commander</span>
+            </button>
+          )}
+          {isOutOfStock && <p className="text-red-400">Rupture de stock</p>}
+        </div> */}
       </div>
 
       {/* quick-access-btns */}

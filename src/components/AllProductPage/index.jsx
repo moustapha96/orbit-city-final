@@ -9,13 +9,13 @@ import { useParams } from "react-router-dom";
 import { Loader2 } from "lucide-react";
 import { CategoryContext } from "../../contexts/CategoryContext";
 import { ProductContext } from "../../contexts/ProductContext";
+import SEOHeader from "../Partials/Headers/HeaderOne/SEOHeader";
 
 export default function AllProductPage() {
   const { name } = useParams();
   // const [categories, setCategories] = useState([]);
   const [startLength, setStartLength] = useState(0);
   const [endLength, setEndLength] = useState(6);
-  // const [products, setProducts] = useState([]);
   const [produits, setProduits] = useState([]);
   const [showBackButton, setShowBackButton] = useState(false);
   const [showLoadMoreButton, setShowLoadMoreButton] = useState(true);
@@ -49,7 +49,7 @@ export default function AllProductPage() {
   };
 
   useEffect(() => {
-    if (selectedCategory) {
+    if (selectedCategory != "") {
       if (selectedCategory.name == "All") {
         setProduits(products);
       } else {
@@ -58,12 +58,15 @@ export default function AllProductPage() {
         );
         setProduits(filteredProducts);
       }
+    } else {
+      setProduits(products);
     }
+    console.log("arriver ");
   }, [selectedCategory]);
 
   useEffect(() => {
     setProduits(products);
-  }, []);
+  }, [products]);
 
   const handleSearch = (event) => {
     const searchTerm = event.target.value.toLowerCase();
@@ -187,6 +190,11 @@ export default function AllProductPage() {
 
   return (
     <>
+      <SEOHeader
+        title="CCBM Shop - Boutique"
+        description="Trouvez l'appareil parfait pour votre maison sur CCBM Shop."
+        keywords="électroménager, boutique en ligne, appareils électroménagers, CCBM Shop"
+      />
       <Layout>
         <div className="products-page-wrapper w-full">
           <div className="container-x mx-auto">
@@ -218,13 +226,13 @@ export default function AllProductPage() {
                   </>
                 )}
                 {/* ads */}
-                <div className="w-full hidden lg:block h-[295px]">
+                {/* <div className="w-full hidden lg:block h-[295px]">
                   <img
-                    src={`/image7.jpg`}
+                    src={`/creation/image_ccbm_shop_7.png`}
                     alt=""
                     className="w-full h-full object-contain"
                   />
-                </div>
+                </div> */}
               </div>
 
               <div className="flex-1">

@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 import { Link, useNavigate } from "react-router-dom";
 import BreadcrumbCom from "../BreadcrumbCom";
-import EmptyCardError from "../EmptyCardError";
 
 import PageTitle from "../Helpers/PageTitle";
 import Layout from "../Partials/Layout";
@@ -14,6 +13,7 @@ import PrecommandeService from "../../services/precommandeService";
 import { toast } from "react-toastify";
 import { Button } from "flowbite-react";
 import { Loader2 } from "lucide-react";
+import BannerPub from "../About/BannerPub";
 export default function PreCardPage({ cart = true }) {
   const { getPreorderTotal, preorder, clearPreorder, preorderState } =
     useContext(CartContext);
@@ -33,7 +33,7 @@ export default function PreCardPage({ cart = true }) {
       order_lines: preorder.map((orde) => ({
         id: orde.id,
         quantity: orde.quantity,
-        list_price: orde.list_price,
+        list_price: orde.preorder_price,
       })),
     };
     console.log(modelData);
@@ -95,7 +95,6 @@ export default function PreCardPage({ cart = true }) {
                 { name: "Validation panier Pré commande", path: "/pre-cart" },
               ]}
             />
-            <EmptyCardError />
           </div>
         </div>
       ) : (
@@ -113,14 +112,6 @@ export default function PreCardPage({ cart = true }) {
             <div className="container-x mx-auto">
               <ProductsTable className="mb-[30px]" />
               <div className="w-full sm:flex justify-between">
-                {/* <div className="discount-code sm:w-[270px] w-full mb-5 sm:mb-0 h-[50px] flex">
-                  <div className="flex-1 h-full">
-                    <InputCom type="text" placeholder="Discount Code" />
-                  </div>
-                  <button type="button" className="w-[90px] h-[50px] black-btn">
-                    <span className="text-sm font-semibold">Apply</span>
-                  </button>
-                </div> */}
                 <div className="flex space-x-2.5 items-center">
                   <Link to="/all-products">
                     <div className="w-[220px] h-[50px] bg-[#F6F6F6] flex justify-center items-center">
@@ -160,7 +151,7 @@ export default function PreCardPage({ cart = true }) {
                   {getPreorderTotal() != 0 && (
                     <Button
                       type="submit"
-                      className="hover:bg-red-500  w-full"
+                      className="hover:bg-red-500  w-full bg-bleu-logo"
                       onClick={(e) => handleValidePanier(e)}
                       disabled={isLoading}
                     >
@@ -176,6 +167,7 @@ export default function PreCardPage({ cart = true }) {
           </div>
         </div>
       )}
+      <BannerPub />
     </Layout>
   );
 }

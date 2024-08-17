@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 /* eslint-disable no-unused-vars */
 import { useContext, useEffect, useState } from "react";
 import BreadcrumbCom from "../BreadcrumbCom";
@@ -5,18 +6,36 @@ import ProductCardStyleOne from "../Helpers/Cards/ProductCardStyleOne";
 import DataIteration from "../Helpers/DataIteration";
 import Layout from "../Partials/Layout";
 import ProductsFilter from "./ProductsFilter";
-import { useParams } from "react-router-dom";
-import { Loader2 } from "lucide-react";
+import { Link, useParams } from "react-router-dom";
+import {
+  CircleAlert,
+  DoorClosed,
+  FolderClosed,
+  Hand,
+  Loader2,
+  SearchCheck,
+} from "lucide-react";
 import { CategoryContext } from "../../contexts/CategoryContext";
 import { ProductContext } from "../../contexts/ProductContext";
-
+// import Popup from "reactjs-popup";
+import { Button } from "flowbite-react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionPanel,
+  AccordionTitle,
+} from "flowbite-react";
+import Tooltip from "./Tooltip";
+import Popup from "./Popup";
+import ProductCardStyleOnePrecommande from "../Helpers/Cards/ProductCardStyleOnePrecommande";
+import SEOHeader from "../Partials/Headers/HeaderOne/SEOHeader";
 export default function ProductPrecommandePage() {
   const { selectedCategory, categories, isLoadingCategorie } =
     useContext(CategoryContext);
   const { products, isLoadingProduct } = useContext(ProductContext);
 
   const [precommandes, setPrecommandes] = useState(
-    products.filter((p) => p.quanitty_virtuelle_disponible > 0)
+    products.filter((p) => p.is_preorder == true)
   );
   const [startLength, setStartLength] = useState(0);
   const [endLength, setEndLength] = useState(6);
@@ -25,6 +44,10 @@ export default function ProductPrecommandePage() {
   const [showLoadMoreButton, setShowLoadMoreButton] = useState(true);
   const [search, setSearch] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  const [open, setOpen] = useState(false);
+  const [hasShownPopup, setHasShownPopup] = useState(false);
+  const closeModal = () => setOpen(false);
 
   console.log(categories);
   const handleLoadMore = () => {
@@ -48,6 +71,17 @@ export default function ProductPrecommandePage() {
       setShowBackButton(false);
     }
   };
+
+  // useEffect(() => {
+  //   if (!hasShownPopup) {
+  //     const timer = setTimeout(() => {
+  //       setOpen(true);
+  //       setHasShownPopup(true);
+  //     }, 3000); // 5000 millisecondes = 5 secondes
+
+  //     return () => clearTimeout(timer); // Nettoyez le timer si le composant est démonté
+  //   }
+  // }, [hasShownPopup]);
 
   useEffect(() => {
     if (selectedCategory) {
@@ -159,10 +193,47 @@ export default function ProductPrecommandePage() {
 
   return (
     <>
+      <SEOHeader
+        title="CCBM Shop - Précommandes"
+        description="Soyez les premiers à posséder les nouveautés sur CCBM Shop."
+        keywords="pré-commandes, électroménager, boutique en ligne, CCBM Shop"
+      />
       <Layout>
         <div className="products-page-wrapper w-full">
-          <div className="container-x mx-auto">
+          <div className="container-x mx-auto justify-center">
             <BreadcrumbCom />
+
+            {/* <Popup open={open} closeOnDocumentClick onClose={closeModal}>
+              <div className={`modal ${open ? "fade-in" : "fade-out"}`}>
+                <div className="container mx-auto rounded-2xl bg-transparent">
+                  <div className="relative w-full h-full">
+                    <img
+                      src="creation/banner_remise_ccbm_shop.png"
+                      alt=""
+                      className="w-full h-full object-cover rounded-2xl"
+                      // className="max-w-[80%] sm:max-w-[60%] md:max-w-[50%] lg:max-w-[40%] h-auto object-contain" // Classes responsive pour la taille
+                    />
+                    <a
+                      className="close absolute top-4 right-4 text-red-500 text-2xl"
+                      onClick={closeModal}
+                    >
+                      &times;
+                    </a>
+                    <div className="hidden md:block absolute bottom-0 left-0 right-0 mb-4 sm:mb-8 md:mb-12 text-white text-sm font-semibold text-center">
+                      <p>
+                        Pour en savoir plus, <Link to="/faq">cliquer ici</Link>
+                      </p>
+                    </div>
+                  </div>
+                  <div className="block md:hidden absolute bottom-0 left-0 right-0 mb-4 sm:mb-8 text-white text-sm font-semibold text-center">
+                    <p>
+                      Pour en savoir plus, <Link to="/faq">cliquer ici</Link>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </Popup> */}
+
             <div className="w-full lg:flex lg:space-x-[30px]">
               <div className="lg:w-[270px]">
                 {isLoadingCategorie ? (
@@ -190,16 +261,28 @@ export default function ProductPrecommandePage() {
                   </>
                 )}
                 {/* ads */}
-                <div className="w-full hidden lg:block h-[295px]">
+                {/* <div className="w-full hidden lg:block h-[295px]">
                   <img
-                    src={`/image7.jpg`}
+                    src={`creation/image_ccbm_shop_7.png`}
                     alt=""
                     className="w-full h-full object-contain"
                   />
-                </div>
+                </div> */}
+                <div className="w-full hidden lg:block h-[295px]"></div>
               </div>
 
               <div className="flex-1">
+                <div className="flex justify-center  ">
+                  <p className="mb-2 text-center bg-bleu-logo text-base md:text-xl  font-700 leading-snug py-[6px] px-3 uppercase rounded-full tracking-wider text-white animate-up-down  animate-up-down">
+                    50% de réduction en précommande &nbsp;
+                    <Link
+                      to="/faq"
+                      className="text-qyellow underline hover:text-white transition-colors duration-300"
+                    >
+                      en savoir plus
+                    </Link>
+                  </p>
+                </div>
                 {isLoading ? (
                   <>
                     {" "}
@@ -272,7 +355,7 @@ export default function ProductPrecommandePage() {
                           >
                             {({ datas }) => (
                               <div data-aos="fade-up" key={datas.id}>
-                                <ProductCardStyleOne datas={datas} />
+                                <ProductCardStyleOnePrecommande datas={datas} />
                               </div>
                             )}
                           </DataIteration>

@@ -7,8 +7,10 @@ import formatPrice from "../../utils/formatPrice";
 import { Facebook, Flag, Heart, Linkedin, Twitter } from "lucide-react";
 import { CartContext } from "../../contexts/CartContext";
 import { toast } from "react-toastify";
-
+import DOMPurify from "dompurify";
 export default function ProductView({ produit, className, reportHandler }) {
+  const [quantity, setQuantity] = useState(1);
+
   console.log(produit);
   const {
     addToCart,
@@ -22,9 +24,8 @@ export default function ProductView({ produit, className, reportHandler }) {
 
   const handleAddToCart = (e) => {
     e.preventDefault();
-    addToCart(produit, 1);
-    console.log("Ajout au souhait :", cart);
-    toast.success("Produit ajouté", {
+    addToCart(produit, quantity);
+    toast.success("Produit ajouté au panier", {
       position: "top-center",
       autoClose: 2000,
       hideProgressBar: false,
@@ -37,9 +38,8 @@ export default function ProductView({ produit, className, reportHandler }) {
 
   const handleAddToWishlist = (e) => {
     e.preventDefault();
-    addToWishlist(produit, 1);
-    console.log(wishlist);
-    toast.success("Produit ajouté", {
+    addToWishlist(produit, quantity);
+    toast.success("Produit ajouté au souhait", {
       position: "top-center",
       autoClose: 2000,
       hideProgressBar: false,
@@ -52,8 +52,25 @@ export default function ProductView({ produit, className, reportHandler }) {
 
   const handleAddToPreOrder = (e) => {
     e.preventDefault();
-    addToPreorder(produit, 1);
-    console.log("Ajout au preorder :", preorder);
+    addToPreorder(produit, quantity);
+    toast.success("Produit ajouté au panier précommande", {
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  };
+
+  const handleIncrement = () => {
+    setQuantity(quantity + 1);
+  };
+  const handleDecrement = () => {
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
+    }
   };
 
   const imageProps = [
@@ -65,11 +82,11 @@ export default function ProductView({ produit, className, reportHandler }) {
   ];
 
   const [src, setSrc] = useState(produit[imageProps[0]]);
-  console.log(src);
+
   const changeImgHandler = (current) => {
     setSrc(current);
   };
-  const [quantity, setQuantity] = useState(1);
+
   const increment = () => {
     setQuantity((prev) => prev + 1);
   };
@@ -92,7 +109,7 @@ export default function ProductView({ produit, className, reportHandler }) {
               src={`${
                 produit.image_1920
                   ? "data:image/png;base64," + produit.image_1920
-                  : "https://readymadeui.com/images/coffee1.webp"
+                  : "https://cdn-icons-png.flaticon.com/512/130/130288.png"
               }`}
               alt=""
               className="object-contain"
@@ -138,40 +155,27 @@ export default function ProductView({ produit, className, reportHandler }) {
             {produit.name}
           </p>
 
-          {/* <div
-            data-aos="fade-up"
-            className="flex space-x-[10px] items-center mb-6"
-          >
-            <div className="flex">
-              <Star />
-              <Star />
-              <Star />
-              <Star />
-              <Star />
-            </div>
-            <span className="text-[13px] font-normal text-qblack">
-              6 Reviews
-            </span>
-          </div> */}
-
           <div data-aos="fade-up" className="flex space-x-2 items-center mb-7">
             <span className="text-sm font-500 text-qgray line-through mt-2">
               {produit.standard_price != 0 && (
                 <> {formatPrice(produit.standard_price)} </>
               )}
             </span>
+
             <span className="text-2xl font-500 text-qred">
               {" "}
               {formatPrice(produit.list_price)}
             </span>
+            {produit.is_preorder &&
+              produit.quanitty_virtuelle_disponible > 0 && (
+                <>
+                  <span className="text-xl font-500 text-bleu-logo  mt-2">
+                    ( {formatPrice(produit.list_price - 10000)} )
+                  </span>
+                  <br />
+                </>
+              )}
           </div>
-
-          {/* <p
-            data-aos="fade-up"
-            className="text-qgray text-sm text-normal mb-[30px] leading-7"
-          >
-            {produit.description}
-          </p> */}
 
           {/* <div data-aos="fade-up" className="colors mb-[30px]">
             <span className="text-sm font-normal uppercase text-qgray mb-[14px] inline-block">
@@ -249,7 +253,7 @@ export default function ProductView({ produit, className, reportHandler }) {
             <div className="w-[120px] h-full px-[26px] flex items-center border border-qgray-border">
               <div className="flex justify-between items-center w-full">
                 <button
-                  onClick={decrement}
+                  onClick={handleDecrement}
                   type="button"
                   className="text-base text-qgray"
                 >
@@ -257,7 +261,7 @@ export default function ProductView({ produit, className, reportHandler }) {
                 </button>
                 <span className="text-qblack">{quantity}</span>
                 <button
-                  onClick={increment}
+                  onClick={handleIncrement}
                   type="button"
                   className="text-base text-qgray"
                 >
@@ -287,15 +291,16 @@ export default function ProductView({ produit, className, reportHandler }) {
                   Commander
                 </button>
               )}
-              {produit.quanitty_virtuelle_disponible > 0 && (
-                <button
-                  type="button"
-                  onClick={handleAddToPreOrder}
-                  className="blue-logo-btn-detail "
-                >
-                  Pré comamnder
-                </button>
-              )}
+              {produit.is_preorder &&
+                produit.quanitty_virtuelle_disponible > 0 && (
+                  <button
+                    type="button"
+                    onClick={handleAddToPreOrder}
+                    className="blue-logo-btn-detail "
+                  >
+                    Pré comamnder
+                  </button>
+                )}
               {produit.quantite_en_stock == 0 &&
                 produit.quanitty_virtuelle_disponible == 0 && (
                   <>
@@ -354,6 +359,30 @@ export default function ProductView({ produit, className, reportHandler }) {
                 <Linkedin></Linkedin>
               </span>
             </div>
+          </div>
+          <div
+            data-aos="fade-up"
+            className="social-share flex items-center w-full  mt-3"
+          >
+            <h2>Description </h2>
+          </div>
+
+          <div
+            data-aos="fade-up"
+            className="social-share flex items-center w-full"
+          >
+            <p
+              data-aos="fade-up"
+              className="text-qgray text-sm text-normal mb-[30px] leading-7"
+            >
+              {produit.description && (
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: DOMPurify.sanitize(produit.description),
+                  }}
+                />
+              )}
+            </p>
           </div>
         </div>
       </div>
