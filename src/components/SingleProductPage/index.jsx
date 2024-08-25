@@ -18,15 +18,7 @@ export default function SingleProductPage() {
   const { products } = useContext(ProductContext);
   const location = useLocation();
   const produit = location.state.produit;
-  const {
-    wishList,
-    addToCart,
-    addToWishlist,
-    cart,
-    addToPreorder,
-    preorder,
-    isProductInWishlist,
-  } = useContext(CartContext);
+
   useEffect(() => {
     const filteredProducts = products.filter(
       (pro) => pro.categ_id === produit.categ_id

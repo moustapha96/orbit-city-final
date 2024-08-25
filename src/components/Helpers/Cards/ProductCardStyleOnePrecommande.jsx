@@ -80,7 +80,7 @@ export default function ProductCardStyleOnePrecommande({ datas, type = 3 }) {
       <div
         className="product-card-img w-full h-[300px]"
         style={{
-          background: `url('data:image/png;base64,${datas.image_1920}') no-repeat center`,
+          background: `url('data:image/png;base64,${datas.image_256}') no-repeat center`,
           backgroundSize: "cover",
         }}
       >

@@ -374,7 +374,11 @@ export default function PreOrderPage() {
                               type="number"
                               value={montantAPayer}
                               max={precommande.amount_residual}
-                              min={1000}
+                              min={
+                                precommande.first_payment_state
+                                  ? 1000
+                                  : precommande.first_payment_amount
+                              }
                               onChange={(e) => {
                                 const value = e.target.value;
                                 if (value <= precommande.amount_residual) {

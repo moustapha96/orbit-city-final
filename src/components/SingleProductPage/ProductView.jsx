@@ -156,25 +156,24 @@ export default function ProductView({ produit, className, reportHandler }) {
           </p>
 
           <div data-aos="fade-up" className="flex space-x-2 items-center mb-7">
-            <span className="text-sm font-500 text-qgray line-through mt-2">
+            {/* <span className="text-sm font-500 text-qgray line-through mt-2">
               {produit.standard_price != 0 && (
                 <> {formatPrice(produit.standard_price)} </>
               )}
-            </span>
+            </span> */}
 
             <span className="text-2xl font-500 text-qred">
               {" "}
               {formatPrice(produit.list_price)}
             </span>
-            {produit.is_preorder &&
-              produit.quanitty_virtuelle_disponible > 0 && (
-                <>
-                  <span className="text-xl font-500 text-bleu-logo  mt-2">
-                    ( {formatPrice(produit.list_price - 10000)} )
-                  </span>
-                  <br />
-                </>
-              )}
+            {produit.is_preorder && (
+              <>
+                <span className="text-2xl font-500 text-bleu-logo ">
+                  ( {formatPrice(produit.preorder_price)} )
+                </span>
+                <br />
+              </>
+            )}
           </div>
 
           {/* <div data-aos="fade-up" className="colors mb-[30px]">
@@ -282,7 +281,7 @@ export default function ProductView({ produit, className, reportHandler }) {
               </button>
             </div>
             <div className="flex-1 flex gap-2 h-full">
-              {produit.quantite_en_stock > 0 && (
+              {produit.quantite_en_stock > 0 && produit.sale_ok && (
                 <button
                   type="button"
                   onClick={handleAddToCart}
@@ -291,22 +290,20 @@ export default function ProductView({ produit, className, reportHandler }) {
                   Commander
                 </button>
               )}
-              {produit.is_preorder &&
-                produit.quanitty_virtuelle_disponible > 0 && (
-                  <button
-                    type="button"
-                    onClick={handleAddToPreOrder}
-                    className="blue-logo-btn-detail "
-                  >
-                    Pré comamnder
-                  </button>
-                )}
-              {produit.quantite_en_stock == 0 &&
-                produit.quanitty_virtuelle_disponible == 0 && (
-                  <>
-                    <p className="text-red-400">Rupture de stock </p>
-                  </>
-                )}
+              {produit.is_preorder && produit.sale_ok && (
+                <button
+                  type="button"
+                  onClick={handleAddToPreOrder}
+                  className="blue-logo-btn-detail "
+                >
+                  Pré comamnder
+                </button>
+              )}
+              {produit.quantite_en_stock == 0 && !produit.is_preorder && (
+                <>
+                  <p className="text-red-400">Rupture de stock </p>
+                </>
+              )}
             </div>
           </div>
 

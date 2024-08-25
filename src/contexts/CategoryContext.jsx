@@ -44,6 +44,7 @@ export const CategoryProvider = ({ children }) => {
       value={{
         selectedCategory,
         selectCategory,
+        setSelectedCategory,
         categories,
         isLoadingCategorie,
       }}

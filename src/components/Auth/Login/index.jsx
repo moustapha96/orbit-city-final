@@ -11,7 +11,7 @@ import { toast } from "react-toastify";
 import userService from "../../../services/userService";
 import { Button, Label, TextInput } from "flowbite-react";
 
-import { Loader2 } from "lucide-react";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { UserContext } from "../../../contexts/UserContext";
 export default function Login() {
   const searchParams = new URLSearchParams(location.search);
@@ -34,6 +34,8 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
   const validateForm = () => {
     setError({
       email: !email ? "L'adresse email est obligatoire." : "",
@@ -237,22 +239,35 @@ export default function Login() {
                       <div className="mb-2 block">
                         <Label htmlFor="password" value="Mot de passe" />
                       </div>
-                      <TextInput
-                        id="password"
-                        placeholder="*******"
-                        label="Password*"
-                        name="password"
-                        type="password"
-                        value={password}
-                        minLength={4}
-                        maxLength={20}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                        className="
+                      <div class="relative">
+                        <TextInput
+                          id="password"
+                          placeholder="*******"
+                          label="Password*"
+                          name="password"
+                          type={showPassword ? "text" : "password"}
+                          x
+                          value={password}
+                          minLength={4}
+                          maxLength={20}
+                          onChange={(e) => setPassword(e.target.value)}
+                          required
+                          className="
                       invalid:border-red-500 invalid:text-red-600
                       focus:invalid:border-red-500 focus:invalid:ring-red-500"
-                      />
+                        />
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            setShowPassword(!showPassword);
+                          }}
+                          className="absolute inset-y-0 end-0 flex items-center z-20 px-3 cursor-pointer text-gray-400 rounded-e-md focus:outline-none focus:text-blue-600 dark:text-neutral-600 dark:focus:text-blue-500"
+                        >
+                          {!showPassword ? <Eye></Eye> : <EyeOff />}
+                        </button>
+                      </div>
                     </div>
+
                     <div className="forgot-password-area flex justify-between items-center mb-7">
                       <div className="remember-checkbox flex items-center space-x-2.5"></div>
                       <Link

@@ -35,7 +35,10 @@ export default function Navbar({ className, type = 3 }) {
     selectCategory(category);
 
     const isAllProductPage = window.location.pathname === "/all-products";
-    if (!isAllProductPage) {
+    const isPrecommandePage = window.location.pathname === "/pre-commandes";
+    if (isPrecommandePage) {
+      navigate("/pre-commandes");
+    } else if (!isAllProductPage) {
       navigate("/all-products");
     }
     setToggle(false);
@@ -119,8 +122,10 @@ export default function Navbar({ className, type = 3 }) {
                                   <span>
                                     <Asterisk></Asterisk>
                                   </span>
-                                  <span className="text-xs font-400">
-                                    {category.name}
+                                  <span className="text-xs font-400  uppercase ">
+                                    {category.name == "All"
+                                      ? "Tout"
+                                      : category.name}
                                   </span>
                                 </div>
                                 <div>

@@ -73,9 +73,9 @@ const PaydunyaModalService = ({
       phoneNumber: "784537547",
       postalAddress: "Dakar",
       // logoURL: "http://orbitcity.sn/logo.png",
-      logoURL: "https://orbitcitydev.com/logo.png",
+      logoURL: "https://ccbme.sn/logo.png",
       // websiteURL: "http://orbitcity.sn",
-      websiteURL: "https://orbitcitydev.com/",
+      websiteURL: "https://ccbme.sn/",
     });
     setStore(store);
   }, []);
@@ -102,16 +102,16 @@ const PaydunyaModalService = ({
         formatPrice(Math.ceil(totalAmount)) +
         " pour la commande " +
         order.name;
-      invoice.callbackURL = "http://orbitcity.sn/profile";
+      invoice.callbackURL = "https://ccbme.sn/profile";
       // invoice.callbackURL = "https://orbitcitydev.com/profile";
       if (order.type_sale === "order") {
-        invoice.cancelURL = `http://orbitcity.sn/commandes/${idOrder}/détails`;
+        invoice.cancelURL = `https://ccbme.sn/commandes/${idOrder}/détails`;
         // invoice.cancelURL = `https://orbitcitydev.com/commandes/${idOrder}/détails`;
       } else {
-        invoice.cancelURL = `http://orbitcity.sn/pre-commandes/${idOrder}/détails`;
+        invoice.cancelURL = `https://ccbme.sn/pre-commandes/${idOrder}/détails`;
         // invoice.cancelURL = `https://orbitcitydev.com/pre-commandes/${idOrder}/détails`;
       }
-      invoice.returnURL = `http://orbitcity.sn/payment-state`;
+      invoice.returnURL = `https://ccbme.sn/payment-state`;
       // invoice.returnURL = `https://orbitcitydev.com/payment-state`;
       // invoice.returnURL = `http://orbitcity.sn/payment-state/${idOrder}/${invoice.totalAmount}`;
 
@@ -205,6 +205,9 @@ const PaydunyaModalService = ({
   //   console.log("passer au paiment");
   //   localStorage.setItem("idOrderPayment", idOrder);
   //   localStorage.setItem("montant", totalAmount);
+  //   // localStorage.setItem("tokenOrderPayment", invoice.token);
+  //   // localStorage.setItem("statusOrderPayment", invoice.status);
+  //   // localStorage.setItem("montant", totalAmount);
   //   navigate("/payment-state");
   //   console.log(payment);
 

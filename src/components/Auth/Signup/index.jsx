@@ -5,7 +5,7 @@ import Layout from "../../Partials/Layout";
 import Thumbnail from "./Thumbnail";
 import { Link, useNavigate } from "react-router-dom";
 import { Button, Checkbox, Label, TextInput } from "flowbite-react";
-import { Loader2 } from "lucide-react";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
 import userService from "../../../services/userService";
 import { toast } from "react-toastify";
 import { isValidEmail, isValidPhoneNumber } from "../../../utils/validations";
@@ -24,6 +24,8 @@ export default function Signup() {
   const [typeProfile, setTypeProfile] = useState("");
   const [error, setError] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPasswordConfirme, setShowPasswordConfirm] = useState(false);
 
   const validatePassword = (password, confirmPassword) => {
     if (password !== confirmPassword) {
@@ -49,11 +51,11 @@ export default function Signup() {
         : !isValidEmail(email)
         ? "L'adresse email est invalide."
         : "",
-      password: !password
-        ? "Le mot de passe est obligatoire."
-        : !isStrongPassword(password)
-        ? "Le mot de passe doit contenir au moins 8 caractères, une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial."
-        : "",
+      // password: !password
+      //   ? "Le mot de passe est obligatoire."
+      //   : !isStrongPassword(password)
+      //   ? "Le mot de passe doit contenir au moins 8 caractères, une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial."
+      //   : "",
       passwordError: validatePassword(password, confirmPassword),
     };
     console.log(errors);
@@ -258,51 +260,83 @@ export default function Signup() {
                       focus:invalid:border-red-500 focus:invalid:ring-red-500"
                       />
                     </div>
+
+                    {/* test */}
+
                     <div className="flex sm:flex-row flex-col space-y-5 sm:space-y-0 sm:space-x-5 mb-5">
                       <div className="sm:w-1/2 md:w-full">
                         <div className="mb-2 block">
-                          {error.password && (
-                            <p className="text-red-600">{error.password}</p>
-                          )}
-                          <Label htmlFor="password" value="Mot de passe" />
+                          <div>
+                            <Label htmlFor="password" value="Mot de passe" />
+                          </div>
+                          <div class="relative">
+                            <input
+                              id="password"
+                              type={showPassword ? "text" : "password"}
+                              value={password}
+                              onChange={(e) => setPassword(e.target.value)}
+                              required
+                              placeholder="Mot de passe"
+                              className=" focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600    
+                            
+                                     mt-1 block w-full  px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
+                                    focus:outline-none focus:ring-1 
+                                            invalid:text-red-600
+                                  focus:invalid:border-red-500 focus:invalid:ring-red-500"
+                            />
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                setShowPassword(!showPassword);
+                              }}
+                              className="absolute inset-y-0 end-0 flex items-center z-20 px-3 cursor-pointer text-gray-400 rounded-e-md focus:outline-none focus:text-blue-600 dark:text-neutral-600 dark:focus:text-blue-500"
+                            >
+                              {!showPassword ? <EyeOff /> : <Eye />}
+                            </button>
+                          </div>
                         </div>
-                        <input
-                          id="password"
-                          type="password"
-                          placeholder="Mot de passe"
-                          value={password}
-                          onChange={(e) => setPassword(e.target.value)}
-                          required
-                          className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
-                      focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
-                                    invalid:text-red-600
-                      focus:invalid:border-red-500 focus:invalid:ring-red-500"
-                        />
                       </div>
                       <div className="sm:w-1/2 md:w-full">
                         <div className="mb-2 block">
-                          <Label
-                            htmlFor="confpassword"
-                            value="Confirmation Mot de passe"
-                          />
+                          <div>
+                            <Label
+                              htmlFor="confpassword"
+                              value="Confirmation Mot de passe"
+                            />
+                          </div>
+                          <div class="relative">
+                            <input
+                              id="hs-toggle-password"
+                              type={showPasswordConfirme ? "text" : "password"}
+                              value={confirmPassword}
+                              onChange={(e) =>
+                                setConfirmPassword(e.target.value)
+                              }
+                              required
+                              placeholder="confirmation mot de passe"
+                              className=" focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600    
+                            
+                                     mt-1 block w-full  px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
+                                    focus:outline-none focus:ring-1 
+                                            invalid:text-red-600
+                                  focus:invalid:border-red-500 focus:invalid:ring-red-500"
+                            />
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                setShowPasswordConfirm(!showPasswordConfirme);
+                              }}
+                              className="absolute inset-y-0 end-0 flex items-center z-20 px-3 cursor-pointer text-gray-400 rounded-e-md focus:outline-none focus:text-blue-600 dark:text-neutral-600 dark:focus:text-blue-500"
+                            >
+                              {!showPasswordConfirme ? <EyeOff /> : <Eye />}
+                            </button>
+                          </div>
                         </div>
-                        <input
-                          id="confpassword"
-                          type="password"
-                          value={confirmPassword}
-                          onChange={(e) => setConfirmPassword(e.target.value)}
-                          required
-                          placeholder="confirmation mot de passe"
-                          className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
-                      focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
-                                    invalid:text-red-600
-                      focus:invalid:border-red-500 focus:invalid:ring-red-500"
-                        />{" "}
-                        {error.passwordError && (
-                          <p className="text-red-600">{error.passwordError}</p>
-                        )}
                       </div>
                     </div>
+
+                    {/* debut second */}
+
                     <div className="forgot-password-area mb-7">
                       <div className="remember-checkbox flex items-center space-x-2.5">
                         <div className="flex items-center space-x-2">
@@ -316,6 +350,7 @@ export default function Signup() {
                         </div>
                       </div>
                     </div>
+
                     <div className="signin-area mb-3">
                       <div className="flex justify-center">
                         <Button
@@ -336,6 +371,7 @@ export default function Signup() {
                         </Button>
                       </div>
                     </div>
+
                     <div className="signup-area flex justify-center">
                       <p className="text-base text-qgraytwo font-normal">
                         Vous avez déjà un compte?

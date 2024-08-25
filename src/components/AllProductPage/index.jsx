@@ -12,7 +12,6 @@ import { ProductContext } from "../../contexts/ProductContext";
 import SEOHeader from "../Partials/Headers/HeaderOne/SEOHeader";
 
 export default function AllProductPage() {
-  const { name } = useParams();
   // const [categories, setCategories] = useState([]);
   const [startLength, setStartLength] = useState(0);
   const [endLength, setEndLength] = useState(6);
@@ -22,10 +21,11 @@ export default function AllProductPage() {
   const [search, setSearch] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const { selectedCategory, categories, isLoadingCategorie } =
+  const { selectedCategory, setSelectedCategory, isLoadingCategorie } =
     useContext(CategoryContext);
-  const { products, isLoadingProduct } = useContext(ProductContext);
-  console.log(categories);
+  const { products, isLoadingProduct, searchContext, setSearchContext } =
+    useContext(ProductContext);
+
   const handleLoadMore = () => {
     if (endLength < products.length) {
       setEndLength(endLength + 8);
@@ -49,143 +49,61 @@ export default function AllProductPage() {
   };
 
   useEffect(() => {
-    if (selectedCategory != "") {
-      if (selectedCategory.name == "All") {
+    if (selectedCategory != null) {
+      if (selectedCategory == "All") {
         setProduits(products);
       } else {
         const filteredProducts = products.filter(
-          (pro) => pro.categ_id === selectedCategory.name
+          (pro) => pro.categ_id === selectedCategory
         );
         setProduits(filteredProducts);
       }
     } else {
       setProduits(products);
     }
-    console.log("arriver ");
+    console.log("arriver " + selectedCategory);
   }, [selectedCategory]);
 
   useEffect(() => {
     setProduits(products);
   }, [products]);
 
+  useEffect(() => {
+    const searchTerm = searchContext.toLowerCase();
+    console.log(searchTerm);
+    setSearch(searchTerm);
+
+    const filteredProducts = products.filter(
+      (product) =>
+        (product.name &&
+          product.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (product.categ_id &&
+          product.categ_id.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (product.description &&
+          product.description.toLowerCase().includes(searchTerm.toLowerCase()))
+    );
+
+    console.log(filteredProducts);
+    setProduits(filteredProducts);
+  }, [searchContext]);
+
   const handleSearch = (event) => {
     const searchTerm = event.target.value.toLowerCase();
     console.log(searchTerm);
     setSearch(searchTerm);
 
-    const filteredProducts = products.filter((product) =>
-      product.name.toLowerCase().includes(searchTerm)
+    const filteredProducts = products.filter(
+      (product) =>
+        (product.name &&
+          product.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (product.categ_id &&
+          product.categ_id.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (product.description &&
+          product.description.toLowerCase().includes(searchTerm.toLowerCase()))
     );
+
     console.log(filteredProducts);
     setProduits(filteredProducts);
-  };
-
-  const handleCategoryChange = (searchTerm) => {
-    const categorySelected = categories.find((c) => c.id === searchTerm);
-
-    setSearch("");
-    if (categorySelected.name == "All") {
-      const filteredProducts = products;
-      setProduits(filteredProducts);
-    } else {
-      const filteredProducts = products.filter((product) =>
-        product.categ_id.includes(categorySelected.name)
-      );
-      console.log(filteredProducts);
-      setProduits(filteredProducts);
-    }
-  };
-
-  // const handleCategoryChangee = (categoryId) => {
-  //   // const categorySelected = categories.find((c) => c.id === categoryId);
-
-  //   setFilter((prevState) => {
-  //     const categoryIndex = prevState.category.indexOf(categoryId);
-  //     if (categoryIndex === -1) {
-  //       return { ...prevState, category: [...prevState.category, categoryId] };
-  //     } else {
-  //       return {
-  //         ...prevState,
-  //         category: prevState.category.filter((id) => id !== categoryId),
-  //       };
-  //     }
-  //   });
-
-  //   if (filters.category.length === 1) {
-  //     const categoryName = categories.find(
-  //       (c) => c.id === filters.category[0]
-  //     ).name;
-  //     const filteredProducts = products.filter(
-  //       (product) => product.categ_id === categoryName
-  //     );
-  //     setProduits(filteredProducts);
-  //   } else if (filters.category.length > 1) {
-  //     const filteredProducts = products.filter((product) =>
-  //       filters.category.includes(product.categ_id)
-  //     );
-  //     setProduits(filteredProducts);
-  //   } else {
-  //     setProduits(products);
-  //   }
-  // };
-
-  const [filters, setFilter] = useState({
-    sizeS: false,
-    sizeM: false,
-    sizeL: false,
-    sizeXL: false,
-    sizeXXL: false,
-    sizeFit: false,
-    category: [],
-  });
-
-  const checkboxHandler = (e) => {
-    const { name } = e.target;
-    setFilter((prevState) => ({
-      ...prevState,
-      [name]: !prevState[name],
-    }));
-  };
-  const [volume, setVolume] = useState({ min: 10000, max: 500000 });
-
-  const [storage, setStorage] = useState(null);
-  const filterStorage = (value) => {
-    setStorage(value);
-  };
-
-  const [filterToggle, setToggle] = useState(false);
-  const handleVolumeChange = (event) => {
-    if (!event.target) {
-      return;
-    }
-
-    const { name, value } = event.target;
-
-    setVolume((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-
-    if (filters.volume.length === 1) {
-      // Un seul filtre de volume est sélectionné, on filtre les produits en fonction de ce volume
-      const filteredProducts = products.filter(
-        (product) =>
-          parseInt(product.price) >= parseInt(volume.min) &&
-          parseInt(product.price) <= parseInt(volume.max)
-      );
-      setProduits(filteredProducts);
-    } else if (filters.volume.length > 1) {
-      // Plusieurs filtres de volume sont sélectionnés, on filtre les produits en fonction de ces volumes
-      const filteredProducts = products.filter(
-        (product) =>
-          parseInt(product.price) >= parseInt(volume.min) &&
-          parseInt(product.price) <= parseInt(volume.max)
-      );
-      setProduits(filteredProducts);
-    } else {
-      // Aucun filtre de volume n'est sélectionné, on affiche tous les produits
-      setProduits(products);
-    }
   };
 
   return (
@@ -200,7 +118,7 @@ export default function AllProductPage() {
           <div className="container-x mx-auto">
             <BreadcrumbCom />
             <div className="w-full lg:flex lg:space-x-[30px]">
-              <div className="lg:w-[270px]">
+              {/* <div className="lg:w-[270px]">
                 {isLoadingCategorie ? (
                   <div className="flex justify-center">
                     <Loader2
@@ -225,15 +143,7 @@ export default function AllProductPage() {
                     />
                   </>
                 )}
-                {/* ads */}
-                {/* <div className="w-full hidden lg:block h-[295px]">
-                  <img
-                    src={`/creation/image_ccbm_shop_7.png`}
-                    alt=""
-                    className="w-full h-full object-contain"
-                  />
-                </div> */}
-              </div>
+              </div> */}
 
               <div className="flex-1">
                 {isLoading ? (
@@ -262,7 +172,10 @@ export default function AllProductPage() {
                           type="search"
                           placeholder="Rechercher des produits"
                           value={search}
-                          onChange={handleSearch}
+                          // onChange={handleSearch}
+                          onChange={(e) => {
+                            setSearchContext(e.target.value);
+                          }}
                           className="w-full md:w-auto px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         />
                       </div>

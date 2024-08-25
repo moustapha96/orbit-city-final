@@ -3,18 +3,39 @@
 import { useContext, useEffect, useState } from "react";
 
 import ThinLove from "../../Helpers/icons/ThinLove";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CartContext } from "../../../contexts/CartContext";
 import { ChevronRight, CircleX, Dot, Search, ShoppingCart } from "lucide-react";
 import { CategoryContext } from "../../../contexts/CategoryContext";
+import { ProductContext } from "../../../contexts/ProductContext";
 
 export default function Drawer({ className, open, action }) {
-  const backgroundColor = "var(--bleu-logo)";
-  const hoverBackgroundColor = "var(--bleu-claire)";
+  const navigate = useNavigate();
   const [tab, setTab] = useState("menu");
   const { cart, wishlist } = useContext(CartContext);
 
-  const { categories } = useContext(CategoryContext);
+  const {
+    selectCategory,
+    categories,
+    setSelectedCategory,
+    selectedCategory,
+    isLoadingCategorie,
+  } = useContext(CategoryContext);
+
+  const { searchContext, setSearchContext } = useContext(ProductContext);
+
+  const handleCategoryChange = (e, category) => {
+    e.preventDefault();
+    console.log(category.name);
+    setSelectedCategory(category.name);
+    const isAllProductPage = window.location.pathname === "/all-products";
+    const isPrecommandePage = window.location.pathname === "/pre-commandes";
+    if (isPrecommandePage) {
+      navigate("/pre-commandes");
+    } else if (!isAllProductPage) {
+      navigate("/all-products");
+    }
+  };
 
   return (
     <>
@@ -64,19 +85,21 @@ export default function Drawer({ className, open, action }) {
             </div>
           </div>
           <div className="w-full mt-5 px-5">
-            <div className="search-bar w-full h-[34px]  flex ">
-              <div className="flex-1 bg-white h-full border border-r-0 border-[#E9E9E9]">
+            <div className="search-bar w-full h-[34px] flex">
+              <div className="w-full bg-white h-full border border-[#E9E9E9]">
                 <input
-                  type="text"
-                  className="w-full text-xs h-full focus:outline-none foucus:ring-0 placeholder:text-qgraytwo pl-2.5 "
-                  placeholder="Search Product..."
+                  type="search"
+                  className="w-full md:w-auto px-2 py-2 border  rounded-md  focus:ring-2 focus:ring-blue-500 focus:border-transparent   focus:outline-none foucus:ring-0 placeholder:text-qgraytwo pl-2.5"
+                  placeholder="Recherche de produit..."
+                  value={searchContext}
+                  onChange={(e) => {
+                    setSearchContext(e.target.value);
+                  }}
                 />
-              </div>
-              <div className="w-[40px] h-full  flex justify-center items-center bg-bleu-logo ">
-                <Search />
               </div>
             </div>
           </div>
+
           <div className="w-full mt-5 px-5 flex items-center space-x-3">
             <span
               onClick={() => setTab("menu")}
@@ -93,7 +116,7 @@ export default function Drawer({ className, open, action }) {
                 tab === "category" ? "text-qblack" : "text-qgray"
               }`}
             >
-              Categories
+              Catégories
             </span>
           </div>
           {tab === "category" ? (
@@ -101,7 +124,7 @@ export default function Drawer({ className, open, action }) {
               <ul className="categories-list">
                 {categories.map((categori) => (
                   <li key={categori.id} className="category-item">
-                    <Link to="/all-products">
+                    <Link onClick={(e) => handleCategoryChange(e, categori)}>
                       <div
                         className="flex justify-between items-center px-5 h-12 bg-white transition-all duration-300 ease-in-out cursor-pointer"
                         style={{ "--hover-bg-color": "var(--bleu-logo)" }}
@@ -116,7 +139,7 @@ export default function Drawer({ className, open, action }) {
                         <div className="flex items-center space-x-6">
                           <Dot></Dot>
                           <span className="text-sm font-400">
-                            {categori.name}
+                            {categori.name == "All" ? "Tout" : categori.name}
                           </span>
                         </div>
                         <div>
@@ -190,7 +213,7 @@ export default function Drawer({ className, open, action }) {
                       }
                     >
                       <div className="flex items-center space-x-6">
-                        <span className="text-sm font-400">Pré-commande</span>
+                        <span className="text-sm font-400">Précommande</span>
                       </div>
                       <div>
                         <ChevronRight></ChevronRight>

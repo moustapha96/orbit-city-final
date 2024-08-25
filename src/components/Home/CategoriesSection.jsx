@@ -16,31 +16,40 @@ import { useNavigate } from "react-router-dom";
 
 export default function CategoriesSection() {
   const navigate = useNavigate();
-  const { selectCategory, categories, isLoadingCategorie } =
-    useContext(CategoryContext);
+  const {
+    selectCategory,
+    categories,
+    setSelectedCategory,
+    selectedCategory,
+    isLoadingCategorie,
+  } = useContext(CategoryContext);
   const categoryIcons = {
-    Cuisinière: Heater,
-    "Machine à laver": WashingMachine,
-    "Micro Onde": Microwave,
-    Réfrigérateur: Refrigerator,
-    Télévision: FaTv,
+    cuisiniere: Heater,
+    "machine a laver": WashingMachine,
+    "micro onde": Microwave,
+    refrigerateur: Refrigerator,
+    television: FaTv,
     All: Layers3,
-    "Office Furniture": SwatchBook,
   };
   const handleCategoryChange = (e, category) => {
     e.preventDefault();
-    selectCategory(category);
+    setSelectedCategory(category.name);
+    console.log(selectedCategory);
 
     const isAllProductPage = window.location.pathname === "/all-products";
-    if (!isAllProductPage) {
+    const isPrecommandePage = window.location.pathname === "/pre-commandes";
+    if (isPrecommandePage) {
+      navigate("/pre-commandes");
+    } else if (!isAllProductPage) {
       navigate("/all-products");
     }
   };
+
   return (
     <>
-      <div className="categories-section-wrapper w-full">
-        <div className="container-x mx-auto">
-          <div className="w-full categories-iems">
+      <div className="categories-section-wrapper w-full flex justify-center items-center">
+        <div className="container-x mx-auto  ">
+          <div className="w-full categories-items">
             <div className="grid xl:grid-cols-8 sm:grid-cols-4 grid-cols-2 gap-10 mb-[46px]">
               {categories.map((category) => {
                 const IconComponent = categoryIcons[category.name] || FaTv;
@@ -58,8 +67,8 @@ export default function CategoriesSection() {
                       </div>
                     </div>
                     <div className="w-full flex justify-center">
-                      <p className="text-base text-qblack whitespace-nowrap ">
-                        {category.name}
+                      <p className=" text-base text-qblack whitespace-nowrap toupper uppercase">
+                        {category.name == "All" ? "Tout" : category.name}
                       </p>
                     </div>
                   </div>

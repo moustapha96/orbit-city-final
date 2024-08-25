@@ -30,16 +30,17 @@ export default function Home() {
   const [commandes, setCommandes] = useState([]);
   useEffect(() => {
     if (products.length > 0) {
-      const inStockProducts = products.filter(
-        (product) => product.quantite_en_stock > 0
-      );
+      const inStockProducts = products.filter((product) => product.sale_ok);
       setNewProduits(inStockProducts.slice(0, 6));
       setCommandes(
         products.filter((p) => p.sale_ok && p.quantite_en_stock > 0)
       );
+      const productsToDisplay =
+        precommandes.length > 6 ? precommandes.slice(0, 6) : precommandes;
       setPrecommandes(
         products.filter((p) => p.sale_ok && p.is_preorder == true)
       );
+      console.log(precommandes);
       setEnpromo(
         products.filter((p) => p.sale_ok == true && p.en_promo == true)
       );
@@ -71,7 +72,6 @@ export default function Home() {
         >
           <CategoriesSection />
         </ViewMoreTitle>
-
         <ViewMoreTitle
           className="top-selling-product mb-[60px]"
           seeMoreUrl="/pre-commandes"
@@ -89,13 +89,20 @@ export default function Home() {
             </p>
           </div>
           <SectionStyleTwo
-            products={precommandes.slice(3, precommandes.length)}
+            products={
+              precommandes.length > 4 ? precommandes.slice(0, 4) : precommandes
+            }
           />
         </ViewMoreTitle>
-
-        <ProductsAds
+        {/* <ProductsAds
           sectionHeight="164"
           ads={[`creation/banner_ccbm_shop_reduction_tele.png`]}
+          className="products-ads-section mb-[60px]"
+        /> */}
+
+        <ProductsAds
+          sectionHeight="130"
+          ads={[`banner_ccbme_shop_3.jpg`]}
           className="products-ads-section mb-[60px]"
         />
         <SectionStyleThree
@@ -104,7 +111,6 @@ export default function Home() {
           seeMoreUrl="/all-products"
           className="new-products mb-[60px]"
         />
-
         {/* {enpromo.length > 3 && (
           <>
             <SectionStyleFour

@@ -124,7 +124,7 @@ export default function PreCardPage({ cart = true }) {
               </div>
               <div className="w-full mt-[30px] flex sm:justify-end">
                 <div className="sm:w-[370px] w-full border border-[#EDEDED] px-[30px] py-[26px]">
-                  <div className="sub-total mb-6">
+                  {/* <div className="sub-total mb-6">
                     <div className=" flex justify-between mb-6">
                       <p className="text-[15px] font-medium text-qblack">
                         Sous total
@@ -135,12 +135,12 @@ export default function PreCardPage({ cart = true }) {
                       </p>
                     </div>
                     <div className="w-full h-[1px] bg-[#EDEDED]"></div>
-                  </div>
+                  </div> */}
 
                   <div className="total mb-6">
                     <div className=" flex justify-between">
                       <p className="text-[18px] font-medium text-qblack">
-                        Total Non taxé
+                        Total panier
                       </p>
                       <p className="text-[18px] font-medium text-qred">
                         {" "}

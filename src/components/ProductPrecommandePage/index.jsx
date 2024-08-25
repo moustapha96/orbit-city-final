@@ -30,9 +30,16 @@ import Popup from "./Popup";
 import ProductCardStyleOnePrecommande from "../Helpers/Cards/ProductCardStyleOnePrecommande";
 import SEOHeader from "../Partials/Headers/HeaderOne/SEOHeader";
 export default function ProductPrecommandePage() {
-  const { selectedCategory, categories, isLoadingCategorie } =
-    useContext(CategoryContext);
-  const { products, isLoadingProduct } = useContext(ProductContext);
+  const {
+    selectCategory,
+    categories,
+    setSelectedCategory,
+    selectedCategory,
+    isLoadingCategorie,
+  } = useContext(CategoryContext);
+
+  const { products, isLoadingProduct, searchContext, setSearchContext } =
+    useContext(ProductContext);
 
   const [precommandes, setPrecommandes] = useState(
     products.filter((p) => p.is_preorder == true)
@@ -72,24 +79,13 @@ export default function ProductPrecommandePage() {
     }
   };
 
-  // useEffect(() => {
-  //   if (!hasShownPopup) {
-  //     const timer = setTimeout(() => {
-  //       setOpen(true);
-  //       setHasShownPopup(true);
-  //     }, 3000); // 5000 millisecondes = 5 secondes
-
-  //     return () => clearTimeout(timer); // Nettoyez le timer si le composant est démonté
-  //   }
-  // }, [hasShownPopup]);
-
   useEffect(() => {
     if (selectedCategory) {
-      if (selectedCategory.name == "All") {
+      if (selectedCategory == "All") {
         setProduits(precommandes);
       } else {
         const filteredProducts = precommandes.filter(
-          (pro) => pro.categ_id === selectedCategory.name
+          (pro) => pro.categ_id === selectedCategory
         );
         setProduits(filteredProducts);
       }
@@ -103,6 +99,23 @@ export default function ProductPrecommandePage() {
       setProduits([]);
     }
   }, []);
+
+  useEffect(() => {
+    const searchTerm = searchContext.toLowerCase();
+    console.log(searchTerm);
+    setSearch(searchTerm);
+
+    const filteredProducts = precommandes.filter(
+      (product) =>
+        (product.name &&
+          product.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (product.categ_id &&
+          product.categ_id.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (product.description &&
+          product.description.toLowerCase().includes(searchTerm.toLowerCase()))
+    );
+    setProduits(filteredProducts);
+  }, [searchContext]);
 
   const handleSearch = (event) => {
     const searchTerm = event.target.value.toLowerCase();
@@ -132,65 +145,6 @@ export default function ProductPrecommandePage() {
     }
   };
 
-  const [filters, setFilter] = useState({
-    sizeS: false,
-    sizeM: false,
-    sizeL: false,
-    sizeXL: false,
-    sizeXXL: false,
-    sizeFit: false,
-    category: [],
-  });
-
-  const checkboxHandler = (e) => {
-    const { name } = e.target;
-    setFilter((prevState) => ({
-      ...prevState,
-      [name]: !prevState[name],
-    }));
-  };
-  const [volume, setVolume] = useState({ min: 10000, max: 500000 });
-
-  const [storage, setStorage] = useState(null);
-  const filterStorage = (value) => {
-    setStorage(value);
-  };
-
-  const [filterToggle, setToggle] = useState(false);
-  const handleVolumeChange = (event) => {
-    if (!event.target) {
-      return;
-    }
-
-    const { name, value } = event.target;
-
-    setVolume((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-
-    if (filters.volume.length === 1) {
-      // Un seul filtre de volume est sélectionné, on filtre les produits en fonction de ce volume
-      const filteredProducts = products.filter(
-        (product) =>
-          parseInt(product.price) >= parseInt(volume.min) &&
-          parseInt(product.price) <= parseInt(volume.max)
-      );
-      setProduits(filteredProducts);
-    } else if (filters.volume.length > 1) {
-      // Plusieurs filtres de volume sont sélectionnés, on filtre les produits en fonction de ces volumes
-      const filteredProducts = products.filter(
-        (product) =>
-          parseInt(product.price) >= parseInt(volume.min) &&
-          parseInt(product.price) <= parseInt(volume.max)
-      );
-      setProduits(filteredProducts);
-    } else {
-      // Aucun filtre de volume n'est sélectionné, on affiche tous les produits
-      setProduits(products);
-    }
-  };
-
   return (
     <>
       <SEOHeader
@@ -203,74 +157,7 @@ export default function ProductPrecommandePage() {
           <div className="container-x mx-auto justify-center">
             <BreadcrumbCom />
 
-            {/* <Popup open={open} closeOnDocumentClick onClose={closeModal}>
-              <div className={`modal ${open ? "fade-in" : "fade-out"}`}>
-                <div className="container mx-auto rounded-2xl bg-transparent">
-                  <div className="relative w-full h-full">
-                    <img
-                      src="creation/banner_remise_ccbm_shop.png"
-                      alt=""
-                      className="w-full h-full object-cover rounded-2xl"
-                      // className="max-w-[80%] sm:max-w-[60%] md:max-w-[50%] lg:max-w-[40%] h-auto object-contain" // Classes responsive pour la taille
-                    />
-                    <a
-                      className="close absolute top-4 right-4 text-red-500 text-2xl"
-                      onClick={closeModal}
-                    >
-                      &times;
-                    </a>
-                    <div className="hidden md:block absolute bottom-0 left-0 right-0 mb-4 sm:mb-8 md:mb-12 text-white text-sm font-semibold text-center">
-                      <p>
-                        Pour en savoir plus, <Link to="/faq">cliquer ici</Link>
-                      </p>
-                    </div>
-                  </div>
-                  <div className="block md:hidden absolute bottom-0 left-0 right-0 mb-4 sm:mb-8 text-white text-sm font-semibold text-center">
-                    <p>
-                      Pour en savoir plus, <Link to="/faq">cliquer ici</Link>
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </Popup> */}
-
             <div className="w-full lg:flex lg:space-x-[30px]">
-              <div className="lg:w-[270px]">
-                {isLoadingCategorie ? (
-                  <div className="flex justify-center">
-                    <Loader2
-                      size={100}
-                      className="mr-2 h-4 text-center w-4 animate-spin"
-                    />
-                  </div>
-                ) : (
-                  <>
-                    <ProductsFilter
-                      filterToggle={filterToggle}
-                      filterToggleHandler={() => setToggle(!filterToggle)}
-                      filters={filters}
-                      checkboxHandler={checkboxHandler}
-                      volume={volume}
-                      volumeHandler={handleVolumeChange}
-                      storage={storage}
-                      filterstorage={filterStorage}
-                      categories={categories}
-                      handleCategoryChange={handleCategoryChange}
-                      className="mb-[30px]"
-                    />
-                  </>
-                )}
-                {/* ads */}
-                {/* <div className="w-full hidden lg:block h-[295px]">
-                  <img
-                    src={`creation/image_ccbm_shop_7.png`}
-                    alt=""
-                    className="w-full h-full object-contain"
-                  />
-                </div> */}
-                <div className="w-full hidden lg:block h-[295px]"></div>
-              </div>
-
               <div className="flex-1">
                 <div className="flex justify-center  ">
                   <p className="mb-2 text-center bg-bleu-logo text-base md:text-xl  font-700 leading-snug py-[6px] px-3 uppercase rounded-full tracking-wider text-white animate-up-down  animate-up-down">
@@ -309,7 +196,10 @@ export default function ProductPrecommandePage() {
                           type="search"
                           placeholder="Rechercher des produits"
                           value={search}
-                          onChange={handleSearch}
+                          // onChange={handleSearch}
+                          onChange={(e) => {
+                            setSearchContext(e.target.value);
+                          }}
                           className="w-full md:w-auto px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         />
                       </div>

@@ -8,6 +8,8 @@ export const ProductContext = createContext();
 export const ProductProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
   const [isLoadingProduct, setIsLoading] = useState(false);
+  const [searchContext, setSearchContext] = useState("");
+
   useEffect(() => {
     setIsLoading(true);
     const fetchModels = async () => {
@@ -33,7 +35,14 @@ export const ProductProvider = ({ children }) => {
   }, []);
 
   return (
-    <ProductContext.Provider value={{ products, isLoadingProduct }}>
+    <ProductContext.Provider
+      value={{
+        products,
+        isLoadingProduct,
+        searchContext,
+        setSearchContext,
+      }}
+    >
       {children}
     </ProductContext.Provider>
   );

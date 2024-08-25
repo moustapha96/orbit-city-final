@@ -7,6 +7,7 @@ import "./global.css";
 import PaymentProvider from "./contexts/PaymentProvider";
 import { ProductProvider } from "./contexts/ProductContext";
 import CategoryProvider from "./contexts/CategoryContext";
+import ScrollToTop from "./contexts/ScrollToTop";
 
 function App() {
   return (
