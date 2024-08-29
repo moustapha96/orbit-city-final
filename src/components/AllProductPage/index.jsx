@@ -5,14 +5,12 @@ import ProductCardStyleOne from "../Helpers/Cards/ProductCardStyleOne";
 import DataIteration from "../Helpers/DataIteration";
 import Layout from "../Partials/Layout";
 import ProductsFilter from "./ProductsFilter";
-import { useParams } from "react-router-dom";
-import { Loader2 } from "lucide-react";
+import { useLocation, useParams } from "react-router-dom";
+import { Loader, Loader2 } from "lucide-react";
 import { CategoryContext } from "../../contexts/CategoryContext";
 import { ProductContext } from "../../contexts/ProductContext";
 import SEOHeader from "../Partials/Headers/HeaderOne/SEOHeader";
-
 export default function AllProductPage() {
-  // const [categories, setCategories] = useState([]);
   const [startLength, setStartLength] = useState(0);
   const [endLength, setEndLength] = useState(6);
   const [produits, setProduits] = useState([]);
@@ -21,8 +19,7 @@ export default function AllProductPage() {
   const [search, setSearch] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const { selectedCategory, setSelectedCategory, isLoadingCategorie } =
-    useContext(CategoryContext);
+  const { selectedCategory, setSelectedCategory } = useContext(CategoryContext);
   const { products, isLoadingProduct, searchContext, setSearchContext } =
     useContext(ProductContext);
 
@@ -49,8 +46,17 @@ export default function AllProductPage() {
   };
 
   useEffect(() => {
-    if (selectedCategory != null) {
-      if (selectedCategory == "All") {
+    const searchParams = new URLSearchParams(location.search);
+    const category = searchParams.get("category");
+    if (category) {
+      console.log(category);
+      setSelectedCategory(category);
+    }
+  }, [location.search]);
+
+  useEffect(() => {
+    if (selectedCategory) {
+      if (selectedCategory === "All" || selectedCategory === null) {
         setProduits(products);
       } else {
         const filteredProducts = products.filter(
@@ -58,19 +64,14 @@ export default function AllProductPage() {
         );
         setProduits(filteredProducts);
       }
+      console.log("categori sselectionne page boutique " + selectedCategory);
     } else {
       setProduits(products);
     }
-    console.log("arriver " + selectedCategory);
-  }, [selectedCategory]);
-
-  useEffect(() => {
-    setProduits(products);
-  }, [products]);
+  }, [selectedCategory, products]);
 
   useEffect(() => {
     const searchTerm = searchContext.toLowerCase();
-    console.log(searchTerm);
     setSearch(searchTerm);
 
     const filteredProducts = products.filter(
@@ -205,10 +206,10 @@ export default function AllProductPage() {
                     {isLoadingProduct ? (
                       <>
                         <div className="flex justify-center">
-                          <Loader2
-                            size={100}
-                            className="mr-2 h-4 text-center w-4 animate-spin"
-                          />
+                          <div className="flex justify-center items-center ">
+                            <Loader className="animate-spin"></Loader>{" "}
+                            Chargement
+                          </div>
                         </div>
                       </>
                     ) : (

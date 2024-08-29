@@ -9,7 +9,7 @@ import PageTitle from "../Helpers/PageTitle";
 import Layout from "../Partials/Layout";
 
 import { toast } from "react-toastify";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import formatPrice from "../../utils/formatPrice";
 import formatDate from "../../utils/date-format";
 import PaiementService from "../../services/paimentService";
@@ -17,8 +17,7 @@ import PaiementService from "../../services/paimentService";
 import commandeService from "../../services/commandeService";
 import PrecommandeService from "../../services/precommandeService";
 
-import { Loader, Loader2 } from "lucide-react";
-import { Button } from "flowbite-react";
+import axios from "axios";
 export default function PaymentStatePage({ cart = true }) {
   const navigate = useNavigate();
   const location = useLocation();
@@ -32,265 +31,196 @@ export default function PaymentStatePage({ cart = true }) {
   const [precommande, setPreCommande] = useState(null);
   const [token, setToken] = useState(null);
   const [data, setData] = useState(null);
+  const [etat, setEtat] = useState(0);
 
   useEffect(() => {
-    const fetchPaymentDetails = async (paymentToken) => {
-      setIsLoading(true);
+    const searchParams = new URLSearchParams(location.search);
+    const paymentToken = searchParams.get("token");
+    if (paymentToken) {
+      setToken(token);
+    }
+    const fetchPaymentDetails = async () => {
       try {
         const responsePd = await PaiementService.getPaymentDetailsByToken(
           paymentToken
         );
-        console.log("response details payment ");
         console.log(responsePd);
         setPaymentDetails(responsePd);
         setToken(responsePd.payment_token);
-        if (responsePd.order_type === "order") {
+        if (responsePd.order_type == "order") {
           const responseCommande = await commandeService.getCommandeById(
             responsePd.order_id
           );
           setCommande(responseCommande);
-        } else if (responsePd.order_type === "preorder") {
+        }
+        if (responsePd.order_type === "preorder") {
           const responsePrecommande =
             await PrecommandeService.getPreCommandeById(responsePd.order_id);
           setPreCommande(responsePrecommande);
-          console.log(responsePrecommande);
         }
-        setIsLoading(false);
+
+        if (precommande || commande) {
+          confirmInvoice();
+        }
       } catch (error) {
+        console.error("erreur lors de l'enregistrement details payment");
+        console.error(error);
+      }
+    };
+    fetchPaymentDetails();
+  }, []);
+
+  // useEffect(() => {
+  //   const fetchCommande = async () => {
+  //     if (paymentDetails) {
+  //       if (paymentDetails.order_type == "order") {
+  //         const responseCommande = await commandeService.getCommandeById(
+  //           paymentDetails.order_id
+  //         );
+  //         setCommande(responseCommande);
+  //       }
+  //       if (paymentDetails.order_type === "preorder") {
+  //         const responsePrecommande =
+  //           await PrecommandeService.getPreCommandeById(
+  //             paymentDetails.order_id
+  //           );
+  //         setPreCommande(responsePrecommande);
+  //       }
+
+  //       if (precommande || commande) {
+  //         confirmInvoice();
+  //       }
+  //     } else {
+  //       console.error("Payement non trouvé ou Token non valide");
+  //     }
+  //   };
+
+  //   fetchCommande();
+  // }, [etat]);
+
+  const confirmInvoice = async () => {
+    try {
+      const resultaPayment = await PaiementService.confirmInvoice(token);
+      setData(resultaPayment);
+      console.log(resultaPayment);
+      if (
+        resultaPayment.response_code == "00" &&
+        resultaPayment.status === "completed"
+      ) {
+        console.log("arrive facture ");
+        const url_facture = resultaPayment.receipt_url;
+        const responsePaymentDetails =
+          await PaiementService.updatePaymentDetails(
+            idDataPayment,
+            resultaPayment.status,
+            url_facture,
+            resultaPayment.customer.name,
+            resultaPayment.customer.email,
+            resultaPayment.customer.phone
+          );
+        if (responsePaymentDetails) {
+          if (responsePaymentDetails.order_type == "order") {
+            if (commande && commande.advance_payment_status == "not_paid") {
+              validerPaimentCommande();
+            } else {
+              navigate(`/commandes/${commande.id}/détails`);
+            }
+          }
+          if (responsePaymentDetails.order_type === "preorder") {
+            if (
+              precommande &&
+              precommande.advance_payment_status == "not_paid"
+            ) {
+              validerPaimentPreCommande();
+            } else {
+              navigate(`/pre-commandes/${precommande.id}/détails`);
+            }
+          }
+        }
+      }
+    } catch (error) {
+      console.error("Erreur 4004 :", error);
+      toast.error("Paiement non effectué ", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
+  };
+
+  const validerPaimentCommande = () => {
+    if (commande && commande.advance_payment_status === "not_paid") {
+      try {
+        const reponse = PaiementService.createCommandePaiment(commande.id);
+        console.log(reponse);
         setIsLoading(false);
-        toast.error("Erreur lors de la recuperation des données du paiement", {
-          position: "top-right",
+        toast.success("Payment Commande validé avec succés", {
+          position: "top-center",
           autoClose: 5000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "light",
         });
-        console.error(
-          "Erreur lors de l'enregistrement des détails du paiement :",
-          error.message
+        navigate(`/profile`);
+      } catch (error) {
+        console.error("Erreur lors de la creation du paiement", error);
+        navigate(`/commandes/${commande.id}/détails`);
+        toast.error("Paiement Commande non éffectif", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      }
+    } else {
+      navigate(`/commandes/${commande.id}/détails`);
+    }
+  };
+
+  const validerPaimentPreCommande = () => {
+    if (precommande && precommande.advance_payment_status === "not_paid") {
+      try {
+        const reposne = PaiementService.createPrecommandePaimentMontant(
+          paymentDetails.order_id,
+          paymentDetails.amount
         );
-      } finally {
+        console.log(reposne);
         setIsLoading(false);
+        toast.success("Payment Pré Commande validé avec succés", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        navigate(`/profile`);
+      } catch (error) {
+        console.error("Erreur lors de la creation du paiement", error);
+        setIsLoading(false);
+        navigate(`/pre-commandes/${precommande.id}/détails`);
+        toast.error("Paiement Pré Commande non éffectif", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       }
-    };
-
-    const searchParams = new URLSearchParams(location.search);
-    const paymentToken = searchParams.get("token");
-    if (paymentToken) {
-      setToken(paymentToken);
-      fetchPaymentDetails(paymentToken);
-    }
-  }, [location.search]);
-
-  useEffect(() => {
-    if (token) {
-      setIsLoading(true);
-      const timeoutId = setTimeout(async () => {
-        console.log("2 seconde");
-        setIsLoading(true);
-        try {
-          const resultaPayment = await PaiementService.confirmInvoice(token);
-          setData(resultaPayment);
-        } catch (error) {
-          console.error(
-            "Erreur lors de la confirmation de l'invoice :",
-            error.message
-          );
-        } finally {
-          setIsLoading(false);
-        }
-      }, 2000);
-
-      return () => clearTimeout(timeoutId);
-    }
-  }, [token]);
-
-  useEffect(() => {
-    if (data && token && paymentDetails) {
-      setIsLoading(true);
-      const timeoutId = setTimeout(async () => {
-        console.log("4 seconde");
-        if (data.response_code === "00" && data.status === "completed") {
-          const url_facture = data.receipt_url;
-          try {
-            const responsePaymentDetails =
-              await PaiementService.updatePaymentDetails(
-                paymentDetails.id,
-                data.status,
-                url_facture,
-                data.customer.name,
-                data.customer.email,
-                data.customer.phone
-              );
-            if (responsePaymentDetails) {
-              if (responsePaymentDetails.order_type === "order") {
-                if (
-                  commande &&
-                  commande.advance_payment_status === "not_paid"
-                ) {
-                  validerPaimentCommande();
-                  console.log("arrivé commande");
-                } else {
-                  toast.error("Commande non trouvée", {
-                    position: "top-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                  });
-                  navigate(`/commandes/${commande.id}/détails`);
-                }
-              } else if (responsePaymentDetails.order_type === "preorder") {
-                if (precommande) {
-                  console.log("arrivé");
-                  validerPaimentPreCommande();
-                } else {
-                  console.log("erreur ");
-                  toast.error("Précommande non trouvée", {
-                    position: "top-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                  });
-                  navigate(`/pre-commandes/${precommande.id}/détails`);
-                }
-              }
-            }
-          } catch (error) {
-            console.error(
-              "Erreur lors de la mise à jour des détails du paiement :",
-              error.message
-            );
-          } finally {
-            setIsLoading(false);
-          }
-        } else {
-          console.log("error " + data);
-          toast.error("Payment non effectif , Veuillez reéssayer", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          });
-          setIsLoading(false);
-        }
-      }, 4000);
-
-      return () => clearTimeout(timeoutId);
-    }
-  }, [data, token, paymentDetails]);
-
-  const confirmInvoice = async () => {
-    if (data.response_code === "00" && data.status === "completed") {
-      const url_facture = data.receipt_url;
-      console.log(data);
-      const responsePaymentDetails = await PaiementService.updatePaymentDetails(
-        idDataPayment,
-        data.status,
-        url_facture,
-        data.customer.name,
-        data.customer.email,
-        data.customer.phone
-      );
-
-      if (responsePaymentDetails) {
-        if (responsePaymentDetails.order_type === "order") {
-          if (commande && commande.advance_payment_status === "not_paid") {
-            validerPaimentCommande();
-          } else {
-            navigate(`/commandes/${commande.id}/détails`);
-          }
-        } else if (responsePaymentDetails.order_type === "preorder") {
-          if (
-            precommande &&
-            precommande.advance_payment_status === "not_paid"
-          ) {
-            validerPaimentPreCommande();
-          } else {
-            navigate(`/pre-commandes/${precommande.id}/détails`);
-          }
-        }
-      }
-    }
-  };
-
-  const validerPaimentCommande = async () => {
-    console.log("arrivé");
-    setIsLoading(true);
-    try {
-      const reponse = await PaiementService.createCommandePaiment(commande.id);
-      toast.success("Paiement de la commande validé avec succès", {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-      navigate(`/commandes/${commande.id}/détails`);
-    } catch (error) {
-      console.error("Erreur lors de la création du paiement :", error);
-      navigate(`/commandes/${commande.id}/détails`);
-      toast.error("Paiement de la commande non effectif", {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const validerPaimentPreCommande = async () => {
-    setIsLoading(true);
-    try {
-      const reponse = await PaiementService.createPrecommandePaimentMontant(
-        paymentDetails.order_id,
-        paymentDetails.amount
-      );
-      setIsLoading(false);
-      toast.success("Paiement de la pré-commande validé avec succès", {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-      // navigate(`/profile`);
-      navigate(`/pre-commandes/${paymentDetails.order_id}/détails`);
-    } catch (error) {
-      console.error("Erreur lors de la création du paiement :", error);
-      setIsLoading(false);
+    } else {
       navigate(`/pre-commandes/${precommande.id}/détails`);
-      toast.error("Paiement de la pré-commande non effectif", {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -336,11 +266,6 @@ export default function PaymentStatePage({ cart = true }) {
               ]}
             />
           </div>
-          {isLoading && (
-            <div className="flex justify-center items-center w-full h-full">
-              <Loader size={50} className="animate-spin" />
-            </div>
-          )}
           {commande && (
             <div className="w-full mt-[23px]">
               <div className="container-x mx-auto">
@@ -610,24 +535,6 @@ export default function PaymentStatePage({ cart = true }) {
                                 </div>
                               </div>
                             )}
-                            <div>
-                              {commande && (
-                                <>
-                                  <Button
-                                    type="submit"
-                                    // onClick={confirmInvoice}
-                                    className="rounded-lg px-5 py-2.5 font-medium w-full hover:bg-red-500 hover:text-white text-xl"
-                                    disabled={isLoading}
-                                  >
-                                    {isLoading && (
-                                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                    )}
-                                    Valider ({" "}
-                                    {formatPrice(paymentDetails.amount)} )
-                                  </Button>
-                                </>
-                              )}
-                            </div>
                           </div>
                         </div>
                       </div>
@@ -1028,24 +935,6 @@ export default function PaymentStatePage({ cart = true }) {
                                     </dd>
                                   </dl>
                                 )}
-                                <div>
-                                  {precommande && (
-                                    <>
-                                      <Button
-                                        type="submit"
-                                        // onClick={confirmInvoice}
-                                        className="rounded-lg px-5 py-2.5 font-medium w-full hover:bg-red-500 hover:text-white text-xl"
-                                        disabled={isLoading}
-                                      >
-                                        {isLoading && (
-                                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                        )}
-                                        Valider ({" "}
-                                        {formatPrice(paymentDetails.amount)} )
-                                      </Button>
-                                    </>
-                                  )}
-                                </div>
                               </div>
                             </div>
                           </div>

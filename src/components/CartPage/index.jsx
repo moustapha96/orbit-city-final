@@ -130,18 +130,6 @@ export default function CardPage({ cartt = true }) {
               </div>
               <div className="w-full mt-[30px] flex sm:justify-end">
                 <div className="sm:w-[370px] w-full border border-[#EDEDED] px-[30px] py-[26px]">
-                  {/* <div className="sub-total mb-6">
-                    <div className=" flex justify-between mb-6">
-                      <p className="text-[15px] font-medium text-qblack">
-                        Sous Total
-                      </p>
-                      <p className="text-[15px] font-medium text-qred">
-                        {formatPrice(getCartTotal())}
-                      </p>
-                    </div>
-                    <div className="w-full h-[1px] bg-[#EDEDED]"></div>
-                  </div> */}
-
                   <div className="total mb-6">
                     <div className=" flex justify-between">
                       <p className="text-[18px] font-medium text-qblack">

@@ -14,13 +14,8 @@ export default function Drawer({ className, open, action }) {
   const [tab, setTab] = useState("menu");
   const { cart, wishlist } = useContext(CartContext);
 
-  const {
-    selectCategory,
-    categories,
-    setSelectedCategory,
-    selectedCategory,
-    isLoadingCategorie,
-  } = useContext(CategoryContext);
+  const { categories, setSelectedCategory, isLoadingCategorie } =
+    useContext(CategoryContext);
 
   const { searchContext, setSearchContext } = useContext(ProductContext);
 

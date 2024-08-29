@@ -99,11 +99,9 @@ export default function ProductCardRowStyleTwo({ className, datas, type = 3 }) {
                 </span>
               ))}
             </div>
-            <Link onClick={(e) => handleDetails(e, datas)}>
-              <p className="title mb-2 sm:text-[15px] text-[13px] font-600 text-qblack leading-[24px] line-clamp-2 hover:text-blue-600">
-                {datas.name}
-              </p>
-            </Link>
+            <p className="title mb-2 sm:text-[15px] text-[13px] font-600 text-qblack leading-[24px] line-clamp-2 hover:text-blue-600">
+              <Link onClick={(e) => handleDetails(e, datas)}>{datas.name}</Link>
+            </p>
             <p className="price mb-[26px]">
               <span className="offer-price   text-bleu-logo font-600 sm:text-[14px] text-base ">
                 {formatPrice(datas.list_price)}

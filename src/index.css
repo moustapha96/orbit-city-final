@@ -8,10 +8,45 @@
   --rouge-claire: red;
 }
 
+/* Loader.css */
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Ou toute autre hauteur souhaitée */
+}
+
+.animate-spin {
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 @media (max-width: 640px) {
   .mobile-collapsed {
     margin-bottom: 0;
     margin-top: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  /* Styles pour les petits écrans */
+  .table-responsive {
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 641px) {
+  /* Styles pour les écrans plus grands */
+  .table-responsive {
+    font-size: 16px;
   }
 }
 

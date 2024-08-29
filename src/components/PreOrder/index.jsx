@@ -10,10 +10,9 @@ import formatDate from "../../utils/date-format";
 import formatPrice from "../../utils/formatPrice";
 import PrecommandeService from "../../services/precommandeService";
 import { Button, Label, TextInput } from "flowbite-react";
-import { Loader2 } from "lucide-react";
+import { Loader, Loader2 } from "lucide-react";
 import { toast } from "react-toastify";
 import PaydunyaModalService from "../../services/PaydunyaModalService";
-import PaydunyaModalServicePrecommande from "../../services/PaydunyaModalServicePrecommande";
 export default function PreOrderPage() {
   // const { state } = useLocation();
   const { id } = useParams();
@@ -25,19 +24,26 @@ export default function PreOrderPage() {
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [montantAPayer, setMontantAPayer] = useState(0);
   const [errorMontantAPayer, setErrorMontantAPayer] = useState("");
+  const [paymentDetails, setPaymentDetails] = useState(null);
+  const [stateButton, setStateButton] = useState(false);
   console.log(id);
   useEffect(() => {
     let isMounted = true;
     const fetchModels = async () => {
+      setIsLoading(true);
       try {
         const data = await PrecommandeService.getPreCommandeById(id);
         if (isMounted) {
           setPrecommande(data);
-          console.log("Precommande");
-          console.log(data);
+          const responsePaymentDetails =
+            await PaiementService.getPaymentDetailsByIdOrder(data.id);
+          setPaymentDetails(responsePaymentDetails);
+          console.log(responsePaymentDetails);
         }
       } catch (error) {
         console.error("Erreur lors de la récupération des modèles", error);
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchModels();
@@ -45,6 +51,24 @@ export default function PreOrderPage() {
       isMounted = false;
     };
   }, []);
+
+  useEffect(() => {
+    if (precommande) {
+      const shouldDisableButton =
+        (precommande.first_payment_state && montantAPayer < 1000) ||
+        (!precommande.first_payment_state &&
+          montantAPayer < precommande.first_payment_amount) ||
+        isLoading;
+
+      setStateButton(shouldDisableButton);
+    }
+  }, [precommande, montantAPayer, isLoading]);
+
+  const handleOpenInvoice = (url) => {
+    if (url) {
+      window.open(url, "_blank");
+    }
+  };
 
   const validerPaimentMontant = async (e, montantAPayer) => {
     e.preventDefault();
@@ -64,20 +88,20 @@ export default function PreOrderPage() {
     }
     console.log(montantAPayer, precommande.id);
   };
-  const validerPaiment = async (e, idpayment, montant) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setNumPayment(idpayment);
-    console.log(precommande);
-    console.log("Num payment " + numpayment);
-    console.log("id payment" + idpayment);
-    setPricePayment(montant);
-    if (idpayment != null && montant != null) {
-      setShowPaymentModal(true);
-      console.log(idpayment);
-    }
-    setIsLoading(false);
-  };
+  // const validerPaiment = async (e, idpayment, montant) => {
+  //   e.preventDefault();
+  //   setIsLoading(true);
+  //   setNumPayment(idpayment);
+  //   console.log(precommande);
+  //   console.log("Num payment " + numpayment);
+  //   console.log("id payment" + idpayment);
+  //   setPricePayment(montant);
+  //   if (idpayment != null && montant != null) {
+  //     setShowPaymentModal(true);
+  //     console.log(idpayment);
+  //   }
+  //   setIsLoading(false);
+  // };
 
   const handlePay = async () => {
     console.log(numpayment, pricepayment);
@@ -96,16 +120,9 @@ export default function PreOrderPage() {
             ]}
           />
         </div>
-        {!precommande && (
-          <div className="checkout-main-content w-full">
-            <div className="container-x mx-auto">
-              <div className="w-full sm:mb-10 mb-5">
-                <div className="text-center">
-                  <Loader2 className="inline-block w-[20px] h-[20px]" />
-                  <span className="ml-[5px]">Chargement en cours...</span>
-                </div>
-              </div>
-            </div>
+        {isLoading && (
+          <div className="flex justify-center items-center w-full h-full">
+            <Loader size={60} className="animate-spin" />
           </div>
         )}
         {precommande && (
@@ -175,7 +192,90 @@ export default function PreOrderPage() {
                     </div>
                   </div>
                 </div>
+
+                {paymentDetails && (
+                  <>
+                    <div className="w-full lg:flex lg:space-x-[30px]">
+                      <div className="flex-1">
+                        <h1 className="sm:text-2xl text-xl text-qblack font-medium mb-5">
+                          Récapitulatif paiement
+                        </h1>
+                        <div className="w-full px-10 py-[30px] border border-[#EDEDED]">
+                          <div className="sub-total mb-6">
+                            <div className="flex justify-between mb-5">
+                              <p className="text-[13px] font-medium text-qblack uppercase">
+                                Détails Payments
+                              </p>
+                            </div>
+                            <div className="w-full h-[1px] bg-[#EDEDED]"></div>
+                          </div>
+                          <div className="product-list w-full mb-[30px]">
+                            <table className="min-w-full bg-white">
+                              <thead>
+                                <tr>
+                                  <th className="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                                    Prénom & Nom
+                                  </th>
+                                  <th className="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                                    Téléphone
+                                  </th>
+                                  <th className="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                                    Email
+                                  </th>
+                                  <th className="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                                    Montant Payé
+                                  </th>
+                                  <th className="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                                    Facture
+                                  </th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {paymentDetails.map((payment, index) => (
+                                  <tr key={index} className="bg-white">
+                                    <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                                      <div className="text-sm leading-5 text-gray-900">
+                                        {payment.customer_name}
+                                      </div>
+                                    </td>
+                                    <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                                      <div className="text-sm leading-5 text-gray-900">
+                                        {payment.customer_phone}
+                                      </div>
+                                    </td>
+                                    <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                                      <div className="text-sm leading-5 text-gray-900">
+                                        {payment.customer_email}
+                                      </div>
+                                    </td>
+                                    <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                                      <div className="text-sm leading-5 text-gray-900">
+                                        {formatPrice(payment.amount)}
+                                      </div>
+                                    </td>
+                                    <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                                      <button
+                                        className="text-sm leading-5 text-gray-900 underline"
+                                        onClick={() =>
+                                          handleOpenInvoice(payment.url_facture)
+                                        }
+                                      >
+                                        Ouvrir la facture
+                                      </button>
+                                    </td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          </div>
+                          <div className="w-full h-[1px] bg-[#EDEDED]"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                )}
               </div>
+
               <div className="w-full lg:flex lg:space-x-[30px]">
                 <div className="flex-1">
                   <h1 className="sm:text-2xl text-xl text-qblack font-medium mb-5">
@@ -303,15 +403,6 @@ export default function PreOrderPage() {
                             {formatPrice(precommande.third_payment_amount)}
                           </dd>
                         </dl>
-
-                        <dl className="flex items-center justify-between gap-4">
-                          <dt className="text-gray-500 dark:text-gray-400">
-                            Tax
-                          </dt>
-                          <dd className="text-base font-medium text-gray-900 dark:text-white">
-                            {formatPrice(precommande.amount_tax)}
-                          </dd>
-                        </dl>
                       </div>
 
                       <dl className="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700">
@@ -375,9 +466,9 @@ export default function PreOrderPage() {
                               value={montantAPayer}
                               max={precommande.amount_residual}
                               min={
-                                precommande.first_payment_state
-                                  ? 1000
-                                  : precommande.first_payment_amount
+                                !precommande.first_payment_state
+                                  ? precommande.first_payment_amount
+                                  : 1000
                               }
                               onChange={(e) => {
                                 const value = e.target.value;
@@ -407,19 +498,35 @@ export default function PreOrderPage() {
                             )}
                           </div>
 
-                          <Button
-                            type="submit"
-                            onClick={(e) =>
-                              validerPaimentMontant(e, montantAPayer)
-                            }
-                            className="rounded-lg px-5 py-2.5 font-medium w-full hover:bg-red-500 hover:text-white text-xl"
-                            disabled={isLoading || montantAPayer < 1000}
-                          >
-                            {isLoading && (
-                              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                            )}
-                            Passer à la caisse ({formatPrice(montantAPayer)} )
-                          </Button>
+                          {precommande && (
+                            <>
+                              {precommande.state !== "sale" &&
+                              precommande.state !== "draft" ? (
+                                <div className="flex justify-center items-center mt-2">
+                                  <span className="text-lg font-medium text-red-500 dark:text-white">
+                                    La précommande est annulée, vous ne pouvez
+                                    pas passer à la caisse.
+                                  </span>
+                                </div>
+                              ) : (
+                                <Button
+                                  type="submit"
+                                  onClick={(e) =>
+                                    validerPaimentMontant(e, montantAPayer)
+                                  }
+                                  className="rounded-lg px-5 py-2.5 font-medium w-full hover:bg-red-500 hover:text-white text-xl"
+                                  disabled={stateButton}
+                                >
+                                  {isLoading && (
+                                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                  )}
+                                  Passer à la caisse (
+                                  {formatPrice(montantAPayer)})
+                                </Button>
+                              )}
+                            </>
+                          )}
+
                           {showPaymentModal && precommande && (
                             <PaydunyaModalService
                               handlePay={handlePay}
@@ -444,6 +551,13 @@ export default function PreOrderPage() {
               </div>
             </div>
           </div>
+        )}
+        {!precommande && (
+          <>
+            <div className="flex justify-center items-center ">
+              <Loader className="animate-spin"></Loader> Précommande non trouvée
+            </div>
+          </>
         )}
       </div>
     </Layout>

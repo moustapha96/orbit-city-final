@@ -22,6 +22,8 @@ const PaydunyaModalService = ({
 }) => {
   localStorage.setItem("idOrderPayment", null);
   localStorage.setItem("montant", null);
+  localStorage.setItem("tokenOrderPayment", null);
+  localStorage.setItem("statusOrderPayment", null);
   const navigate = useNavigate();
   const {
     payment,
@@ -68,13 +70,11 @@ const PaydunyaModalService = ({
     setSetup(paydunyaSetup);
     const store = new paydunya.Store({
       name: "CCBM SHOP",
-      email: "ccbm-shop@ccbm.sn",
+      email: "contact@ccbm.sn",
       tagline: "Votre boutique pour vos matériels électroménéger",
       phoneNumber: "784537547",
       postalAddress: "Dakar",
-      // logoURL: "http://orbitcity.sn/logo.png",
       logoURL: "https://ccbme.sn/logo.png",
-      // websiteURL: "http://orbitcity.sn",
       websiteURL: "https://ccbme.sn/",
     });
     setStore(store);
@@ -83,7 +83,6 @@ const PaydunyaModalService = ({
   const handleSubmit = (event) => {
     setIsloading(true);
     event.preventDefault();
-    console.log("passer au paiment");
     if (setup && store && totalAmount > 0) {
       const invoice = new CheckoutInvoice(setup, store);
 
@@ -103,17 +102,12 @@ const PaydunyaModalService = ({
         " pour la commande " +
         order.name;
       invoice.callbackURL = "https://ccbme.sn/profile";
-      // invoice.callbackURL = "https://orbitcitydev.com/profile";
       if (order.type_sale === "order") {
         invoice.cancelURL = `https://ccbme.sn/commandes/${idOrder}/détails`;
-        // invoice.cancelURL = `https://orbitcitydev.com/commandes/${idOrder}/détails`;
       } else {
         invoice.cancelURL = `https://ccbme.sn/pre-commandes/${idOrder}/détails`;
-        // invoice.cancelURL = `https://orbitcitydev.com/pre-commandes/${idOrder}/détails`;
       }
       invoice.returnURL = `https://ccbme.sn/payment-state`;
-      // invoice.returnURL = `https://orbitcitydev.com/payment-state`;
-      // invoice.returnURL = `http://orbitcity.sn/payment-state/${idOrder}/${invoice.totalAmount}`;
 
       invoice.addChannels([
         "card",
@@ -121,32 +115,20 @@ const PaydunyaModalService = ({
         "orange-money-senegal",
         "wave-senegal",
       ]);
-      console.log(invoice);
       setPaymentDetails(invoice);
       setTotalAmount(invoice.totalAmount);
-      console.log("amount " + invoice.totalAmount);
-      console.log("desc " + invoice.description);
-      console.log("création de la facture sur paydunya ");
+
       invoice
         .create()
         .then(async function () {
           setPaymentResponse(invoice);
           console.log(invoice);
-          // toast.success("Payment validé avec succès", {
-          //   position: "top-center",
-          //   autoClose: 5000,
-          //   hideProgressBar: false,
-          //   closeOnClick: true,
-          //   pauseOnHover: true,
-          //   draggable: true,
-          //   progress: undefined,
-          // });
-          const timestamp = new Date().getTime();
           const data = {
-            transaction_id: `${user.partner_id}-${idOrder}-${totalAmount}`,
+            transaction_id: `${user.partner_id}-${idOrder}-${totalAmount}-${order.name}-${order.type_sale}`,
             amount: totalAmount,
             order_id: idOrder,
             order_type: order.type_sale,
+            order_name: order.name,
             partner_id: user.partner_id,
             payment_token: invoice.token,
             payment_state: invoice.status,
@@ -154,34 +136,61 @@ const PaydunyaModalService = ({
           console.log(data);
           try {
             const response = await PaiementService.setPaymentDetails(data);
-            console.log("enregistrement data payment");
-            console.log(response);
+            if (Array.isArray(response)) {
+              console.log("precommande");
+              toast.success("Merci de passer au payment sur paydunya", {
+                position: "top-center",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+              });
+              navigate(`/pre-commandes/${idOrder}/détails`);
+            } else {
+              if (response.payment_state == "completed") {
+                toast.success("Merci de passer au payment sur paydunya", {
+                  position: "top-center",
+                  autoClose: 2000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                });
+                navigate(`/commandes/${idOrder}/détails`);
+              }
+            }
             localStorage.setItem("idDataPayment", response.id);
+            setPaymentUrl(invoice.url);
+            localStorage.setItem("idOrderPayment", idOrder);
+            localStorage.setItem("tokenOrderPayment", invoice.token);
+            localStorage.setItem("statusOrderPayment", invoice.status);
+            localStorage.setItem("montant", totalAmount);
+
+            localStorage.setItem(
+              "responseTextOrderPayment",
+              invoice.responseText
+            );
+            window.open(invoice.url, "_blank");
+            setOpenModal(false);
+            setTimeout(() => {
+              window.close();
+            }, 1000);
           } catch (error) {
             console.error("erreur lors de l'enregistrement details payment");
             console.error(error);
+            toast.error("Payment non effectif " + error.message, {
+              position: "top-center",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
           }
-
-          setPaymentUrl(invoice.url);
-          localStorage.setItem("idOrderPayment", idOrder);
-          localStorage.setItem("tokenOrderPayment", invoice.token);
-          localStorage.setItem("statusOrderPayment", invoice.status);
-          localStorage.setItem("montant", totalAmount);
-
-          localStorage.setItem(
-            "responseTextOrderPayment",
-            invoice.responseText
-          );
-          setStatus(invoice.status);
-          setTokenP(invoice.token);
-          setResponseText(invoice.responseText);
-          // setPaymentDetails(invoice);
-          console.log(payment);
-          window.open(invoice.url, "_blank");
-          setOpenModal(false);
-          setTimeout(() => {
-            window.close();
-          }, 1000);
         })
         .catch(function (e) {
           console.log(e);
@@ -263,15 +272,6 @@ const PaydunyaModalService = ({
                     </select>
                   </label>
                   <label className="text-gray-800 text-sm">
-                    <label className="text-gray-800 text-sm mt-4">
-                      Montant Tax :
-                      <input
-                        type="text"
-                        value={formatPrice(order.amount_tax)}
-                        disabled
-                        className="border border-gray-300 rounded-lg px-4 py-2 mt-2 w-full"
-                      />
-                    </label>
                     <br />
                     <label className="text-gray-800 text-sm mt-4">
                       Nom de la commande :
@@ -315,16 +315,6 @@ const PaydunyaModalService = ({
                       </Button>
                     )}
                   </div>
-                  {/* {paymentResponse && (
-                    <div className="mt-8">
-                      <p className="text-gray-800 text-sm">
-                        Réponse du paiement :
-                      </p>
-                      <pre className="text-gray-600 text-sm mt-1">
-                        {JSON.stringify(paymentResponse, null, 2)}
-                      </pre>
-                    </div>
-                  )} */}
                 </div>
               </form>
             )}

@@ -99,6 +99,85 @@ const PaiementService = {
       throw error;
     }
   },
+  getPaymentDetailsByToken: async (token) => {
+    try {
+      const response = await axiosInstance.get(`/api/payment/byToken/${token}`);
+      return response.data;
+    } catch (error) {
+      console.error(
+        "Erreur lors de la récupération des détails du paiement",
+        error
+      );
+      throw error;
+    }
+  },
+
+  updatePaymentDetails: async (
+    id,
+    payment_state,
+    url_facture,
+    customer_name,
+    customer_email,
+    customer_phone
+  ) => {
+    try {
+      const response = await axiosInstance.put(`/api/payment/update/${id}`, {
+        payment_state,
+        url_facture,
+        customer_name,
+        customer_email,
+        customer_phone,
+      });
+      return response.data;
+    } catch (error) {
+      console.error(
+        "Erreur lors de la récupération des détails du paiement",
+        error
+      );
+      throw error;
+    }
+  },
+
+  getPaymentDetailsByIdOrder: async (id) => {
+    try {
+      const response = await axiosInstance.get(`/api/payment/byOrder/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error(
+        "Erreur lors de la récupération des détails du paiement",
+        error
+      );
+      throw error;
+    }
+  },
+
+  confirmInvoice: async (token) => {
+    const headersTest = {
+      "Content-Type": "application/json",
+      "PAYDUNYA-MASTER-KEY": "3ApSagrZ-NkOP-M2GJ-tQr3-6F1TroNp8fL7",
+      "PAYDUNYA-PRIVATE-KEY": "test_private_rLI7U4b3J0SjDBJQ7cEC9OCayn9",
+      "PAYDUNYA-TOKEN": "UWVccdmuTo5tusRDkoZQ",
+    };
+
+    const headersProd = {
+      "Content-Type": "application/json",
+      "PAYDUNYA-MASTER-KEY": "3ApSagrZ-NkOP-M2GJ-tQr3-6F1TroNp8fL7",
+      "PAYDUNYA-PRIVATE-KEY": "live_private_vu4eNlAlyVQ15Z77gclxMiKtFkN",
+      "PAYDUNYA-TOKEN": "J5rKrbWZxGitf5nXGrrh",
+    };
+
+    const urlVerifInvoiceTest = `https://app.paydunya.com/sandbox-api/v1/checkout-invoice/confirm/${token}`;
+    const urlVerifInvoiceLive = `https://app.paydunya.com/api/v1/checkout-invoice/confirm/${token}`;
+
+    const response = await axiosInstance.get(urlVerifInvoiceTest, {
+      headers: headersTest,
+    });
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      throw new Error(response.data.response_text);
+    }
+  },
 };
 
 export default PaiementService;

@@ -8,24 +8,31 @@ import commandeService from "../../services/CommandeService";
 import formatDate from "../../utils/date-format";
 import formatPrice from "../../utils/formatPrice";
 import { Button } from "flowbite-react";
-import { Loader2 } from "lucide-react";
+import { Loader, Loader2 } from "lucide-react";
 import { toast } from "react-toastify";
 
 import PaydunyaModalService from "../../services/PaydunyaModalService";
+import PaiementService from "../../services/paimentService";
 
 export default function OrderPage() {
   const { id } = useParams();
 
   const [commande, setCommande] = useState(null);
-
   const [isLoading, setIsLoading] = useState(false);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [paymentDetails, setPaymentDetails] = useState(null);
 
   useEffect(() => {
     const fetchModels = async () => {
       try {
         const data = await commandeService.getCommandeById(id);
         setCommande(data);
+        console.log(data);
+
+        const responsePaymentDetails =
+          await PaiementService.getPaymentDetailsByIdOrder(data.id);
+        setPaymentDetails(responsePaymentDetails);
+        console.log(responsePaymentDetails);
       } catch (error) {
         console.error("Erreur lors de la récupération des modèles", error);
       }
@@ -57,6 +64,12 @@ export default function OrderPage() {
     });
     setIsLoading(false);
   };
+  const handleOpenInvoice = () => {
+    if (paymentDetails && paymentDetails.url_facture) {
+      window.open(paymentDetails.url_facture, "_blank");
+    }
+  };
+
   return (
     <Layout childrenClasses="pt-0 pb-0">
       <div className="checkout-page-wrapper w-full bg-white pb-[60px]">
@@ -70,18 +83,7 @@ export default function OrderPage() {
             ]}
           />
         </div>
-        {!commande && (
-          <div className="checkout-main-content w-full">
-            <div className="container-x mx-auto">
-              <div className="w-full sm:mb-10 mb-5">
-                <div className="text-center">
-                  <Loader2 className="inline-block w-[20px] h-[20px]" />
-                  <span className="ml-[5px]">Chargement en cours...</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
+
         {commande && (
           <div className="checkout-main-content w-full">
             <div className="container-x mx-auto">
@@ -96,6 +98,7 @@ export default function OrderPage() {
                       </div>
                     </a>
                   </div>
+
                   <div className="flex-1 h-[70px]">
                     <div className="w-full h-full bg-[#F6F6F6] text-qblack flex justify-center items-center">
                       <span className="text-[15px] font-medium">
@@ -110,6 +113,116 @@ export default function OrderPage() {
                     </div>
                   </div>
                 </div>
+                {paymentDetails &&
+                  commande.advance_payment_status === "paid" && (
+                    <>
+                      <div className="w-full lg:flex lg:space-x-[30px]">
+                        <div className="flex-1">
+                          <h1 className="sm:text-2xl text-xl text-qblack font-medium mb-5">
+                            Récapitulatif paiement
+                          </h1>
+                          <div className="w-full px-10 py-[30px] border border-[#EDEDED]">
+                            <div className="sub-total mb-6">
+                              <div className=" flex justify-between mb-5">
+                                <p className="text-[13px] font-medium text-qblack uppercase">
+                                  Détail Payment
+                                </p>
+                              </div>
+                              <div className="w-full h-[1px] bg-[#EDEDED]"></div>
+                            </div>
+                            <div className="product-list w-full mb-[30px]">
+                              <ul className="flex flex-col space-y-5">
+                                {paymentDetails && (
+                                  <>
+                                    <li>
+                                      <div className="flex justify-between items-center">
+                                        <div>
+                                          <h4 className="text-[15px] text-qblack mb-2.5">
+                                            Prenom & Nom
+                                          </h4>
+                                        </div>
+                                        <div>
+                                          <span className="text-[15px] text-qblack font-medium">
+                                            {" "}
+                                            {paymentDetails.customer_name}{" "}
+                                          </span>
+                                        </div>
+                                      </div>
+                                    </li>
+                                    <li>
+                                      <div className="flex justify-between items-center">
+                                        <div>
+                                          <h4 className="text-[15px] text-qblack mb-2.5">
+                                            Téléphone
+                                          </h4>
+                                        </div>
+                                        <div>
+                                          <span className="text-[15px] text-qblack font-medium">
+                                            {" "}
+                                            {paymentDetails.customer_phone}{" "}
+                                          </span>
+                                        </div>
+                                      </div>
+                                    </li>
+                                    <li>
+                                      <div className="flex justify-between items-center">
+                                        <div>
+                                          <h4 className="text-[15px] text-qblack mb-2.5">
+                                            Email
+                                          </h4>
+                                        </div>
+                                        <div>
+                                          <span className="text-[15px] text-qblack font-medium">
+                                            {" "}
+                                            {paymentDetails.customer_email}{" "}
+                                          </span>
+                                        </div>
+                                      </div>
+                                    </li>
+                                    <li>
+                                      <div className="flex justify-between items-center">
+                                        <div>
+                                          <h4 className="text-[15px] text-qblack mb-2.5">
+                                            Montant Payé
+                                          </h4>
+                                        </div>
+                                        <div>
+                                          <span className="text-[15px] text-qblack font-medium">
+                                            {" "}
+                                            {formatPrice(
+                                              paymentDetails.amount
+                                            )}{" "}
+                                          </span>
+                                        </div>
+                                      </div>
+                                    </li>
+                                    <li>
+                                      <div className="flex justify-between items-center">
+                                        <div>
+                                          <h4 className="text-[15px] text-qblack mb-2.5">
+                                            Facture
+                                          </h4>
+                                        </div>
+                                        <div>
+                                          <button
+                                            className="text-[15px] text-qblack font-medium underline"
+                                            onClick={handleOpenInvoice}
+                                          >
+                                            Ouvrir la facture
+                                          </button>
+                                        </div>
+                                      </div>
+                                    </li>
+                                  </>
+                                )}
+                              </ul>
+                            </div>
+                            <div className="w-full h-[1px] bg-[#EDEDED]"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </>
+                  )}
                 <div className="sm:flex sm:space-x-[18px] s">
                   <div className="flex-1 w-full mb-5 h-[70px]">
                     <div className="w-full h-full bg-[#F6F6F6] text-qblack flex justify-center items-center">
@@ -224,18 +337,32 @@ export default function OrderPage() {
 
                     {commande.advance_payment_status == "not_paid" ? (
                       <div>
-                        <Button
-                          type="submit"
-                          onClick={validerPaiment}
-                          className="hover:bg-red-500   w-full h-[50px] black-btn flex justify-center items-center"
-                          disabled={isLoading}
-                        >
-                          {isLoading && (
-                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                          )}
-                          Passer à la caisse ({" "}
-                          {formatPrice(commande.amount_total)} )
-                        </Button>
+                        {commande && (
+                          <>
+                            {commande.state !== "sale" &&
+                            commande.state !== "draft" ? (
+                              <div className="flex justify-center items-center mt-2">
+                                <span className="text-lg font-medium text-red-500 dark:text-white">
+                                  La commande est annulée, vous ne pouvez pas
+                                  passer à la caisse.
+                                </span>
+                              </div>
+                            ) : (
+                              <Button
+                                type="submit"
+                                onClick={validerPaiment}
+                                className="hover:bg-red-500   w-full h-[50px] black-btn flex justify-center items-center"
+                                disabled={isLoading}
+                              >
+                                {isLoading && (
+                                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                )}
+                                Passer à la caisse ({" "}
+                                {formatPrice(commande.amount_total)} )
+                              </Button>
+                            )}
+                          </>
+                        )}
                       </div>
                     ) : (
                       <div className="w-full h-[50px] flex justify-center items-center">
@@ -247,13 +374,6 @@ export default function OrderPage() {
                     )}
                     {showPaymentModal && commande && (
                       <>
-                        {/* <PaydunyaModalServiceCommande
-                          handlePay={handlePay}
-                          totalAmount={commande.amount_total}
-                          onClose={() => setShowPaymentModal(false)}
-                          order={commande}
-                          idOrder={commande.id}
-                        /> */}
                         <PaydunyaModalService
                           handlePay={handlePay}
                           totalAmount={commande.amount_total}
@@ -268,6 +388,14 @@ export default function OrderPage() {
               </div>
             </div>
           </div>
+        )}
+
+        {!commande && (
+          <>
+            <div className="flex justify-center items-center ">
+              <Loader className="animate-spin"></Loader> Commande non trouvée
+            </div>
+          </>
         )}
       </div>
     </Layout>

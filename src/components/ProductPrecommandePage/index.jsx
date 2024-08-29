@@ -5,13 +5,14 @@ import BreadcrumbCom from "../BreadcrumbCom";
 import ProductCardStyleOne from "../Helpers/Cards/ProductCardStyleOne";
 import DataIteration from "../Helpers/DataIteration";
 import Layout from "../Partials/Layout";
-import ProductsFilter from "./ProductsFilter";
-import { Link, useParams } from "react-router-dom";
+
+import { Link } from "react-router-dom";
 import {
   CircleAlert,
   DoorClosed,
   FolderClosed,
   Hand,
+  Loader,
   Loader2,
   SearchCheck,
 } from "lucide-react";
@@ -19,19 +20,11 @@ import { CategoryContext } from "../../contexts/CategoryContext";
 import { ProductContext } from "../../contexts/ProductContext";
 // import Popup from "reactjs-popup";
 import { Button } from "flowbite-react";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionPanel,
-  AccordionTitle,
-} from "flowbite-react";
-import Tooltip from "./Tooltip";
-import Popup from "./Popup";
+
 import ProductCardStyleOnePrecommande from "../Helpers/Cards/ProductCardStyleOnePrecommande";
 import SEOHeader from "../Partials/Headers/HeaderOne/SEOHeader";
 export default function ProductPrecommandePage() {
   const {
-    selectCategory,
     categories,
     setSelectedCategory,
     selectedCategory,
@@ -81,7 +74,7 @@ export default function ProductPrecommandePage() {
 
   useEffect(() => {
     if (selectedCategory) {
-      if (selectedCategory == "All") {
+      if (selectedCategory == "All" || selectedCategory == null) {
         setProduits(precommandes);
       } else {
         const filteredProducts = precommandes.filter(
@@ -98,7 +91,7 @@ export default function ProductPrecommandePage() {
     } else {
       setProduits([]);
     }
-  }, []);
+  }, [precommandes]);
 
   useEffect(() => {
     const searchTerm = searchContext.toLowerCase();
@@ -229,10 +222,10 @@ export default function ProductPrecommandePage() {
                     {isLoadingProduct ? (
                       <>
                         <div className="flex justify-center">
-                          <Loader2
-                            size={100}
-                            className="mr-2 h-4 text-center w-4 animate-spin"
-                          />
+                          <div className="flex justify-center items-center ">
+                            <Loader className="animate-spin"></Loader>{" "}
+                            Chargement
+                          </div>
                         </div>
                       </>
                     ) : (

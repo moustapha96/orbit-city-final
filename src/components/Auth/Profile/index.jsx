@@ -68,147 +68,7 @@ export default function Profile() {
                 { name: "profile", path: "/profile" },
               ]}
             />
-            {/* <div className="w-full bg-white px-10 py-9   sm:px-6 sm:py-4">
-              <div className="title-area w-full flex justify-between items-center">
-                <h1 className="text-[22px] font-bold text-qblack">
-                  Tableau de bord
-                </h1>
-              </div>
-              <div className="profile-wrapper w-full mt-8 flex space-x-10 ">
-                <div className="w-[236px] min-h-[600px] border-r border-[rgba(0, 0, 0, 0.1)]">
-                  <div className="flex flex-col space-y-10">
-                    <div className="item group">
-                      <Link to="/profile#dashboard">
-                        <div className="flex space-x-3 items-center text-qgray hover:text-qblack">
-                          <span>
-                            <IcoDashboard />
-                          </span>
-                          <span className=" font-normal text-base">
-                            Tableau de bord
-                          </span>
-                        </div>
-                      </Link>
-                    </div>
 
-                    <div className="item group">
-                      <Link to="/profile#profile">
-                        <div className="flex space-x-3 items-center text-qgray hover:text-qblack">
-                          <span>
-                            <IcoPeople />
-                          </span>
-                          <span className=" font-normal text-base">
-                            Information Personnel
-                          </span>
-                        </div>
-                      </Link>
-                    </div>
-
-                    <div className="item group">
-                      <Link to="/profile#order">
-                        <div className="flex space-x-3 items-center text-qgray hover:text-qblack">
-                          <span>
-                            <IcoCart />
-                          </span>
-                          <span className=" font-normal text-base">
-                            Commandes
-                          </span>
-                        </div>
-                      </Link>
-                    </div>
-                    <div className="item group">
-                      <Link to="/profile#preorder">
-                        <div className="flex space-x-3 items-center text-qgray hover:text-qblack">
-                          <span>
-                            <IcoCart />
-                          </span>
-                          <span className=" font-normal text-base">
-                            Pré Commandes
-                          </span>
-                        </div>
-                      </Link>
-                    </div>
-                    <div className="item group">
-                      <Link to="/profile#wishlist">
-                        <div className="flex space-x-3 items-center text-qgray hover:text-qblack">
-                          <span>
-                            <IcoLove />
-                          </span>
-                          <span className=" font-normal text-base">
-                            Liste de souhaits
-                          </span>
-                        </div>
-                      </Link>
-                    </div>
-
-                    <div className="item group">
-                      <Link onClick={HandleLout}>
-                        <div className="flex space-x-3 items-center text-qgray hover:text-qblack">
-                          <span>
-                            <IcoLogout />
-                          </span>
-                          <span className=" font-normal text-base">
-                            Déconnexion
-                          </span>
-                        </div>
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-                <div className="flex-1">
-                  <div className="item-body dashboard-wrapper w-full">
-                    {active === "dashboard" ? (
-                      <Dashboard />
-                    ) : active === "profile" ? (
-                      <>
-                        <ProfileTab />
-                      </>
-                    ) : active === "payment" ? (
-                      <>
-                        <Payment />
-                      </>
-                    ) : active === "order" ? (
-                      <>
-                        <OrderTab />
-                      </>
-                    ) : active === "preorder" ? (
-                      <>
-                        <PreOrderTab />
-                      </>
-                    ) : active === "wishlist" ? (
-                      <>
-                        <WishlistTab />
-                      </>
-                    ) : active === "address" ? (
-                      <>
-                        <AddressesTab />
-                      </>
-                    ) : active === "password" ? (
-                      <>
-                        <PasswordTab />
-                      </>
-                    ) : active === "support" ? (
-                      <>
-                        <SupportTab />
-                      </>
-                    ) : active === "review" ? (
-                      <>
-                        <ReviewTab products={datas.products} />
-                      </>
-                    ) : active === "paniercommande" ? (
-                      <>
-                        <PanierCommande />
-                      </>
-                    ) : active === "panierprecommande" ? (
-                      <>
-                        <PanierPreCommande />
-                      </>
-                    ) : (
-                      ""
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div> */}
             <div className="w-full bg-white px-4 sm:px-10 py-9">
               <div className="title-area w-full flex justify-between items-center">
                 <h1 className="text-[22px] font-bold text-qblack sm:text-xl">
@@ -319,7 +179,7 @@ export default function Profile() {
                         </div>
                       </Link>
                     </div>
-                    <div className="item group">
+                    {/* <div className="item group">
                       <Link
                         to="/profile#wishlist"
                         onClick={() => setActive("wishlist")}
@@ -333,7 +193,7 @@ export default function Profile() {
                           </span>
                         </div>
                       </Link>
-                    </div>
+                    </div> */}
                     <div className="item group">
                       <Link
                         to="/profile#payments"

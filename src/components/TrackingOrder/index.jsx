@@ -71,7 +71,7 @@ export default function TrackingOrder() {
               Suivre votre commande
             </h1>
             <p className="text-[15px] text-qgraytwo leading-8 mb-5">
-              Saisissez votre nom de commande et votre identifiant secret.
+              Saisissez votre nom de commande et votre adresse mail.
             </p>
             <div className="w-full bg-white lg:px-[30px] px-5 py-[23px] lg:flex items-center">
               <div className="lg:w-[400px] w-full">
@@ -289,34 +289,6 @@ export default function TrackingOrder() {
                                           </div>
                                         </div>
                                       )}
-                                      <div className="mt-[30px]">
-                                        <div className=" flex justify-between mb-5">
-                                          <p className="text-[13px] font-medium text-qblack uppercase">
-                                            Sous Total
-                                          </p>
-                                          <p className="text-[15px] font-medium text-qblack uppercase">
-                                            {formatPrice(
-                                              commande.amount_untaxed
-                                            )}
-                                          </p>
-                                        </div>
-                                      </div>
-
-                                      <div className="w-full mt-[30px]">
-                                        <div className="sub-total mb-6">
-                                          <div className=" flex justify-between mb-5">
-                                            <div>
-                                              <p className="text-base font-medium text-qblack">
-                                                TAX
-                                              </p>
-                                            </div>
-                                            <p className="text-[15px] font-medium text-qblack">
-                                              {formatPrice(commande.amount_tax)}
-                                            </p>
-                                          </div>
-                                          <div className="w-full h-[1px] bg-[#EDEDED]"></div>
-                                        </div>
-                                      </div>
 
                                       <div className="mt-[30px]">
                                         <div className=" flex justify-between mb-5">

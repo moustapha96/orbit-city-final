@@ -2,7 +2,7 @@
 import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Arrow from "../../../Helpers/icons/Arrow";
-import { Asterisk, Loader2, Menu, MoveRight } from "lucide-react";
+import { Asterisk, Loader, Loader2, Menu, MoveRight } from "lucide-react";
 import { CategoryContext } from "../../../../contexts/CategoryContext";
 import { UserContext } from "../../../../contexts/UserContext";
 
@@ -11,7 +11,7 @@ export default function Navbar({ className, type = 3 }) {
 
   const [categoryToggle, setToggle] = useState(false);
   const [elementsSize, setSize] = useState("0px");
-  const { selectCategory, categories, isLoadingCategorie } =
+  const { setSelectedCategory, categories, isLoadingCategorie } =
     useContext(CategoryContext);
   const { user } = useContext(UserContext);
 
@@ -31,9 +31,8 @@ export default function Navbar({ className, type = 3 }) {
 
   const handleCategoryChange = (e, category) => {
     e.preventDefault();
-    console.log(category);
-    selectCategory(category);
-
+    console.log(category.name);
+    setSelectedCategory(category.name);
     const isAllProductPage = window.location.pathname === "/all-products";
     const isPrecommandePage = window.location.pathname === "/pre-commandes";
     if (isPrecommandePage) {
@@ -67,10 +66,9 @@ export default function Navbar({ className, type = 3 }) {
                     <span className="text-sm font-600 text-qblacktext">
                       Nos Catégories &nbsp;
                       {isLoadingCategorie && (
-                        <Loader2
-                          size={100}
-                          className="mr-2 h-4 text-center w-4 animate-spin"
-                        />
+                        <>
+                          <Loader className="animate-spin"></Loader>
+                        </>
                       )}
                     </span>
                   </div>

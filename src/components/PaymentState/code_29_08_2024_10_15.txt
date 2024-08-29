@@ -9,7 +9,7 @@ import PageTitle from "../Helpers/PageTitle";
 import Layout from "../Partials/Layout";
 
 import { toast } from "react-toastify";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import formatPrice from "../../utils/formatPrice";
 import formatDate from "../../utils/date-format";
 import PaiementService from "../../services/paimentService";
@@ -17,6 +17,7 @@ import PaiementService from "../../services/paimentService";
 import commandeService from "../../services/commandeService";
 import PrecommandeService from "../../services/precommandeService";
 
+import axios from "axios";
 import { Loader, Loader2 } from "lucide-react";
 import { Button } from "flowbite-react";
 export default function PaymentStatePage({ cart = true }) {
@@ -55,6 +56,7 @@ export default function PaymentStatePage({ cart = true }) {
           setPreCommande(responsePrecommande);
           console.log(responsePrecommande);
         }
+
         setIsLoading(false);
       } catch (error) {
         setIsLoading(false);
@@ -72,8 +74,6 @@ export default function PaymentStatePage({ cart = true }) {
           "Erreur lors de l'enregistrement des détails du paiement :",
           error.message
         );
-      } finally {
-        setIsLoading(false);
       }
     };
 
@@ -83,94 +83,70 @@ export default function PaymentStatePage({ cart = true }) {
       setToken(paymentToken);
       fetchPaymentDetails(paymentToken);
     }
-  }, [location.search]);
 
-  useEffect(() => {
-    if (token) {
-      setIsLoading(true);
-      const timeoutId = setTimeout(async () => {
-        console.log("2 seconde");
+    setTimeout(async () => {
+      console.log("2 seconde");
+      if (token || paymentToken) {
         setIsLoading(true);
-        try {
-          const resultaPayment = await PaiementService.confirmInvoice(token);
-          setData(resultaPayment);
-        } catch (error) {
-          console.error(
-            "Erreur lors de la confirmation de l'invoice :",
-            error.message
-          );
-        } finally {
-          setIsLoading(false);
-        }
-      }, 2000);
-
-      return () => clearTimeout(timeoutId);
-    }
-  }, [token]);
-
-  useEffect(() => {
-    if (data && token && paymentDetails) {
-      setIsLoading(true);
-      const timeoutId = setTimeout(async () => {
-        console.log("4 seconde");
+        const resultaPayment = await PaiementService.confirmInvoice(
+          token || paymentToken
+        );
+        setData(resultaPayment);
+        setIsLoading(false);
+      } else {
+        setIsLoading(false);
+        console.log("token null");
+      }
+    }, 2000);
+    setTimeout(async () => {
+      console.log("4 seconde");
+      if (data && paymentToken && paymentDetails) {
         if (data.response_code === "00" && data.status === "completed") {
           const url_facture = data.receipt_url;
-          try {
-            const responsePaymentDetails =
-              await PaiementService.updatePaymentDetails(
-                paymentDetails.id,
-                data.status,
-                url_facture,
-                data.customer.name,
-                data.customer.email,
-                data.customer.phone
-              );
-            if (responsePaymentDetails) {
-              if (responsePaymentDetails.order_type === "order") {
-                if (
-                  commande &&
-                  commande.advance_payment_status === "not_paid"
-                ) {
-                  validerPaimentCommande();
-                  console.log("arrivé commande");
-                } else {
-                  toast.error("Commande non trouvée", {
-                    position: "top-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                  });
-                  navigate(`/commandes/${commande.id}/détails`);
-                }
-              } else if (responsePaymentDetails.order_type === "preorder") {
-                if (precommande) {
-                  console.log("arrivé");
-                  validerPaimentPreCommande();
-                } else {
-                  console.log("erreur ");
-                  toast.error("Précommande non trouvée", {
-                    position: "top-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                  });
-                  navigate(`/pre-commandes/${precommande.id}/détails`);
-                }
+          const responsePaymentDetails =
+            await PaiementService.updatePaymentDetails(
+              paymentDetails.id,
+              data.status,
+              url_facture,
+              data.customer.name,
+              data.customer.email,
+              data.customer.phone
+            );
+          if (responsePaymentDetails) {
+            if (responsePaymentDetails.order_type === "order") {
+              if (commande && commande.advance_payment_status === "not_paid") {
+                validerPaimentCommande();
+                console.log("arrivé commande");
+              } else {
+                toast.error("Commande non trouvée", {
+                  position: "top-right",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                });
+                navigate(`/commandes/${commande.id}/détails`);
+              }
+            } else if (responsePaymentDetails.order_type === "preorder") {
+              if (precommande) {
+                console.log("arrivé");
+                validerPaimentPreCommande();
+              } else {
+                console.log("erreur ");
+                toast.error("Précommande non trouvée", {
+                  position: "top-right",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                });
+                navigate(`/pre-commandes/${precommande.id}/détails`);
               }
             }
-          } catch (error) {
-            console.error(
-              "Erreur lors de la mise à jour des détails du paiement :",
-              error.message
-            );
-          } finally {
-            setIsLoading(false);
           }
         } else {
           console.log("error " + data);
@@ -183,18 +159,20 @@ export default function PaymentStatePage({ cart = true }) {
             draggable: true,
             progress: undefined,
           });
-          setIsLoading(false);
         }
-      }, 4000);
-
-      return () => clearTimeout(timeoutId);
-    }
-  }, [data, token, paymentDetails]);
+      } else {
+        console.log("arrivé dans 4 secode mais un des elements est null");
+        console.log(data);
+        console.log(paymentToken);
+        console.log(paymentDetails);
+      }
+      setIsLoading(false);
+    }, 4000);
+  }, [location.search, token]);
 
   const confirmInvoice = async () => {
     if (data.response_code === "00" && data.status === "completed") {
       const url_facture = data.receipt_url;
-      console.log(data);
       const responsePaymentDetails = await PaiementService.updatePaymentDetails(
         idDataPayment,
         data.status,
@@ -227,9 +205,9 @@ export default function PaymentStatePage({ cart = true }) {
 
   const validerPaimentCommande = async () => {
     console.log("arrivé");
-    setIsLoading(true);
     try {
       const reponse = await PaiementService.createCommandePaiment(commande.id);
+      setIsLoading(false);
       toast.success("Paiement de la commande validé avec succès", {
         position: "top-center",
         autoClose: 5000,
@@ -239,8 +217,9 @@ export default function PaymentStatePage({ cart = true }) {
         draggable: true,
         progress: undefined,
       });
-      navigate(`/commandes/${commande.id}/détails`);
+      navigate(`/profile`);
     } catch (error) {
+      setIsLoading(false);
       console.error("Erreur lors de la création du paiement :", error);
       navigate(`/commandes/${commande.id}/détails`);
       toast.error("Paiement de la commande non effectif", {
@@ -252,13 +231,10 @@ export default function PaymentStatePage({ cart = true }) {
         draggable: true,
         progress: undefined,
       });
-    } finally {
-      setIsLoading(false);
     }
   };
 
   const validerPaimentPreCommande = async () => {
-    setIsLoading(true);
     try {
       const reponse = await PaiementService.createPrecommandePaimentMontant(
         paymentDetails.order_id,
@@ -274,8 +250,7 @@ export default function PaymentStatePage({ cart = true }) {
         draggable: true,
         progress: undefined,
       });
-      // navigate(`/profile`);
-      navigate(`/pre-commandes/${paymentDetails.order_id}/détails`);
+      navigate(`/profile`);
     } catch (error) {
       console.error("Erreur lors de la création du paiement :", error);
       setIsLoading(false);
@@ -289,11 +264,8 @@ export default function PaymentStatePage({ cart = true }) {
         draggable: true,
         progress: undefined,
       });
-    } finally {
-      setIsLoading(false);
     }
   };
-
   const handleOpenInvoice = () => {
     if (data && data.receipt_url) {
       window.open(data.receipt_url, "_blank");
@@ -615,7 +587,7 @@ export default function PaymentStatePage({ cart = true }) {
                                 <>
                                   <Button
                                     type="submit"
-                                    // onClick={confirmInvoice}
+                                    onClick={confirmInvoice}
                                     className="rounded-lg px-5 py-2.5 font-medium w-full hover:bg-red-500 hover:text-white text-xl"
                                     disabled={isLoading}
                                   >
@@ -1033,7 +1005,7 @@ export default function PaymentStatePage({ cart = true }) {
                                     <>
                                       <Button
                                         type="submit"
-                                        // onClick={confirmInvoice}
+                                        onClick={confirmInvoice}
                                         className="rounded-lg px-5 py-2.5 font-medium w-full hover:bg-red-500 hover:text-white text-xl"
                                         disabled={isLoading}
                                       >

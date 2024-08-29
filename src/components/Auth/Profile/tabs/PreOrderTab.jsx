@@ -13,9 +13,9 @@ export default function PreOrderTab({ type = 3 }) {
       try {
         const data = await PreCommandeService.getPreCommandes();
         if (data.length > 0) {
-          // const pr = data.filter((commande) => commande.state !== "draft");
+          const pr = data.filter((commande) => commande.state !== "cancel");
           console.log(data);
-          setPreCommandes(data);
+          setPreCommandes(pr);
         }
       } catch (error) {
         console.error("Erreur lors de la récupération des modèles", error);
@@ -40,10 +40,16 @@ export default function PreOrderTab({ type = 3 }) {
               <td className="py-4 block whitespace-nowrap text-center">
                 PréCommande
               </td>
-              <td className="py-4 whitespace-nowrap text-center">Date</td>
-              <td className="py-4 whitespace-nowrap text-center">Statut</td>
-              <td className="py-4 whitespace-nowrap text-center">Montant</td>
-              <td className="py-4 whitespace-nowrap  text-center">Action</td>
+              <td className="py-4 whitespace-nowrap text-center hidden sm:table-cell">
+                Date
+              </td>
+              <td className="py-4 whitespace-nowrap text-center hidden sm:table-cell">
+                Statut
+              </td>
+              <td className="py-4 whitespace-nowrap text-center hidden sm:table-cell">
+                Montant
+              </td>
+              <td className="py-4 whitespace-nowrap text-center">Action</td>
             </tr>
             {/* table heading end */}
 
@@ -59,12 +65,12 @@ export default function PreOrderTab({ type = 3 }) {
                         # - {commande.name}
                       </span>
                     </td>
-                    <td className="text-center py-4 px-2">
+                    <td className="text-center py-4 px-2 hidden sm:table-cell">
                       <span className="text-base text-qgray whitespace-nowrap">
                         {formatDate(commande.date_order)}{" "}
                       </span>
                     </td>
-                    <td className="text-center py-4 px-2">
+                    <td className="text-center py-4 px-2 hidden sm:table-cell">
                       <div className=" ">
                         {commande.advance_payment_status === "not_paid" && (
                           <span className="text-red-500">Non Effectif</span>
@@ -87,7 +93,7 @@ export default function PreOrderTab({ type = 3 }) {
                         </p>
                       </div>
                     </td>
-                    <td className="text-center py-4 px-2">
+                    <td className="text-center py-4 px-2 hidden sm:table-cell">
                       <span className="text-base text-qblack whitespace-nowrap px-2 ">
                         {commande.advance_payment_status == "not_paid" ||
                           (commande.advance_payment_status == "partial" && (
@@ -137,6 +143,7 @@ export default function PreOrderTab({ type = 3 }) {
             )}
           </tbody>
         </table>
+
         {!Array.isArray(precommandes) && (
           <p className="text-center mt-5 ">
             Votre Liste de précommandes est vide{" "}

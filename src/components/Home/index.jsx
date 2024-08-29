@@ -17,6 +17,7 @@ import CategoriesSection from "./CategoriesSection";
 import { Link } from "react-router-dom";
 import SEOHeader from "../Partials/Headers/HeaderOne/SEOHeader";
 import BannerPub from "../About/BannerPub";
+import { Loader, Loader2 } from "lucide-react";
 
 export default function Home() {
   const { products, isLoadingProduct } = useContext(ProductContext);
@@ -88,11 +89,20 @@ export default function Home() {
               </Link>
             </p>
           </div>
-          <SectionStyleTwo
-            products={
-              precommandes.length > 4 ? precommandes.slice(0, 4) : precommandes
-            }
-          />
+
+          {precommandes ? (
+            <SectionStyleTwo
+              products={
+                precommandes.length > 4
+                  ? precommandes.slice(0, 4)
+                  : precommandes
+              }
+            />
+          ) : (
+            <>
+              <Loader2 className="animate-spin" />
+            </>
+          )}
         </ViewMoreTitle>
         {/* <ProductsAds
           sectionHeight="164"

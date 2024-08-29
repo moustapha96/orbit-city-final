@@ -5,13 +5,13 @@ import { CategoryContext } from "../../../contexts/CategoryContext";
 import { useContext } from "react";
 
 export default function CategoryCard({ background, title, brands = [] }) {
-  const { selectCategory } = useContext(CategoryContext);
+  const { setSelectedCategory } = useContext(CategoryContext);
 
   const navigate = useNavigate();
   const handleCategoryChange = (e, category) => {
     e.preventDefault();
     console.log(category);
-    selectCategory(category);
+    setSelectedCategory(category.name);
     const isAllProductPage = window.location.pathname === "/all-products";
     if (!isAllProductPage) {
       navigate("/all-products");

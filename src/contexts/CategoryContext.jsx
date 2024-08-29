@@ -6,7 +6,7 @@ import Categorieservice from "../services/CategorieService";
 export const CategoryContext = createContext();
 
 export const CategoryProvider = ({ children }) => {
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedCategory, setSelectedCategory] = useState(null);
   const [categories, setCategories] = useState([]);
   const [isLoadingCategorie, setIsLoadingCategorie] = useState(false);
   useEffect(() => {
@@ -34,8 +34,7 @@ export const CategoryProvider = ({ children }) => {
     setIsLoadingCategorie(false);
   }, []);
 
-  const selectCategory = (category) => {
-    console.log("Catégorie sélectionnée :", category);
+  const categorieSelectionner = (category) => {
     setSelectedCategory(category);
   };
 
@@ -43,7 +42,7 @@ export const CategoryProvider = ({ children }) => {
     <CategoryContext.Provider
       value={{
         selectedCategory,
-        selectCategory,
+        categorieSelectionner,
         setSelectedCategory,
         categories,
         isLoadingCategorie,

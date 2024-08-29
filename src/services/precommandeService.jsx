@@ -17,9 +17,11 @@ const PrecommandeService = {
 
   getPreCommandeById: async (id) => {
     try {
-      const response = await axiosInstance.get(
-        `/api/precommandes/${id}/details`
-      );
+      const partner_id = localStorage.getItem("partner_id");
+      const response = await axiosInstance.post(`/api/precommandes/details`, {
+        precommande_id: id,
+        partner_id: partner_id,
+      });
       return response.data;
     } catch (error) {
       console.error(

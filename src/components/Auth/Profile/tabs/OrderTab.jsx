@@ -29,7 +29,7 @@ export default function OrderTab() {
   };
   return (
     <>
-      <div className="relative w-full overflow-x-auto sm:rounded-lg">
+      <div className="relative w-full overflow-x-auto border border-[#EDEDED]">
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
           <tbody>
             {/* table heading */}
@@ -37,10 +37,16 @@ export default function OrderTab() {
               <td className="py-4 block whitespace-nowrap text-center">
                 Commande
               </td>
-              <td className="py-4 whitespace-nowrap text-center">Date</td>
-              <td className="py-4 whitespace-nowrap text-center">Statut</td>
-              <td className="py-4 whitespace-nowrap text-center">Montant</td>
-              <td className="py-4 whitespace-nowrap  text-center">Action</td>
+              <td className="py-4 whitespace-nowrap text-center hidden sm:table-cell">
+                Date
+              </td>
+              <td className="py-4 whitespace-nowrap text-center hidden sm:table-cell">
+                Statut
+              </td>
+              <td className="py-4 whitespace-nowrap text-center hidden sm:table-cell">
+                Montant
+              </td>
+              <td className="py-4 whitespace-nowrap text-center">Action</td>
             </tr>
             {/* table heading end */}
 
@@ -56,12 +62,12 @@ export default function OrderTab() {
                         #{commande.id} - {commande.name}
                       </span>
                     </td>
-                    <td className="text-center py-4 px-2">
+                    <td className="text-center py-4 px-2 hidden sm:table-cell">
                       <span className="text-base text-qgray whitespace-nowrap">
                         {formatDate(commande.date_order)}{" "}
                       </span>
                     </td>
-                    <td className="text-center py-4 px-2">
+                    <td className="text-center py-4 px-2 hidden sm:table-cell">
                       <span
                         className={`text-sm rounded p-2 ${
                           commande.advance_payment_status !== "not_paid"
@@ -74,7 +80,7 @@ export default function OrderTab() {
                           : "Payé"}
                       </span>
                     </td>
-                    <td className="text-center py-4 px-2">
+                    <td className="text-center py-4 px-2 hidden sm:table-cell">
                       <span className="text-base text-qblack whitespace-nowrap px-2 ">
                         {commande.advance_payment_status == "not_paid" ? (
                           <>
@@ -109,6 +115,7 @@ export default function OrderTab() {
             )}
           </tbody>
         </table>
+
         {!Array.isArray(commandes) ||
           (commandes.length == 0 && (
             <p className="text-center m-5">

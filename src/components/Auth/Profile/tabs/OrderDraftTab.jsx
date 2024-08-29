@@ -75,10 +75,16 @@ export default function OrderDraftTab() {
               <td className="py-4 block whitespace-nowrap text-center">
                 Commande
               </td>
-              <td className="py-4 whitespace-nowrap text-center">Date</td>
-              <td className="py-4 whitespace-nowrap text-center">Statut</td>
-              <td className="py-4 whitespace-nowrap text-center">Montant</td>
-              <td className="py-4 whitespace-nowrap  text-center">Action</td>
+              <td className="py-4 whitespace-nowrap text-center hidden sm:table-cell">
+                Date
+              </td>
+              <td className="py-4 whitespace-nowrap text-center hidden sm:table-cell">
+                Statut
+              </td>
+              <td className="py-4 whitespace-nowrap text-center hidden sm:table-cell">
+                Montant
+              </td>
+              <td className="py-4 whitespace-nowrap text-center">Action</td>
             </tr>
             {/* table heading end */}
 
@@ -91,15 +97,15 @@ export default function OrderDraftTab() {
                   >
                     <td className="text-center py-4">
                       <span className="text-lg text-qgray font-medium">
-                        #- {commande.name}
+                        #{commande.id} - {commande.name}
                       </span>
                     </td>
-                    <td className="text-center py-4 px-2">
+                    <td className="text-center py-4 px-2 hidden sm:table-cell">
                       <span className="text-base text-qgray whitespace-nowrap">
                         {formatDate(commande.date_order)}{" "}
                       </span>
                     </td>
-                    <td className="text-center py-4 px-2">
+                    <td className="text-center py-4 px-2 hidden sm:table-cell">
                       <span
                         className={`text-sm rounded p-2 ${
                           commande.advance_payment_status !== "not_paid"
@@ -112,7 +118,7 @@ export default function OrderDraftTab() {
                           : "Payé"}
                       </span>
                     </td>
-                    <td className="text-center py-4 px-2">
+                    <td className="text-center py-4 px-2 hidden sm:table-cell">
                       <span className="text-base text-qblack whitespace-nowrap px-2 ">
                         {commande.advance_payment_status == "not_paid" ? (
                           <>
@@ -131,20 +137,20 @@ export default function OrderDraftTab() {
                         <br />
                       </span>
                     </td>
-                    <td className="text-center py-3 flex  justify-evently gap-4 ">
+                    <td className="text-center py-4">
                       <button
                         type="button"
                         title="voir les détails"
                         onClick={(event) => handleDetails(event, commande)}
                         className="w-[116px] h-[46px] bg-bleu-logo text-white hover:bg-bleu-claire font-bold"
                       >
-                        Valider
+                        Voir les détails
                       </button>
                       <button
                         type="button"
                         title="supprimer commande"
                         onClick={(event) => deleteCommande(event, commande)}
-                        className="w-[116px] h-[46px] bg-red-500 text-white  hover:bg-red-900 font-bold duration-200 "
+                        className="w-[116px] h-[46px] bg-red-500 text-white hover:bg-red-900 font-bold duration-200"
                       >
                         Supprimer
                       </button>
@@ -155,6 +161,7 @@ export default function OrderDraftTab() {
             )}
           </tbody>
         </table>
+
         {!Array.isArray(commandes) ||
           (commandes.length == 0 && (
             <p className="text-center m-5">

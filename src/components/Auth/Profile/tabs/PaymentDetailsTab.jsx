@@ -38,6 +38,13 @@ export default function PaymentDetailsTab() {
     setSelectedPayment(null);
   };
 
+  const handleOpenInvoice = (e, facture) => {
+    e.preventDefault();
+    if (facture) {
+      window.open(facture, "_blank");
+    }
+  };
+
   return (
     <>
       <div className="relative w-full overflow-x-auto sm:rounded-lg">
@@ -145,17 +152,37 @@ export default function PaymentDetailsTab() {
                   : "Payé"}
               </p>
               <p className="text-gray-600">
-                <strong>Commande:</strong> {selectedPayment.order.name}
+                <strong>
+                  Nom{" "}
+                  {selectedPayment.order_type == "order"
+                    ? "Commande"
+                    : "Précommande"}{" "}
+                  :{" "}
+                </strong>{" "}
+                {selectedPayment.order_name}
               </p>
               <p className="text-gray-600">
-                <strong>Montant:</strong> {formatPrice(selectedPayment.amount)}
+                <strong>Montant Payé : </strong>{" "}
+                {formatPrice(selectedPayment.amount)}
               </p>
               <p className="text-gray-600">
-                <strong>Commande ID:</strong> {selectedPayment.order_id}
+                <strong>Prenom & Nom : </strong> {selectedPayment.customer_name}
               </p>
               <p className="text-gray-600">
-                <strong>Partenaire:</strong> {selectedPayment.partner_name}
+                <strong>Email : </strong> {selectedPayment.customer_email}
               </p>
+              <p className="text-gray-600">
+                <strong>Téléphone : </strong> {selectedPayment.customer_phone}
+              </p>
+              Facture :
+              <button
+                className="text-[15px] text-qblack font-medium underline"
+                onClick={(e) =>
+                  handleOpenInvoice(e, selectedPayment.url_facture)
+                }
+              >
+                Ouvrir la facture
+              </button>
             </div>
             <button
               onClick={closeModal}

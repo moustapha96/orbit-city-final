@@ -32,6 +32,7 @@ const commandeService = {
     }
   },
 
+  // utiliser sur la page payment
   getCommandeAny: async (id) => {
     try {
       const response = await axiosInstance.get(`/api/getcommande/${id}`);
@@ -43,7 +44,11 @@ const commandeService = {
   },
   getCommandeById: async (id) => {
     try {
-      const response = await axiosInstance.get(`/api/commandes/${id}/details`);
+      const partner_id = localStorage.getItem("partner_id");
+      const response = await axiosInstance.post(`/api/commandes/details`, {
+        commande_id: id,
+        partner_id: partner_id,
+      });
       return response.data;
     } catch (error) {
       console.error(
