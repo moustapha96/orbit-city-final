@@ -17,7 +17,6 @@ export default function ProfileTab() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [name, setName] = useState("");
-
   const [adresse, setAdresse] = useState("");
   const [telephone, setTelephone] = useState("");
   const [typeProfile, setTypeProfile] = useState("");
@@ -78,7 +77,6 @@ export default function ProfileTab() {
       logout();
       console.log(response);
       setIsLoading(false);
-
       navigate("/login");
     } catch (error) {
       setIsLoading(false);

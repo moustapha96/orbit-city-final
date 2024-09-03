@@ -126,7 +126,7 @@ const PaydunyaModalServicePrecommande = ({
           setStatus(invoice.status);
           setTokenP(invoice.token);
           setResponseText(invoice.responseText);
-          window.open(invoice.url, "_blank");
+          window.open(invoice.url, "_blank", 'noopener,noreferrer');
           setOpenModal(false);
         })
         .catch(function (e) {

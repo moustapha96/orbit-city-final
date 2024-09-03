@@ -1,7 +1,7 @@
 // services/commandeservice.js
 import axiosInstance from "../config/axiosConfig";
 
-const commandeService = {
+const CommandeService = {
   getCommandes: async () => {
     try {
       const partner_id = localStorage.getItem("partner_id");
@@ -86,4 +86,4 @@ const commandeService = {
   },
 };
 
-export default commandeService;
+export default CommandeService;

@@ -23,9 +23,11 @@ export default function Signup() {
   const [telephone, setTelephone] = useState("");
   const [typeProfile, setTypeProfile] = useState("");
   const [error, setError] = useState([]);
+  const [errorSubmit, setErrorSubmit] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordConfirme, setShowPasswordConfirm] = useState(false);
+
 
   const validatePassword = (password, confirmPassword) => {
     if (password !== confirmPassword) {
@@ -43,14 +45,14 @@ export default function Signup() {
       telephone: !telephone
         ? "Le téléphone est obligatoire."
         : !isValidPhoneNumber(telephone)
-        ? "Le numéro de téléphone est invalide."
-        : "",
+          ? "Le numéro de téléphone est invalide."
+          : "",
       adresse: !adresse ? "L'adresse est obligatoire." : "",
       email: !email
         ? "L'adresse email est obligatoire."
         : !isValidEmail(email)
-        ? "L'adresse email est invalide."
-        : "",
+          ? "L'adresse email est invalide."
+          : "",
       // password: !password
       //   ? "Le mot de passe est obligatoire."
       //   : !isStrongPassword(password)
@@ -66,6 +68,7 @@ export default function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+
 
     if (validateForm()) {
       const data = {
@@ -94,10 +97,10 @@ export default function Signup() {
         setIsLoading(false);
         navigate("/login");
       } catch (error) {
+        setErrorSubmit(error.response.data);
         setIsLoading(false);
         console.log("response ");
         console.log(error);
-
         toast.error("Création compte Echouée " + error.response.data, {
           position: "top-center",
           autoClose: 5000,
@@ -134,6 +137,33 @@ export default function Signup() {
             <div className="lg:w-[572px] w-full lg:h-[783px] bg-white flex flex-col justify-center sm:p-10 p-5 border border-[#E0E0E0]">
               <div className="w-full">
                 <div className="title-area flex flex-col justify-center items-center relative text-center mb-7">
+
+
+                  {errorSubmit && (
+                    <p className="text-red-600">{errorSubmit}</p>
+                  )}
+                  {error.nom && (
+                    <p className="text-red-600">{error.nom}</p>
+                  )}
+                  {error.prenom && (
+                    <p className="text-red-600">{error.prenom}</p>
+                  )}
+                  {error.telephone && (
+                    <p className="text-red-600">{error.telephone}</p>
+                  )}
+
+                  {error.passwordError && (
+                    <p className="text-red-600">{error.passwordError}</p>
+                  )}
+                  {error.email && (
+                    <p className="text-red-600">{error.email}</p>
+                  )}
+
+
+
+                </div>
+
+                <div className="title-area flex flex-col justify-center items-center relative text-center mb-7">
                   <h1 className="text-[34px] font-bold leading-[74px] text-qblack">
                     Créer un compte
                   </h1>
@@ -155,7 +185,7 @@ export default function Signup() {
                   </div>
                 </div>
                 <div className="input-area">
-                  <form onSubmit={handleSubmit}>
+                  {/* <form onSubmit={handleSubmit}>
                     <div className="flex sm:flex-row flex-col space-y-5 sm:space-y-0 sm:space-x-5 mb-5">
                       <div className="sm:w-1/2 md:w-full">
                         <div className="mb-2 block">
@@ -261,7 +291,7 @@ export default function Signup() {
                       />
                     </div>
 
-                    {/* test */}
+                  
 
                     <div className="flex sm:flex-row flex-col space-y-5 sm:space-y-0 sm:space-x-5 mb-5">
                       <div className="sm:w-1/2 md:w-full">
@@ -269,7 +299,7 @@ export default function Signup() {
                           <div>
                             <Label htmlFor="password" value="Mot de passe" />
                           </div>
-                          <div class="relative">
+                          <div className="relative">
                             <input
                               id="password"
                               type={showPassword ? "text" : "password"}
@@ -304,7 +334,7 @@ export default function Signup() {
                               value="Confirmation Mot de passe"
                             />
                           </div>
-                          <div class="relative">
+                          <div className="relative">
                             <input
                               id="hs-toggle-password"
                               type={showPasswordConfirme ? "text" : "password"}
@@ -335,7 +365,7 @@ export default function Signup() {
                       </div>
                     </div>
 
-                    {/* debut second */}
+                
 
                     <div className="forgot-password-area mb-7">
                       <div className="remember-checkbox flex items-center space-x-2.5">
@@ -383,7 +413,242 @@ export default function Signup() {
                         </Link>
                       </p>
                     </div>
+                  </form> */}
+                  <form onSubmit={handleSubmit}>
+                    <div className="flex sm:flex-row flex-col space-y-5 sm:space-y-0 sm:space-x-5 mb-5">
+                      <div className="sm:w-1/2 md:w-full">
+                        <div className="mb-2 block">
+                          <Label htmlFor="prenom" value="Prénom" className="dark:text-white" />
+                          {error.prenom && (
+                            <p className="text-red-600">{error.prenom}</p>
+                          )}
+                        </div>
+                        <input
+                          type="text"
+                          placeholder="Prénom"
+                          value={`${prenom}`}
+                          name="prenom"
+                          onChange={(e) => setPrenom(e.target.value)}
+                          required
+                          className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
+                          focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
+                          invalid:text-red-600
+                          focus:invalid:border-red-500 focus:invalid:ring-red-500
+                          dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+                        />
+                      </div>
+                      <div className="sm:w-1/2 md:w-full">
+                        <div className="mb-2 block">
+                          <Label htmlFor="nom" value="Nom" className="dark:text-white" />
+                          {error.nom && (
+                            <p className="text-red-600">{error.nom}</p>
+                          )}
+                        </div>
+                        <input
+                          id="nom"
+                          type="text"
+                          placeholder="Nom"
+                          value={nom}
+                          onChange={(e) => setNom(e.target.value)}
+                          required
+                          className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
+                              focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
+                              invalid:text-red-600
+                              focus:invalid:border-red-500 focus:invalid:ring-red-500
+                              dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+                        />
+                      </div>
+                    </div>
+                    <div className="flex sm:flex-row flex-col space-y-5 sm:space-y-0 sm:space-x-5 mb-5">
+                      <div className="sm:w-1/2 md:w-full">
+                        <div className="mb-2 block">
+                          {error.email && (
+                            <p className="text-red-600">{error.email}</p>
+                          )}
+                          <Label htmlFor="email" value="Email" className="dark:text-white" />
+                        </div>
+                        <input
+                          id="email"
+                          type="email"
+                          placeholder="Adresse Email"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          required
+                          className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
+                  focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
+                  invalid:text-red-600
+                  focus:invalid:border-red-500 focus:invalid:ring-red-500
+                  dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+                        />
+                      </div>
+                      <div className="sm:w-1/2 md:w-full">
+                        <div className="mb-2 block">
+                          {error.telephone && (
+                            <p className="text-red-600">{error.telephone}</p>
+                          )}
+                          <Label htmlFor="phone" value="Téléphone" className="dark:text-white" />
+                        </div>
+                        <input
+                          id="phone"
+                          type="phone"
+                          value={telephone}
+                          onChange={(e) => setTelephone(e.target.value)}
+                          required
+                          placeholder="77 000 00 00"
+                          className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
+                  focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
+                  invalid:text-red-600
+                  focus:invalid:border-red-500 focus:invalid:ring-red-500
+                  dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+                        />
+                      </div>
+                    </div>
+                    <div className="w-full input-item mb-5">
+                      <div className="mb-2 block">
+                        {error.adresse && (
+                          <p className="text-red-600">{error.adresse}</p>
+                        )}
+                        <Label htmlFor="adresse" value="Adresse" className="dark:text-white" />
+                      </div>
+                      <input
+                        id="adresse"
+                        type="text"
+                        value={adresse}
+                        onChange={(e) => setAdresse(e.target.value)}
+                        required
+                        placeholder="city"
+                        className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
+                  focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
+                  invalid:text-red-600
+                  focus:invalid:border-red-500 focus:invalid:ring-red-500
+                  dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+                      />
+                    </div>
+
+
+
+                    <div className="flex sm:flex-row flex-col space-y-5 sm:space-y-0 sm:space-x-5 mb-5">
+                      <div className="sm:w-1/2 md:w-full">
+                        <div className="mb-2 block">
+                          <div>
+                            <Label htmlFor="password" value="Mot de passe" className="dark:text-white" />
+                          </div>
+                          <div className="relative">
+                            <input
+                              id="password"
+                              type={showPassword ? "text" : "password"}
+                              value={password}
+                              onChange={(e) => setPassword(e.target.value)}
+                              required
+                              placeholder="Mot de passe"
+                              className="focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600
+                      mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
+                      focus:outline-none focus:ring-1
+                      invalid:text-red-600
+                      focus:invalid:border-red-500 focus:invalid:ring-red-500"
+                            />
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                setShowPassword(!showPassword);
+                              }}
+                              className="absolute inset-y-0 end-0 flex items-center z-20 px-3 cursor-pointer text-gray-400 rounded-e-md focus:outline-none focus:text-blue-600 dark:text-neutral-600 dark:focus:text-blue-500"
+                            >
+                              {!showPassword ? <EyeOff /> : <Eye />}
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="sm:w-1/2 md:w-full">
+                        <div className="mb-2 block">
+                          <div>
+                            <Label
+                              htmlFor="confpassword"
+                              value="Confirmation Mot de passe"
+                              className="dark:text-white"
+                            />
+                          </div>
+                          <div className="relative">
+                            <input
+                              id="hs-toggle-password"
+                              type={showPasswordConfirme ? "text" : "password"}
+                              value={confirmPassword}
+                              onChange={(e) =>
+                                setConfirmPassword(e.target.value)
+                              }
+                              required
+                              placeholder="confirmation mot de passe"
+                              className="focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600
+                                  mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
+                                  focus:outline-none focus:ring-1
+                                  invalid:text-red-600
+                                  focus:invalid:border-red-500 focus:invalid:ring-red-500"
+                            />
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                setShowPasswordConfirm(!showPasswordConfirme);
+                              }}
+                              className="absolute inset-y-0 end-0 flex items-center z-20 px-3 cursor-pointer text-gray-400 rounded-e-md focus:outline-none focus:text-blue-600 dark:text-neutral-600 dark:focus:text-blue-500"
+                            >
+                              {!showPasswordConfirme ? <EyeOff /> : <Eye />}
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+
+                    <div className="forgot-password-area mb-7">
+                      <div className="remember-checkbox flex items-center space-x-2.5">
+                        <div className="flex items-center space-x-2">
+                          {!checked && (
+                            <p className="text-red-600 dark:text-red-400">{error.checked}</p>
+                          )}
+                          <Checkbox id="terms" onClick={rememberMe} className="dark:text-white" />
+                          <Label htmlFor="terms" className="dark:text-white">
+                            J'accepte les termes de conditions de Orbit City
+                          </Label>
+                        </div>
+                      </div>
+                    </div>
+
+
+                    <div className="signin-area mb-3">
+                      <div className="flex justify-center">
+                        <Button
+                          type="submit"
+                          variant="failure"
+                          className="hover:bg-bleu-logo black-btn mb-6 text-sm text-white w-full h-[50px] font-semibold flex justify-center
+                  bg-purple items-center"
+                          disabled={isLoading}
+                        >
+                          {isLoading == true ? (
+                            <>
+                              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                              <span> Creation compte</span>
+                            </>
+                          ) : (
+                            <span> Créer un compte</span>
+                          )}
+                        </Button>
+                      </div>
+                    </div>
+
+                    <div className="signup-area flex justify-center">
+                      <p className="text-base text-qgraytwo font-normal">
+                        Vous avez déjà un compte?
+                        <Link
+                          to="/login"
+                          className="ml-2 hover:text-bleu-logo text-qblack"
+                        >
+                          Se connecter
+                        </Link>
+                      </p>
+                    </div>
                   </form>
+
                 </div>
               </div>
             </div>

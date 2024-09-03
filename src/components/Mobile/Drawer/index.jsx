@@ -14,10 +14,8 @@ export default function Drawer({ className, open, action }) {
   const [tab, setTab] = useState("menu");
   const { cart, wishlist } = useContext(CartContext);
 
-  const { categories, setSelectedCategory, isLoadingCategorie } =
-    useContext(CategoryContext);
-
-  const { searchContext, setSearchContext } = useContext(ProductContext);
+  const { searchContext, setSearchContext, setSelectedCategory, categories } =
+    useContext(ProductContext);
 
   const handleCategoryChange = (e, category) => {
     e.preventDefault();
@@ -27,7 +25,7 @@ export default function Drawer({ className, open, action }) {
     const isPrecommandePage = window.location.pathname === "/pre-commandes";
     if (isPrecommandePage) {
       navigate("/pre-commandes");
-    } else if (!isAllProductPage) {
+    } else {
       navigate("/all-products");
     }
   };

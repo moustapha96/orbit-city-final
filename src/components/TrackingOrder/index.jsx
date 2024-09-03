@@ -8,7 +8,7 @@ import { Loader2 } from "lucide-react";
 import { toast } from "react-toastify";
 import formatPrice from "../../utils/formatPrice";
 import formatDate from "../../utils/date-format";
-import commandeService from "../../services/CommandeService";
+import CommandeService from "../../services/CommandeService";
 
 export default function TrackingOrder() {
   const [commande, setCommande] = useState(null);
@@ -24,7 +24,7 @@ export default function TrackingOrder() {
     const newCommand = { name: name, email: email };
     console.log(newCommand);
     try {
-      const response = await commandeService.getCommandeTracking(newCommand);
+      const response = await CommandeService.getCommandeTracking(newCommand);
       setCommande(response);
 
       toast.success("La commande est trouvée", {
@@ -177,24 +177,24 @@ export default function TrackingOrder() {
                                           Statut :{" "}
                                           {commande.advance_payment_status ===
                                             "not_paid" && (
-                                            <span className="text-red-500">
-                                              (Non Payé)
-                                            </span>
-                                          )}
+                                              <span className="text-red-500">
+                                                (Non Payé)
+                                              </span>
+                                            )}
                                           {commande.advance_payment_status ===
                                             "paid" && (
-                                            <span className="text-green-500">
-                                              {" "}
-                                              (Payé)
-                                            </span>
-                                          )}
+                                              <span className="text-green-500">
+                                                {" "}
+                                                (Payé)
+                                              </span>
+                                            )}
                                           {commande.advance_payment_status ===
                                             "partial" && (
-                                            <span className="text-yellow-500">
-                                              {" "}
-                                              (Payé Partiellement)
-                                            </span>
-                                          )}
+                                              <span className="text-yellow-500">
+                                                {" "}
+                                                (Payé Partiellement)
+                                              </span>
+                                            )}
                                         </span>
                                       </div>
                                     </div>
@@ -276,11 +276,10 @@ export default function TrackingOrder() {
                                               Premier Tranche
                                             </p>
                                             <p
-                                              className={`text-base text-[15px] uppercase font-medium ${
-                                                commande.first_payment_state
+                                              className={`text-base text-[15px] uppercase font-medium ${commande.first_payment_state
                                                   ? "text-green-500"
                                                   : "text-red-500"
-                                              }`}
+                                                }`}
                                             >
                                               {formatPrice(
                                                 commande.first_payment_amount
@@ -297,14 +296,13 @@ export default function TrackingOrder() {
                                           </p>
                                           <p className="text-2xl font-medium">
                                             <span
-                                              className={`text-${
-                                                commande.advance_payment_status ===
+                                              className={`text-${commande.advance_payment_status ===
                                                   "not_paid" ||
-                                                commande.advance_payment_status ===
+                                                  commande.advance_payment_status ===
                                                   "partial"
                                                   ? "red"
                                                   : "green"
-                                              }-500`}
+                                                }-500`}
                                             >
                                               {" "}
                                               {formatPrice(
@@ -337,7 +335,7 @@ export default function TrackingOrder() {
                                           <>
                                             {commande.advance_payment_status ===
                                               "not_paid" ||
-                                            commande.advance_payment_status ==
+                                              commande.advance_payment_status ==
                                               "partial" ? (
                                               <div className="w-full h-[50px] flex justify-center items-center">
                                                 <span className="text-red-500">
@@ -358,7 +356,7 @@ export default function TrackingOrder() {
                                         ) : (
                                           <>
                                             {commande.advance_payment_status ===
-                                            "not_paid" ? (
+                                              "not_paid" ? (
                                               <div className="w-full h-[50px] flex justify-center items-center">
                                                 <span className="text-red-500">
                                                   {" "}

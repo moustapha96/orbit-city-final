@@ -7,7 +7,7 @@ import "./global.css";
 import PaymentProvider from "./contexts/PaymentProvider";
 import { ProductProvider } from "./contexts/ProductContext";
 import CategoryProvider from "./contexts/CategoryContext";
-import ScrollToTop from "./contexts/ScrollToTop";
+// import GlobalPaymentProvider from "./contexts/GlobalVariable";
 
 function App() {
   return (
@@ -17,6 +17,9 @@ function App() {
         <CategoryProvider>
           <PaymentProvider>
             <CartProvider>
+              {/* <GlobalPaymentProvider mode="test">
+                <Routers />
+              </GlobalPaymentProvider> */}
               <Routers />
             </CartProvider>
           </PaymentProvider>

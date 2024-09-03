@@ -19,9 +19,15 @@ export default function AllProductPage() {
   const [search, setSearch] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const { selectedCategory, setSelectedCategory } = useContext(CategoryContext);
-  const { products, isLoadingProduct, searchContext, setSearchContext } =
-    useContext(ProductContext);
+  const {
+    products,
+    isLoadingProduct,
+    searchContext,
+    setSearchContext,
+    selectedCategory,
+    setSelectedCategory,
+    productFilter,
+  } = useContext(ProductContext);
 
   const handleLoadMore = () => {
     if (endLength < products.length) {
@@ -46,35 +52,14 @@ export default function AllProductPage() {
   };
 
   useEffect(() => {
-    const searchParams = new URLSearchParams(location.search);
-    const category = searchParams.get("category");
-    if (category) {
-      console.log(category);
-      setSelectedCategory(category);
-    }
-  }, [location.search]);
-
-  useEffect(() => {
-    if (selectedCategory) {
-      if (selectedCategory === "All" || selectedCategory === null) {
-        setProduits(products);
-      } else {
-        const filteredProducts = products.filter(
-          (pro) => pro.categ_id === selectedCategory
-        );
-        setProduits(filteredProducts);
-      }
-      console.log("categori sselectionne page boutique " + selectedCategory);
-    } else {
-      setProduits(products);
-    }
-  }, [selectedCategory, products]);
+    setProduits(productFilter);
+    setSearchContext("");
+  }, [productFilter]);
 
   useEffect(() => {
     const searchTerm = searchContext.toLowerCase();
     setSearch(searchTerm);
-
-    const filteredProducts = products.filter(
+    const filteredProducts = productFilter.filter(
       (product) =>
         (product.name &&
           product.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
@@ -84,27 +69,13 @@ export default function AllProductPage() {
           product.description.toLowerCase().includes(searchTerm.toLowerCase()))
     );
 
-    console.log(filteredProducts);
     setProduits(filteredProducts);
-  }, [searchContext]);
+  }, [productFilter, searchContext]);
 
-  const handleSearch = (event) => {
-    const searchTerm = event.target.value.toLowerCase();
-    console.log(searchTerm);
-    setSearch(searchTerm);
-
-    const filteredProducts = products.filter(
-      (product) =>
-        (product.name &&
-          product.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
-        (product.categ_id &&
-          product.categ_id.toLowerCase().includes(searchTerm.toLowerCase())) ||
-        (product.description &&
-          product.description.toLowerCase().includes(searchTerm.toLowerCase()))
-    );
-
-    console.log(filteredProducts);
-    setProduits(filteredProducts);
+  const setAllProduct = () => {
+    setSelectedCategory("All");
+    setSearch("");
+    setSearchContext("");
   };
 
   return (
@@ -181,6 +152,12 @@ export default function AllProductPage() {
                         />
                       </div>
                       <div className="flex space-x-3 items-center">
+                        <button
+                          className=" hover:text-bleu-500"
+                          onClick={setAllProduct}
+                        >
+                          Tout
+                        </button>
                         {showBackButton && (
                           <div className="flex space-x-3 items-center border-b border-b-qgray">
                             <button

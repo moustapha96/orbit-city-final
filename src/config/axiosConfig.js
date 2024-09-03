@@ -2,8 +2,8 @@ import axios from "axios";
 
 const urlBase = "https://orbitcity.sn/";
 const axiosInstance = axios.create({
-  // baseURL: "http://localhost:8016/",
-  baseURL: "https://orbitcity.sn/",
+  baseURL: "http://localhost:8016/",
+  // baseURL: "https://orbitcity.sn/",
 });
 
 const excludedEndpoints = [

@@ -7,39 +7,28 @@ import DataIteration from "../Helpers/DataIteration";
 import Layout from "../Partials/Layout";
 
 import { Link } from "react-router-dom";
-import {
-  CircleAlert,
-  DoorClosed,
-  FolderClosed,
-  Hand,
-  Loader,
-  Loader2,
-  SearchCheck,
-} from "lucide-react";
+import { Loader, Loader2 } from "lucide-react";
 import { CategoryContext } from "../../contexts/CategoryContext";
 import { ProductContext } from "../../contexts/ProductContext";
 // import Popup from "reactjs-popup";
-import { Button } from "flowbite-react";
 
 import ProductCardStyleOnePrecommande from "../Helpers/Cards/ProductCardStyleOnePrecommande";
 import SEOHeader from "../Partials/Headers/HeaderOne/SEOHeader";
 export default function ProductPrecommandePage() {
   const {
-    categories,
+    products,
+    isLoadingProduct,
+    searchContext,
+    setSearchContext,
+    productPrecommandeFilter,
+    productPrecommande,
     setSelectedCategory,
-    selectedCategory,
-    isLoadingCategorie,
-  } = useContext(CategoryContext);
+  } = useContext(ProductContext);
 
-  const { products, isLoadingProduct, searchContext, setSearchContext } =
-    useContext(ProductContext);
-
-  const [precommandes, setPrecommandes] = useState(
-    products.filter((p) => p.is_preorder == true)
-  );
   const [startLength, setStartLength] = useState(0);
   const [endLength, setEndLength] = useState(6);
   const [produits, setProduits] = useState([]);
+  const [allproduits, setAllProduits] = useState([]);
   const [showBackButton, setShowBackButton] = useState(false);
   const [showLoadMoreButton, setShowLoadMoreButton] = useState(true);
   const [search, setSearch] = useState("");
@@ -49,14 +38,13 @@ export default function ProductPrecommandePage() {
   const [hasShownPopup, setHasShownPopup] = useState(false);
   const closeModal = () => setOpen(false);
 
-  console.log(categories);
   const handleLoadMore = () => {
-    if (endLength < precommandes.length) {
+    if (endLength < produits.length) {
       setEndLength(endLength + 8);
       setStartLength(Math.max(0, endLength));
       setShowBackButton(true);
     }
-    if (endLength + 8 >= precommandes.length) {
+    if (endLength + 8 >= produits.length) {
       setShowLoadMoreButton(false);
     }
   };
@@ -73,32 +61,15 @@ export default function ProductPrecommandePage() {
   };
 
   useEffect(() => {
-    if (selectedCategory) {
-      if (selectedCategory == "All" || selectedCategory == null) {
-        setProduits(precommandes);
-      } else {
-        const filteredProducts = precommandes.filter(
-          (pro) => pro.categ_id === selectedCategory
-        );
-        setProduits(filteredProducts);
-      }
-    }
-  }, [selectedCategory]);
-
-  useEffect(() => {
-    if (precommandes.length > 0) {
-      setProduits(precommandes);
-    } else {
-      setProduits([]);
-    }
-  }, [precommandes]);
+    setProduits(productPrecommandeFilter);
+    setAllProduits(productPrecommandeFilter);
+    setSearchContext("");
+  }, [productPrecommandeFilter]);
 
   useEffect(() => {
     const searchTerm = searchContext.toLowerCase();
-    console.log(searchTerm);
     setSearch(searchTerm);
-
-    const filteredProducts = precommandes.filter(
+    const filteredProducts = productPrecommandeFilter.filter(
       (product) =>
         (product.name &&
           product.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
@@ -107,37 +78,15 @@ export default function ProductPrecommandePage() {
         (product.description &&
           product.description.toLowerCase().includes(searchTerm.toLowerCase()))
     );
+
     setProduits(filteredProducts);
-  }, [searchContext]);
+  }, [productPrecommandeFilter, searchContext]);
 
-  const handleSearch = (event) => {
-    const searchTerm = event.target.value.toLowerCase();
-    console.log(searchTerm);
-    setSearch(searchTerm);
-
-    const filteredProducts = precommandes.filter((product) =>
-      product.name.toLowerCase().includes(searchTerm)
-    );
-    console.log(filteredProducts);
-    setProduits(filteredProducts);
-  };
-
-  const handleCategoryChange = (searchTerm) => {
-    const categorySelected = categories.find((c) => c.id === searchTerm);
-
+  const setAllProduct = () => {
+    setSelectedCategory("All");
     setSearch("");
-    if (categorySelected.name == "All") {
-      const filteredProducts = precommandes;
-      setProduits(filteredProducts);
-    } else {
-      const filteredProducts = precommandes.filter((product) =>
-        product.categ_id.includes(categorySelected.name)
-      );
-      console.log(filteredProducts);
-      setProduits(filteredProducts);
-    }
+    setSearchContext("");
   };
-
   return (
     <>
       <SEOHeader
@@ -189,7 +138,6 @@ export default function ProductPrecommandePage() {
                           type="search"
                           placeholder="Rechercher des produits"
                           value={search}
-                          // onChange={handleSearch}
                           onChange={(e) => {
                             setSearchContext(e.target.value);
                           }}
@@ -197,6 +145,13 @@ export default function ProductPrecommandePage() {
                         />
                       </div>
                       <div className="flex space-x-3 items-center">
+                        <button
+                          className=" hover:text-bleu-500"
+                          onClick={setAllProduct}
+                        >
+                          Tout
+                        </button>
+
                         {showBackButton && (
                           <div className="flex space-x-3 items-center border-b border-b-qgray">
                             <button

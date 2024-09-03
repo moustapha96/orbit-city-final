@@ -66,7 +66,7 @@ export default function PreOrderPage() {
 
   const handleOpenInvoice = (url) => {
     if (url) {
-      window.open(url, "_blank");
+      window.open(url, "_blank", 'noopener,noreferrer');
     }
   };
 
@@ -88,20 +88,7 @@ export default function PreOrderPage() {
     }
     console.log(montantAPayer, precommande.id);
   };
-  // const validerPaiment = async (e, idpayment, montant) => {
-  //   e.preventDefault();
-  //   setIsLoading(true);
-  //   setNumPayment(idpayment);
-  //   console.log(precommande);
-  //   console.log("Num payment " + numpayment);
-  //   console.log("id payment" + idpayment);
-  //   setPricePayment(montant);
-  //   if (idpayment != null && montant != null) {
-  //     setShowPaymentModal(true);
-  //     console.log(idpayment);
-  //   }
-  //   setIsLoading(false);
-  // };
+
 
   const handlePay = async () => {
     console.log(numpayment, pricepayment);
@@ -131,13 +118,13 @@ export default function PreOrderPage() {
               <div className="w-full sm:mb-10 mb-5">
                 <div className="sm:flex sm:space-x-[18px] s">
                   <div className="sm:w-1/2 w-full mb-5 h-[70px]">
-                    <a href="#">
-                      <div className="w-full h-full bg-[#F6F6F6] text-qblack flex justify-center items-center">
-                        <span className="text-[15px] font-medium">
-                          N° PréCommande <span>{precommande.name}</span>
-                        </span>
-                      </div>
-                    </a>
+
+                    <div className="w-full h-full bg-[#F6F6F6] text-qblack flex justify-center items-center">
+                      <span className="text-[15px] font-medium">
+                        N° Précommande <span>{precommande.name}</span>
+                      </span>
+                    </div>
+
                   </div>
                   <div className="flex-1 h-[70px]">
                     <div className="w-full h-full bg-[#F6F6F6] text-qblack flex justify-center items-center">
@@ -193,7 +180,7 @@ export default function PreOrderPage() {
                   </div>
                 </div>
 
-                {paymentDetails && (
+                {paymentDetails && paymentDetails.length > 0 && (
                   <>
                     <div className="w-full lg:flex lg:space-x-[30px]">
                       <div className="flex-1">
@@ -339,20 +326,18 @@ export default function PreOrderPage() {
                             Premier Tranche
                           </dt>
                           <dd
-                            className={`text-base font-medium ${
-                              precommande.first_payment_state
-                                ? "text-green-500"
-                                : "text-red-500"
-                            }`}
+                            className={`text-base font-medium ${precommande.first_payment_state
+                              ? "text-green-500"
+                              : "text-red-500"
+                              }`}
                           >
                             A payer avant le {precommande.first_payment_date}
                           </dd>
                           <dd
-                            className={`text-base font-medium ${
-                              precommande.first_payment_state
-                                ? "text-green-500"
-                                : "text-red-500"
-                            }`}
+                            className={`text-base font-medium ${precommande.first_payment_state
+                              ? "text-green-500"
+                              : "text-red-500"
+                              }`}
                           >
                             {formatPrice(precommande.first_payment_amount)}
                           </dd>
@@ -362,20 +347,18 @@ export default function PreOrderPage() {
                             Deuxieme Tranche
                           </dt>
                           <dd
-                            className={`text-base font-medium ${
-                              precommande.second_payment_state
-                                ? "text-green-500"
-                                : "text-red-500"
-                            }`}
+                            className={`text-base font-medium ${precommande.second_payment_state
+                              ? "text-green-500"
+                              : "text-red-500"
+                              }`}
                           >
                             {precommande.second_payment_date}
                           </dd>
                           <dd
-                            className={`text-base font-medium ${
-                              precommande.second_payment_state
-                                ? "text-green-500"
-                                : "text-red-500"
-                            }`}
+                            className={`text-base font-medium ${precommande.second_payment_state
+                              ? "text-green-500"
+                              : "text-red-500"
+                              }`}
                           >
                             {formatPrice(precommande.second_payment_amount)}
                           </dd>
@@ -385,20 +368,18 @@ export default function PreOrderPage() {
                             Troisieme Tranche
                           </dt>
                           <dd
-                            className={`text-base font-medium ${
-                              precommande.third_payment_state
-                                ? "text-green-500"
-                                : "text-red-500"
-                            }`}
+                            className={`text-base font-medium ${precommande.third_payment_state
+                              ? "text-green-500"
+                              : "text-red-500"
+                              }`}
                           >
                             {precommande.third_payment_date}
                           </dd>
                           <dd
-                            className={`text-base font-medium ${
-                              precommande.third_payment_state
-                                ? "text-green-500"
-                                : "text-red-500"
-                            }`}
+                            className={`text-base font-medium ${precommande.third_payment_state
+                              ? "text-green-500"
+                              : "text-red-500"
+                              }`}
                           >
                             {formatPrice(precommande.third_payment_amount)}
                           </dd>
@@ -421,7 +402,7 @@ export default function PreOrderPage() {
                           <dd className="text-lg font-bold text-green-500 dark:text-white">
                             {formatPrice(
                               precommande.amount_total -
-                                precommande.amount_residual
+                              precommande.amount_residual
                             )}
                           </dd>
                         </dl>
@@ -448,96 +429,96 @@ export default function PreOrderPage() {
                       )}
                       {(precommande.advance_payment_status === "not_paid" ||
                         precommande.advance_payment_status === "partial") && (
-                        <>
-                          <div className="input-item mb-5">
-                            <div className="mb-2 inline-block">
-                              <Label
-                                htmlFor="montant"
-                                value="Montant A payer"
+                          <>
+                            <div className="input-item mb-5">
+                              <div className="mb-2 inline-block">
+                                <Label
+                                  htmlFor="montant"
+                                  value="Montant A payer"
+                                />
+                              </div>
+
+                              <TextInput
+                                id="montant"
+                                placeholder="1000"
+                                label="Montant*"
+                                name="montantAPayer"
+                                type="number"
+                                value={montantAPayer}
+                                max={precommande.amount_residual}
+                                min={
+                                  !precommande.first_payment_state
+                                    ? precommande.first_payment_amount
+                                    : 1000
+                                }
+                                onChange={(e) => {
+                                  const value = e.target.value;
+                                  if (value <= precommande.amount_residual) {
+                                    setMontantAPayer(value);
+                                  }
+                                  if (
+                                    !precommande.first_payment_state &&
+                                    value < precommande.first_payment_amount
+                                  ) {
+                                    setErrorMontantAPayer(
+                                      `Le montant entré doit être supérieur ou égal à la première tranche de ${formatPrice(
+                                        precommande.first_payment_amount
+                                      )}.`
+                                    );
+                                  } else {
+                                    setErrorMontantAPayer("");
+                                  }
+                                }}
+                                required
+                                className="invalid:border-red-500 invalid:text-red-600 focus:invalid:border-red-500 focus:invalid:ring-red-500"
                               />
+                              {errorMontantAPayer && (
+                                <p className="text-red-600">
+                                  {errorMontantAPayer}
+                                </p>
+                              )}
                             </div>
 
-                            <TextInput
-                              id="montant"
-                              placeholder="1000"
-                              label="Montant*"
-                              name="montantAPayer"
-                              type="number"
-                              value={montantAPayer}
-                              max={precommande.amount_residual}
-                              min={
-                                !precommande.first_payment_state
-                                  ? precommande.first_payment_amount
-                                  : 1000
-                              }
-                              onChange={(e) => {
-                                const value = e.target.value;
-                                if (value <= precommande.amount_residual) {
-                                  setMontantAPayer(value);
-                                }
-                                if (
-                                  !precommande.first_payment_state &&
-                                  value < precommande.first_payment_amount
-                                ) {
-                                  setErrorMontantAPayer(
-                                    `Le montant entré doit être supérieur ou égal à la première tranche de ${formatPrice(
-                                      precommande.first_payment_amount
-                                    )}.`
-                                  );
-                                } else {
-                                  setErrorMontantAPayer("");
-                                }
-                              }}
-                              required
-                              className="invalid:border-red-500 invalid:text-red-600 focus:invalid:border-red-500 focus:invalid:ring-red-500"
-                            />
-                            {errorMontantAPayer && (
-                              <p className="text-red-600">
-                                {errorMontantAPayer}
-                              </p>
+                            {precommande && (
+                              <>
+                                {precommande.state !== "sale" &&
+                                  precommande.state !== "draft" ? (
+                                  <div className="flex justify-center items-center mt-2">
+                                    <span className="text-lg font-medium text-red-500 dark:text-white">
+                                      La précommande est annulée, vous ne pouvez
+                                      pas passer à la caisse.
+                                    </span>
+                                  </div>
+                                ) : (
+                                  <Button
+                                    type="submit"
+                                    onClick={(e) =>
+                                      validerPaimentMontant(e, montantAPayer)
+                                    }
+                                    className="rounded-lg px-5 py-2.5 font-medium w-full hover:bg-red-500 hover:text-white text-xl"
+                                    disabled={stateButton}
+                                  >
+                                    {isLoading && (
+                                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                    )}
+                                    Passer à la caisse (
+                                    {formatPrice(montantAPayer)})
+                                  </Button>
+                                )}
+                              </>
                             )}
-                          </div>
 
-                          {precommande && (
-                            <>
-                              {precommande.state !== "sale" &&
-                              precommande.state !== "draft" ? (
-                                <div className="flex justify-center items-center mt-2">
-                                  <span className="text-lg font-medium text-red-500 dark:text-white">
-                                    La précommande est annulée, vous ne pouvez
-                                    pas passer à la caisse.
-                                  </span>
-                                </div>
-                              ) : (
-                                <Button
-                                  type="submit"
-                                  onClick={(e) =>
-                                    validerPaimentMontant(e, montantAPayer)
-                                  }
-                                  className="rounded-lg px-5 py-2.5 font-medium w-full hover:bg-red-500 hover:text-white text-xl"
-                                  disabled={stateButton}
-                                >
-                                  {isLoading && (
-                                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                  )}
-                                  Passer à la caisse (
-                                  {formatPrice(montantAPayer)})
-                                </Button>
-                              )}
-                            </>
-                          )}
-
-                          {showPaymentModal && precommande && (
-                            <PaydunyaModalService
-                              handlePay={handlePay}
-                              totalAmount={montantAPayer}
-                              onClose={() => setShowPaymentModal(false)}
-                              order={precommande}
-                              idOrder={precommande.id}
-                            />
-                          )}
-                        </>
-                      )}
+                            {showPaymentModal && precommande && (
+                              <PaydunyaModalService
+                                handlePay={handlePay}
+                                totalAmount={montantAPayer}
+                                onClose={() => setShowPaymentModal(false)}
+                                order={precommande}
+                                idOrder={precommande.id}
+                              />
+                            )}
+                          </>
+                        )}
                       {precommande.advance_payment_status === "paid" && (
                         <div className="flex justify-center items-center mt-2">
                           <span className="text-lg font-medium text-green-500 dark:text-white">

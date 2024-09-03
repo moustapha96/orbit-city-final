@@ -14,75 +14,108 @@ import { toast } from "react-toastify";
 import { Button } from "flowbite-react";
 import { Loader2 } from "lucide-react";
 import BannerPub from "../About/BannerPub";
+import { UserContext } from "../../contexts/UserContext";
 export default function PreCardPage({ cart = true }) {
   const { getPreorderTotal, preorder, clearPreorder, preorderState } =
     useContext(CartContext);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
+  const { user } = useContext(UserContext);
   const handleValidePanier = async (e) => {
     e.preventDefault();
-    console.log("creation de la commande sur le odoo ");
-    console.log(preorder);
-
-    const modelData = {
-      partner_id: parseInt(localStorage.getItem("partner_id")),
-      type_sale: "preorder",
-      state: "sale",
-      commitment_date: new Date(),
-      order_lines: preorder.map((orde) => ({
-        id: orde.id,
-        quantity: orde.quantity,
-        list_price: orde.preorder_price,
-      })),
-    };
-    console.log(modelData);
     setIsLoading(true);
-    try {
-      const response = await PrecommandeService.createPreCommande(modelData);
-      console.log(response);
-      if (response.status == "error") {
-        toast.error(response.message, {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
-        setIsLoading(false);
-        return;
-      } else {
-        toast.success("Pré Commande enregistrée avec succés", {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
-        setIsLoading(false);
-        navigate(`/pre-commandes/${response.id}/détails`);
-        console.log(response);
-        // setPreOrderState(response);
-        clearPreorder();
-        console.log(preorderState);
-      }
-    } catch (error) {
-      toast.error("Pré Commande non enregistrée " + error, {
+    if (!user) {
+      toast.dismiss();
+      toast.warning("Merci de vous connecter", {
         position: "top-center",
-        autoClose: 5000,
+        autoClose: 7000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
       });
-      console.error("Erreur lors de la récupération des modèles", error);
+      navigate("/login");
+    } else {
+
+      if (preorder.length === 0) {
+        toast.dismiss();
+        toast.error("Veuillez ajouter au moins un article dans votre panier", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      } else {
+        console.log("creation de la commande sur le odoo ");
+        console.log(preorder);
+
+        const modelData = {
+          partner_id: parseInt(localStorage.getItem("partner_id")),
+          type_sale: "preorder",
+          state: "sale",
+          commitment_date: new Date(),
+          order_lines: preorder.map((orde) => ({
+            id: orde.id,
+            quantity: orde.quantity,
+            list_price: orde.preorder_price,
+          })),
+        };
+        console.log(modelData);
+        setIsLoading(true);
+        try {
+          const response = await PrecommandeService.createPreCommande(modelData);
+          console.log(response);
+          if (response.status == "error") {
+            toast.error(response.message, {
+              position: "top-center",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
+            setIsLoading(false);
+            return;
+          } else {
+            toast.success("Pré Commande enregistrée avec succés", {
+              position: "top-center",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
+            setIsLoading(false);
+            navigate(`/pre-commandes/${response.id}/détails`);
+            console.log(response);
+            // setPreOrderState(response);
+            clearPreorder();
+            console.log(preorderState);
+          }
+        } catch (error) {
+          toast.error("Pré Commande non enregistrée " + error, {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+          console.error("Erreur lors de la récupération des modèles", error);
+        }
+        setIsLoading(false);
+      }
     }
     setIsLoading(false);
+
   };
   return (
     <Layout childrenClasses={cart ? "pt-0 pb-0" : ""}>

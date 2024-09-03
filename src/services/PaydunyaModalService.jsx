@@ -36,16 +36,10 @@ const PaydunyaModalService = ({
   const { user } = useContext(UserContext);
 
   const [isLoading, setIsloading] = useState(false);
-  const [tokenP, setTokenP] = useState(null);
-  const [status, setStatus] = useState(null);
-  const [responseText, setResponseText] = useState(null);
-
-  const [paymentUrl, setPaymentUrl] = useState("");
-  const [paymentResponse, setPaymentResponse] = useState(null);
   const [openModal, setOpenModal] = useState(true);
-  const [returnUtl, setReturnUrl] = useState(null);
   const [setup, setSetup] = useState(null);
   const [store, setStore] = useState(null);
+  const [facture, setFacture] = useState(null)
 
   useEffect(() => {
     setUserPayment(user);
@@ -56,35 +50,60 @@ const PaydunyaModalService = ({
     console.log(user);
 
     const paydunyaSetup = new paydunya.Setup({
-      masterKey: "3ApSagrZ-NkOP-M2GJ-tQr3-6F1TroNp8fL7",
-      privateKey: "test_private_rLI7U4b3J0SjDBJQ7cEC9OCayn9",
-      publicKey: "test_public_4FEHuOo9gsFwgPjoQv27L1deBlx",
-      token: "UWVccdmuTo5tusRDkoZQ",
-      mode: "test",
-      // masterKey: "3ApSagrZ-NkOP-M2GJ-tQr3-6F1TroNp8fL7",
-      // publicKey: "live_public_YHBiR9AiLB8scwCFpcd5U2A62zU",
-      // privateKey: "live_private_vu4eNlAlyVQ15Z77gclxMiKtFkN",
-      // token: "J5rKrbWZxGitf5nXGrrh",
-      // mode: "live",
+      // masterKey: "voFGVcul-uCsd-1sw5-wfGz-ukqScIQoOyDu",
+      // privateKey: "test_private_LJfJe2zAiwndwRq6ZF4qIDIoApZ",
+      // publicKey: "test_public_Cg2nELkXvHleRmby9NfaKWofWQS",
+      // token: "VaZUkYb6b1JOpZfxUe3R",
+      // mode: "test",
+      masterKey: "voFGVcul-uCsd-1sw5-wfGz-ukqScIQoOyDu",
+      privateKey: "live_private_KvbXuQU1IJ4z68hQOU9YeEtrUjW",
+      publicKey: "live_public_wgK4JebXd3SfGDWN64sEIffD5XR",
+      token: "cjTGi71WL8xOTCrsJisR",
+      mode: "live",
     });
     setSetup(paydunyaSetup);
     const store = new paydunya.Store({
       name: "CCBM SHOP",
-      email: "contact@ccbm.sn",
+      email: "ccbme@ccbm.sn",
       tagline: "Votre boutique pour vos matériels électroménéger",
-      phoneNumber: "784537547",
-      postalAddress: "Dakar",
-      logoURL: "https://ccbme.sn/logo.png",
+      phoneNumber: "+221 33 849 65 49",
+      postalAddress: "Avenue Lamine Gueye,x Rue Marchand,Dakar-Senegal",
+      logoURL: "https://ccbme.sn/logo_192.png",
       websiteURL: "https://ccbme.sn/",
     });
     setStore(store);
   }, []);
 
+  // useEffect(() => {
+  //   const fetchPaymentDetails = async () => {
+  //     setIsloading(true);
+  //     try {
+  //       const responsePd = await PaiementService.getPaymentDetailsByIdOrder(
+  //         idOrder
+  //       );
+  //       console.log("response details payment ");
+  //       console.log(responsePd);
+  //       setFacture(responsePd);
+  //     } catch (error) {
+
+  //       console.error(
+  //         "Erreur lors de l'enregistrement des détails du paiement :",
+  //         error.message
+  //       );
+  //     } finally {
+  //       setIsloading(false);
+  //     }
+  //   };
+  //   fetchPaymentDetails();
+  // }, [location.search]);
+
   const handleSubmit = (event) => {
+    console.log("arrivé");
     setIsloading(true);
     event.preventDefault();
     if (setup && store && totalAmount > 0) {
       const invoice = new CheckoutInvoice(setup, store);
+      console.log(invoice);
 
       order.order_lines.forEach((article) => {
         invoice.addItem(
@@ -94,14 +113,21 @@ const PaydunyaModalService = ({
           article.price_subtotal
         );
       });
+      console.log(invoice);
 
       invoice.totalAmount = Math.ceil(totalAmount);
-      invoice.description =
-        "Payment de " +
-        formatPrice(Math.ceil(totalAmount)) +
-        " pour la commande " +
-        order.name;
+      if (order.type_sale === "order") {
+        invoice.description = `Paiement de ${formatPrice(Math.ceil(totalAmount))} pour la commande ${order.name}`;
+      } else if (order.type_sale === "preorder") {
+        if (order.amount_residual > 0) {
+          invoice.description = `Paiement de ${formatPrice(Math.ceil(totalAmount))} pour la précommande ${order.name} avec un montant total restant de ${order.amount_total - totalAmount}`;
+        } else {
+          invoice.description = `Paiement de ${formatPrice(Math.ceil(totalAmount))} pour la précommande ${order.name}`;
+        }
+      }
+
       invoice.callbackURL = "https://ccbme.sn/profile";
+
       if (order.type_sale === "order") {
         invoice.cancelURL = `https://ccbme.sn/commandes/${idOrder}/détails`;
       } else {
@@ -109,22 +135,31 @@ const PaydunyaModalService = ({
       }
       invoice.returnURL = `https://ccbme.sn/payment-state`;
 
-      invoice.addChannels([
-        "card",
-        "jonijoni-senegal",
-        "orange-money-senegal",
-        "wave-senegal",
-      ]);
       setPaymentDetails(invoice);
       setTotalAmount(invoice.totalAmount);
-
+      console.log(invoice);
       invoice
         .create()
         .then(async function () {
-          setPaymentResponse(invoice);
+          setFacture(invoice);
+
           console.log(invoice);
+          let transaction = null;
+
+          if (order.type_sale === "order") {
+            transaction = `${user.partner_id}-${idOrder}-${totalAmount}-${order.name}-${order.type_sale}`;
+          } else if (order.type_sale === "preorder") {
+            if (!order.first_payment_state && !order.second_payment_state && !order.third_payment_state) {
+              transaction = `${user.partner_id}-${idOrder}-${totalAmount}-${order.name}-${order.type_sale}-1`;
+            } else if (order.first_payment_state && !order.second_payment_state && !order.third_payment_state) {
+              transaction = `${user.partner_id}-${idOrder}-${totalAmount}-${order.name}-${order.type_sale}-2`;
+            } else {
+              transaction = `${user.partner_id}-${idOrder}-${totalAmount}-${order.name}-${order.type_sale}-3`;
+            }
+          }
+
           const data = {
-            transaction_id: `${user.partner_id}-${idOrder}-${totalAmount}-${order.name}-${order.type_sale}`,
+            transaction_id: transaction,
             amount: totalAmount,
             order_id: idOrder,
             order_type: order.type_sale,
@@ -133,10 +168,11 @@ const PaydunyaModalService = ({
             payment_token: invoice.token,
             payment_state: invoice.status,
           };
+
           console.log(data);
           try {
             const response = await PaiementService.setPaymentDetails(data);
-            if (Array.isArray(response)) {
+            if (response.order_type == "preorder") {
               console.log("precommande");
               toast.success("Merci de passer au payment sur paydunya", {
                 position: "top-center",
@@ -162,22 +198,19 @@ const PaydunyaModalService = ({
                 navigate(`/commandes/${idOrder}/détails`);
               }
             }
-            localStorage.setItem("idDataPayment", response.id);
-            setPaymentUrl(invoice.url);
-            localStorage.setItem("idOrderPayment", idOrder);
-            localStorage.setItem("tokenOrderPayment", invoice.token);
+
+            localStorage.setItem("urlOrderPayment", invoice.url);
             localStorage.setItem("statusOrderPayment", invoice.status);
+            localStorage.setItem("tokenOrderPayment", invoice.token);
+            localStorage.setItem("idDataPayment", response.id);
+            localStorage.setItem("idOrderPayment", idOrder);
             localStorage.setItem("montant", totalAmount);
 
             localStorage.setItem(
               "responseTextOrderPayment",
               invoice.responseText
             );
-            window.open(invoice.url, "_blank");
-            setOpenModal(false);
-            setTimeout(() => {
-              window.close();
-            }, 1000);
+
           } catch (error) {
             console.error("erreur lors de l'enregistrement details payment");
             console.error(error);
@@ -203,25 +236,26 @@ const PaydunyaModalService = ({
             draggable: true,
             progress: undefined,
           });
+        }).finally(() => {
+          setIsloading(false);
         });
     }
-    setIsloading(false);
   };
 
-  // const handleSubmit = (event) => {
-  //   setIsloading(true);
-  //   event.preventDefault();
-  //   console.log("passer au paiment");
-  //   localStorage.setItem("idOrderPayment", idOrder);
-  //   localStorage.setItem("montant", totalAmount);
-  //   // localStorage.setItem("tokenOrderPayment", invoice.token);
-  //   // localStorage.setItem("statusOrderPayment", invoice.status);
-  //   // localStorage.setItem("montant", totalAmount);
-  //   navigate("/payment-state");
-  //   console.log(payment);
+  const handleClick = (e) => {
+    e.preventDefault()
+    openInNewTab(facture.url);
+    setOpenModal(false)
+    navigate('/profile')
 
-  //   setIsloading(false);
-  // };
+    // if (order.type_sale == "order") {
+    //   // navigate(`/commandes/${idOrder}/détails`);
+    //   navigate(`/profil#orders`);
+    // } else {
+    //   navigate(`/pre-commandes/${idOrder}/détails`);
+    // }
+  };
+
   return (
     <Modal
       size="xl"
@@ -252,71 +286,89 @@ const PaydunyaModalService = ({
                 />
               </p>
             </div>
-
+            {facture && (
+              <div className="flex flex-wrap justify-center items-center" >
+                <p> token de payment:  <span> {facture.token}  </span>  </p>
+              </div>
+            )}
             {order && (
-              <form onSubmit={handleSubmit}>
+
+              <>
                 <div className="my-8">
-                  <label className="text-gray-800 text-sm">
-                    Noms des articles :
-                    <select
-                      multiple
-                      className="border border-gray-300 rounded-lg px-4 py-2 mt-2 w-full"
-                    >
+
+
+
+                  <table className="w-full">
+                    <thead>
+                      <tr>
+                        <th className="text-left text-gray-800 text-sm py-2">Nom de la commande :</th>
+                        <th className="text-right text-gray-800 text-sm py-2">{order.name}</th>
+                      </tr>
+                    </thead>
+                  </table>
+                  <table className="w-full">
+                    <thead>
+                      <tr>
+                        <th className="text-left text-gray-800 text-sm py-2">Nom produit</th>
+                        <th className="text-right text-gray-800 text-sm py-2">Prix total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
                       {order &&
                         order.order_lines.map((article, index) => (
-                          <option key={index} value={article.product_name}>
-                            {article.product_name} : {article.product_uom_qty} x{" "}
-                            {formatPrice(article.price_unit)}
-                          </option>
+                          <tr key={index}>
+                            <td className="text-left text-gray-800 text-sm py-2">{article.product_name} ({article.product_uom_qty})  </td>
+                            <td className="text-right text-gray-800 text-sm py-2 font-medium">{formatPrice(article.price_total)}</td>
+                          </tr>
                         ))}
-                    </select>
-                  </label>
-                  <label className="text-gray-800 text-sm">
-                    <br />
-                    <label className="text-gray-800 text-sm mt-4">
-                      Nom de la commande :
-                      <input
-                        type="text"
-                        value={order.name}
-                        disabled
-                        className="border border-gray-300 rounded-lg px-4 py-2 mt-2 w-full"
-                      />
-                    </label>
-                    <br />
-                    Total à payer (en FCFA)
-                    <input
-                      type="text"
-                      value={formatPrice(Math.ceil(order.amount_total))}
-                      disabled
-                      className="border border-gray-300 rounded-lg px-4 py-2 mt-2 w-full"
-                    />
-                    <br />
-                    Montant à payer (en FCFA)
-                    <input
-                      type="text"
-                      value={formatPrice(Math.ceil(totalAmount))}
-                      disabled
-                      className="border border-gray-300 rounded-lg px-4 py-2 mt-2 w-full"
-                    />
-                  </label>
+                    </tbody>
+                  </table>
+
+
+                  <table className="w-full">
+                    <thead>
+                      <tr>
+                        <th className="text-left text-gray-800 text-sm py-2">Total à payer (en FCFA) :</th>
+                        <th className="text-right text-gray-800 text-sm py-2">{formatPrice(Math.ceil(order.amount_total))}</th>
+                      </tr>
+                    </thead>
+                  </table>
+
+
                   <br />
                   <div className="flex max-sm:flex-col items-center gap-4 mt-8">
-                    {setup && store && (
+                    {setup && store && !facture && (
                       <Button
-                        type="submit"
+                        onClick={handleSubmit}
                         disabled={isLoading}
+                        pill
                         className="rounded-lg px-5 py-2.5 font-medium w-full hover:bg-red-500 hover:text-white text-xl"
                       >
                         {" "}
                         {isLoading && (
-                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          <>
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                            <p>Validation</p>
+                          </>
                         )}
-                        Passer au paiement
+                        {!isLoading && "Valider"}
+
+                      </Button>
+                    )}
+                    {setup && store && facture && (
+                      <Button
+                        disabled={!facture}
+                        onClick={(e) => handleClick(e)}
+                        color="success"
+                        pill
+                        className="rounded-lg px-5 py-2.5 font-medium w-full hover:bg-red-500 hover:text-white text-xl"
+                      >
+                        Passer au payment
                       </Button>
                     )}
                   </div>
                 </div>
-              </form>
+              </>
             )}
           </div>
         </div>
@@ -324,5 +376,11 @@ const PaydunyaModalService = ({
     </Modal>
   );
 };
+
+function openInNewTab(url) {
+  const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
+  if (newWindow) newWindow.opener = null;
+}
+
 
 export default PaydunyaModalService;

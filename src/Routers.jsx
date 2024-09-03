@@ -38,6 +38,9 @@ import NewPassword from "./components/Auth/NewPassword/index.jsx";
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
 
+
+
+
   { path: "/all-products", element: <AllProductPage /> },
   { path: "/pre-commandes", element: <ProductPrecommandePage /> },
 

@@ -23,6 +23,10 @@ export default function OrderDraftTab() {
       }
     };
     fetchModels();
+
+
+
+
   }, []);
   const navigate = useNavigate();
   const handleDetails = (e, commande) => {
@@ -107,11 +111,10 @@ export default function OrderDraftTab() {
                     </td>
                     <td className="text-center py-4 px-2 hidden sm:table-cell">
                       <span
-                        className={`text-sm rounded p-2 ${
-                          commande.advance_payment_status !== "not_paid"
-                            ? "text-green-500 bg-green-100"
-                            : "text-red-500 bg-red-100"
-                        }`}
+                        className={`text-sm rounded p-2 ${commande.advance_payment_status !== "not_paid"
+                          ? "text-green-500 bg-green-100"
+                          : "text-red-500 bg-red-100"
+                          }`}
                       >
                         {commande.advance_payment_status == "not_paid"
                           ? "Non Payé"

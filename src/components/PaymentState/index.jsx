@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import { useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 import BreadcrumbCom from "../BreadcrumbCom";
@@ -14,11 +14,11 @@ import formatPrice from "../../utils/formatPrice";
 import formatDate from "../../utils/date-format";
 import PaiementService from "../../services/paimentService";
 
-import commandeService from "../../services/commandeService";
 import PrecommandeService from "../../services/precommandeService";
 
-import { Loader, Loader2 } from "lucide-react";
-import { Button } from "flowbite-react";
+import { Loader, } from "lucide-react";
+import { Button, } from "flowbite-react";
+import CommandeService from "../../services/CommandeService";
 export default function PaymentStatePage({ cart = true }) {
   const navigate = useNavigate();
   const location = useLocation();
@@ -40,22 +40,37 @@ export default function PaymentStatePage({ cart = true }) {
         const responsePd = await PaiementService.getPaymentDetailsByToken(
           paymentToken
         );
+        // payment complet 
         console.log("response details payment ");
         console.log(responsePd);
-        setPaymentDetails(responsePd);
-        setToken(responsePd.payment_token);
-        if (responsePd.order_type === "order") {
-          const responseCommande = await commandeService.getCommandeById(
-            responsePd.order_id
-          );
-          setCommande(responseCommande);
-        } else if (responsePd.order_type === "preorder") {
-          const responsePrecommande =
-            await PrecommandeService.getPreCommandeById(responsePd.order_id);
-          setPreCommande(responsePrecommande);
-          console.log(responsePrecommande);
+        console.log(responsePd.token_status, responsePd.payment_state);
+        if (responsePd.token_status && responsePd.payment_state === "completed") {
+          if (responsePd.order_type == "order") {
+            navigate(`/commandes/${responsePd.order_id}/détails`);
+            return;
+          } else if (responsePd.order_type == "preorder") {
+            navigate(`/pre-commandes/${responsePd.order_id}/détails`);
+            return;
+          }
+          setPaymentDetails(null);
+          setToken(null);
+        } else {
+          setPaymentDetails(responsePd);
+          setToken(responsePd.payment_token);
+          if (responsePd.order_type === "order") {
+            const responseCommande = await CommandeService.getCommandeById(
+              responsePd.order_id
+            );
+            setCommande(responseCommande);
+          } else if (responsePd.order_type == "preorder") {
+            const responsePrecommande =
+              await PrecommandeService.getPreCommandeById(responsePd.order_id);
+            setPreCommande(responsePrecommande);
+            console.log(responsePrecommande);
+          }
+          setIsLoading(false);
         }
-        setIsLoading(false);
+
       } catch (error) {
         setIsLoading(false);
         toast.error("Erreur lors de la recuperation des données du paiement", {
@@ -75,6 +90,7 @@ export default function PaymentStatePage({ cart = true }) {
       } finally {
         setIsLoading(false);
       }
+
     };
 
     const searchParams = new URLSearchParams(location.search);
@@ -86,6 +102,9 @@ export default function PaymentStatePage({ cart = true }) {
   }, [location.search]);
 
   useEffect(() => {
+    if (paymentDetails && paymentDetails.token_status && paymentDetails.payment_state === "completed") {
+      return;
+    }
     if (token) {
       setIsLoading(true);
       const timeoutId = setTimeout(async () => {
@@ -94,6 +113,7 @@ export default function PaymentStatePage({ cart = true }) {
         try {
           const resultaPayment = await PaiementService.confirmInvoice(token);
           setData(resultaPayment);
+          console.log(resultaPayment);
         } catch (error) {
           console.error(
             "Erreur lors de la confirmation de l'invoice :",
@@ -109,22 +129,34 @@ export default function PaymentStatePage({ cart = true }) {
   }, [token]);
 
   useEffect(() => {
-    if (data && token && paymentDetails) {
+
+    if (paymentDetails && paymentDetails.token_status && paymentDetails.payment_state === "completed") {
+      return;
+    }
+
+    if (data && token && paymentDetails && paymentDetails.payment_state != "completed" && !paymentDetails.token_status) {
+
+      console.log(paymentDetails);
       setIsLoading(true);
       const timeoutId = setTimeout(async () => {
         console.log("4 seconde");
         if (data.response_code === "00" && data.status === "completed") {
           const url_facture = data.receipt_url;
           try {
+
+            let name = data.customer.name;
+            let email = data.customer.email;
+            let phone = data.customer.phone;
+            let token_status = true
+
             const responsePaymentDetails =
-              await PaiementService.updatePaymentDetails(
-                paymentDetails.id,
-                data.status,
+              await PaiementService.updatePaymentDetails(parseInt(paymentDetails.id), data.status,
                 url_facture,
-                data.customer.name,
-                data.customer.email,
-                data.customer.phone
-              );
+                name,
+                email,
+                phone,
+                token_status);
+
             if (responsePaymentDetails) {
               if (responsePaymentDetails.order_type === "order") {
                 if (
@@ -133,6 +165,18 @@ export default function PaymentStatePage({ cart = true }) {
                 ) {
                   validerPaimentCommande();
                   console.log("arrivé commande");
+                }
+                else if (commande && commande.advance_payment_status === "paid") {
+                  toast.success("Commande validé avec succés", {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                  })
+                  navigate(`/commandes/${commande.id}/détails`);
                 } else {
                   toast.error("Commande non trouvée", {
                     position: "top-right",
@@ -173,7 +217,8 @@ export default function PaymentStatePage({ cart = true }) {
             setIsLoading(false);
           }
         } else {
-          console.log("error " + data);
+          console.log("error ");
+          console.log(data);
           toast.error("Payment non effectif , Veuillez reéssayer", {
             position: "top-right",
             autoClose: 5000,
@@ -184,12 +229,17 @@ export default function PaymentStatePage({ cart = true }) {
             progress: undefined,
           });
           setIsLoading(false);
+          if (paymentDetails.order_type == "order") {
+            navigate(`/commandes/${commande.id}/détails`);
+          } else {
+            navigate(`/pre-commandes/${precommande.id}/détails`);
+          }
         }
       }, 4000);
 
       return () => clearTimeout(timeoutId);
     }
-  }, [data, token, paymentDetails]);
+  }, [data, token, paymentDetails, commande, precommande]);
 
   const confirmInvoice = async () => {
     if (data.response_code === "00" && data.status === "completed") {
@@ -296,7 +346,7 @@ export default function PaymentStatePage({ cart = true }) {
 
   const handleOpenInvoice = () => {
     if (data && data.receipt_url) {
-      window.open(data.receipt_url, "_blank");
+      window.open(data.receipt_url, "_blank", 'noopener,noreferrer');
     }
   };
 
@@ -321,11 +371,10 @@ export default function PaymentStatePage({ cart = true }) {
         <div className="cart-page-wrapper w-full bg-white pb-[60px]">
           <div className="w-full">
             <PageTitle
-              title={`Statut Paiment ${
-                commande && commande.type_sale == "preorder"
-                  ? "Pré commande"
-                  : "Commande"
-              } `}
+              title={`Statut Paiment ${commande && commande.type_sale == "preorder"
+                ? "Pré commande"
+                : "Commande"
+                } `}
               breadcrumb={[
                 { name: "Accueil", path: "/" },
                 { name: "Tableau de bord", path: "/profile" },
@@ -352,11 +401,13 @@ export default function PaymentStatePage({ cart = true }) {
                           <div className="flex-1 w-full mb-5 h-[70px]">
                             <div className="w-full h-full bg-[#F6F6F6] text-qblack flex justify-center items-center">
                               <span className="text-[15px] font-medium">
-                                Token &nbsp;
+
                                 <span>
                                   {token && (
                                     <>
-                                      <p>Le jeton de paiement est : {token}</p>
+
+                                      <p> Paiement de (
+                                        {formatPrice(paymentDetails.amount)} ) en cours de validation....</p>
                                     </>
                                   )}
                                 </span>
@@ -381,10 +432,10 @@ export default function PaymentStatePage({ cart = true }) {
                                 Statut :{" "}
                                 {commande.advance_payment_status ===
                                   "not_paid" && (
-                                  <span className="text-red-500">
-                                    (Non Payé)
-                                  </span>
-                                )}
+                                    <span className="text-red-500">
+                                      (Non Payé)
+                                    </span>
+                                  )}
                                 {commande.advance_payment_status === "paid" && (
                                   <span className="text-green-500">
                                     {" "}
@@ -393,11 +444,11 @@ export default function PaymentStatePage({ cart = true }) {
                                 )}
                                 {commande.advance_payment_status ===
                                   "partial" && (
-                                  <span className="text-yellow-500">
-                                    {" "}
-                                    (Payé Partiellement)
-                                  </span>
-                                )}
+                                    <span className="text-yellow-500">
+                                      {" "}
+                                      (Payé Partiellement)
+                                    </span>
+                                  )}
                               </span>
                             </div>
                           </div>
@@ -426,7 +477,7 @@ export default function PaymentStatePage({ cart = true }) {
                                 <div className="sub-total mb-6">
                                   <div className=" flex justify-between mb-5">
                                     <p className="text-[13px] font-medium text-qblack uppercase">
-                                      Détail Payment
+                                      Détails Payment
                                     </p>
                                   </div>
                                   <div className="w-full h-[1px] bg-[#EDEDED]"></div>
@@ -580,14 +631,13 @@ export default function PaymentStatePage({ cart = true }) {
                                 </p>
                                 <p className="text-2xl font-medium">
                                   <span
-                                    className={`text-${
+                                    className={`text-${commande.advance_payment_status ===
+                                      "not_paid" ||
                                       commande.advance_payment_status ===
-                                        "not_paid" ||
-                                      commande.advance_payment_status ===
-                                        "partial"
-                                        ? "red"
-                                        : "green"
-                                    }-500`}
+                                      "partial"
+                                      ? "red"
+                                      : "green"
+                                      }-500`}
                                   >
                                     {" "}
                                     {formatPrice(commande.amount_total)}
@@ -610,8 +660,8 @@ export default function PaymentStatePage({ cart = true }) {
                                 </div>
                               </div>
                             )}
-                            <div>
-                              {commande && (
+                            {/* <div>
+                              {commande && isLoading && (
                                 <>
                                   <Button
                                     type="submit"
@@ -622,12 +672,12 @@ export default function PaymentStatePage({ cart = true }) {
                                     {isLoading && (
                                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                                     )}
-                                    Valider ({" "}
+                                     Validation de paiement ({" "}
                                     {formatPrice(paymentDetails.amount)} )
                                   </Button>
                                 </>
                               )}
-                            </div>
+                            </div> */}
                           </div>
                         </div>
                       </div>
@@ -649,13 +699,12 @@ export default function PaymentStatePage({ cart = true }) {
                             <div className="flex-1 w-full mb-5 h-[70px]">
                               <div className="w-full h-full bg-[#F6F6F6] text-qblack flex justify-center items-center">
                                 <span className="text-[15px] font-medium">
-                                  Token &nbsp;
+
                                   <span>
                                     {token && (
                                       <>
-                                        <p>
-                                          Le jeton de paiement est : {token}
-                                        </p>
+                                        <p> Paiement de (
+                                          {formatPrice(paymentDetails.amount)} ) en cours de validation....</p>
                                       </>
                                     )}
                                   </span>
@@ -682,24 +731,24 @@ export default function PaymentStatePage({ cart = true }) {
                                   Statut :{" "}
                                   {precommande.advance_payment_status ===
                                     "not_paid" && (
-                                    <span className="text-red-500">
-                                      (Non Payé)
-                                    </span>
-                                  )}
+                                      <span className="text-red-500">
+                                        (Non Payé)
+                                      </span>
+                                    )}
                                   {precommande.advance_payment_status ===
                                     "paid" && (
-                                    <span className="text-green-500">
-                                      {" "}
-                                      (Payé)
-                                    </span>
-                                  )}
+                                      <span className="text-green-500">
+                                        {" "}
+                                        (Payé)
+                                      </span>
+                                    )}
                                   {precommande.advance_payment_status ===
                                     "partial" && (
-                                    <span className="text-yellow-500">
-                                      {" "}
-                                      (Partiellement Payer)
-                                    </span>
-                                  )}
+                                      <span className="text-yellow-500">
+                                        {" "}
+                                        (Partiellement Payer)
+                                      </span>
+                                    )}
                                 </span>
                               </div>
                             </div>
@@ -730,7 +779,7 @@ export default function PaymentStatePage({ cart = true }) {
                                   {" "}
                                   {formatPrice(
                                     precommande.amount_total -
-                                      precommande.amount_residual
+                                    precommande.amount_residual
                                   )}
                                 </span>
                               </div>
@@ -924,21 +973,19 @@ export default function PaymentStatePage({ cart = true }) {
                                       Premier Tranche
                                     </dt>
                                     <dd
-                                      className={`text-base font-medium ${
-                                        precommande.first_payment_state
-                                          ? "text-green-500"
-                                          : "text-red-500"
-                                      }`}
+                                      className={`text-base font-medium ${precommande.first_payment_state
+                                        ? "text-green-500"
+                                        : "text-red-500"
+                                        }`}
                                     >
                                       A payer avant le{" "}
                                       {precommande.first_payment_date}
                                     </dd>
                                     <dd
-                                      className={`text-base font-medium ${
-                                        precommande.first_payment_state
-                                          ? "text-green-500"
-                                          : "text-red-500"
-                                      }`}
+                                      className={`text-base font-medium ${precommande.first_payment_state
+                                        ? "text-green-500"
+                                        : "text-red-500"
+                                        }`}
                                     >
                                       {formatPrice(
                                         precommande.first_payment_amount
@@ -950,20 +997,18 @@ export default function PaymentStatePage({ cart = true }) {
                                       Deuxieme Tranche
                                     </dt>
                                     <dd
-                                      className={`text-base font-medium ${
-                                        precommande.second_payment_state
-                                          ? "text-green-500"
-                                          : "text-red-500"
-                                      }`}
+                                      className={`text-base font-medium ${precommande.second_payment_state
+                                        ? "text-green-500"
+                                        : "text-red-500"
+                                        }`}
                                     >
                                       {precommande.second_payment_date}
                                     </dd>
                                     <dd
-                                      className={`text-base font-medium ${
-                                        precommande.second_payment_state
-                                          ? "text-green-500"
-                                          : "text-red-500"
-                                      }`}
+                                      className={`text-base font-medium ${precommande.second_payment_state
+                                        ? "text-green-500"
+                                        : "text-red-500"
+                                        }`}
                                     >
                                       {formatPrice(
                                         precommande.second_payment_amount
@@ -975,20 +1020,18 @@ export default function PaymentStatePage({ cart = true }) {
                                       Troisieme Tranche
                                     </dt>
                                     <dd
-                                      className={`text-base font-medium ${
-                                        precommande.third_payment_state
-                                          ? "text-green-500"
-                                          : "text-red-500"
-                                      }`}
+                                      className={`text-base font-medium ${precommande.third_payment_state
+                                        ? "text-green-500"
+                                        : "text-red-500"
+                                        }`}
                                     >
                                       {precommande.third_payment_date}
                                     </dd>
                                     <dd
-                                      className={`text-base font-medium ${
-                                        precommande.third_payment_state
-                                          ? "text-green-500"
-                                          : "text-red-500"
-                                      }`}
+                                      className={`text-base font-medium ${precommande.third_payment_state
+                                        ? "text-green-500"
+                                        : "text-red-500"
+                                        }`}
                                     >
                                       {formatPrice(
                                         precommande.third_payment_amount
@@ -1013,7 +1056,7 @@ export default function PaymentStatePage({ cart = true }) {
                                     <dd className="text-lg font-bold text-green-500 dark:text-white">
                                       {formatPrice(
                                         precommande.amount_total -
-                                          precommande.amount_residual
+                                        precommande.amount_residual
                                       )}
                                     </dd>
                                   </dl>
@@ -1028,8 +1071,8 @@ export default function PaymentStatePage({ cart = true }) {
                                     </dd>
                                   </dl>
                                 )}
-                                <div>
-                                  {precommande && (
+                                {/* <div>
+                                  {precommande && isLoading && (
                                     <>
                                       <Button
                                         type="submit"
@@ -1040,12 +1083,12 @@ export default function PaymentStatePage({ cart = true }) {
                                         {isLoading && (
                                           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                                         )}
-                                        Valider ({" "}
+                                        Validation de paiement (
                                         {formatPrice(paymentDetails.amount)} )
                                       </Button>
                                     </>
                                   )}
-                                </div>
+                                </div> */}
                               </div>
                             </div>
                           </div>
@@ -1057,7 +1100,7 @@ export default function PaymentStatePage({ cart = true }) {
               </div>
             </>
           )}
-          {!token && (
+          {!paymentDetails && (
             <>
               <div className="checkout-main-content w-full">
                 <div className="container-x mx-auto">
@@ -1067,6 +1110,12 @@ export default function PaymentStatePage({ cart = true }) {
                         <div className="w-full h-full bg-[#F6F6F6] text-qblack flex justify-center items-center">
                           <span className="text-[15px] font-medium">
                             <span>Token Non valide</span>
+                          </span>
+                        </div>
+                        <br />
+                        <div className="w-full h-full  text-qblack flex justify-center items-center">
+                          <span className="text-[15px] font-medium   ">
+                            <Button className="rounded-lg px-5 py-2.5 font-medium w-full hover:bg-red-500 hover:text-white text-xl" > <Link to="/all-products"  > Retour à la boutique </Link> </Button>
                           </span>
                         </div>
                       </div>

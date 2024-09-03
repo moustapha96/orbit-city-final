@@ -8,7 +8,7 @@ import Layout from "../Partials/Layout";
 
 import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
-import commandeService from "../../services/CommandeService";
+import CommandeService from "../../services/CommandeService";
 import formatPrice from "../../utils/formatPrice";
 import formatDate from "../../utils/date-format";
 import PaiementService from "../../services/paimentService";
@@ -89,7 +89,7 @@ export default function PaymentCommandePage({ cart = true }) {
     if (idOrder != null) {
       const fetchModels = async () => {
         try {
-          const data = await commandeService.getCommandeById(idOrder);
+          const data = await CommandeService.getCommandeById(idOrder);
           setCommande(data);
           console.log(data);
 
@@ -200,10 +200,10 @@ export default function PaymentCommandePage({ cart = true }) {
                                 Statut :{" "}
                                 {commande.advance_payment_status ===
                                   "not_paid" && (
-                                  <span className="text-red-500">
-                                    (Non Payé)
-                                  </span>
-                                )}
+                                    <span className="text-red-500">
+                                      (Non Payé)
+                                    </span>
+                                  )}
                                 {commande.advance_payment_status === "paid" && (
                                   <span className="text-green-500">
                                     {" "}
@@ -312,18 +312,17 @@ export default function PaymentCommandePage({ cart = true }) {
                                   {["not_paid", "paid"].includes(
                                     commande.advance_payment_status
                                   ) && (
-                                    <span
-                                      className={`text-${
-                                        commande.advance_payment_status ===
-                                        "not_paid"
+                                      <span
+                                        className={`text-${commande.advance_payment_status ===
+                                          "not_paid"
                                           ? "red"
                                           : "green"
-                                      }-500`}
-                                    >
-                                      {" "}
-                                      {formatPrice(commande.amount_total)}
-                                    </span>
-                                  )}
+                                          }-500`}
+                                      >
+                                        {" "}
+                                        {formatPrice(commande.amount_total)}
+                                      </span>
+                                    )}
                                 </p>
                               </div>
                             </div>

@@ -110,7 +110,7 @@ const PaytechModalService = ({
         localStorage.setItem("typePayment", type);
         localStorage.setItem("responseTextOrderPayment", jsonResponse.message);
         console.log(jsonResponse);
-        window.open(jsonResponse.redirect_url, "_blank");
+        window.open(jsonResponse.redirect_url, "_blank", 'noopener,noreferrer');
         setOpenModal(false);
       } else {
         toast.error("Payment non effectif", {

@@ -14,15 +14,12 @@ import {
 
 import { FaTv, FaFilm, FaMusic, FaGamepad } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { ProductContext } from "../../contexts/ProductContext";
 
 export default function CategoriesSection() {
   const navigate = useNavigate();
-  const {
-    categories,
-    setSelectedCategory,
-    selectedCategory,
-    categorieSelectionner,
-  } = useContext(CategoryContext);
+  const { categories, setSelectedCategory, selectedCategory } =
+    useContext(ProductContext);
   const categoryIcons = {
     cuisiniere: Heater,
     "machine a laver": WashingMachine,

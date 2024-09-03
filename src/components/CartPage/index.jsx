@@ -13,7 +13,7 @@ import formatPrice from "../../utils/formatPrice";
 import { toast } from "react-toastify";
 import { Button } from "flowbite-react";
 import { Loader2 } from "lucide-react";
-import commandeService from "../../services/CommandeService";
+import CommandeService from "../../services/CommandeService";
 import { UserContext } from "../../contexts/UserContext";
 import BannerPub from "../About/BannerPub";
 
@@ -27,11 +27,14 @@ export default function CardPage({ cartt = true }) {
   const navigate = useNavigate();
 
   const handleValidePanier = async (e) => {
+
+    e.preventDefault();
+    setIsLoading(true);
     if (!user) {
       toast.dismiss();
       toast.warning("Merci de vous connecter", {
         position: "top-center",
-        autoClose: 5000,
+        autoClose: 7000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -39,55 +42,70 @@ export default function CardPage({ cartt = true }) {
         progress: undefined,
       });
       navigate("/login");
-    }
-    e.preventDefault();
-    setIsLoading(true);
+    } else {
+      if (cart.length === 0) {
+        toast.dismiss();
+        toast.error("Veuillez ajouter au moins un article dans votre panier", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      } else {
+        console.log("creation dela commande sur le odoo ");
+        console.log(cart);
 
-    console.log("creation dela commande sur le odoo ");
-    console.log(cart);
+        const modelData = {
+          partner_id: parseInt(localStorage.getItem("partner_id")),
+          type_sale: "order",
+          state: "sale",
+          commitment_date: new Date(),
+          order_lines: cart.map((orde) => ({
+            id: orde.id,
+            quantity: orde.quantity,
+            list_price: orde.list_price,
+          })),
+        };
+        console.log(modelData);
+        try {
+          const response = await CommandeService.createCommande(modelData);
+          console.log(response);
+          toast.success("Commande créé avec succés", {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+          navigate(`/commandes/${response.id}/détails`);
+          console.log(response);
+          setOrderState(response);
+          clearCart();
+          console.log(orderState);
+        } catch (error) {
+          toast.error("Commande non validé ", {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+          console.error("Erreur lors de la récupération des modèles", error);
+        }
+        setIsLoading(false);
+      }
 
-    const modelData = {
-      partner_id: parseInt(localStorage.getItem("partner_id")),
-      type_sale: "order",
-      state: "sale",
-      commitment_date: new Date(),
-      order_lines: cart.map((orde) => ({
-        id: orde.id,
-        quantity: orde.quantity,
-        list_price: orde.list_price,
-      })),
-    };
-    console.log(modelData);
-    try {
-      const response = await commandeService.createCommande(modelData);
-      console.log(response);
-      toast.success("Commande créé avec succés", {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-      navigate(`/commandes/${response.id}/détails`);
-      console.log(response);
-      setOrderState(response);
-      clearCart();
-      console.log(orderState);
-    } catch (error) {
-      toast.error("Commande non validé ", {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-      console.error("Erreur lors de la récupération des modèles", error);
     }
-    setIsLoading(false);
+
+
+
   };
 
   return (

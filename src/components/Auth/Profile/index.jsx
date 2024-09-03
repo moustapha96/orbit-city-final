@@ -249,9 +249,8 @@ export default function Profile() {
                       <PasswordTab />
                     ) : active === "support" ? (
                       <SupportTab />
-                    ) : active === "review" ? (
-                      <ReviewTab products={datas.products} />
-                    ) : active === "paniercommande" ? (
+                    )
+                     : active === "paniercommande" ? (
                       <PanierCommande />
                     ) : active === "panierprecommande" ? (
                       <PanierPreCommande />

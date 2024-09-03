@@ -3,17 +3,21 @@ import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Arrow from "../../../Helpers/icons/Arrow";
 import { Asterisk, Loader, Loader2, Menu, MoveRight } from "lucide-react";
-import { CategoryContext } from "../../../../contexts/CategoryContext";
+
 import { UserContext } from "../../../../contexts/UserContext";
+import { ProductContext } from "../../../../contexts/ProductContext";
+import IcoLogout from "../../../Auth/Profile/icons/IcoLogout";
 
 export default function Navbar({ className, type = 3 }) {
   const navigate = useNavigate();
 
   const [categoryToggle, setToggle] = useState(false);
   const [elementsSize, setSize] = useState("0px");
-  const { setSelectedCategory, categories, isLoadingCategorie } =
-    useContext(CategoryContext);
-  const { user } = useContext(UserContext);
+  const { setSelectedCategory, isLoadingCategorie, categories } =
+    useContext(ProductContext);
+
+
+    const { user,  logout } = useContext(UserContext);
 
   const handler = () => {
     setToggle(!categoryToggle);
@@ -42,6 +46,14 @@ export default function Navbar({ className, type = 3 }) {
     }
     setToggle(false);
   };
+
+
+  function HandleLout() {
+    // localStorage.removeItem("authToken");
+    logout();
+    navigate("/login");
+  }
+
 
   return (
     <div
@@ -303,7 +315,7 @@ export default function Navbar({ className, type = 3 }) {
                       </span>
                     </Link>
                   </li>
-                  {!user && (
+                  {/* {!user && (
                     <li>
                       <Link to="/login">
                         <span
@@ -315,7 +327,32 @@ export default function Navbar({ className, type = 3 }) {
                         </span>
                       </Link>
                     </li>
-                  )}
+                  )} */}
+                  {!user ? <>
+                   <li>
+                      <Link to="/login">
+                        <span
+                          className={`flex items-center text-sm font-600 cursor-pointer ${
+                            type === 3 ? "text-white" : "text-qblacktext"
+                          }`}
+                        >
+                          <span>Connexion</span>
+                        </span>
+                      </Link>
+                    </li>
+                  </> : <>
+                   <li>
+                     <Link onClick={HandleLout}>
+                        <span
+                          className={`flex items-center text-sm font-600 cursor-pointer ${
+                            type === 3 ? "text-white" : "text-qblacktext"
+                          }`}
+                          >
+                          <span>Déconnexion</span>
+                        </span>
+                      </Link>
+                    </li>
+                  </>}
                 </ul>
               </div>
             </div>

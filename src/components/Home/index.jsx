@@ -12,23 +12,37 @@ import BannerSecond from "./BannerSecond";
 import ProductsAds from "./ProductsAds";
 
 import { ProductContext } from "../../contexts/ProductContext";
-import { CategoryContext } from "../../contexts/CategoryContext";
 import CategoriesSection from "./CategoriesSection";
 import { Link } from "react-router-dom";
 import SEOHeader from "../Partials/Headers/HeaderOne/SEOHeader";
 import BannerPub from "../About/BannerPub";
 import { Loader, Loader2 } from "lucide-react";
+import { GlobalPaymentContext } from "../../contexts/GlobalVariable";
 
 export default function Home() {
+  // const { confirmInvoice } = useContext(GlobalPaymentContext);
+
   const { products, isLoadingProduct } = useContext(ProductContext);
-  const { categories, isLoadingCategorie } = useContext(CategoryContext);
 
   const [newProduits, setNewProduits] = useState([]);
 
   const [precommandes, setPrecommandes] = useState([]);
   const [enpromo, setEnpromo] = useState([]);
-
   const [commandes, setCommandes] = useState([]);
+
+  // useEffect(() => {
+  //   const fetchModels = async () => {
+  //     try {
+  //       const response = await confirmInvoice("token_sjjskbsdfsf");
+  //       console.log("Invoice confirmed:", response);
+  //     } catch (error) {
+  //       console.error("Error confirming invoice:", error);
+  //     }
+  //   };
+
+  //   fetchModels();
+  // }, []);
+
   useEffect(() => {
     if (products.length > 0) {
       const inStockProducts = products.filter((product) => product.sale_ok);
@@ -90,7 +104,11 @@ export default function Home() {
             </p>
           </div>
 
-          {precommandes ? (
+          {isLoadingProduct ? (
+            <div className="flex justify-center  ">
+              <Loader2 className="animate-spin" />
+            </div>
+          ) : (
             <SectionStyleTwo
               products={
                 precommandes.length > 4
@@ -98,10 +116,6 @@ export default function Home() {
                   : precommandes
               }
             />
-          ) : (
-            <>
-              <Loader2 className="animate-spin" />
-            </>
           )}
         </ViewMoreTitle>
         {/* <ProductsAds
@@ -115,12 +129,25 @@ export default function Home() {
           ads={[`banner_ccbme_shop_3.jpg`]}
           className="products-ads-section mb-[60px]"
         />
-        <SectionStyleThree
+        {isLoadingProduct ? (
+          <div className="flex justify-center  ">
+            <Loader2 className="animate-spin" />
+          </div>
+        ) : (
+          <SectionStyleThree
+            products={newProduits}
+            sectionTitle="Produits en stock"
+            seeMoreUrl="/all-products"
+            className="category-products mb-[60px]"
+          />
+        )}
+        {/* <SectionStyleThree
           products={newProduits}
           sectionTitle="Nouvelles Arrivées"
           seeMoreUrl="/all-products"
           className="new-products mb-[60px]"
-        />
+        /> */}
+
         {/* {enpromo.length > 3 && (
           <>
             <SectionStyleFour

@@ -38,7 +38,7 @@ export default function PreOrderTab({ type = 3 }) {
             {/* table heading */}
             <tr className="text-base text-qgray whitespace-nowrap px-2 border-b default-border-bottom ">
               <td className="py-4 block whitespace-nowrap text-center">
-                PréCommande
+                Précommande
               </td>
               <td className="py-4 whitespace-nowrap text-center hidden sm:table-cell">
                 Date

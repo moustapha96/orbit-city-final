@@ -11,7 +11,18 @@ const ProduitService = {
       throw error;
     }
   },
-
+  getProduitsPrecommande: async () => {
+    try {
+      const response = await axiosInstance.get("/api/produits-precommande");
+      return response.data;
+    } catch (error) {
+      console.error(
+        "Erreur lors de la récupération des produits precommande",
+        error
+      );
+      throw error;
+    }
+  },
   getProduitById: async (id) => {
     try {
       const response = await axiosInstance.get(`/api/produits/${id}`);

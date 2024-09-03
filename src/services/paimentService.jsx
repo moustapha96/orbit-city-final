@@ -1,4 +1,5 @@
-// services/commandeservice.js
+/* eslint-disable no-unused-vars */
+
 import axiosInstance from "../config/axiosConfig";
 
 const PaiementService = {
@@ -118,8 +119,9 @@ const PaiementService = {
     url_facture,
     customer_name,
     customer_email,
-    customer_phone
+    customer_phone, token_status
   ) => {
+    console.log('id precommande ', id)
     try {
       const response = await axiosInstance.put(`/api/payment/update/${id}`, {
         payment_state,
@@ -127,6 +129,8 @@ const PaiementService = {
         customer_name,
         customer_email,
         customer_phone,
+        token_status
+
       });
       return response.data;
     } catch (error) {
@@ -152,25 +156,26 @@ const PaiementService = {
   },
 
   confirmInvoice: async (token) => {
+
     const headersTest = {
       "Content-Type": "application/json",
-      "PAYDUNYA-MASTER-KEY": "3ApSagrZ-NkOP-M2GJ-tQr3-6F1TroNp8fL7",
-      "PAYDUNYA-PRIVATE-KEY": "test_private_rLI7U4b3J0SjDBJQ7cEC9OCayn9",
-      "PAYDUNYA-TOKEN": "UWVccdmuTo5tusRDkoZQ",
+      "PAYDUNYA-MASTER-KEY": "voFGVcul-uCsd-1sw5-wfGz-ukqScIQoOyDu",
+      "PAYDUNYA-PRIVATE-KEY": "test_private_LJfJe2zAiwndwRq6ZF4qIDIoApZ",
+      "PAYDUNYA-TOKEN": "VaZUkYb6b1JOpZfxUe3R",
     };
 
     const headersProd = {
       "Content-Type": "application/json",
-      "PAYDUNYA-MASTER-KEY": "3ApSagrZ-NkOP-M2GJ-tQr3-6F1TroNp8fL7",
-      "PAYDUNYA-PRIVATE-KEY": "live_private_vu4eNlAlyVQ15Z77gclxMiKtFkN",
-      "PAYDUNYA-TOKEN": "J5rKrbWZxGitf5nXGrrh",
+      "PAYDUNYA-MASTER-KEY": "voFGVcul-uCsd-1sw5-wfGz-ukqScIQoOyDu",
+      "PAYDUNYA-PRIVATE-KEY": "live_private_KvbXuQU1IJ4z68hQOU9YeEtrUjW",
+      "PAYDUNYA-TOKEN": "cjTGi71WL8xOTCrsJisR",
     };
 
     const urlVerifInvoiceTest = `https://app.paydunya.com/sandbox-api/v1/checkout-invoice/confirm/${token}`;
     const urlVerifInvoiceLive = `https://app.paydunya.com/api/v1/checkout-invoice/confirm/${token}`;
 
-    const response = await axiosInstance.get(urlVerifInvoiceTest, {
-      headers: headersTest,
+    const response = await axiosInstance.get(urlVerifInvoiceLive, {
+      headers: headersProd,
     });
     if (response.status === 200) {
       return response.data;
