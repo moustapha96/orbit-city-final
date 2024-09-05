@@ -131,7 +131,6 @@ export default function ResetPassword() {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
-                        pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}\$"
                         placeholder="name@flowbite.com"
                         className="
                                         focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500

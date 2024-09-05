@@ -70,6 +70,69 @@ export default function PreOrderPage() {
     }
   };
 
+  const handleVerifyPayment = async (e, payment) => {
+    console.log(payment)
+
+    try {
+      const resultaPayment = await PaiementService.confirmInvoice(payment.payment_token);
+      console.log(resultaPayment);
+      if (resultaPayment.response_code === "00" && resultaPayment.status === "completed") {
+        const url_facture = resultaPayment.receipt_url;
+        let name = resultaPayment.customer.name;
+        let email = resultaPayment.customer.email;
+        let phone = resultaPayment.customer.phone;
+        let token_status = true
+        const responsePaymentDetails =
+          await PaiementService.updatePaymentDetails(
+            payment.id, resultaPayment.status, url_facture,
+            name, email, phone, token_status);
+        if (responsePaymentDetails) {
+
+          try {
+
+            const reponse = await PaiementService.createPrecommandePaimentMontant(
+              payment.order_id,
+              payment.amount,
+              payment.payment_token
+            );
+            if (reponse) {
+
+              toast.success("Paiement validé avec succès", {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+              });
+            }
+          } catch (error) {
+            console.log(error)
+          } finally {
+            setIsLoading(false);
+          }
+        }
+      } else {
+        toast.error("Vérification du paiement echouée", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      }
+    } catch (error) {
+      console.error(
+        "Erreur lors de la confirmation de l'invoice :",
+        error.message
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  }
   const validerPaimentMontant = async (e, montantAPayer) => {
     e.preventDefault();
     if (montantAPayer < 1000) {
@@ -117,7 +180,7 @@ export default function PreOrderPage() {
             <div className="container-x mx-auto">
               <div className="w-full sm:mb-10 mb-5">
                 <div className="sm:flex sm:space-x-[18px] s">
-                  <div className="sm:w-1/2 w-full mb-5 h-[70px]">
+                  <div className="sm:w-1/3 w-full mb-5 h-[70px]">
 
                     <div className="w-full h-full bg-[#F6F6F6] text-qblack flex justify-center items-center">
                       <span className="text-[15px] font-medium">
@@ -126,10 +189,10 @@ export default function PreOrderPage() {
                     </div>
 
                   </div>
-                  <div className="flex-1 h-[70px]">
+                  <div className=" sm:w-1/3  flex-1 h-[70px]">
                     <div className="w-full h-full bg-[#F6F6F6] text-qblack flex justify-center items-center">
                       <span className="text-[15px] font-medium">
-                        Statut :{" "}
+                        Payment :{" "}
                         {precommande.advance_payment_status === "not_paid" && (
                           <span className="text-red-500">(Non Payé)</span>
                         )}
@@ -145,6 +208,17 @@ export default function PreOrderPage() {
                       </span>
                     </div>
                   </div>
+
+                  <div className="sm:w-1/3 flex-1 h-[70px]">
+                    <div className="w-full h-full bg-[#F6F6F6] text-qblack flex justify-center items-center">
+                      <span className="text-[15px] font-medium">
+                        Statut :{" "}
+                        {precommande.state == "to_delivered" ? "en cours de livraison" : precommande.state == "delivered" ? "livré" : precommande.state == "sale" ? "Validé" : "Brouillon"}
+
+                      </span>
+                    </div>
+                  </div>
+
                 </div>
                 <div className="sm:flex sm:space-x-[18px] s">
                   <div className="sm:w-1/2 w-full mb-5 h-[70px]">
@@ -218,40 +292,51 @@ export default function PreOrderPage() {
                                 </tr>
                               </thead>
                               <tbody>
-                                {paymentDetails.map((payment, index) => (
-                                  <tr key={index} className="bg-white">
-                                    <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                      <div className="text-sm leading-5 text-gray-900">
-                                        {payment.customer_name}
-                                      </div>
-                                    </td>
-                                    <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                      <div className="text-sm leading-5 text-gray-900">
-                                        {payment.customer_phone}
-                                      </div>
-                                    </td>
-                                    <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                      <div className="text-sm leading-5 text-gray-900">
-                                        {payment.customer_email}
-                                      </div>
-                                    </td>
-                                    <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                      <div className="text-sm leading-5 text-gray-900">
-                                        {formatPrice(payment.amount)}
-                                      </div>
-                                    </td>
-                                    <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                      <button
-                                        className="text-sm leading-5 text-gray-900 underline"
-                                        onClick={() =>
-                                          handleOpenInvoice(payment.url_facture)
-                                        }
-                                      >
-                                        Ouvrir la facture
-                                      </button>
-                                    </td>
-                                  </tr>
-                                ))}
+                                {paymentDetails.map((payment, index) =>
+                                  payment.payment_state === 'completed' && (
+                                    <tr key={index} className="bg-white">
+                                      <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                                        <div className="text-sm leading-5 text-gray-900">
+                                          {payment.customer_name}
+                                        </div>
+                                      </td>
+                                      <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                                        <div className="text-sm leading-5 text-gray-900">
+                                          {payment.customer_phone}
+                                        </div>
+                                      </td>
+                                      <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                                        <div className="text-sm leading-5 text-gray-900">
+                                          {payment.customer_email}
+                                        </div>
+                                      </td>
+                                      <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                                        <div className="text-sm leading-5 text-gray-900">
+                                          {formatPrice(payment.amount)}
+                                        </div>
+                                      </td>
+                                      <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                                        {!payment.token_status ? <>
+                                          <button
+                                            className="text-sm leading-5 text-gray-900 underline"
+                                            onClick={(e) => handleVerifyPayment(e, payment)}
+                                          >
+                                            Vérifier le payment
+                                          </button>
+                                        </> :
+                                          <>
+
+                                            <button
+                                              className="text-sm leading-5 text-gray-900 underline"
+                                              onClick={() => handleOpenInvoice(payment.url_facture)}
+                                            >
+                                              Ouvrir la facture
+                                            </button>
+                                          </>}
+                                      </td>
+                                    </tr>
+                                  )
+                                )}
                               </tbody>
                             </table>
                           </div>

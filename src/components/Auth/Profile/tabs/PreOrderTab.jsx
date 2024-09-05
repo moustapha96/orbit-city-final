@@ -47,6 +47,9 @@ export default function PreOrderTab({ type = 3 }) {
                 Statut
               </td>
               <td className="py-4 whitespace-nowrap text-center hidden sm:table-cell">
+                Payment
+              </td>
+              <td className="py-4 whitespace-nowrap text-center hidden sm:table-cell">
                 Montant
               </td>
               <td className="py-4 whitespace-nowrap text-center">Action</td>
@@ -62,7 +65,7 @@ export default function PreOrderTab({ type = 3 }) {
                   >
                     <td className="text-center py-4">
                       <span className="text-lg text-qgray font-medium">
-                        # - {commande.name}
+                        #{commande.name}
                       </span>
                     </td>
                     <td className="text-center py-4 px-2 hidden sm:table-cell">
@@ -70,6 +73,16 @@ export default function PreOrderTab({ type = 3 }) {
                         {formatDate(commande.date_order)}{" "}
                       </span>
                     </td>
+
+
+                    <td className="text-center py-4 px-2 hidden sm:table-cell">
+                      <span className="text-base text-qgray whitespace-nowrap">
+
+                        {commande.state == "to_delivered" ? "en cours de livraison" : commande.state == "delivered" ? "livré" : "Validé"}
+                      </span>
+                    </td>
+
+
                     <td className="text-center py-4 px-2 hidden sm:table-cell">
                       <div className=" ">
                         {commande.advance_payment_status === "not_paid" && (
@@ -93,18 +106,18 @@ export default function PreOrderTab({ type = 3 }) {
                         </p>
                       </div>
                     </td>
+
                     <td className="text-center py-4 px-2 hidden sm:table-cell">
                       <span className="text-base text-qblack whitespace-nowrap px-2 ">
-                        {commande.advance_payment_status == "not_paid" ||
-                          (commande.advance_payment_status == "partial" && (
-                            <>
+                        {commande.advance_payment_status == "partial" && (
+                          <>
+                            {" "}
+                            <span className="text-yellow-500">
                               {" "}
-                              <span className="text-yellow-500">
-                                {" "}
-                                {formatPrice(commande.amount_total)}
-                              </span>
-                            </>
-                          ))}
+                              {formatPrice(commande.amount_total)}
+                            </span>
+                          </>
+                        )}
                         {commande.advance_payment_status == "paid" && (
                           <>
                             {" "}
@@ -114,16 +127,15 @@ export default function PreOrderTab({ type = 3 }) {
                             </span>
                           </>
                         )}
-                        {commande.advance_payment_status == "not_paid" &&
-                          commande.amount_residual == commande.amount_total && (
-                            <>
+                        {commande.advance_payment_status == "not_paid" && (
+                          <>
+                            {" "}
+                            <span className="text-red-500">
                               {" "}
-                              <span className="text-red-500">
-                                {" "}
-                                {formatPrice(commande.amount_total)}
-                              </span>
-                            </>
-                          )}
+                              {formatPrice(commande.amount_total)}
+                            </span>
+                          </>
+                        )}
                         <br />
                       </span>
                     </td>

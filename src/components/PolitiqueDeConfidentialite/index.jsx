@@ -27,7 +27,7 @@ export default function PolitiqueDeConfidentialite() {
               </h2>
               <p className="text-[15px] text-qgraytwo leading-7">
                 Les présentes conditions générales régissent l'utilisation de la
-                plateforme de vente en ligne Orbit City, exploitée par le groupe
+                plateforme de vente en ligne CCBM Shop, exploitée par le groupe
                 CCBM au Sénégal. En accédant et en utilisant ce site web, vous
                 acceptez d'être lié par ces termes et conditions.
               </p>
@@ -41,7 +41,7 @@ export default function PolitiqueDeConfidentialite() {
                 Vous vous engagez à utiliser la plateforme de manière légale,
                 éthique et dans le respect des présentes conditions. Vous
                 acceptez de fournir des informations exactes et à jour lors de
-                votre inscription et de vos transactions. Orbit City se réserve
+                votre inscription et de vos transactions. CCBM Shop se réserve
                 le droit de suspendre ou de résilier votre compte en cas de
                 violation des présentes conditions.
               </p>
@@ -52,11 +52,10 @@ export default function PolitiqueDeConfidentialite() {
                 3. Produits et services
               </h2>
               <p className="text-[15px] text-qgraytwo leading-7">
-                Les produits proposés sur Orbit City sont soumis à
-                disponibilité. Orbit City s'efforce de fournir des informations
+                Les produits proposés sur CCBM Shop sont soumis à
+                disponibilité. CCBM Shop s'efforce de fournir des informations
                 précises sur les produits, mais ne garantit pas que les
-                descriptions ou les images soient complètement exactes. Orbit
-                City se réserve le droit de modifier les prix et les promotions
+                descriptions ou les images soient complètement exactes. CCBM Shop se réserve le droit de modifier les prix et les promotions
                 sans préavis.
               </p>
             </div>
@@ -69,8 +68,7 @@ export default function PolitiqueDeConfidentialite() {
                 Vous acceptez de payer le prix total indiqué lors de la
                 commande, y compris les frais de livraison applicables. Les
                 délais de livraison sont approximatifs et peuvent varier en
-                fonction de la destination et des conditions de transport. Orbit
-                City ne peut être tenu responsable des retards ou des dommages
+                fonction de la destination et des conditions de transport. CCBM Shop ne peut être tenu responsable des retards ou des dommages
                 causés par des tiers pendant le transport.
               </p>
             </div>
@@ -94,7 +92,7 @@ export default function PolitiqueDeConfidentialite() {
               </h2>
               <p className="text-[15px] text-qgraytwo leading-7">
                 Tous les produits sont couverts par la garantie légale contre
-                les défauts de conformité. Orbit City propose des extensions de
+                les défauts de conformité. CCBM Shop propose des extensions de
                 garantie optionnelles pour une protection supplémentaire. Pour
                 toute question ou réclamation, veuillez contacter notre service
                 client.
@@ -107,7 +105,7 @@ export default function PolitiqueDeConfidentialite() {
               </h2>
               <p className="text-[15px] text-qgraytwo leading-7">
                 Tous les contenus du site web, y compris les textes, les images
-                et les logos, sont la propriété d'Orbit City et du groupe CCBM.
+                et les logos, sont la propriété d'CCBM Shop et du groupe CCBM.
                 Toute reproduction ou utilisation non autorisée est strictement
                 interdite.
               </p>
@@ -118,9 +116,9 @@ export default function PolitiqueDeConfidentialite() {
                 8. Limitation de responsabilité
               </h2>
               <p className="text-[15px] text-qgraytwo leading-7">
-                Orbit City ne peut être tenu responsable des dommages directs ou
+                CCBM Shop ne peut être tenu responsable des dommages directs ou
                 indirects résultant de l'utilisation de la plateforme ou de
-                l'achat de produits. Orbit City ne peut être tenu responsable
+                l'achat de produits. CCBM Shop ne peut être tenu responsable
                 des interruptions de service ou des erreurs techniques.
               </p>
             </div>
@@ -130,7 +128,7 @@ export default function PolitiqueDeConfidentialite() {
                 9. Modification des conditions
               </h2>
               <p className="text-[15px] text-qgraytwo leading-7">
-                Orbit City se réserve le droit de modifier les présentes
+                CCBM Shop se réserve le droit de modifier les présentes
                 conditions à tout moment sans préavis. Il est de votre
                 responsabilité de consulter régulièrement les conditions en
                 vigueur.
@@ -153,7 +151,7 @@ export default function PolitiqueDeConfidentialite() {
                 11. Achats sécurisés
               </h2>
               <p className="text-[15px] text-qgraytwo leading-7">
-                Orbit City s'engage à garantir la sécurité de vos achats en
+                CCBM Shop s'engage à garantir la sécurité de vos achats en
                 ligne. Nous utilisons des technologies de cryptage avancées pour
                 protéger vos informations personnelles et financières. Toutes
                 les transactions sont sécurisées par des protocoles SSL (Secure
@@ -169,8 +167,7 @@ export default function PolitiqueDeConfidentialite() {
               </h2>
               <p className="text-[15px] text-qgraytwo leading-7">
                 Les présentes conditions générales de vente s'appliquent à
-                toutes les ventes de produits effectuées sur la plateforme Orbit
-                City. En passant une commande sur notre site, vous acceptez sans
+                toutes les ventes de produits effectuées sur la plateforme CCBM Shop. En passant une commande sur notre site, vous acceptez sans
                 réserve ces conditions générales de vente.
               </p>
               <p className="text-[15px] text-qgraytwo leading-7">
@@ -201,7 +198,7 @@ export default function PolitiqueDeConfidentialite() {
                 charge de l'acheteur.
               </p>
               <p className="text-[15px] text-qgraytwo leading-7">
-                Orbit City se réserve le droit de modifier les présentes
+                CCBM Shop se réserve le droit de modifier les présentes
                 conditions générales de vente à tout moment. Les conditions
                 applicables sont celles en vigueur au moment de la commande.
               </p>
@@ -212,7 +209,7 @@ export default function PolitiqueDeConfidentialite() {
                 13. Livraison et Retours
               </h2>
               <p className="text-[15px] text-qgraytwo leading-7">
-                Orbit City s'engage à livrer vos commandes dans les meilleurs
+                CCBM Shop s'engage à livrer vos commandes dans les meilleurs
                 délais. Les délais de livraison sont indicatifs et peuvent
                 varier en fonction de la destination et des conditions de
                 transport.
@@ -223,8 +220,8 @@ export default function PolitiqueDeConfidentialite() {
                 l'adresse indiquée par l'acheteur lors de la commande.
               </p>
               <p className="text-[15px] text-qgraytwo leading-7">
-                En cas de retard de livraison, Orbit City s'engage à informer
-                l'acheteur et à proposer une solution alternative. Orbit City ne
+                En cas de retard de livraison, CCBM Shop s'engage à informer
+                l'acheteur et à proposer une solution alternative. CCBM Shop ne
                 peut être tenu responsable des retards ou des dommages causés
                 par des tiers pendant le transport.
               </p>
@@ -252,7 +249,7 @@ export default function PolitiqueDeConfidentialite() {
                 14. Politique de Confidentialité
               </h2>
               <p className="text-[15px] text-qgraytwo leading-7">
-                Orbit City s'engage à protéger la confidentialité de vos
+                CCBM Shop s'engage à protéger la confidentialité de vos
                 informations personnelles. Cette politique de confidentialité
                 explique comment nous collectons, utilisons, divulguons et
                 protégeons vos informations personnelles.
@@ -284,7 +281,7 @@ export default function PolitiqueDeConfidentialite() {
                 Vous avez le droit d'accéder à vos informations personnelles, de
                 les corriger, de les mettre à jour, de les supprimer ou de
                 limiter leur traitement. Vous pouvez exercer ces droits en nous
-                contactant à l'adresse e-mail suivante : contact@ccbm.sn.
+                contactant à l'adresse e-mail suivante : shop@ccbm.sn.
               </p>
               <p className="text-[15px] text-qgraytwo leading-7">
                 Nous conservons vos informations personnelles aussi longtemps

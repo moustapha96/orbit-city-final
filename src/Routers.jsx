@@ -34,17 +34,18 @@ import PolitiqueDeConfidentialitePage from "./components/PolitiqueDeConfidential
 import ResetPassword from "./components/Auth/ResetPassword/index.jsx";
 import ProductPrecommandePage from "./components/ProductPrecommandePage/index.jsx";
 import NewPassword from "./components/Auth/NewPassword/index.jsx";
+import CallBackPaydunyaPage from "./components/PaymentState/callBack.jsx";
+
 
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
 
-
-
-
   { path: "/all-products", element: <AllProductPage /> },
   { path: "/pre-commandes", element: <ProductPrecommandePage /> },
-
   { path: "/single-product/:id", element: <SingleProductPage /> },
+  { path: "/call-back", element: <CallBackPaydunyaPage /> },
+
+
 
   {
     path: "/pre-commandes/:id/détails",

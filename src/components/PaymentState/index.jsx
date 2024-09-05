@@ -40,10 +40,7 @@ export default function PaymentStatePage({ cart = true }) {
         const responsePd = await PaiementService.getPaymentDetailsByToken(
           paymentToken
         );
-        // payment complet 
-        console.log("response details payment ");
-        console.log(responsePd);
-        console.log(responsePd.token_status, responsePd.payment_state);
+
         if (responsePd.token_status && responsePd.payment_state === "completed") {
           if (responsePd.order_type == "order") {
             navigate(`/commandes/${responsePd.order_id}/détails`);
@@ -134,12 +131,13 @@ export default function PaymentStatePage({ cart = true }) {
       return;
     }
 
-    if (data && token && paymentDetails && paymentDetails.payment_state != "completed" && !paymentDetails.token_status) {
-
+    if (data && token && paymentDetails && !paymentDetails.token_status) {
+      console.log('arrivé 4 seconde')
       console.log(paymentDetails);
       setIsLoading(true);
+
       const timeoutId = setTimeout(async () => {
-        console.log("4 seconde");
+
         if (data.response_code === "00" && data.status === "completed") {
           const url_facture = data.receipt_url;
           try {
@@ -192,7 +190,7 @@ export default function PaymentStatePage({ cart = true }) {
               } else if (responsePaymentDetails.order_type === "preorder") {
                 if (precommande) {
                   console.log("arrivé");
-                  validerPaimentPreCommande();
+                  validerPaimentPreCommande(token);
                 } else {
                   console.log("erreur ");
                   toast.error("Précommande non trouvée", {
@@ -307,12 +305,13 @@ export default function PaymentStatePage({ cart = true }) {
     }
   };
 
-  const validerPaimentPreCommande = async () => {
+  const validerPaimentPreCommande = async (token) => {
     setIsLoading(true);
     try {
       const reponse = await PaiementService.createPrecommandePaimentMontant(
         paymentDetails.order_id,
-        paymentDetails.amount
+        paymentDetails.amount,
+        token
       );
       setIsLoading(false);
       toast.success("Paiement de la pré-commande validé avec succès", {

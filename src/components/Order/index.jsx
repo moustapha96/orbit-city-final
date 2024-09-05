@@ -48,12 +48,13 @@ export default function OrderPage() {
 
     const timeoutId = setTimeout(async () => {
       if (commande && paymentDetails && paymentDetails.payment_state == "completed" && commande.advance_payment_status == "not_paid" &&
-        paymentDetails.token_status) {
+        !paymentDetails.token_status) {
         validerPaimentCommande();
         console.log("arrivé commande");
       }
+      console.log(paymentDetails);
+      console.log(commande.advance_payment_status);
     }, 2000)
-    console.log(paymentDetails);
     return () => clearTimeout(timeoutId);
 
 
@@ -168,7 +169,7 @@ export default function OrderPage() {
             <div className="container-x mx-auto">
               <div className="w-full sm:mb-10 mb-5">
                 <div className="sm:flex sm:space-x-[18px] s">
-                  <div className="sm:w-1/2 w-full mb-5 h-[70px]">
+                  <div className="sm:w-1/3 w-full mb-5 h-[70px]">
 
                     <div className="w-full h-full bg-[#F6F6F6] text-qblack flex justify-center items-center">
                       <span className="text-[15px] font-medium">
@@ -177,16 +178,26 @@ export default function OrderPage() {
                     </div>
                   </div>
 
-                  <div className="flex-1 h-[70px]">
+                  <div className="sm:w-1/3 flex-1 h-[70px]">
                     <div className="w-full h-full bg-[#F6F6F6] text-qblack flex justify-center items-center">
                       <span className="text-[15px] font-medium">
-                        Statut :{" "}
+                        Payment :{" "}
                         {commande.advance_payment_status === "not_paid" && (
                           <span className="text-red-500">(Non Payé)</span>
                         )}
                         {commande.advance_payment_status === "paid" && (
                           <span className="text-green-500"> (Payé)</span>
                         )}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="sm:w-1/3 flex-1 h-[70px]">
+                    <div className="w-full h-full bg-[#F6F6F6] text-qblack flex justify-center items-center">
+                      <span className="text-[15px] font-medium">
+                        Statut :{" "}
+                        {commande.state == "to_delivered" ? "en cours de livraison" : commande.state == "delivered" ? "livré" : commande.state == "sale" ? "Validé" : "Brouillon"}
+
                       </span>
                     </div>
                   </div>

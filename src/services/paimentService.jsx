@@ -14,10 +14,10 @@ const PaiementService = {
       throw error;
     }
   },
-  createPrecommandePaimentMontant: async (idOrder, montant) => {
+  createPrecommandePaimentMontant: async (idOrder, montant, token) => {
     try {
       const response = await axiosInstance.get(
-        `/api/precommande/${idOrder}/payment/${montant}`
+        `/api/precommande/${idOrder}/payment/${montant}/${token}`
       );
       return response.data;
     } catch (error) {
@@ -174,8 +174,8 @@ const PaiementService = {
     const urlVerifInvoiceTest = `https://app.paydunya.com/sandbox-api/v1/checkout-invoice/confirm/${token}`;
     const urlVerifInvoiceLive = `https://app.paydunya.com/api/v1/checkout-invoice/confirm/${token}`;
 
-    const response = await axiosInstance.get(urlVerifInvoiceLive, {
-      headers: headersProd,
+    const response = await axiosInstance.get(urlVerifInvoiceTest, {
+      headers: headersTest,
     });
     if (response.status === 200) {
       return response.data;

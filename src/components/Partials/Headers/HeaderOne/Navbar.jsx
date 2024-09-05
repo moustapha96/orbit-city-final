@@ -6,7 +6,7 @@ import { Asterisk, Loader, Loader2, Menu, MoveRight } from "lucide-react";
 
 import { UserContext } from "../../../../contexts/UserContext";
 import { ProductContext } from "../../../../contexts/ProductContext";
-import IcoLogout from "../../../Auth/Profile/icons/IcoLogout";
+
 
 export default function Navbar({ className, type = 3 }) {
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ export default function Navbar({ className, type = 3 }) {
     useContext(ProductContext);
 
 
-    const { user,  logout } = useContext(UserContext);
+  const { user, logout } = useContext(UserContext);
 
   const handler = () => {
     setToggle(!categoryToggle);
@@ -57,9 +57,8 @@ export default function Navbar({ className, type = 3 }) {
 
   return (
     <div
-      className={`nav-widget-wrapper w-full h-[60px] relative z-30 bg-bleu-logo ${
-        className || ""
-      }`}
+      className={`nav-widget-wrapper w-full h-[60px] relative z-30 bg-bleu-logo ${className || ""
+        }`}
     >
       <div className="container-x mx-auto h-full">
         <div className="w-full h-full relative">
@@ -122,11 +121,10 @@ export default function Navbar({ className, type = 3 }) {
                               onClick={(e) => handleCategoryChange(e, category)}
                             >
                               <div
-                                className={`flex justify-between items-center px-5 h-10 bg-white  transition-all duration-300 ease-in-out cursor-pointer text-qblack ${
-                                  type === 3
-                                    ? "hover:bg-bleu-logo hover:text-white"
-                                    : "hover:bg-qyellow"
-                                }`}
+                                className={`flex justify-between items-center px-5 h-10 bg-white  transition-all duration-300 ease-in-out cursor-pointer text-qblack ${type === 3
+                                  ? "hover:bg-bleu-logo hover:text-white"
+                                  : "hover:bg-qyellow"
+                                  }`}
                               >
                                 <div className="flex items-center space-x-6">
                                   <span>
@@ -158,31 +156,30 @@ export default function Navbar({ className, type = 3 }) {
                   <li className="relative">
                     <Link to="/">
                       <span
-                        className={`flex items-center text-sm font-600 cursor-pointer ${
-                          type === 3 ? "text-white" : "text-qblacktext"
-                        }`}
+                        className={`flex items-center text-sm font-600 cursor-pointer ${type === 3 ? "text-white" : "text-qblacktext"
+                          }`}
                       >
                         <span>Accueil</span>
                       </span>
                     </Link>
                   </li>
+
                   <li>
                     <Link to="/all-products">
                       <span
-                        className={`flex items-center text-sm font-600 cursor-pointer ${
-                          type === 3 ? "text-white" : "text-qblacktext"
-                        }`}
+                        className={`flex items-center text-sm font-600 cursor-pointer ${type === 3 ? "text-white" : "text-qblacktext"
+                          }`}
                       >
                         <span>Boutique</span>
                       </span>
                     </Link>
                   </li>
+
                   <li>
                     <Link to="/pre-commandes">
                       <span
-                        className={`flex items-center text-sm font-600 cursor-pointer ${
-                          type === 3 ? "text-white" : "text-qblacktext"
-                        }`}
+                        className={`flex items-center text-sm font-600 cursor-pointer ${type === 3 ? "text-white" : "text-qblacktext"
+                          }`}
                       >
                         <span>Précommandes</span>
                       </span>
@@ -285,9 +282,8 @@ export default function Navbar({ className, type = 3 }) {
                   <li>
                     <Link to="/about">
                       <span
-                        className={`flex items-center text-sm font-600 cursor-pointer ${
-                          type === 3 ? "text-white" : "text-qblacktext"
-                        }`}
+                        className={`flex items-center text-sm font-600 cursor-pointer ${type === 3 ? "text-white" : "text-qblacktext"
+                          }`}
                       >
                         <span>A propos</span>
                       </span>
@@ -307,9 +303,8 @@ export default function Navbar({ className, type = 3 }) {
                   <li>
                     <Link to="/contact">
                       <span
-                        className={`flex items-center text-sm font-600 cursor-pointer ${
-                          type === 3 ? "text-white" : "text-qblacktext"
-                        }`}
+                        className={`flex items-center text-sm font-600 cursor-pointer ${type === 3 ? "text-white" : "text-qblacktext"
+                          }`}
                       >
                         <span>Contact</span>
                       </span>
@@ -329,25 +324,23 @@ export default function Navbar({ className, type = 3 }) {
                     </li>
                   )} */}
                   {!user ? <>
-                   <li>
+                    <li>
                       <Link to="/login">
                         <span
-                          className={`flex items-center text-sm font-600 cursor-pointer ${
-                            type === 3 ? "text-white" : "text-qblacktext"
-                          }`}
+                          className={`flex items-center text-sm font-600 cursor-pointer ${type === 3 ? "text-white" : "text-qblacktext"
+                            }`}
                         >
                           <span>Connexion</span>
                         </span>
                       </Link>
                     </li>
                   </> : <>
-                   <li>
-                     <Link onClick={HandleLout}>
+                    <li>
+                      <Link onClick={HandleLout}>
                         <span
-                          className={`flex items-center text-sm font-600 cursor-pointer ${
-                            type === 3 ? "text-white" : "text-qblacktext"
-                          }`}
-                          >
+                          className={`flex items-center text-sm font-600 cursor-pointer ${type === 3 ? "text-white" : "text-qblacktext"
+                            }`}
+                        >
                           <span>Déconnexion</span>
                         </span>
                       </Link>

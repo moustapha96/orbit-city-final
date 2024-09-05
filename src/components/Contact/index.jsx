@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 /* eslint-disable no-unused-vars */
 import {
   Loader2,
@@ -16,6 +17,7 @@ import { useState } from "react";
 import { Button, Label } from "flowbite-react";
 import { toast } from "react-toastify";
 import SEOHeader from "../Partials/Headers/HeaderOne/SEOHeader";
+import ContactService from "../../services/contactService";
 export default function Contact() {
   const [email, setEmail] = useState("");
   const [nom, setNom] = useState("");
@@ -26,16 +28,45 @@ export default function Contact() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+    console.log(email, nom, sujet, message);
+    let data = {
+      email: email,
+      nom: nom,
+      sujet: sujet,
+      message: message,
+    }
+    try {
+      const response = await ContactService.sendContact(data);
+      toast.success("Mail Contact envoyer !", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      setEmail("");
+      setNom("");
+      setSujet("");
+      setMessage("");
+      console.log(response.result);
+    } catch (error) {
+      console.log(error)
+      toast.error("Mail Contact non envoyer !", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      }
+      )
+    } finally {
+      setIsLoading(false);
+    }
 
-    toast.success("Contact envoyer !", {
-      position: "top-center",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
 
     setIsLoading(false);
   };
@@ -77,7 +108,7 @@ export default function Contact() {
                       Téléphone
                     </p>
                     <p className="text-[15px] text-black leading-[30px] text-center">
-                      +(221) 33 849 6549
+                      +(221) 70 922 17 75
                     </p>
                   </div>
                   <div className="xl:w-1/2 w-full h-[196px] flex flex-col item justify-center bg-[#D3EFFF] p-5">
@@ -88,7 +119,7 @@ export default function Contact() {
                       Email
                     </p>
                     <p className="text-[15px] text-black leading-[30px] text-center">
-                      contact@ccbm.sn
+                      shop@ccbm.sn
                     </p>
                   </div>
                 </div>
@@ -230,83 +261,7 @@ export default function Contact() {
                 </form>
               </div>
             </div>
-            {/* <div className="container-x mx-auto my-[60px]">
-            <div
-              data-aos="fade-down"
-              className="best-services w-full  flex flex-col space-y-10 lg:space-y-0 lg:flex-row lg:justify-between lg:items-center lg:h-[110px] px-10 lg:py-0 py-10"
-              style={{ backgroundColor: bgColor }}
-            >
-              <div className="item">
-                <div className="flex space-x-5 items-center">
-                  <div>
-                    <span>
-                      <Truck color="white" size={40} />
-                    </span>
-                  </div>
-                  <div>
-                    <p className="text-white text-[15px] font-700 tracking-wide mb-1 uppercase">
-                      Livraison gratuite
-                    </p>
-                    <p className="text-sm text-white">
-                      Lors d&apos;une commande de plus de 10000 F CFA
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div className="item">
-                <div className="flex space-x-5 items-center">
-                  <div>
-                    <span>
-                      <RotateCw size={40} color="white" />
-                    </span>
-                  </div>
-                  <div>
-                    <p className="text-white text-[15px] font-700 tracking-wide mb-1 uppercase">
-                      Retour gratuit
-                    </p>
-                    <p className="text-sm text-white">
-                      Obtenez un retour dans les 30 jours
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div className="item">
-                <div className="flex space-x-5 items-center">
-                  <div>
-                    <span>
-                      <ShieldCheck size={40} color="white" />
-                    </span>
-                  </div>
-                  <div>
-                    <p className="text-white text-[15px] font-700 tracking-wide mb-1 uppercase">
-                      Paiement sécurisé
-                    </p>
-                    <p className="text-sm text-white">
-                      Paiement en ligne 100% sécurisé
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div className="item">
-                <div className="flex space-x-5 items-center">
-                  <div>
-                    <span>
-                      {" "}
-                      <Trophy size={40} color="white" />{" "}
-                    </span>
-                  </div>
-                  <div>
-                    <p className="text-white text-[15px] font-700 tracking-wide mb-1 uppercase">
-                      Meilleure qualité
-                    </p>
-                    <p className="text-sm text-white">
-                      Garantie du produit original
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div> */}
+
           </div>
         </div>
       </Layout>

@@ -11,7 +11,7 @@ import { useContext } from "react";
 import ThinPeople from "../../../Helpers/icons/ThinPeople";
 import { UserContext } from "../../../../contexts/UserContext";
 
-import PromotionalHeader from "./PromotionalHeader";
+
 export default function HeaderOne({ className, drawerAction, type = 3 }) {
   const { user } = useContext(UserContext);
 

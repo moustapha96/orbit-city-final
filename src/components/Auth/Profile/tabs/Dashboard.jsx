@@ -18,8 +18,9 @@ export default function Dashboard() {
         const response = await userService.getCompte(user.partner_id);
         if (response) {
           setCompte(response);
-          console.log(compte);
+          console.log(response);
         }
+        console.log(response);
       } catch (error) {
         console.error("Erreur lors de la récupération des données user", error);
       }

@@ -72,8 +72,8 @@ Pour cela , au moment de la precommande il faut verser un acompte pour confirmer
                   />
 
                   {/* <Accodion
-                    title="1. Quels types de produits propose Orbit City ?"
-                    des=" Orbit City propose une large gamme de produits, allant de l'électronique aux articles ménagers, en passant par les vêtements et les accessoires. Nous nous efforçons de répondre aux besoins de tous nos clients en offrant des produits de qualité."
+                    title="1. Quels types de produits propose CCBM Shop ?"
+                    des=" CCBM Shop propose une large gamme de produits, allant de l'électronique aux articles ménagers, en passant par les vêtements et les accessoires. Nous nous efforçons de répondre aux besoins de tous nos clients en offrant des produits de qualité."
                   />
                   <Accodion
                     init

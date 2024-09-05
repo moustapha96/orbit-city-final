@@ -2,12 +2,14 @@
 import React, { useContext, useEffect } from "react";
 import { CategoryContext } from "../../contexts/CategoryContext";
 import {
+  AirVent,
   Heater,
   Layers3,
   Loader,
   Microwave,
   Refrigerator,
   SwatchBook,
+  SwatchBookIcon,
   Tv,
   WashingMachine,
 } from "lucide-react";
@@ -27,6 +29,8 @@ export default function CategoriesSection() {
     refrigerateur: Refrigerator,
     television: FaTv,
     All: Layers3,
+    "climatiseur": AirVent,
+    'congélateur': SwatchBook,
   };
 
   const handleCategoryChange = (e, category) => {

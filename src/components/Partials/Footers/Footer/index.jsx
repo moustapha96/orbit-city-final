@@ -29,7 +29,7 @@ export default function Footer({ type = 3 }) {
               À propos de nous
             </h1>
             <p className="text-[#9A9A9A] text-[15px] w-[247px] leading-[28px]">
-              Orbit City, la plateforme de vente du groupe CCBM, propose une
+              CCBM Shop, la plateforme de vente du groupe CCBM, propose une
               vaste sélection de produits et un service après-vente avec des
               options de garantie étendues.
             </p>

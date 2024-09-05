@@ -111,8 +111,8 @@ export default function Home() {
           ) : (
             <SectionStyleTwo
               products={
-                precommandes.length > 4
-                  ? precommandes.slice(0, 4)
+                precommandes.length > 6
+                  ? precommandes.slice(0, 6)
                   : precommandes
               }
             />
@@ -124,12 +124,12 @@ export default function Home() {
           className="products-ads-section mb-[60px]"
         /> */}
 
-        <ProductsAds
+        {/* <ProductsAds
           sectionHeight="130"
           ads={[`banner_ccbme_shop_3.jpg`]}
           className="products-ads-section mb-[60px]"
-        />
-        {isLoadingProduct ? (
+        /> */}
+        {/* {isLoadingProduct ? (
           <div className="flex justify-center  ">
             <Loader2 className="animate-spin" />
           </div>
@@ -140,7 +140,7 @@ export default function Home() {
             seeMoreUrl="/all-products"
             className="category-products mb-[60px]"
           />
-        )}
+        )} */}
         {/* <SectionStyleThree
           products={newProduits}
           sectionTitle="Nouvelles Arrivées"

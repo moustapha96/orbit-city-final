@@ -12,7 +12,7 @@ export default function OrderTab() {
     const fetchModels = async () => {
       try {
         const data = await CommandeService.getCommandes();
-        const pr = data.filter((commande) => commande.state !== "draft");
+        const pr = data.filter((commande) => commande.state !== "draft" && commande.state !== "cancel");
         setCommandes(pr);
         console.log(pr);
       } catch (error) {
@@ -40,8 +40,12 @@ export default function OrderTab() {
               <td className="py-4 whitespace-nowrap text-center hidden sm:table-cell">
                 Date
               </td>
+
               <td className="py-4 whitespace-nowrap text-center hidden sm:table-cell">
                 Statut
+              </td>
+              <td className="py-4 whitespace-nowrap text-center hidden sm:table-cell">
+                Payment
               </td>
               <td className="py-4 whitespace-nowrap text-center hidden sm:table-cell">
                 Montant
@@ -59,7 +63,7 @@ export default function OrderTab() {
                   >
                     <td className="text-center py-4">
                       <span className="text-lg text-qgray font-medium">
-                        #{commande.id} - {commande.name}
+                        #{commande.name}
                       </span>
                     </td>
                     <td className="text-center py-4 px-2 hidden sm:table-cell">
@@ -67,11 +71,19 @@ export default function OrderTab() {
                         {formatDate(commande.date_order)}{" "}
                       </span>
                     </td>
+
+                    <td className="text-center py-4 px-2 hidden sm:table-cell">
+                      <span className="text-base text-qgray whitespace-nowrap">
+
+                        {commande.state == "to_delivered" ? "en cours de livraison" : commande.state == "delivered" ? " - livrer" : "Validé"}
+                      </span>
+                    </td>
+
                     <td className="text-center py-4 px-2 hidden sm:table-cell">
                       <span
                         className={`text-sm rounded p-2 ${commande.advance_payment_status !== "not_paid"
-                            ? "text-green-500 bg-green-100"
-                            : "text-red-500 bg-red-100"
+                          ? "text-green-500 bg-green-100"
+                          : "text-red-500 bg-red-100"
                           }`}
                       >
                         {commande.advance_payment_status == "not_paid"
@@ -79,6 +91,8 @@ export default function OrderTab() {
                           : "Payé"}
                       </span>
                     </td>
+
+
                     <td className="text-center py-4 px-2 hidden sm:table-cell">
                       <span className="text-base text-qblack whitespace-nowrap px-2 ">
                         {commande.advance_payment_status == "not_paid" ? (

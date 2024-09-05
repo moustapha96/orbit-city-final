@@ -8,12 +8,14 @@ import { CartContext } from "../../../contexts/CartContext";
 import { ChevronRight, CircleX, Dot, Search, ShoppingCart } from "lucide-react";
 import { CategoryContext } from "../../../contexts/CategoryContext";
 import { ProductContext } from "../../../contexts/ProductContext";
+import { UserContext } from "../../../contexts/UserContext";
 
 export default function Drawer({ className, open, action }) {
   const navigate = useNavigate();
   const [tab, setTab] = useState("menu");
   const { cart, wishlist } = useContext(CartContext);
 
+  const { user, logout } = useContext(UserContext);
   const { searchContext, setSearchContext, setSelectedCategory, categories } =
     useContext(ProductContext);
 
@@ -30,12 +32,17 @@ export default function Drawer({ className, open, action }) {
     }
   };
 
+  function HandleLogout() {
+    // localStorage.removeItem("authToken");
+    logout();
+    navigate("/login");
+  }
+
   return (
     <>
       <div
-        className={`drawer-wrapper w-full  h-full relative block lg:hidden  ${
-          className || ""
-        }`}
+        className={`drawer-wrapper w-full  h-full relative block lg:hidden  ${className || ""
+          }`}
       >
         {open && (
           <div
@@ -44,9 +51,8 @@ export default function Drawer({ className, open, action }) {
           ></div>
         )}
         <div
-          className={`w-[280px] transition-all duration-300 ease-in-out h-screen overflow-y-auto overflow-x-hidden overflow-style-none bg-white fixed top-0 z-50 ${
-            open ? "left-0" : "-left-[280px]"
-          }`}
+          className={`w-[280px] transition-all duration-300 ease-in-out h-screen overflow-y-auto overflow-x-hidden overflow-style-none bg-white fixed top-0 z-50 ${open ? "left-0" : "-left-[280px]"
+            }`}
         >
           <div className="w-full px-5 mt-5 mb-4">
             <div className="flex justify-between items-center">
@@ -96,18 +102,16 @@ export default function Drawer({ className, open, action }) {
           <div className="w-full mt-5 px-5 flex items-center space-x-3">
             <span
               onClick={() => setTab("menu")}
-              className={`text-base font-semibold ${
-                tab === "menu" ? "text-qblack" : "text-qgray "
-              }`}
+              className={`text-base font-semibold ${tab === "menu" ? "text-qblack" : "text-qgray "
+                }`}
             >
               Menu
             </span>
             <span className="w-[1px] h-[14px] bg-qgray"></span>
             <span
               onClick={() => setTab("category")}
-              className={`text-base font-semibold  ${
-                tab === "category" ? "text-qblack" : "text-qgray"
-              }`}
+              className={`text-base font-semibold  ${tab === "category" ? "text-qblack" : "text-qgray"
+                }`}
             >
               Catégories
             </span>
@@ -122,8 +126,8 @@ export default function Drawer({ className, open, action }) {
                         className="flex justify-between items-center px-5 h-12 bg-white transition-all duration-300 ease-in-out cursor-pointer"
                         style={{ "--hover-bg-color": "var(--bleu-logo)" }}
                         onMouseEnter={(e) =>
-                          (e.currentTarget.style.backgroundColor =
-                            "var(--hover-bg-color)")
+                        (e.currentTarget.style.backgroundColor =
+                          "var(--hover-bg-color)")
                         }
                         onMouseLeave={(e) =>
                           (e.currentTarget.style.backgroundColor = "white")
@@ -153,8 +157,8 @@ export default function Drawer({ className, open, action }) {
                       className="flex justify-between items-center px-5 h-12 bg-white transition-all duration-300 ease-in-out cursor-pointer"
                       style={{ "--hover-bg-color": "var(--bleu-logo)" }}
                       onMouseEnter={(e) =>
-                        (e.currentTarget.style.backgroundColor =
-                          "var(--hover-bg-color)")
+                      (e.currentTarget.style.backgroundColor =
+                        "var(--hover-bg-color)")
                       }
                       onMouseLeave={(e) =>
                         (e.currentTarget.style.backgroundColor = "white")
@@ -169,14 +173,16 @@ export default function Drawer({ className, open, action }) {
                     </div>
                   </Link>
                 </li>
+
+
                 <li className="category-item">
                   <Link to="/all-products">
                     <div
                       className="flex justify-between items-center px-5 h-12 bg-white transition-all duration-300 ease-in-out cursor-pointer"
                       style={{ "--hover-bg-color": "var(--bleu-logo)" }}
                       onMouseEnter={(e) =>
-                        (e.currentTarget.style.backgroundColor =
-                          "var(--hover-bg-color)")
+                      (e.currentTarget.style.backgroundColor =
+                        "var(--hover-bg-color)")
                       }
                       onMouseLeave={(e) =>
                         (e.currentTarget.style.backgroundColor = "white")
@@ -198,8 +204,8 @@ export default function Drawer({ className, open, action }) {
                       className="flex justify-between items-center px-5 h-12 bg-white transition-all duration-300 ease-in-out cursor-pointer"
                       style={{ "--hover-bg-color": "var(--bleu-logo)" }}
                       onMouseEnter={(e) =>
-                        (e.currentTarget.style.backgroundColor =
-                          "var(--hover-bg-color)")
+                      (e.currentTarget.style.backgroundColor =
+                        "var(--hover-bg-color)")
                       }
                       onMouseLeave={(e) =>
                         (e.currentTarget.style.backgroundColor = "white")
@@ -221,8 +227,8 @@ export default function Drawer({ className, open, action }) {
                       className="flex justify-between items-center px-5 h-12 bg-white transition-all duration-300 ease-in-out cursor-pointer"
                       style={{ "--hover-bg-color": "var(--bleu-logo)" }}
                       onMouseEnter={(e) =>
-                        (e.currentTarget.style.backgroundColor =
-                          "var(--hover-bg-color)")
+                      (e.currentTarget.style.backgroundColor =
+                        "var(--hover-bg-color)")
                       }
                       onMouseLeave={(e) =>
                         (e.currentTarget.style.backgroundColor = "white")
@@ -244,8 +250,8 @@ export default function Drawer({ className, open, action }) {
                       className="flex justify-between items-center px-5 h-12 bg-white transition-all duration-300 ease-in-out cursor-pointer"
                       style={{ "--hover-bg-color": "var(--bleu-logo)" }}
                       onMouseEnter={(e) =>
-                        (e.currentTarget.style.backgroundColor =
-                          "var(--hover-bg-color)")
+                      (e.currentTarget.style.backgroundColor =
+                        "var(--hover-bg-color)")
                       }
                       onMouseLeave={(e) =>
                         (e.currentTarget.style.backgroundColor = "white")
@@ -260,6 +266,32 @@ export default function Drawer({ className, open, action }) {
                     </div>
                   </Link>
                 </li>
+
+                {user && (
+
+                  <li className="category-item">
+                    <Link onClick={HandleLogout} >
+                      <div
+                        className="flex justify-between items-center px-5 h-12 bg-white transition-all duration-300 ease-in-out cursor-pointer"
+                        style={{ "--hover-bg-color": "var(--bleu-logo)" }}
+                        onMouseEnter={(e) =>
+                        (e.currentTarget.style.backgroundColor =
+                          "var(--hover-bg-color)")
+                        }
+                        onMouseLeave={(e) =>
+                          (e.currentTarget.style.backgroundColor = "white")
+                        }
+                      >
+                        <div className="flex items-center space-x-6">
+                          <span className="text-sm font-400">Deconnexion</span>
+                        </div>
+                        <div>
+                          <ChevronRight></ChevronRight>
+                        </div>
+                      </div>
+                    </Link>
+                  </li>
+                )}
               </ul>
             </div>
           )}

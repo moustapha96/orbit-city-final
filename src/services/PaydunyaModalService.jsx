@@ -50,23 +50,23 @@ const PaydunyaModalService = ({
     console.log(user);
 
     const paydunyaSetup = new paydunya.Setup({
-      // masterKey: "voFGVcul-uCsd-1sw5-wfGz-ukqScIQoOyDu",
-      // privateKey: "test_private_LJfJe2zAiwndwRq6ZF4qIDIoApZ",
-      // publicKey: "test_public_Cg2nELkXvHleRmby9NfaKWofWQS",
-      // token: "VaZUkYb6b1JOpZfxUe3R",
-      // mode: "test",
       masterKey: "voFGVcul-uCsd-1sw5-wfGz-ukqScIQoOyDu",
-      privateKey: "live_private_KvbXuQU1IJ4z68hQOU9YeEtrUjW",
-      publicKey: "live_public_wgK4JebXd3SfGDWN64sEIffD5XR",
-      token: "cjTGi71WL8xOTCrsJisR",
-      mode: "live",
+      privateKey: "test_private_LJfJe2zAiwndwRq6ZF4qIDIoApZ",
+      publicKey: "test_public_Cg2nELkXvHleRmby9NfaKWofWQS",
+      token: "VaZUkYb6b1JOpZfxUe3R",
+      mode: "test",
+      // masterKey: "voFGVcul-uCsd-1sw5-wfGz-ukqScIQoOyDu",
+      // privateKey: "live_private_KvbXuQU1IJ4z68hQOU9YeEtrUjW",
+      // publicKey: "live_public_wgK4JebXd3SfGDWN64sEIffD5XR",
+      // token: "cjTGi71WL8xOTCrsJisR",
+      // mode: "live",
     });
     setSetup(paydunyaSetup);
     const store = new paydunya.Store({
       name: "CCBM SHOP",
-      email: "ccbme@ccbm.sn",
+      email: "shop@ccbm.sn",
       tagline: "Votre boutique pour vos matériels électroménéger",
-      phoneNumber: "+221 33 849 65 49",
+      phoneNumber: "+221 70 922 17 75",
       postalAddress: "Avenue Lamine Gueye,x Rue Marchand,Dakar-Senegal",
       logoURL: "https://ccbme.sn/logo_192.png",
       websiteURL: "https://ccbme.sn/",
@@ -126,13 +126,15 @@ const PaydunyaModalService = ({
         }
       }
 
-      invoice.callbackURL = "https://ccbme.sn/profile";
+      invoice.callbackURL = "https://orbitcity/api/facture/paydunya";
+      // invoice.callbackURL = "https://localhost:5173/call-back";
 
       if (order.type_sale === "order") {
         invoice.cancelURL = `https://ccbme.sn/commandes/${idOrder}/détails`;
       } else {
         invoice.cancelURL = `https://ccbme.sn/pre-commandes/${idOrder}/détails`;
       }
+
       invoice.returnURL = `https://ccbme.sn/payment-state`;
 
       setPaymentDetails(invoice);

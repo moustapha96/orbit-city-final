@@ -33,7 +33,7 @@ export const GlobalPaymentProvider = ({ children, mode = "test" }) => {
 
     const store = new paydunya.Store({
       name: "CCBM SHOP",
-      email: "contact@ccbm.sn",
+      email: "shop@ccbm.sn",
       tagline: "Votre boutique pour vos matériels électroménagers",
       phoneNumber: "784537547",
       postalAddress: "Dakar",

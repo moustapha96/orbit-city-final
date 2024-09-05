@@ -2,8 +2,8 @@
 
 import { useEffect, useRef } from "react";
 import SimpleSlider from "../Helpers/SliderCom";
-import { Carousel } from "flowbite-react";
-import { ArrowLeft, ArrowRight, Link } from "lucide-react";
+
+import { ArrowLeft, ArrowRight } from "lucide-react";
 
 export default function BannerSecond({ className }) {
   const sliderRef = useRef(null);
@@ -43,9 +43,8 @@ export default function BannerSecond({ className }) {
   return (
     <>
       <div
-        className={`hero-slider-wrapper w-full h-[150px] md:h-[600px] sm:h-[400px] lg:h-[570px] ${
-          className || ""
-        }`}
+        className={`hero-slider-wrapper w-full h-[150px] md:h-[600px] sm:h-[400px] lg:h-[570px] ${className || ""
+          }`}
       >
         <div className="main-wrapper w-full h-full">
           <div className="w-full h-full relative overflow-hidden">
@@ -66,11 +65,13 @@ export default function BannerSecond({ className }) {
               </button>
             </div>
             <SimpleSlider settings={settings} selector={sliderRef}>
+
+
               <div className="item w-full h-[600px] sm:h-[400px] md:h-[300px] lg:h-[570px]">
                 <div
                   className="w-full h-full relative bg-center"
                   style={{
-                    backgroundImage: `url('/banner_ccbme_shop_pub_1.jpg')`,
+                    backgroundImage: `url('/banner_ccbme_shop_pub_2.png')`,
                     backgroundRepeat: "no-repeat",
                     backgroundSize: "contain",
                     backgroundPosition: "top center",
@@ -84,7 +85,7 @@ export default function BannerSecond({ className }) {
                 <div
                   className="w-full h-full relative bg-center"
                   style={{
-                    backgroundImage: `url('/banner_ccbme_shop_pub_2.png')`,
+                    backgroundImage: `url('/banner_ccbme_shop_pub_1.jpg')`,
                     backgroundRepeat: "no-repeat",
                     backgroundSize: "contain",
                     backgroundPosition: "top center",

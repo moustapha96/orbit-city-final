@@ -227,7 +227,7 @@ export default function CartValidationPage() {
                     </div>
 
                     {orderState.amount_residual != 0 &&
-                    orderState.advance_payment_status !== "paid" ? (
+                      orderState.advance_payment_status !== "paid" ? (
                       <div>
                         <div className="shipping mt-[30px]">
                           <ul className="flex flex-col space-y-1">
@@ -268,12 +268,6 @@ export default function CartValidationPage() {
                           )}
                           {showPaymentModal && (
                             <>
-                              {/* <PayTechPaymentForm
-                                handlePay={handlePay}
-                                totalAmount={orderState.amount_total}
-                                onClose={() => setShowPaymentModal(false)}
-                                order={orderState}
-                              /> */}
                               <PaydunyaModalService
                                 handlePay={handlePay}
                                 totalAmount={orderState.amount_total}
