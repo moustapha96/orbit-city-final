@@ -8,6 +8,7 @@ import {
   Loader,
   Microwave,
   Refrigerator,
+  Snowflake,
   SwatchBook,
   SwatchBookIcon,
   Tv,
@@ -22,6 +23,7 @@ export default function CategoriesSection() {
   const navigate = useNavigate();
   const { categories, setSelectedCategory, selectedCategory } =
     useContext(ProductContext);
+  console.log(categories);
   const categoryIcons = {
     cuisiniere: Heater,
     "machine a laver": WashingMachine,
@@ -31,6 +33,13 @@ export default function CategoriesSection() {
     All: Layers3,
     "climatiseur": AirVent,
     'congélateur': SwatchBook,
+    "lave linge": SwatchBookIcon,
+    "lave vaisselle": SwatchBookIcon,
+    "split": AirVent,
+    "CONGELATEUR": Refrigerator,
+    "CONGELATEUR HORIZONTAL": Snowflake,
+    "CONGELATEUR VERTICAL": Snowflake,
+
   };
 
   const handleCategoryChange = (e, category) => {
@@ -52,23 +61,23 @@ export default function CategoriesSection() {
       <div className="categories-section-wrapper w-full flex justify-center items-center">
         <div className="container-x mx-auto  ">
           <div className="w-full categories-items">
-            <div className="grid xl:grid-cols-8 sm:grid-cols-4 grid-cols-2 gap-10 mb-[46px]">
+            <div className="grid xl:grid-cols-5 sm:grid-cols-4 grid-cols-2 gap-10 mb-[46px]">
               {categories.map((category) => {
                 const IconComponent = categoryIcons[category.name] || FaTv;
                 return (
                   <div
                     key={category.id}
-                    className="item w-full group cursor-pointer"
+                    className="item w-full group cursor-pointer mb-4 "
                     onClick={(e) => handleCategoryChange(e, category)}
                   >
                     <div className="w-full flex justify-center">
-                      <div className="w-[110px] h-[110px] rounded-full bg-[#EEF1F1] group-hover:bg-bleu-logo mb-2.5 flex justify-center items-center">
+                      <div className="w-[100px] h-[100px] rounded-full bg-[#EEF1F1] group-hover:bg-bleu-logo mb-2.5 flex justify-center items-center">
                         <span className="text-qblack group-hover:text-white">
-                          <IconComponent size={50} strokeWidth={1.5} />
+                          <IconComponent size={40} strokeWidth={1.5} />
                         </span>
                       </div>
                     </div>
-                    <div className="w-full flex justify-center">
+                    <div className="w-full h-full flex justify-center">
                       <p className=" text-base text-qblack whitespace-nowrap toupper uppercase">
                         {category.name == "All" ? "Tout" : category.name}
                       </p>

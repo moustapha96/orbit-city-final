@@ -36,9 +36,9 @@ export default function Faq() {
   return (
     <>
       <SEOHeader
-        title="FAQ - Foire aux Questions sur CCBM Shop"
-        description="Trouvez les réponses à vos questions fréquentes sur CCBM Shop, votre boutique en ligne d'électroménager."
-        keywords="FAQ, foire aux questions, CCBM Shop, boutique en ligne, électroménager"
+        title="CCBM Shop | FAQ "
+        description="Découvrez les meilleures offres sur CCBM Shop, votre destination privilégiée pour l'électroménager de qualité. Explorez nos produits allant des réfrigérateurs aux téléviseurs intelligents, et profitez de promotions exclusives !"
+        keywords="électroménager, boutique en ligne d'électroménager, CCBM Shop, ccbme, appareils électroménagers à prix réduits, smart TV, réfrigérateurs modernes, climatiseurs efficaces, promotions électroménager"
       />
       <Layout childrenClasses="pt-0 pb-0">
         <div className="faq-page-wrapper w-full mb-10">
@@ -62,13 +62,12 @@ export default function Faq() {
                 <div className="flex flex-col space-y-7 justify-between">
                   <Accodion
                     title="1. Précommande ?"
-                    des="La precommande permet d’avoir des produits electromenager jusqu’à reduction de 50% . Garantie moins chers sur le marche
-Pour cela , au moment de la precommande il faut verser un acompte pour confirmer la precommande , le client peut continuer à completer le versement en attendant la livraison du produit . Le payement doit etre completè avant la livraison du produit .Le delai de livraison est compris entre 30 et 60 jours . une date de livraison sera communique après la confirmation de la precommande ."
+                    des="La précommande permet d’avoir des produits électroménagers jusqu’à une réduction de 50% garantie, moins chère sur le marché. Pour cela, au moment de la précommande, il faut verser un acompte pour confirmer la précommande. Le client peut continuer à compléter le versement en attendant la livraison du produit. Le paiement doit être complété avant la livraison du produit. Le délai de livraison est compris entre 30 et 60 jours. Une date de livraison sera communiquée après la confirmation de la précommande."
                   />
                   <Accodion
                     init
                     title=" 2. SERVICE APRES VENTE DE NOS PRODUITS ?"
-                    des="Nos produits garantie sont garantie 1 ans . CCBM a une experience de plus de 30 ans en terme de vente de produit electromenager . Vous pouvez nous joindre sur le numero affichè sur le site en cas de besoins ou de reclamation ."
+                    des="Nos produits sont garantis d'un an. CCBM a une expérience de plus de 30 ans en termes de vente de produits électroménagers. Vous pouvez nous joindre sur le numéro affiché sur le site en cas de besoins ou de réclamation."
                   />
 
                   {/* <Accodion

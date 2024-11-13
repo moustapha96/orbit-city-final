@@ -1,24 +1,33 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 // CartContext.js
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
+import { UserContext } from "./UserContext";
+import ExcelService from "../services/excelService";
 export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
+
+  const { user } = useContext(UserContext);
+
   const [cart, setCart] = useState([]);
   const [wishlist, setWishlist] = useState([]);
   const [preorder, setPreorder] = useState([]);
-  const [preorderState, setPreorderState] = useState(null);
-  const [orderState, setOrderState] = useState(null);
+  const [location, setLocation] = useState(null);
 
   useEffect(() => {
+    fetchLocation();
     loadDataFromLocalStorage();
-  }, []);
+  }, []); // Charge les données une seule fois au démarrage
 
   useEffect(() => {
     saveDataToLocalStorage();
-  }, [cart, wishlist, preorder]);
+  }, [cart, wishlist, preorder]); // Sauvegarde uniquement lorsque ces états changent
+
+
+
 
   const addToCart = (product, quantity) => {
     const index = cart.findIndex((p) => p.id === product.id);
@@ -33,7 +42,72 @@ export const CartProvider = ({ children }) => {
       setCart(updatedCart);
     } else {
       setCart([...cart, { ...product, quantity }]);
+
+      // const cartItem = {
+      //   productName: product.name,
+      //   date: new Date().toLocaleString(),
+      //   user: user ? user.name : 'Guest',
+      //   phone: user ? user.partner_phone : 'Guest',
+      //   email: user ? user.email : 'Guest',
+      //   type: 'order',
+      //   price: product.list_price,
+      //   location: location ? location.city + '/' + location.region + '/' + location.country + ' Ip : ' + location.ip : ""
+      // };
+      // try {
+      //   const response = ExcelService.createCrm([...cart, cartItem]);
+      //   console.log(response);
+      // } catch (error) {
+      //   console.error("Erreur creation crm preorder :", error);
+      // }
     }
+
+
+
+  };
+
+
+  const fetchLocation = async () => {
+    try {
+      const response = await fetch('https://ipinfo.io/json?token=a7bca817c4bc37');
+      if (!response.ok) {
+        throw new Error('Erreur lors de la récupération des données de localisation');
+      }
+      const data = await response.json();
+      setLocation(data);
+    } catch (error) {
+      console.error('Erreur:', error);
+    }
+  };
+  const addToPreorder = (product, quantity) => {
+    const index = preorder.findIndex((p) => p.id === product.id);
+
+    if (index !== -1) {
+      preorder[index].quantity += quantity;
+    } else {
+      setPreorder([...preorder, { ...product, quantity }]);
+
+
+
+
+      // const preorderItem = {
+      //   productName: product.name,
+      //   date: new Date().toLocaleString(),
+      //   user: user ? user.name : 'Guest',
+      //   phone: user ? user.partner_phone : 'Guest',
+      //   email: user ? user.email : 'Guest',
+      //   type: 'preorder',
+      //   price: product.preorder_price,
+      //   location: location ? location.city + '/' + location.region + '/' + location.country + ' Ip : ' + location.ip : ""
+      // };
+
+      // try {
+      //   const response = ExcelService.createCrm([...preorder, preorderItem]); // Passer le bon tableau ici
+      //   console.log(response);
+      // } catch (error) {
+      //   console.error("Erreur creation crm preorder :", error);
+      // }
+    }
+
   };
 
   const removeFromCart = (product) => {
@@ -50,7 +124,7 @@ export const CartProvider = ({ children }) => {
 
   const clearCart = () => {
     setCart([]);
-    // setOrderState(null);
+
   };
 
   const addAllWhislistToCart = () => {
@@ -103,15 +177,7 @@ export const CartProvider = ({ children }) => {
     );
   };
 
-  const addToPreorder = (product, quantity) => {
-    const index = preorder.findIndex((p) => p.id === product.id);
 
-    if (index !== -1) {
-      preorder[index].quantity += quantity;
-    } else {
-      setPreorder([...preorder, { ...product, quantity }]);
-    }
-  };
 
   const removeFromPreorder = (product) => {
     setPreorder(preorder.filter((item) => item.id !== product.id));
@@ -199,10 +265,6 @@ export const CartProvider = ({ children }) => {
         setWishlist,
         wishlist,
         preorder,
-        setPreorderState,
-        setOrderState,
-        orderState,
-        preorderState,
         setPreorder,
         addToCart,
         removeFromCart,

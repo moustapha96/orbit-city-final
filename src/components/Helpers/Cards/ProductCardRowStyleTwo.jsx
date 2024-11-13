@@ -19,8 +19,9 @@ export default function ProductCardRowStyleTwo({ className, datas }) {
         <div className="w-full h-full flex space-x-5 justify-center items-center">
           <div className="w-[75px] h-[75px]">
             <img
+              // src={`${datas.image_1920}`}
               src={`data:image/png;base64,${datas.image_1920}`}
-              alt=""
+              alt="image produit ccbm shop"
               className="w-full h-full object-cover"
             />
           </div>

@@ -69,6 +69,16 @@ const CommandeService = {
     }
   },
 
+  createCommandeWitoutPartner: async (modelData) => {
+    try {
+      const response = await axiosInstance.post("/api/commande-sans-partner", modelData);
+      return response.data;
+    } catch (error) {
+      console.error("Erreur lors de la création du modèle", error);
+      throw error;
+    }
+  },
+
   updateCommande: async (id, modelData) => {
     try {
       const response = await axiosInstance.put(

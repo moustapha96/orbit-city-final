@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 
 import Cart from "../../../Cart";
@@ -6,18 +7,50 @@ import ThinBag from "../../../Helpers/icons/ThinBag";
 import ThinLove from "../../../Helpers/icons/ThinLove";
 import ThinPeople from "../../../Helpers/icons/ThinPeople";
 import SearchBox from "../../../Helpers/SearchBox";
-import { Link } from "react-router-dom";
+import { Link, useNavigation } from "react-router-dom";
 import { UserContext } from "../../../../contexts/UserContext";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 
 export default function Middlebar({ className }) {
-  // const { user } = useContext(UserContext);
-  const user = JSON.parse(localStorage.getItem("user"));
-  console.log(user);
+
+
+  const {
+    user,
+    token,
+    uid,
+    expiresIn,
+    refreshToken,
+    refreshExpiresIn,
+    is_verified,
+    logout
+  } = useContext(UserContext);
+
+
+  const navigate = useNavigation()
+  // const user = JSON.parse(localStorage.getItem("user"));
   // const [toggleCart, setToggle] = useState(false);
   // const cartHandler = () => {
   //   setToggle(!toggleCart);
   // };
+
+  console.log("j'y suis")
+  useEffect(() => {
+
+
+    if (!user) {
+      logout();
+      navigate("/login");
+    }
+
+    console.log(user);
+    console.log(token,
+      uid,
+      expiresIn,
+      refreshToken,
+      refreshExpiresIn,
+      is_verified)
+  }, []);
+
   return (
     <div className={`w-full h-[86px] bg-white ${className}`}>
       <div className="container-x mx-auto h-full">

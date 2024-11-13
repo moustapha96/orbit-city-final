@@ -5,7 +5,9 @@ import SimpleSlider from "../Helpers/SliderCom";
 
 import { ArrowLeft, ArrowRight } from "lucide-react";
 
+
 export default function BannerSecond({ className }) {
+
   const sliderRef = useRef(null);
   const settings = {
     infinite: true,
@@ -33,7 +35,6 @@ export default function BannerSecond({ className }) {
       sliderRef.current.slickNext();
     }
   };
-
   useEffect(() => {
     // Vérifiez si le composant SimpleSlider est monté
     if (sliderRef.current) {
@@ -67,19 +68,25 @@ export default function BannerSecond({ className }) {
             <SimpleSlider settings={settings} selector={sliderRef}>
 
 
-              <div className="item w-full h-[600px] sm:h-[400px] md:h-[300px] lg:h-[570px]">
+
+
+              <div className="item w-full h-[600px] sm:h-[400px] md:h-[300px] lg:h-[570px] relative">
                 <div
                   className="w-full h-full relative bg-center"
                   style={{
-                    backgroundImage: `url('/banner_ccbme_shop_pub_2.png')`,
+                    backgroundImage: `url('/new_banner_ccbm_shop.jpg')`,
                     backgroundRepeat: "no-repeat",
                     backgroundSize: "contain",
                     backgroundPosition: "top center",
                     maxWidth: "100%",
                     maxHeight: "100%",
                   }}
-                ></div>
+                >
+
+                </div>
               </div>
+
+
 
               <div className="item w-full h-[600px] sm:h-[400px] md:h-[300px] lg:h-[570px]">
                 <div

@@ -1,10 +1,21 @@
+/* eslint-disable no-unused-vars */
 import axios from "axios";
 
-const urlBase = "https://orbitcity.sn/";
+// const urlBase = "https://orbitcity.sn/";
+
+const urlApidev = import.meta.env.VITE_API_URL_DEV;
+
+const urlApiprod_dev = import.meta.env.VITE_API_URL_PROD_DEV;
+
+const urlApiprod = import.meta.env.VITE_API_URL_PROD;
+
+const urlBase = urlApidev;
+
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:8016/",
-  // baseURL: "https://orbitcity.sn/",
+  baseURL: urlApidev
 });
+
+
 
 const excludedEndpoints = [
   "/auth",
@@ -14,6 +25,7 @@ const excludedEndpoints = [
   "/new_compte",
   "/tracking",
   "/sendResetPasswordMail",
+  "/create_leads"
 ];
 
 axiosInstance.interceptors.request.use(

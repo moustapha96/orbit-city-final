@@ -66,10 +66,9 @@ export default function ProductsCompaire() {
                     <div className="product-img flex justify-center mb-3 ">
                       <div className="w-[161px] h-[161px]">
                         <img
-                          src={`${
-                            import.meta.env.VITE_PUBLIC_URL
-                          }/images/product-img-15.jpg`}
-                          alt=""
+                          src={`${import.meta.env.VITE_PUBLIC_URL
+                            }/images/product-img-15.jpg`}
+                          alt="image produit ccbm shop"
                           className="w-full h-full object-contain"
                         />
                       </div>
@@ -114,10 +113,9 @@ export default function ProductsCompaire() {
                     <div className="product-img flex justify-center mb-3 ">
                       <div className="w-[161px] h-[161px]">
                         <img
-                          src={`${
-                            import.meta.env.VITE_PUBLIC_URL
-                          }/images/product-img-16.jpg`}
-                          alt=""
+                          src={`${import.meta.env.VITE_PUBLIC_URL
+                            }/images/product-img-16.jpg`}
+                          alt="image produit ccbm shop"
                           className="w-full h-full object-contain"
                         />
                       </div>
@@ -162,10 +160,9 @@ export default function ProductsCompaire() {
                     <div className="product-img flex justify-center mb-3 ">
                       <div className="w-[161px] h-[161px]">
                         <img
-                          src={`${
-                            import.meta.env.VITE_PUBLIC_URL
-                          }/images/product-img-12.jpg`}
-                          alt=""
+                          src={`${import.meta.env.VITE_PUBLIC_URL
+                            }/images/product-img-12.jpg`}
+                          alt="image produit ccbm shop"
                           className="w-full h-full object-contain"
                         />
                       </div>
@@ -210,10 +207,9 @@ export default function ProductsCompaire() {
                     <div className="product-img flex justify-center mb-3 ">
                       <div className="w-[161px] h-[161px]">
                         <img
-                          src={`${
-                            import.meta.env.VITE_PUBLIC_URL
-                          }/images/product-img-11.jpg`}
-                          alt=""
+                          src={`${import.meta.env.VITE_PUBLIC_URL
+                            }/images/product-img-11.jpg`}
+                          alt="image produit ccbm shop"
                           className="w-full h-full object-contain"
                         />
                       </div>

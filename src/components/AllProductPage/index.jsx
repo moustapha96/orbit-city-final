@@ -52,6 +52,7 @@ export default function AllProductPage() {
   };
 
   useEffect(() => {
+    console.log(productFilter);
     setProduits(productFilter);
     setSearchContext("");
   }, [productFilter]);
@@ -81,41 +82,16 @@ export default function AllProductPage() {
   return (
     <>
       <SEOHeader
-        title="CCBM Shop - Boutique"
-        description="Trouvez l'appareil parfait pour votre maison sur CCBM Shop."
-        keywords="électroménager, boutique en ligne, appareils électroménagers, CCBM Shop"
+        title="CCBM Shop | Boutique"
+        description="Découvrez les meilleures offres sur CCBM Shop, votre destination privilégiée pour l'électroménager de qualité. Explorez nos produits allant des réfrigérateurs aux téléviseurs intelligents, et profitez de promotions exclusives !"
+        keywords="électroménager, boutique en ligne d'électroménager, CCBM Shop, ccbme, appareils électroménagers à prix réduits, smart TV, réfrigérateurs modernes, climatiseurs efficaces, promotions électroménager"
       />
       <Layout>
         <div className="products-page-wrapper w-full">
           <div className="container-x mx-auto">
             <BreadcrumbCom />
             <div className="w-full lg:flex lg:space-x-[30px]">
-              {/* <div className="lg:w-[270px]">
-                {isLoadingCategorie ? (
-                  <div className="flex justify-center">
-                    <Loader2
-                      size={100}
-                      className="mr-2 h-4 text-center w-4 animate-spin"
-                    />
-                  </div>
-                ) : (
-                  <>
-                    <ProductsFilter
-                      filterToggle={filterToggle}
-                      filterToggleHandler={() => setToggle(!filterToggle)}
-                      filters={filters}
-                      checkboxHandler={checkboxHandler}
-                      volume={volume}
-                      volumeHandler={handleVolumeChange}
-                      storage={storage}
-                      filterstorage={filterStorage}
-                      categories={categories}
-                      handleCategoryChange={handleCategoryChange}
-                      className="mb-[30px]"
-                    />
-                  </>
-                )}
-              </div> */}
+
 
               <div className="flex-1">
                 {isLoading ? (
@@ -193,11 +169,7 @@ export default function AllProductPage() {
                       <>
                         <div className="grid xl:grid-cols-3 sm:grid-cols-2 grid-cols-1 xl:gap-[30px] gap-5 mb-[40px]">
                           <DataIteration
-                            // datas={produits.filter((product) =>
-                            //   filters.category.length
-                            //     ? filters.category.includes(product.categ_id)
-                            //     : true
-                            // )}
+
                             datas={produits}
                             startLength={Math.max(0, startLength)}
                             endLength={Math.min(endLength, produits.length)}

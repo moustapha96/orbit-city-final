@@ -10,7 +10,7 @@ export default function BestSellers({ className }) {
           className="item w-full flex flex-col items-center"
         >
           <div className="w-[170px] h-[170px] rounded-full bg-white flex justify-center items-center overflow-hidden mb-2">
-            <img src={`/images/saller-1.png`} alt="" />
+            <img src={`/images/saller-1.png`} alt="image produit ccbm shop" />
           </div>
           <Link to="/saller-page">
             <p className="text-base font-500 text-center">Shopno BD</p>
@@ -22,7 +22,7 @@ export default function BestSellers({ className }) {
           className="item w-full flex flex-col items-center"
         >
           <div className="w-[170px] h-[170px] rounded-full bg-white flex justify-center items-center overflow-hidden mb-2">
-            <img src={`/images/saller-2.png`} alt="" />
+            <img src={`/images/saller-2.png`} alt="image produit ccbm shop" />
           </div>
           <Link to="/saller-page">
             <p className="text-base font-500 text-center">Eecoms Shop</p>
@@ -34,7 +34,7 @@ export default function BestSellers({ className }) {
           className="item w-full flex flex-col items-center"
         >
           <div className="w-[170px] h-[170px] rounded-full bg-white flex justify-center items-center overflow-hidden mb-2">
-            <img src={`/images/saller-3.png`} alt="" />
+            <img src={`/images/saller-3.png`} alt="image produit ccbm shop" />
           </div>
           <Link to="/saller-page">
             <p className="text-base font-500 text-center">Fusion X</p>
@@ -46,7 +46,7 @@ export default function BestSellers({ className }) {
           className="item w-full flex flex-col items-center"
         >
           <div className="w-[170px] h-[170px] rounded-full bg-white flex justify-center items-center overflow-hidden mb-2">
-            <img src={`/images/saller-4.png`} alt="" />
+            <img src={`/images/saller-4.png`} alt="image produit ccbm shop" />
           </div>
           <Link to="/saller-page">
             <p className="text-base font-500 text-center">Rikayi Rox</p>
@@ -58,7 +58,7 @@ export default function BestSellers({ className }) {
           className="item w-full flex flex-col items-center"
         >
           <div className="w-[170px] h-[170px] rounded-full bg-white flex justify-center items-center overflow-hidden mb-2">
-            <img src={`/images/saller-5.png`} alt="" />
+            <img src={`/images/saller-5.png`} alt="image produit ccbm shop" />
           </div>
           <Link to="/saller-page">
             <p className="text-base font-500 text-center">Habbriyi</p>
@@ -70,7 +70,7 @@ export default function BestSellers({ className }) {
           className="item w-full flex flex-col items-center"
         >
           <div className="w-[170px] h-[170px] rounded-full bg-white flex justify-center items-center overflow-hidden mb-2">
-            <img src={`/images/saller-6.png`} alt="" />
+            <img src={`/images/saller-6.png`} alt="image produit ccbm shop" />
           </div>
           <Link to="/saller-page">
             <p className="text-base font-500 text-center">Rayhans</p>

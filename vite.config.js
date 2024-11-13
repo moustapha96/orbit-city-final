@@ -48,7 +48,8 @@ export default defineConfig({
   basename: "/",
   plugins: [react(), VitePWA(pwaConfig), tailwind()],
   build: {
-    outDir: "../deploy-ccbm-shop/",
+    // outDir: "../deploy-ccbm-shop/",
+    outDir: "../deploy-ccbm-shop-dev/",
     rollupOptions: {
       output: {
         manualChunks: {

@@ -68,7 +68,7 @@ export default function PaymentDetailsTab() {
                   <tr className="bg-white border-b hover:bg-gray-50" key={pay.id}>
                     <td className="text-center py-4">
                       <span className="text-lg text-qgray font-medium">
-                        #{pay.transaction_id}
+                        #{pay.order_name}
                       </span>
                     </td>
                     <td className="hidden sm:table-cell text-center py-4 px-2">

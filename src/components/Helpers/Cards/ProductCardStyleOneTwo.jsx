@@ -13,7 +13,7 @@ export default function ProductCardStyleOneTwo({ datas }) {
       <div
         className="product-card-img w-full h-[322px] mt-4"
         style={{
-          background: `url(/images/${datas.image}) no-repeat center`,
+          background: `url(/images/${datas.image_256}) no-repeat center`,
         }}
       ></div>
       <div className="product-card-details flex justify-center h-[102px] items-center  relative">

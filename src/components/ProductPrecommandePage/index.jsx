@@ -28,15 +28,12 @@ export default function ProductPrecommandePage() {
   const [startLength, setStartLength] = useState(0);
   const [endLength, setEndLength] = useState(6);
   const [produits, setProduits] = useState([]);
-  const [allproduits, setAllProduits] = useState([]);
+
   const [showBackButton, setShowBackButton] = useState(false);
   const [showLoadMoreButton, setShowLoadMoreButton] = useState(true);
   const [search, setSearch] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const [open, setOpen] = useState(false);
-  const [hasShownPopup, setHasShownPopup] = useState(false);
-  const closeModal = () => setOpen(false);
 
   const handleLoadMore = () => {
     if (endLength < produits.length) {
@@ -62,8 +59,8 @@ export default function ProductPrecommandePage() {
 
   useEffect(() => {
     setProduits(productPrecommandeFilter);
-    setAllProduits(productPrecommandeFilter);
     setSearchContext("");
+    // setSelectedCategory("All");
   }, [productPrecommandeFilter]);
 
   useEffect(() => {
@@ -90,9 +87,9 @@ export default function ProductPrecommandePage() {
   return (
     <>
       <SEOHeader
-        title="CCBM Shop - Précommandes"
-        description="Soyez les premiers à posséder les nouveautés sur CCBM Shop."
-        keywords="pré-commandes, électroménager, boutique en ligne, CCBM Shop"
+        title="CCBM Shop | Précommande "
+        description="Découvrez les meilleures offres sur CCBM Shop, votre destination privilégiée pour l'électroménager de qualité. Explorez nos produits allant des réfrigérateurs aux téléviseurs intelligents, et profitez de promotions exclusives !"
+        keywords="électroménager, boutique en ligne d'électroménager, CCBM Shop, ccbme, appareils électroménagers à prix réduits, smart TV, réfrigérateurs modernes, climatiseurs efficaces, promotions électroménager"
       />
       <Layout>
         <div className="products-page-wrapper w-full">

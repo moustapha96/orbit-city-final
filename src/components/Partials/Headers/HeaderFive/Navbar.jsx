@@ -894,7 +894,7 @@ export default function Navbar({ className }) {
                               src={`${
                                 import.meta.env.VITE_PUBLIC_URL
                               }/images/mega-menu-thumb.jpg`}
-                              alt=""
+                              alt="image produit ccbm shop"
                               className="w-full h-full object-contain"
                             />
                           </div>

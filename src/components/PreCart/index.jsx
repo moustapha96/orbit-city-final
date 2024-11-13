@@ -12,9 +12,8 @@ export default function PreCart({ className, type }) {
       {preorder.length > 0 && (
         <div
           style={{ boxShadow: " 0px 15px 50px 0px rgba(0, 0, 0, 0.14)" }}
-          className={`w-[300px] bg-white border-t-[3px] ${
-            type === 3 ? "border-qh3-blue" : "cart-wrappwer"
-          }  ${className || ""}`}
+          className={`w-[300px] bg-white border-t-[3px] ${type === 3 ? "border-qh3-blue" : "cart-wrappwer"
+            }  ${className || ""}`}
         >
           <div className="w-full h-full">
             <div className="product-items h-[310px] overflow-y-scroll">
@@ -23,13 +22,17 @@ export default function PreCart({ className, type }) {
                   <li key={produit.id} className="w-full h-full flex">
                     <div className="flex space-x-[6px] justify-center items-center px-4 my-[20px]">
                       <div className="w-[65px] h-full">
+                        {/* <img
+                          src={`${produit.image_1920}`}
+                          alt="image produit ccbm shop"
+                          className="w-full h-full object-contain"
+                        /> */}
                         <img
-                          src={`${
-                            produit.image_1920
-                              ? "data:image/png;base64," + produit.image_1920
-                              : "https://readymadeui.com/images/coffee1.webp"
-                          }`}
-                          alt=""
+                          src={`${produit.image_256
+                            ? "data:image/png;base64," + produit.image_256
+                            : "https://readymadeui.com/images/coffee1.webp"
+                            }`}
+                          alt="image produit ccbm shop"
                           className="w-full h-full object-contain"
                         />
                       </div>

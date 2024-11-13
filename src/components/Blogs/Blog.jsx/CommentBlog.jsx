@@ -136,10 +136,9 @@ export default function CommentBlog() {
                 <div className="flex space-x-3 items-center">
                   <div className="w-[50px] h-[50px] rounded-full overflow-hidden">
                     <img
-                      src={`${
-                        import.meta.env.VITE_PUBLIC_URL
-                      }/images/comment-user-1.png`}
-                      alt=""
+                      src={`${import.meta.env.VITE_PUBLIC_URL
+                        }/images/comment-user-1.png`}
+                      alt="image produit ccbm shop"
                       className="w-full h-full object-cover"
                     />
                   </div>
@@ -169,10 +168,9 @@ export default function CommentBlog() {
                       <div className="flex space-x-3 items-center">
                         <div className="w-[50px] h-[50px] rounded-full overflow-hidden">
                           <img
-                            src={`${
-                              import.meta.env.VITE_PUBLIC_URL
-                            }/images/comment-user-2.png`}
-                            alt=""
+                            src={`${import.meta.env.VITE_PUBLIC_URL
+                              }/images/comment-user-2.png`}
+                            alt="image produit ccbm shop"
                             className="w-full h-full object-cover"
                           />
                         </div>

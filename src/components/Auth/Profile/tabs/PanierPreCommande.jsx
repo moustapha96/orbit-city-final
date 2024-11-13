@@ -1,7 +1,9 @@
-import React, { useContext } from "react";
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
+import { useContext } from "react";
 import InputQuantityCom from "../../../Helpers/InputQuantityCom";
 import { CartContext } from "../../../../contexts/CartContext";
-import { PlusCircleIcon, Trash } from "lucide-react";
+import { Trash } from "lucide-react";
 import formatPrice from "../../../../utils/formatPrice";
 
 export default function PanierPreCommande({ className }) {
@@ -47,11 +49,7 @@ export default function PanierPreCommande({ className }) {
                       <div className="flex space-x-6 items-center">
                         <div className="w-[80px] h-[80px] overflow-hidden flex justify-center items-center border border-[#EDEDED]">
                           <img
-                            src={`${
-                              produit.image_1920
-                                ? "data:image/png;base64," + produit.image_1920
-                                : "https://readymadeui.com/images/coffee1.webp"
-                            }`}
+                            src={`${produit.image_1920}`}
                             alt="product"
                             className="w-full h-full object-contain"
                           />

@@ -1,4 +1,5 @@
-import { ArrowLeft, ArrowRight } from "lucide-react";
+/* eslint-disable react/prop-types */
+import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export default function ViewMoreTitle({

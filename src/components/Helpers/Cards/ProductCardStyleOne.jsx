@@ -77,47 +77,20 @@ export default function ProductCardStyleOne({ datas, type = 3 }) {
         className="product-card-img w-full h-[300px]"
         style={{
           background: `url('data:image/png;base64,${datas.image_256}') no-repeat center`,
-          backgroundSize: "cover",
+          // backgroundSize: "cover",
         }}
       >
         {datas.categ_id && (
           <div className="product-type absolute right-[14px] top-[17px]">
             <span
-              className={`text-[9px] font-700 leading-none py-[6px] px-3 uppercase text-white rounded-full tracking-wider ${
-                datas.categ_id === "popular" ? "bg-[#19CC40]" : "bg-qyellow"
-              }`}
+              className={`text-[9px] font-700 leading-none py-[6px] px-3 uppercase text-white rounded-full tracking-wider ${datas.categ_id === "popular" ? "bg-[#19CC40]" : "bg-qyellow"
+                }`}
             >
               {datas.categ_id}
             </span>
           </div>
         )}
-        {/* <div className="absolute w-full h-10 px-[30px] left-0 bottom-0 z-10 group-hover:bottom-[40px] transition-all duration-300 ease-in-out flex flex-col space-y-3">
-          <button
-            type="button"
-            onClick={handleAddToCart}
-            className={type === 3 ? "blue-btn" : "yellow-btn"}
-          >
-            <div className="flex items-center">
-              <span>
-                <ShoppingBag></ShoppingBag>
-              </span>
-              <span>Ajouter au panier</span>
-            </div>
-          </button>
 
-          <button
-            type="button"
-            onClick={handleAddToPreOrder}
-            className={type === 3 ? "blue-btn" : "yellow-btn"}
-          >
-            <div className="flex items-center">
-              <span>
-                <ShoppingBag></ShoppingBag>
-              </span>
-              <span>Pré commander</span>
-            </div>
-          </button>
-        </div> */}
       </div>
 
       <div className="product-card-details px-[30px] pb-[30px] relative">
@@ -149,9 +122,8 @@ export default function ProductCardStyleOne({ datas, type = 3 }) {
             <button
               type="button"
               onClick={handleAddToCart}
-              className={`w-full h-10 flex items-center justify-center gap-2 ${
-                type === 3 ? "blue-logo-btn" : "yellow-btn"
-              }`}
+              className={`w-full h-10 flex items-center justify-center gap-2 ${type === 3 ? "blue-logo-btn" : "yellow-btn"
+                }`}
             >
               <ShoppingCart />
               <span>Ajouter au panier</span>
@@ -225,9 +197,8 @@ export default function ProductCardStyleOne({ datas, type = 3 }) {
 
         <span className="w-10 h-10 flex justify-center items-center bg-primarygray rounded">
           <Heart
-            className={`${
-              isProductInWishlist(datas) ? "text-yellow-500" : ""
-            } cursor-pointer hover:text-yellow-500 hover:scale-150 duration-300`}
+            className={`${isProductInWishlist(datas) ? "text-yellow-500" : ""
+              } cursor-pointer hover:text-yellow-500 hover:scale-150 duration-300`}
             onClick={handleAddToWishlist}
           />
         </span>

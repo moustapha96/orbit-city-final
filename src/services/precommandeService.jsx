@@ -32,6 +32,7 @@ const PrecommandeService = {
     }
   },
 
+
   createPreCommande: async (modelData) => {
     try {
       const response = await axiosInstance.post("/api/precommandes", modelData);
@@ -65,6 +66,17 @@ const PrecommandeService = {
         `Erreur lors de la suppression du Commande avec l'ID ${id}`,
         error
       );
+      throw error;
+    }
+  },
+
+
+  createCommandeWitoutPartner: async (modelData) => {
+    try {
+      const response = await axiosInstance.post("/api/commande-sans-partner", modelData);
+      return response.data;
+    } catch (error) {
+      console.error("Erreur lors de la création du modèle", error);
       throw error;
     }
   },

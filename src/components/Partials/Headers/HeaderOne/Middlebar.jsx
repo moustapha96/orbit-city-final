@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { useContext, useEffect } from "react";
 import { CartContext } from "../../../../contexts/CartContext";
@@ -8,18 +9,43 @@ import { Heart, ShoppingBag, ShoppingCart } from "lucide-react";
 import PreCart from "../../../PreCart";
 
 import ThinPeople from "../../../Helpers/icons/ThinPeople";
+import { UserContext } from "../../../../contexts/UserContext";
 
 export default function Middlebar({ className, type = 3 }) {
-  const user = JSON.parse(localStorage.getItem("user"));
+  // const user = JSON.parse(localStorage.getItem("user"));
 
+  const {
+    user,
+    token,
+
+    expiresIn,
+    refreshToken,
+    refreshExpiresIn,
+    is_verified,
+    logout
+  } = useContext(UserContext);
   const backgroundColor = type === 3 ? "var(--bleu-logo)" : "var(--qyellow)";
   const textColor = type === 3 ? "white" : "var(--qblack)";
   const { cart, wishlist, preorder } = useContext(CartContext);
 
-  useEffect(() => {
-    const userLocal = JSON.parse(localStorage.getItem("user"));
-    console.log(userLocal);
-  }, []);
+
+
+  // useEffect(() => {
+
+  //   if (!user) {
+  //     logout();
+  //     navigate("/login");
+  //   }
+
+  //   console.log(user);
+  //   console.log(token,
+  //     expiresIn,
+  //     refreshToken,
+  //     refreshExpiresIn,
+  //     is_verified)
+  // }, []);
+
+
 
   const navigate = useNavigate();
   const handleCart = (e) => {

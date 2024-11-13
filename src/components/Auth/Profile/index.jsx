@@ -18,7 +18,6 @@ import PreOrderTab from "./tabs/PreOrderTab";
 import PasswordTab from "./tabs/PasswordTab";
 import Payment from "./tabs/Payment";
 import ProfileTab from "./tabs/ProfileTab";
-import ReviewTab from "./tabs/ReviewTab";
 import SupportTab from "./tabs/SupportTab";
 import WishlistTab from "./tabs/WishlistTab";
 
@@ -27,11 +26,10 @@ import PanierPreCommande from "./tabs/PanierPreCommande";
 import { UserContext } from "../../../contexts/UserContext";
 import PaymentDetailsTab from "./tabs/PaymentDetailsTab";
 import OrderDraftTab from "./tabs/OrderDraftTab";
+import CommandesACredit from "./tabs/CommandesACredit";
 
 export default function Profile() {
-  // const user = JSON.parse(localStorage.getItem("user"));
-  // const token = useSelector((state) => state.user.token);
-  // const uid = useSelector((state) => state.user.uid);
+
   const { user, token, uid, logout } = useContext(UserContext);
 
   console.log(user, token, uid);
@@ -98,9 +96,8 @@ export default function Profile() {
               <div className="profile-wrapper w-full mt-8 flex space-x-10">
                 {/* Menu sur les écrans plus grands */}
                 <div
-                  className={`w-[236px] min-h-[600px] border-r border-[rgba(0, 0, 0, 0.1)] ${
-                    isMenuOpen ? "block" : "hidden"
-                  } sm:block`}
+                  className={`w-[236px] min-h-[600px] border-r border-[rgba(0, 0, 0, 0.1)] ${isMenuOpen ? "block" : "hidden"
+                    } sm:block`}
                 >
                   <div className="flex flex-col space-y-10">
                     <div className="item group">
@@ -179,6 +176,22 @@ export default function Profile() {
                         </div>
                       </Link>
                     </div>
+                    <div className="item group">
+                      <Link
+                        to="/profile#commandes-a-credit"
+                        onClick={() => setActive("commandes-a-credit")}
+                      >
+                        <div className="flex space-x-3 items-center text-qgray hover:text-qblack">
+                          <span>
+                            <IcoCart />
+                          </span>
+                          <span className="font-normal text-base">
+                            Commandes à crédit
+                          </span>
+                        </div>
+                      </Link>
+                    </div>
+
                     {/* <div className="item group">
                       <Link
                         to="/profile#wishlist"
@@ -249,9 +262,10 @@ export default function Profile() {
                       <PasswordTab />
                     ) : active === "support" ? (
                       <SupportTab />
-                    )
-                     : active === "paniercommande" ? (
+                    ) : active === "paniercommande" ? (
                       <PanierCommande />
+                    ) : active === "commandes-a-credit" ? (
+                      <CommandesACredit />
                     ) : active === "panierprecommande" ? (
                       <PanierPreCommande />
                     ) : (

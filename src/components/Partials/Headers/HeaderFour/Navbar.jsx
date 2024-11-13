@@ -25,9 +25,8 @@ export default function Navbar({ className }) {
 
   return (
     <div
-      className={`nav-widget-wrapper w-full bg-qh4-pink h-[60px] relative z-30  ${
-        className || ""
-      }`}
+      className={`nav-widget-wrapper w-full bg-qh4-pink h-[60px] relative z-30  ${className || ""
+        }`}
     >
       <div className="container-x mx-auto h-full">
         <div className="w-full h-full relative">
@@ -891,10 +890,9 @@ export default function Navbar({ className }) {
                           <div className="w-full h-[235px]">
                             <img
                               width=""
-                              src={`${
-                                import.meta.env.VITE_PUBLIC_URL
-                              }/images/mega-menu-thumb.jpg`}
-                              alt=""
+                              src={`${import.meta.env.VITE_PUBLIC_URL
+                                }/images/mega-menu-thumb.jpg`}
+                              alt="image produit ccbm shop"
                               className="w-full h-full object-contain"
                             />
                           </div>

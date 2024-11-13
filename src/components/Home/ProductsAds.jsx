@@ -10,20 +10,18 @@ export default function ProductsAds({
     <div className={`w-full ${className || ""}`}>
       <div className="container-x mx-auto">
         <div
-          className={`${sectionHeight} ${
-            ads.length > 1 && ads.length <= 2
-              ? "sm:flex xl:space-x-[30px] sm:space-x-5"
-              : ""
-          } items-center w-full  overflow-hidden`}
+          className={`${sectionHeight} ${ads.length > 1 && ads.length <= 2
+            ? "sm:flex xl:space-x-[30px] sm:space-x-5"
+            : ""
+            } items-center w-full  overflow-hidden`}
         >
           <div
             data-aos="fade-right"
-            className={`h-full sm:mb-0 mb-5 ${
-              ads.length > 1 && ads.length <= 2 ? "sm:w-1/2 w-full" : "w-full"
-            }  `}
+            className={`h-full sm:mb-0 mb-5 ${ads.length > 1 && ads.length <= 2 ? "sm:w-1/2 w-full" : "w-full"
+              }  `}
           >
             <Link to="">
-              <img src={ads[0]} alt="" className="w-full sm:h-full h-auto" />
+              <img src={ads[0]} alt="image produit ccbm shop" className="w-full sm:h-full h-auto" />
             </Link>
           </div>
 
@@ -38,7 +36,7 @@ export default function ProductsAds({
           {ads.length > 1 && ads.length <= 2 && (
             <div data-aos="fade-left" className="flex-1 h-full">
               <Link to="">
-                <img src={ads[1]} alt="" className="w-full h-full" />
+                <img src={ads[1]} alt="image produit ccbm shop" className="w-full h-full" />
               </Link>
             </div>
           )}

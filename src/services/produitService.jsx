@@ -36,6 +36,18 @@ const ProduitService = {
     }
   },
 
+  getProduitByCategorie: async (name) => {
+    try {
+      const response = await axiosInstance.get(`/api/produits/categorie/${name}`);
+      return response.data;
+    } catch (error) {
+      console.error(
+        `Erreur lors de la sélection des produits avec la catégorie ${name}`,
+        error
+      );
+      throw error;
+    }
+  },
   createProduit: async (modelData) => {
     try {
       const response = await axiosInstance.post("/api/produits", modelData);

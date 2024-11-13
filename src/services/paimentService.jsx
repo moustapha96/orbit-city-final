@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 
 import axiosInstance from "../config/axiosConfig";
+import paymentConfig from "../config/paymentConfig";
 
 const PaiementService = {
   createPrecommandePaiment: async (idOrder) => {
@@ -155,6 +156,31 @@ const PaiementService = {
     }
   },
 
+  putPaymentDetailByToken: async (token,
+    url_facture,
+    customer_name,
+    customer_email,
+    customer_phone, payment_state) => {
+
+    let data = {
+      url_facture,
+      customer_name,
+      customer_email,
+      customer_phone,
+      payment_state
+    }
+    console.log(data)
+    try {
+      const response = await axiosInstance.put(`/api/payment/verify/${token}`, data);
+      return response.data;
+    } catch (error) {
+      console.error(
+        "Erreur lors de la récupération des détails du paiement",
+        error
+      );
+      throw error;
+    }
+  },
   confirmInvoice: async (token) => {
 
     const headersTest = {
@@ -181,6 +207,24 @@ const PaiementService = {
       return response.data;
     } else {
       throw new Error(response.data.response_text);
+    }
+  },
+
+  confirmInvoice2: async (token, isLive = false) => {
+    const config = isLive ? paymentConfig.live : paymentConfig.test;
+    const url = `${config.url}${token}`;
+
+    try {
+      const response = await axiosInstance.get(url, {
+        headers: config.headers,
+      });
+      if (response.status === 200) {
+        return response.data;
+      } else {
+        throw new Error(response.data.response_text);
+      }
+    } catch (error) {
+      throw new Error(error.message);
     }
   },
 };

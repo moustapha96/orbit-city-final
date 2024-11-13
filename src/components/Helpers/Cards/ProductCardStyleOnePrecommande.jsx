@@ -8,7 +8,7 @@ import formatPrice from "../../../utils/formatPrice";
 import { toast } from "react-toastify";
 
 export default function ProductCardStyleOnePrecommande({ datas, type = 3 }) {
-  console.log(datas);
+  // console.log(datas);
 
   const navigate = useNavigate();
   const {
@@ -81,15 +81,14 @@ export default function ProductCardStyleOnePrecommande({ datas, type = 3 }) {
         className="product-card-img w-full h-[300px]"
         style={{
           background: `url('data:image/png;base64,${datas.image_256}') no-repeat center`,
-          backgroundSize: "cover",
+          // backgroundSize: "cover",
         }}
       >
         {datas.categ_id && (
           <div className="product-type absolute right-[14px] top-[17px]">
             <span
-              className={`text-[9px] font-700 leading-none py-[6px] px-3 uppercase text-white rounded-full tracking-wider ${
-                datas.categ_id === "popular" ? "bg-[#19CC40]" : "bg-qyellow"
-              }`}
+              className={`text-[9px] font-700 leading-none py-[6px] px-3 uppercase text-white rounded-full tracking-wider ${datas.categ_id === "popular" ? "bg-[#19CC40]" : "bg-qyellow"
+                }`}
             >
               {datas.categ_id}
             </span>
@@ -154,9 +153,8 @@ export default function ProductCardStyleOnePrecommande({ datas, type = 3 }) {
             <button
               type="button"
               onClick={handleAddToCart}
-              className={`w-full h-20 flex items-center justify-center gap-2 ${
-                type === 3 ? "blue-logo-btn" : "yellow-btn"
-              }`}
+              className={`w-full h-20 flex items-center justify-center gap-2 ${type === 3 ? "blue-logo-btn" : "yellow-btn"
+                }`}
             >
               <ShoppingCart />
               <span>Ajouter au panier</span>
@@ -196,9 +194,8 @@ export default function ProductCardStyleOnePrecommande({ datas, type = 3 }) {
 
         <span className="w-10 h-10 flex justify-center items-center bg-primarygray rounded">
           <Heart
-            className={`${
-              isProductInWishlist(datas) ? "text-yellow-500" : ""
-            } cursor-pointer hover:text-yellow-500 hover:scale-150 duration-300`}
+            className={`${isProductInWishlist(datas) ? "text-yellow-500" : ""
+              } cursor-pointer hover:text-yellow-500 hover:scale-150 duration-300`}
             onClick={handleAddToWishlist}
           />
         </span>

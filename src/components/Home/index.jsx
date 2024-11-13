@@ -17,10 +17,8 @@ import { Link } from "react-router-dom";
 import SEOHeader from "../Partials/Headers/HeaderOne/SEOHeader";
 import BannerPub from "../About/BannerPub";
 import { Loader, Loader2 } from "lucide-react";
-import { GlobalPaymentContext } from "../../contexts/GlobalVariable";
 
 export default function Home() {
-  // const { confirmInvoice } = useContext(GlobalPaymentContext);
 
   const { products, isLoadingProduct } = useContext(ProductContext);
 
@@ -29,19 +27,6 @@ export default function Home() {
   const [precommandes, setPrecommandes] = useState([]);
   const [enpromo, setEnpromo] = useState([]);
   const [commandes, setCommandes] = useState([]);
-
-  // useEffect(() => {
-  //   const fetchModels = async () => {
-  //     try {
-  //       const response = await confirmInvoice("token_sjjskbsdfsf");
-  //       console.log("Invoice confirmed:", response);
-  //     } catch (error) {
-  //       console.error("Error confirming invoice:", error);
-  //     }
-  //   };
-
-  //   fetchModels();
-  // }, []);
 
   useEffect(() => {
     if (products.length > 0) {
@@ -73,9 +58,9 @@ export default function Home() {
   return (
     <>
       <SEOHeader
-        title="CCBM SHOP - Accueil"
-        description="Découvrez les meilleures offres sur CCBM Shop, votre boutique en ligne d'électroménager."
-        keywords="électroménager, boutique en ligne, appareils électroménagers, CCBM Shop"
+        title="CCBM Shop - Boutique en ligne d'électroménager | Meilleures Offres"
+        description="Découvrez les meilleures offres sur CCBM Shop, votre destination privilégiée pour l'électroménager de qualité. Explorez nos produits allant des réfrigérateurs aux téléviseurs intelligents, et profitez de promotions exclusives !"
+        keywords="électroménager, boutique en ligne, appareils électroménagers, CCBM Shop ,ccbme, smart TV, téléviseur, réfrigérateur, orbit city, climatiseur, cuisinière,split , congelateur , micro onde , machine a laver"
       />
       <Layout type={3} childrenClasses="pt-0">
         <BannerSecond className="lg:mb-[20px] sm:mb-[10px] mobile-collapsed" />
@@ -104,7 +89,7 @@ export default function Home() {
             </p>
           </div>
 
-          {isLoadingProduct ? (
+          {/* {isLoadingProduct ? (
             <div className="flex justify-center  ">
               <Loader2 className="animate-spin" />
             </div>
@@ -116,7 +101,15 @@ export default function Home() {
                   : precommandes
               }
             />
-          )}
+          )} */}
+
+          <SectionStyleTwo
+            products={
+              precommandes.length > 6
+                ? precommandes.slice(0, 6)
+                : precommandes
+            }
+          />
         </ViewMoreTitle>
         {/* <ProductsAds
           sectionHeight="164"

@@ -22,10 +22,7 @@ import PreCardPage from "./components/PreCardPage/index.jsx";
 import PreOrderPage from "./components/PreOrder/index.jsx";
 import OrderPage from "./components/Order/index.jsx";
 import OrderPaymentPage from "./components/OrderPayment/index.jsx";
-import PreOrderPaymentPage from "./components/PreCartValidation/index.jsx";
 
-import PreCartValidationPage from "./components/PreCartValidation/index.jsx";
-import CartValidationPage from "./components/CartValidation/index.jsx";
 import PaymentStatePage from "./components/PaymentState/index.jsx";
 import LivraisonEtRetoursPage from "./components/LivraisonEtRetours/index.jsx";
 import AchatSecurisesPage from "./components/AchatsSecurises/index.jsx";
@@ -34,8 +31,8 @@ import PolitiqueDeConfidentialitePage from "./components/PolitiqueDeConfidential
 import ResetPassword from "./components/Auth/ResetPassword/index.jsx";
 import ProductPrecommandePage from "./components/ProductPrecommandePage/index.jsx";
 import NewPassword from "./components/Auth/NewPassword/index.jsx";
-import CallBackPaydunyaPage from "./components/PaymentState/callBack.jsx";
-
+import CreateCompte from "./components/Auth/CreateCompte/index.jsx";
+import Entreprise from "./components/GestionEntreprise/Profile/index.jsx";
 
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
@@ -43,9 +40,6 @@ const router = createBrowserRouter([
   { path: "/all-products", element: <AllProductPage /> },
   { path: "/pre-commandes", element: <ProductPrecommandePage /> },
   { path: "/single-product/:id", element: <SingleProductPage /> },
-  { path: "/call-back", element: <CallBackPaydunyaPage /> },
-
-
 
   {
     path: "/pre-commandes/:id/détails",
@@ -59,18 +53,7 @@ const router = createBrowserRouter([
     path: "/commande-validation",
     element: <OrderPaymentPage />,
   },
-  {
-    path: "/pre-commande-validation",
-    element: <PreOrderPaymentPage />,
-  },
-  {
-    path: "/validation-precommande",
-    element: <PreCartValidationPage />,
-  },
-  {
-    path: "/validation-commande",
-    element: <CartValidationPage />,
-  },
+
 
   {
     path: "/payment-state",
@@ -92,9 +75,13 @@ const router = createBrowserRouter([
   { path: "/new-password", element: <NewPassword /> },
   { path: "/forgot-password", element: <ResetPassword /> },
   { path: "/signup", element: <Signup /> },
+  { path: "/create-compte", element: <CreateCompte /> },
   { path: "/profile", element: <Profile /> },
   { path: "/privacy-policy", element: <PrivacyPolicy /> },
   { path: "/terms-condition", element: <TermsCondition /> },
+  {
+    path: "/entreprise", element: <Entreprise />,
+  },
   {
     path: "/conditions-generales-de-vente",
     element: <ConditionGeneralDeVentePage />,

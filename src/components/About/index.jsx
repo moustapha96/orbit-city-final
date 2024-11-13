@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 /* eslint-disable no-unused-vars */
 import { useRef } from "react";
 import { Link } from "react-router-dom";
@@ -49,9 +50,9 @@ export default function About() {
   return (
     <>
       <SEOHeader
-        title="CCBM Shop - A propos de nous"
-        description="En savoir plus sur CCBM Shop et notre mission."
-        keywords="CCBM Shop, histoire, boutique en ligne, électroménager"
+        title="CCBM Shop | A propos de CCBM Shop"
+        description="Découvrez les meilleures offres sur CCBM Shop, votre destination privilégiée pour l'électroménager de qualité. Explorez nos produits allant des réfrigérateurs aux téléviseurs intelligents, et profitez de promotions exclusives !"
+        keywords="électroménager, boutique en ligne d'électroménager, CCBM Shop, ccbme, appareils électroménagers à prix réduits, smart TV, réfrigérateurs modernes, climatiseurs efficaces, promotions électroménager"
       />
 
       <Layout childrenClasses="pt-0 pb-0">
@@ -111,7 +112,7 @@ export default function About() {
           <div className="flex flex-wrap justify-center ">
             <div className="w-full md:w-2/3 p-2">
               <img
-                src={`banner_ccbme_shop_pub.png`}
+                src={`banner_ccbme_shop_pub_2.png`}
                 alt="Description de la première image"
                 className="w-full h-auto"
               />

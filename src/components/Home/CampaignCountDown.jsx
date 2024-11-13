@@ -84,9 +84,8 @@ export default function CampaignCountDown({
               data-aos="fade-left"
               className="download-app flex-1 lg:h-full h-[430px] xl:p-12 p-5"
               style={{
-                background: `url(${
-                  counterbg || `/images/download-app-cover.png`
-                }) no-repeat`,
+                background: `url(${counterbg || `/images/download-app-cover.png`
+                  }) no-repeat`,
                 backgroundSize: "cover",
               }}
             >
@@ -115,7 +114,7 @@ export default function CampaignCountDown({
                 <div className="app-screen flex justify-center items-center">
                   <img
                     src={appscreen || `/creation/image_ccbm_shop_10.png`}
-                    alt=""
+                    alt="image produit ccbm shop"
                   />
                 </div>
               </div>

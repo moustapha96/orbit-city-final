@@ -79,11 +79,7 @@ export default function WishlistTab({ className }) {
                       <div className="flex space-x-6 items-center">
                         <div className="w-[80px] h-[80px] overflow-hidden flex justify-center items-center border border-[#EDEDED]">
                           <img
-                            src={`${
-                              produit.image_1920
-                                ? "data:image/png;base64," + produit.image_1920
-                                : "https://readymadeui.com/images/coffee1.webp"
-                            }`}
+                            src={`${produit.image_1920}`}
                             alt="product"
                             className="w-full h-full object-contain"
                           />

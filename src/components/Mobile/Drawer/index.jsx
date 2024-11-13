@@ -16,7 +16,7 @@ export default function Drawer({ className, open, action }) {
   const { cart, wishlist } = useContext(CartContext);
 
   const { user, logout } = useContext(UserContext);
-  const { searchContext, setSearchContext, setSelectedCategory, categories } =
+  const { searchContext, setSearchContext, setSelectedCategory, categories, selectedCategory } =
     useContext(ProductContext);
 
   const handleCategoryChange = (e, category) => {
@@ -113,7 +113,9 @@ export default function Drawer({ className, open, action }) {
               className={`text-base font-semibold  ${tab === "category" ? "text-qblack" : "text-qgray"
                 }`}
             >
-              Catégories
+
+              {!selectedCategory ? <> Catégories </> : <> {selectedCategory == "All" ? "Tous les produits" : selectedCategory.toUpperCase()} </>}
+
             </span>
           </div>
           {tab === "category" ? (
@@ -136,7 +138,7 @@ export default function Drawer({ className, open, action }) {
                         <div className="flex items-center space-x-6">
                           <Dot></Dot>
                           <span className="text-sm font-400">
-                            {categori.name == "All" ? "Tout" : categori.name}
+                            {categori.name == "All" ? "Tout" : categori.name.toUpperCase()}
                           </span>
                         </div>
                         <div>

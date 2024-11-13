@@ -160,7 +160,7 @@ const userService = {
     try {
       const response = await axiosInstance.put(
         `/api/users/avatar/${partner_id}`,
-        { avatar }, // Assurez-vous que l'objet est correctement formaté
+        { avatar },
         {
           headers: {
             "Content-Type": "application/json",
@@ -184,6 +184,24 @@ const userService = {
         "Erreur lors de la mise à jour des informations de l'utilisateur",
         error
       );
+      throw error;
+    }
+  },
+  getPartnerByEmail: async (email) => {
+    try {
+      const response = await axiosInstance.get(`/api/partnerByEmail/${email}`);
+      return response.data;
+    } catch (error) {
+      console.error("Erreur lors de la?}", error);
+      throw error;
+    }
+  },
+  createPasswordPartner: async (modelData) => {
+    try {
+      const response = await axiosInstance.post(`/api/partner-create/${modelData.email}/update`, modelData);
+      return response.data;
+    } catch (error) {
+      console.error("Erreur lors de la création du mot de passe", error);
       throw error;
     }
   },

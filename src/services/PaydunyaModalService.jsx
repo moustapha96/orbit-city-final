@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import React, { useContext, useEffect, useState } from "react";
@@ -13,6 +14,8 @@ import PaymentContext from "../contexts/PaymentContext";
 import { UserContext } from "../contexts/UserContext";
 import { useNavigate } from "react-router-dom";
 import PaiementService from "./paimentService";
+
+// import initializePaydunya from "../config/paydunyaInitializer"
 const PaydunyaModalService = ({
   handlePay,
   totalAmount,
@@ -74,28 +77,6 @@ const PaydunyaModalService = ({
     setStore(store);
   }, []);
 
-  // useEffect(() => {
-  //   const fetchPaymentDetails = async () => {
-  //     setIsloading(true);
-  //     try {
-  //       const responsePd = await PaiementService.getPaymentDetailsByIdOrder(
-  //         idOrder
-  //       );
-  //       console.log("response details payment ");
-  //       console.log(responsePd);
-  //       setFacture(responsePd);
-  //     } catch (error) {
-
-  //       console.error(
-  //         "Erreur lors de l'enregistrement des détails du paiement :",
-  //         error.message
-  //       );
-  //     } finally {
-  //       setIsloading(false);
-  //     }
-  //   };
-  //   fetchPaymentDetails();
-  // }, [location.search]);
 
   const handleSubmit = (event) => {
     console.log("arrivé");
@@ -126,16 +107,15 @@ const PaydunyaModalService = ({
         }
       }
 
-      invoice.callbackURL = "https://orbitcity/api/facture/paydunya";
-      // invoice.callbackURL = "https://localhost:5173/call-back";
+      invoice.callbackURL = "https://orbitcity.sn/api/facture/paydunya";
 
       if (order.type_sale === "order") {
         invoice.cancelURL = `https://ccbme.sn/commandes/${idOrder}/détails`;
       } else {
         invoice.cancelURL = `https://ccbme.sn/pre-commandes/${idOrder}/détails`;
       }
-
-      invoice.returnURL = `https://ccbme.sn/payment-state`;
+      // invoice.returnURL = `https://ccbme.sn/payment-state`;
+      invoice.returnURL = `http://localhost:5173/payment-state`;
 
       setPaymentDetails(invoice);
       setTotalAmount(invoice.totalAmount);
@@ -159,7 +139,6 @@ const PaydunyaModalService = ({
               transaction = `${user.partner_id}-${idOrder}-${totalAmount}-${order.name}-${order.type_sale}-3`;
             }
           }
-
           const data = {
             transaction_id: transaction,
             amount: totalAmount,
@@ -249,13 +228,6 @@ const PaydunyaModalService = ({
     openInNewTab(facture.url);
     setOpenModal(false)
     navigate('/profile')
-
-    // if (order.type_sale == "order") {
-    //   // navigate(`/commandes/${idOrder}/détails`);
-    //   navigate(`/profil#orders`);
-    // } else {
-    //   navigate(`/pre-commandes/${idOrder}/détails`);
-    // }
   };
 
   return (
@@ -288,11 +260,11 @@ const PaydunyaModalService = ({
                 />
               </p>
             </div>
-            {facture && (
+            {/* {facture && (
               <div className="flex flex-wrap justify-center items-center" >
                 <p> token de payment:  <span> {facture.token}  </span>  </p>
               </div>
-            )}
+            )} */}
             {order && (
 
               <>

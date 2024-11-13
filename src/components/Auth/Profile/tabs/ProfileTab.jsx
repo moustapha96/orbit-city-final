@@ -14,13 +14,9 @@ export default function ProfileTab() {
   const navigate = useNavigate();
   const [profileImg, setprofileImg] = useState(null);
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [name, setName] = useState("");
   const [adresse, setAdresse] = useState("");
   const [telephone, setTelephone] = useState("");
-  const [typeProfile, setTypeProfile] = useState("");
-  const [error, setError] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const profileImgInput = useRef(null);
@@ -41,6 +37,8 @@ export default function ProfileTab() {
     setName(user.name);
     const name = "avatar_" + user.id;
     const storedAvatar = localStorage.getItem(name);
+    console.log(storedAvatar);
+    console.log(user.avatar);
     if (user.avatar) {
       setprofileImg(user.avatar);
     } else if (storedAvatar) {
@@ -68,16 +66,13 @@ export default function ProfileTab() {
       toast.success("Modification Informations réussie !", {
         position: "top-center",
         autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
       });
-      logout();
+      // logout();
       console.log(response);
+      setprofileImg(response.avatar);
+      setUser(response);
       setIsLoading(false);
-      navigate("/login");
+      // navigate("/login");
     } catch (error) {
       setIsLoading(false);
       // console.log("response " + error);
@@ -85,11 +80,6 @@ export default function ProfileTab() {
       toast.error("Modification compte Echouée , " + error, {
         position: "top-center",
         autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
       });
     }
 
@@ -111,12 +101,8 @@ export default function ProfileTab() {
           toast.success(response.message, {
             position: "top-center",
             autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
           });
+          setprofileImg(response.avatar);
           console.log(response);
         }
       };
@@ -156,7 +142,7 @@ export default function ProfileTab() {
                 <div className="sm:w-[198px] sm:h-[198px] w-[199px] h-[199px] rounded-full overflow-hidden relative">
                   <img
                     src={profileImg || `/images/edit-profileimg.jpg`}
-                    alt=""
+                    alt="image produit ccbm shop"
                     className="object-cover w-full h-full"
                   />
                 </div>
