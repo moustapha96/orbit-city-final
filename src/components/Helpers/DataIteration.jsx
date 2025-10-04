@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 function DataIteration(props) {
   const { datas = [], startLength, endLength, children } = props;
   return (

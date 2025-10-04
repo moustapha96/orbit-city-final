@@ -17,9 +17,10 @@ import { Button } from "flowbite-react";
 import { Loader2 } from "lucide-react";
 import paydunya from "paydunya";
 import CheckoutInvoice from "paydunya/lib/checkout-invoice";
+import { useAuthContext } from "../../contexts/useAuthContext";
 export default function PaymentPreCommandePage({ cart = true }) {
   const { idOrder, tranche, montant } = useParams();
-
+  const { user, } = useAuthContext();
   const navigate = useNavigation();
   const [isLoading, setIsLoading] = useState(false);
   const tokenOrderPayement = localStorage.getItem("tokenOrderPayment");
@@ -42,7 +43,7 @@ export default function PaymentPreCommandePage({ cart = true }) {
     if (idOrder != null && montant != null && tranche != null) {
       const fetchModels = async () => {
         try {
-          const data = await PrecommandeService.getPreCommandeById(idOrder);
+          const data = await PrecommandeService.getPreCommandeById(user.id, idOrder);
           setCommande(data);
           console.log(data);
           console.log("order ");
@@ -156,10 +157,10 @@ export default function PaymentPreCommandePage({ cart = true }) {
                                 Statut :{" "}
                                 {commande.advance_payment_status ===
                                   "not_paid" && (
-                                  <span className="text-red-500">
-                                    (Non Payé)
-                                  </span>
-                                )}
+                                    <span className="text-red-500">
+                                      (Non Payé)
+                                    </span>
+                                  )}
                                 {commande.advance_payment_status === "paid" && (
                                   <span className="text-green-500">
                                     {" "}
@@ -168,11 +169,11 @@ export default function PaymentPreCommandePage({ cart = true }) {
                                 )}
                                 {commande.advance_payment_status ===
                                   "partial" && (
-                                  <span className="text-yellow-500">
-                                    {" "}
-                                    (Partiellement Payer)
-                                  </span>
-                                )}
+                                    <span className="text-yellow-500">
+                                      {" "}
+                                      (Partiellement Payer)
+                                    </span>
+                                  )}
                               </span>
                             </div>
                           </div>
@@ -254,20 +255,18 @@ export default function PaymentPreCommandePage({ cart = true }) {
                                     Premier Tranche
                                   </dt>
                                   <dd
-                                    className={`text-base font-medium ${
-                                      commande.first_payment_state
-                                        ? "text-green-500"
-                                        : "text-red-500"
-                                    }`}
+                                    className={`text-base font-medium ${commande.first_payment_state
+                                      ? "text-green-500"
+                                      : "text-red-500"
+                                      }`}
                                   >
                                     {commande.first_payment_date}
                                   </dd>
                                   <dd
-                                    className={`text-base font-medium ${
-                                      commande.first_payment_state
-                                        ? "text-green-500"
-                                        : "text-red-500"
-                                    }`}
+                                    className={`text-base font-medium ${commande.first_payment_state
+                                      ? "text-green-500"
+                                      : "text-red-500"
+                                      }`}
                                   >
                                     {formatPrice(commande.first_payment_amount)}
                                   </dd>
@@ -277,20 +276,18 @@ export default function PaymentPreCommandePage({ cart = true }) {
                                     Deuxieme Tranche
                                   </dt>
                                   <dd
-                                    className={`text-base font-medium ${
-                                      commande.second_payment_state
-                                        ? "text-green-500"
-                                        : "text-red-500"
-                                    }`}
+                                    className={`text-base font-medium ${commande.second_payment_state
+                                      ? "text-green-500"
+                                      : "text-red-500"
+                                      }`}
                                   >
                                     {commande.second_payment_date}
                                   </dd>
                                   <dd
-                                    className={`text-base font-medium ${
-                                      commande.second_payment_state
-                                        ? "text-green-500"
-                                        : "text-red-500"
-                                    }`}
+                                    className={`text-base font-medium ${commande.second_payment_state
+                                      ? "text-green-500"
+                                      : "text-red-500"
+                                      }`}
                                   >
                                     {formatPrice(
                                       commande.second_payment_amount
@@ -302,20 +299,18 @@ export default function PaymentPreCommandePage({ cart = true }) {
                                     Troisieme Tranche
                                   </dt>
                                   <dd
-                                    className={`text-base font-medium ${
-                                      commande.third_payment_state
-                                        ? "text-green-500"
-                                        : "text-red-500"
-                                    }`}
+                                    className={`text-base font-medium ${commande.third_payment_state
+                                      ? "text-green-500"
+                                      : "text-red-500"
+                                      }`}
                                   >
                                     {commande.third_payment_date}
                                   </dd>
                                   <dd
-                                    className={`text-base font-medium ${
-                                      commande.third_payment_state
-                                        ? "text-green-500"
-                                        : "text-red-500"
-                                    }`}
+                                    className={`text-base font-medium ${commande.third_payment_state
+                                      ? "text-green-500"
+                                      : "text-red-500"
+                                      }`}
                                   >
                                     {formatPrice(commande.third_payment_amount)}
                                   </dd>
@@ -361,23 +356,22 @@ export default function PaymentPreCommandePage({ cart = true }) {
                                   {["not_paid", "paid"].includes(
                                     commande.advance_payment_status
                                   ) && (
-                                    <span
-                                      className={`text-${
-                                        commande.advance_payment_status ===
-                                        "not_paid"
+                                      <span
+                                        className={`text-${commande.advance_payment_status ===
+                                          "not_paid"
                                           ? "red"
                                           : "green"
-                                      }-500`}
-                                    >
-                                      {" "}
-                                      {formatPrice(commande.amount_total)}
-                                    </span>
-                                  )}
+                                          }-500`}
+                                      >
+                                        {" "}
+                                        {formatPrice(commande.amount_total)}
+                                      </span>
+                                    )}
                                 </p>
                               </div>
                             </div>
                             {commande.advance_payment_status === "not_paid" ||
-                            commande.advance_payment_status === "partial" ? (
+                              commande.advance_payment_status === "partial" ? (
                               <div>
                                 <Button
                                   type="submit"

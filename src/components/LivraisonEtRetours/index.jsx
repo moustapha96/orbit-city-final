@@ -1,8 +1,19 @@
 /* eslint-disable react/no-unescaped-entities */
+import { useEffect } from "react";
 import PageTitle from "../Helpers/PageTitle";
 import Layout from "../Partials/Layout";
 
 export default function LivraisonEtRetoursPage() {
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 100,
+      behavior: "smooth",
+    });
+  }, []);
+
+
   return (
     <Layout childrenClasses="pt-0 pb-0">
       <div className="terms-condition-page w-full bg-white pb-[30px]">

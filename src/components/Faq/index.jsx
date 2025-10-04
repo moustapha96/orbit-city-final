@@ -5,9 +5,9 @@ import Accodion from "../Helpers/Accodion";
 import InputCom from "../Helpers/InputCom";
 import PageTitle from "../Helpers/PageTitle";
 import Layout from "../Partials/Layout";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { Loader2 } from "lucide-react";
+import { CheckCircle, Loader2, OctagonAlert } from "lucide-react";
 import SEOHeader from "../Partials/Headers/HeaderOne/SEOHeader";
 
 export default function Faq() {
@@ -17,6 +17,14 @@ export default function Faq() {
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 100,
+      behavior: "smooth",
+    });
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -24,11 +32,6 @@ export default function Faq() {
     toast.success("Contact envoyer !", {
       position: "top-center",
       autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
     });
 
     setIsLoading(false);
@@ -36,9 +39,9 @@ export default function Faq() {
   return (
     <>
       <SEOHeader
-        title="FAQ - Foire aux Questions sur CCBM Shop"
-        description="Trouvez les réponses à vos questions fréquentes sur CCBM Shop, votre boutique en ligne d'électroménager."
-        keywords="FAQ, foire aux questions, CCBM Shop, boutique en ligne, électroménager"
+        title="CCBM Shop | FAQ "
+        description="Découvrez les meilleures offres sur CCBM Shop, votre destination privilégiée pour l'électroménager de qualité. Explorez nos produits allant des réfrigérateurs aux téléviseurs intelligents, et profitez de promotions exclusives !"
+        keywords="électroménager, boutique en ligne d'électroménager, CCBM Shop, ccbme, appareils électroménagers à prix réduits, smart TV, réfrigérateurs modernes, climatiseurs efficaces, promotions électroménager"
       />
       <Layout childrenClasses="pt-0 pb-0">
         <div className="faq-page-wrapper w-full mb-10">
@@ -60,62 +63,74 @@ export default function Faq() {
                   Questions fréquemment posées
                 </h1>
                 <div className="flex flex-col space-y-7 justify-between">
-                  <Accodion
+                  {/* <Accodion
                     title="1. Précommande ?"
-                    des="La precommande permet d’avoir des produits electromenager jusqu’à reduction de 50% . Garantie moins chers sur le marche
-Pour cela , au moment de la precommande il faut verser un acompte pour confirmer la precommande , le client peut continuer à completer le versement en attendant la livraison du produit . Le payement doit etre completè avant la livraison du produit .Le delai de livraison est compris entre 30 et 60 jours . une date de livraison sera communique après la confirmation de la precommande ."
+                    des="La précommande permet d’avoir des produits électroménagers jusqu’à une réduction de 50% garantie, moins chère sur le marché. Pour cela, au moment de la précommande, il faut verser un acompte pour confirmer la précommande. Le client peut continuer à compléter le versement en attendant la livraison du produit. Le paiement doit être complété avant la livraison du produit. Le délai de livraison est compris entre 30 et 60 jours. Une date de livraison sera communiquée après la confirmation de la précommande."
                   />
                   <Accodion
                     init
                     title=" 2. SERVICE APRES VENTE DE NOS PRODUITS ?"
-                    des="Nos produits garantie sont garantie 1 ans . CCBM a une experience de plus de 30 ans en terme de vente de produit electromenager . Vous pouvez nous joindre sur le numero affichè sur le site en cas de besoins ou de reclamation ."
-                  />
+                    des="Nos produits sont garantis d'un an. CCBM a une expérience de plus de 30 ans en termes de vente de produits électroménagers. Vous pouvez nous joindre sur le numéro affiché sur le site en cas de besoins ou de réclamation."
+                  /> */}
 
-                  {/* <Accodion
-                    title="1. Quels types de produits propose CCBM Shop ?"
-                    des=" CCBM Shop propose une large gamme de produits, allant de l'électronique aux articles ménagers, en passant par les vêtements et les accessoires. Nous nous efforçons de répondre aux besoins de tous nos clients en offrant des produits de qualité."
+                  <Accodion
+                    title="1. Précommande ?"
+                    des="La précommande permet d'avoir des produits électroménagers jusqu'à une réduction de 50% garantie, moins chère sur le marché. Pour cela, au moment de la précommande, il faut verser un acompte pour confirmer la précommande. Le client peut continuer à compléter le versement en attendant la livraison du produit. Le paiement doit être complété avant la livraison du produit. Le délai de livraison est compris entre 30 et 60 jours. Une date de livraison sera communiquée après la confirmation de la précommande."
                   />
                   <Accodion
                     init
-                    title=" 2. Comment puis-je passer une commande ?"
-                    des="Pour passer une commande, il vous suffit de naviguer sur notre site, de sélectionner les produits souhaités, de les ajouter à votre panier, puis de suivre le processus de paiement. Vous recevrez une confirmation par e-mail une fois votre commande validée."
-                  /> */}
-                  {/* <Accodion
-                    title="3. Quels modes de paiement acceptez-vous ?"
-                    des="Nous acceptons plusieurs modes de paiement, y compris les cartes de crédit, les virements bancaires et les paiements en espèces à la livraison. Vous pouvez choisir le mode de paiement qui vous convient le mieux lors de la finalisation de votre commande."
+                    title="2. SERVICE APRES VENTE DE NOS PRODUITS ?"
+                    des="Nos produits sont garantis d'un an. CCBM a une expérience de plus de 30 ans en termes de vente de produits électroménagers. Vous pouvez nous joindre sur le numéro affiché sur le site en cas de besoins ou de réclamation."
                   />
+
                   <Accodion
-                    title="4. Quels sont les délais de livraison ?"
-                    des="Les délais de livraison varient en fonction de votre emplacement et de la disponibilité des produits. En général, vous pouvez vous attendre à recevoir votre commande dans un délai de 3 à 7 jours ouvrables. Vous recevrez un e-mail de suivi une fois votre commande expédiée."
+                    title="3. Qu'est-ce que la commande à crédit chez CCBM Shop ?"
+                    des="La commande à crédit est un service offert par CCBM Shop permettant aux employés d'entreprises partenaires d'acheter des produits et de les payer en plusieurs versements. Ce service est uniquement disponible pour les entreprises ayant une collaboration établie avec CCBM Shop."
                   />
+
                   <Accodion
-                    title=" 5. Puis-je retourner un produit ?"
-                    des=" Oui, vous disposez d'un droit de rétractation de 14 jours pour retourner un produit, conformément à la loi en vigueur. Les produits doivent être dans leur état d'origine et accompagnés de tous les accessoires. Pour plus d'informations sur le processus de retour, veuillez consulter notre section 'Politique de retour'."
+                    title="4. Comment puis-je m'inscrire pour les commandes à crédit ?"
+                    des={
+                      <ol className="list-decimal list-inside space-y-2">
+                        <li>Créez votre compte sur CCBM Shop.</li>
+                        <li>Obtenez l'identifiant unique de votre entreprise auprès de votre service RH.</li>
+                        <li>Dans votre profil, saisissez l'identifiant de l'entreprise dans la section 'Informations Personnelles'.</li>
+                        <li>Faites une demande d'adhésion au programme de commandes à crédit dans votre tableau de bord.</li>
+                        <li>Attendez la validation de votre service RH (généralement sous 24 heures ouvrables).</li>
+                      </ol>
+                    }
                   />
+
                   <Accodion
-                    title="6. Comment puis-je contacter le service client ?"
-                    des="Vous pouvez contacter notre service client par e-mail à l'adresse support@orbitcity.sn ou par téléphone au +221 00 000 00 00. Notre équipe est disponible pour répondre à vos questions et vous aider avec vos préoccupations."
+                    title="5. Comment fonctionne le paiement pour les commandes à crédit ?"
+                    des={
+                      <div>
+                        <p>Le paiement pour les commandes à crédit est échelonné comme suit :</p>
+                        <ul className="list-disc list-inside mt-2 space-y-1">
+                          <li>50% à la validation de la commande</li>
+                          <li>20% le mois suivant</li>
+                          <li>15% le deuxième mois</li>
+                          <li>15% le troisième mois</li>
+                        </ul>
+                        <p className="mt-2">Les moyens de paiement acceptés sont Wave et Orange Money.</p>
+                      </div>
+                    }
                   />
+
                   <Accodion
-                    title=" 7. Y a-t-il des promotions ou des réductions disponibles ?"
-                    des=" Oui, nous proposons régulièrement des promotions et des réductions sur une sélection de produits. Pour rester informé des dernières offres, abonnez-vous à notre newsletter ou consultez notre section 'Promotions' sur le site."
+                    title="6. Que se passe-t-il si je manque un paiement ?"
+                    des="Si un paiement n'est pas effectué dans les trois jours suivant l'échéance, votre service RH sera notifié. Ils pourront alors prélever le montant dû directement sur votre salaire pour régulariser la situation."
                   />
+
+
+
                   <Accodion
-                    title="8. Qu'est-ce que la précommande ?"
-                    des="La précommande vous permet de profiter d'une réduction de 50% sur certains produits disponibles en précommande. Certaines conditions doivent être remplies."
+                    title="7. Puis-je annuler une commande à crédit ?"
+                    des="Les conditions d'annulation pour les commandes à crédit sont les mêmes que pour les commandes standard. Cependant, une fois que le processus de paiement a commencé, l'annulation peut être plus complexe. Il est recommandé de contacter le service client de CCBM Shop dès que possible si vous souhaitez annuler une commande à crédit."
                   />
-                  <Accodion
-                    title="9. Comment fonctionne la précommande ?"
-                    des="Pour la précommande, vous pouvez acquérir un téléviseur smart TCL à partir d'un acompte de 20.000 FCFA et profiter d'une réduction jusqu'à 60%. Le délai de livraison est de 30 à 60 jours."
-                  />
-                  <Accodion
-                    title="10. Quels produits sont disponibles en précommande ?"
-                    des="Nous proposons plusieurs produits en précommande, notamment des téléviseurs smart TCL, des appareils électroménagers et d'autres articles. Consultez notre section 'Précommande' pour plus de détails."
-                  />
-                  <Accodion
-                    title="11. Quels sont les avantages de la précommande ?"
-                    des="Les avantages de la précommande incluent des réductions importantes, la garantie de disponibilité des produits et des délais de livraison flexibles. Profitez de ces offres pour économiser et planifier vos achats."
-                  /> */}
+
+
+
                 </div>
               </div>
               <div className="flex-1">
@@ -163,11 +178,11 @@ Pour cela , au moment de la precommande il faut verser un acompte pour confirmer
                       </div>
                       <div className="mb-4">
                         <div className="mb-2 block">
-                          <Label htmlFor="email" value="Email" />
+                          <Label htmlFor="email" value="Adresse Email" />
                         </div>
                         <input
                           type="text"
-                          placeholder="Email"
+                          placeholder="Adresse Email"
                           value={`${email}`}
                           name="email"
                           onChange={(e) => setEmail(e.target.value)}
@@ -180,11 +195,11 @@ Pour cela , au moment de la precommande il faut verser un acompte pour confirmer
                       </div>
                       <div className="mb-4">
                         <div className="mb-2 block">
-                          <Label htmlFor="sujet" value="Sujet" />
+                          <Label htmlFor="sujet" value="Objet" />
                         </div>
                         <input
                           type="text"
-                          placeholder="sujet"
+                          placeholder="Objet"
                           value={`${sujet}`}
                           name="sujet"
                           onChange={(e) => setSujet(e.target.value)}
@@ -201,7 +216,7 @@ Pour cela , au moment de la precommande il faut verser un acompte pour confirmer
                         </div>
                         <textarea
                           onChange={(e) => setMessage(e.target.value)}
-                          placeholder="Type your message here"
+                          placeholder="Entrez votre message ici"
                           className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
                       focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
                                     invalid:text-red-600

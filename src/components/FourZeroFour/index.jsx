@@ -8,7 +8,7 @@ export default function FourZeroFour() {
     <Layout>
       <div className="cart-page-wrapper w-full">
         <div className="container-x mx-auto">
-          <BreadcrumbCom paths={[{ name: "home", path: "/" }]} />
+          <BreadcrumbCom paths={[{ name: "Accueil", path: "/" }]} />
           <div className="empty-card-wrapper w-full">
             <div className="flex justify-center items-center w-full">
               <div>
@@ -17,13 +17,13 @@ export default function FourZeroFour() {
                 </div>
                 <div data-aos="fade-up" className="empty-content w-full">
                   <h1 className="sm:text-xl text-base font-semibold text-center mb-5">
-                    Sorry! We cant’t Find that page!
+                    Désolé ! Nous ne trouvons pas cette page !
                   </h1>
-                  <Link to="/">
-                    <div className="flex justify-center w-full ">
-                      <div className="w-[180px] h-[50px] ">
-                        <span type="button" className="yellow-btn">
-                          Back to Shop
+                  <Link to="/boutique">
+                    <div className="flex justify-center w-full">
+                      <div className="w-[180px] h-[50px]">
+                        <span type="button" className="blue-logo-btn">
+                          Retour à la boutique
                         </span>
                       </div>
                     </div>

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import React, { useContext, useEffect, useState } from "react";
@@ -13,6 +14,10 @@ import PaymentContext from "../contexts/PaymentContext";
 import { UserContext } from "../contexts/UserContext";
 import { useNavigate } from "react-router-dom";
 import PaiementService from "./paimentService";
+import { useAuthContext } from "../contexts/useAuthContext";
+import { trackPurchase } from "../utils/tracking";
+
+// import initializePaydunya from "../config/paydunyaInitializer"
 const PaydunyaModalService = ({
   handlePay,
   totalAmount,
@@ -20,6 +25,8 @@ const PaydunyaModalService = ({
   order,
   idOrder,
 }) => {
+
+
   localStorage.setItem("idOrderPayment", null);
   localStorage.setItem("montant", null);
   localStorage.setItem("tokenOrderPayment", null);
@@ -33,7 +40,7 @@ const PaydunyaModalService = ({
     setTotalAmount,
   } = useContext(PaymentContext);
 
-  const { user } = useContext(UserContext);
+  const { user } = useAuthContext();
 
   const [isLoading, setIsloading] = useState(false);
   const [openModal, setOpenModal] = useState(true);
@@ -50,16 +57,16 @@ const PaydunyaModalService = ({
     console.log(user);
 
     const paydunyaSetup = new paydunya.Setup({
-      masterKey: "voFGVcul-uCsd-1sw5-wfGz-ukqScIQoOyDu",
-      privateKey: "test_private_LJfJe2zAiwndwRq6ZF4qIDIoApZ",
-      publicKey: "test_public_Cg2nELkXvHleRmby9NfaKWofWQS",
-      token: "VaZUkYb6b1JOpZfxUe3R",
-      mode: "test",
       // masterKey: "voFGVcul-uCsd-1sw5-wfGz-ukqScIQoOyDu",
-      // privateKey: "live_private_KvbXuQU1IJ4z68hQOU9YeEtrUjW",
-      // publicKey: "live_public_wgK4JebXd3SfGDWN64sEIffD5XR",
-      // token: "cjTGi71WL8xOTCrsJisR",
-      // mode: "live",
+      // privateKey: "test_private_LJfJe2zAiwndwRq6ZF4qIDIoApZ",
+      // publicKey: "test_public_Cg2nELkXvHleRmby9NfaKWofWQS",
+      // token: "VaZUkYb6b1JOpZfxUe3R",
+      // mode: "test",
+      masterKey: "voFGVcul-uCsd-1sw5-wfGz-ukqScIQoOyDu",
+      privateKey: "live_private_KvbXuQU1IJ4z68hQOU9YeEtrUjW",
+      publicKey: "live_public_wgK4JebXd3SfGDWN64sEIffD5XR",
+      token: "cjTGi71WL8xOTCrsJisR",
+      mode: "live",
     });
     setSetup(paydunyaSetup);
     const store = new paydunya.Store({
@@ -74,28 +81,6 @@ const PaydunyaModalService = ({
     setStore(store);
   }, []);
 
-  // useEffect(() => {
-  //   const fetchPaymentDetails = async () => {
-  //     setIsloading(true);
-  //     try {
-  //       const responsePd = await PaiementService.getPaymentDetailsByIdOrder(
-  //         idOrder
-  //       );
-  //       console.log("response details payment ");
-  //       console.log(responsePd);
-  //       setFacture(responsePd);
-  //     } catch (error) {
-
-  //       console.error(
-  //         "Erreur lors de l'enregistrement des détails du paiement :",
-  //         error.message
-  //       );
-  //     } finally {
-  //       setIsloading(false);
-  //     }
-  //   };
-  //   fetchPaymentDetails();
-  // }, [location.search]);
 
   const handleSubmit = (event) => {
     console.log("arrivé");
@@ -117,25 +102,39 @@ const PaydunyaModalService = ({
 
       invoice.totalAmount = Math.ceil(totalAmount);
       if (order.type_sale === "order") {
-        invoice.description = `Paiement de ${formatPrice(Math.ceil(totalAmount))} pour la commande ${order.name}`;
+
+
+        if (order.payment_mode == "echelonne") {
+          invoice.description = `Paiement d'avance de ${formatPrice(Math.ceil(totalAmount))} pour la commande ${order.name}`;
+        } else if (order.payment_mode == "online") {
+          invoice.description = `Paiement de ${formatPrice(Math.ceil(totalAmount))} pour la commande ${order.name}`;
+        }
+
       } else if (order.type_sale === "preorder") {
         if (order.amount_residual > 0) {
           invoice.description = `Paiement de ${formatPrice(Math.ceil(totalAmount))} pour la précommande ${order.name} avec un montant total restant de ${order.amount_total - totalAmount}`;
         } else {
           invoice.description = `Paiement de ${formatPrice(Math.ceil(totalAmount))} pour la précommande ${order.name}`;
         }
+      } else if (order.type_sale === "creditorder") {
+        if (order.amount_residual > 0) {
+          invoice.description = `Paiement de ${formatPrice(Math.ceil(totalAmount))} pour le crédit ${order.name} avec un montant total restant de ${order.amount_total - totalAmount}`;
+        } else {
+          invoice.description = `Paiement de ${formatPrice(Math.ceil(totalAmount))} pour le crédit ${order.name}`;
+        }
       }
 
-      invoice.callbackURL = "https://orbitcity/api/facture/paydunya";
-      // invoice.callbackURL = "https://localhost:5173/call-back";
+      invoice.callbackURL = "https://orbitcity.sn/api/facture/paydunya";
 
       if (order.type_sale === "order") {
         invoice.cancelURL = `https://ccbme.sn/commandes/${idOrder}/détails`;
-      } else {
+      } else if (order.type_sale === "creditorder") {
+        invoice.cancelURL = `https://ccbme.sn/credit-commandes/${idOrder}/détails`;
+      } else if (order.type_sale === "preorder") {
         invoice.cancelURL = `https://ccbme.sn/pre-commandes/${idOrder}/détails`;
       }
-
       invoice.returnURL = `https://ccbme.sn/payment-state`;
+      // invoice.returnURL = `http://localhost:5173/payment-state`;
 
       setPaymentDetails(invoice);
       setTotalAmount(invoice.totalAmount);
@@ -146,32 +145,62 @@ const PaydunyaModalService = ({
           setFacture(invoice);
 
           console.log(invoice);
+
+          const r = trackPurchase(
+            idOrder,
+            totalAmount,
+            order.order_lines.map(item => ({
+              name: item.product_name,
+              price: item.price_unit,
+              quantity: item.product_uom_qty,
+            }))
+          );
+          // console.log("resultat trackPurchase " + r);
           let transaction = null;
 
           if (order.type_sale === "order") {
-            transaction = `${user.partner_id}-${idOrder}-${totalAmount}-${order.name}-${order.type_sale}`;
+
+            if (order.payment_mode == "echelonne") {
+              transaction = `${user.id}-${idOrder}-${totalAmount}-${order.name}-${order.type_sale}-${new Date().getTime().toString()}`;
+            } else {
+              transaction = `${user.id}-${idOrder}-${totalAmount}-${order.name}-${order.type_sale}`;
+            }
+
           } else if (order.type_sale === "preorder") {
             if (!order.first_payment_state && !order.second_payment_state && !order.third_payment_state) {
-              transaction = `${user.partner_id}-${idOrder}-${totalAmount}-${order.name}-${order.type_sale}-1`;
+              transaction = `${user.id}-${idOrder}-${totalAmount}-${order.name}-${order.type_sale}-1`;
             } else if (order.first_payment_state && !order.second_payment_state && !order.third_payment_state) {
-              transaction = `${user.partner_id}-${idOrder}-${totalAmount}-${order.name}-${order.type_sale}-2`;
+              transaction = `${user.id}-${idOrder}-${totalAmount}-${order.name}-${order.type_sale}-2`;
             } else {
-              transaction = `${user.partner_id}-${idOrder}-${totalAmount}-${order.name}-${order.type_sale}-3`;
+              transaction = `${user.id}-${idOrder}-${totalAmount}-${order.name}-${order.type_sale}-3`;
             }
-          }
+          } else if (order.type_sale === "creditorder") {
 
+            if (!order.first_payment_state && !order.second_payment_state && !order.third_payment_state && !order.fourth_payment_state) {
+              transaction = `${user.id}-${idOrder}-${totalAmount}-${order.name}-${order.type_sale}-1`;
+            } else if (order.first_payment_state && !order.second_payment_state && !order.third_payment_state && !order.fourth_payment_state) {
+              transaction = `${user.id}-${idOrder}-${totalAmount}-${order.name}-${order.type_sale}-2`;
+            } else if (order.first_payment_state && order.second_payment_state && order.third_payment_state && !order.fourth_payment_state) {
+              transaction = `${user.id}-${idOrder}-${totalAmount}-${order.name}-${order.type_sale}-3`;
+            } else {
+              transaction = `${user.id}-${idOrder}-${totalAmount}-${order.name}-${order.type_sale}-4`;
+            }
+
+          } else {
+            transaction = `${user.id}-${idOrder}-${totalAmount}-${order.name}-${order.type_sale}`;
+          }
           const data = {
             transaction_id: transaction,
             amount: totalAmount,
             order_id: idOrder,
             order_type: order.type_sale,
             order_name: order.name,
-            partner_id: user.partner_id,
+            partner_id: user.id,
             payment_token: invoice.token,
             payment_state: invoice.status,
           };
 
-          console.log(data);
+          console.log("data payment", data);
           try {
             const response = await PaiementService.setPaymentDetails(data);
             if (response.order_type == "preorder") {
@@ -179,23 +208,20 @@ const PaydunyaModalService = ({
               toast.success("Merci de passer au payment sur paydunya", {
                 position: "top-center",
                 autoClose: 2000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
               });
               navigate(`/pre-commandes/${idOrder}/détails`);
+            } else if (response.order_type == "creditorder") {
+              console.log("commande");
+              toast.success("Merci de passer au payment sur paydunya", {
+                position: "top-center",
+                autoClose: 2000,
+              });
+              navigate(`/credit-commandes/${idOrder}/détails`);
             } else {
               if (response.payment_state == "completed") {
                 toast.success("Merci de passer au payment sur paydunya", {
                   position: "top-center",
                   autoClose: 2000,
-                  hideProgressBar: false,
-                  closeOnClick: true,
-                  pauseOnHover: true,
-                  draggable: true,
-                  progress: undefined,
                 });
                 navigate(`/commandes/${idOrder}/détails`);
               }
@@ -219,11 +245,6 @@ const PaydunyaModalService = ({
             toast.error("Payment non effectif " + error.message, {
               position: "top-center",
               autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
             });
           }
         })
@@ -232,11 +253,6 @@ const PaydunyaModalService = ({
           toast.error("Payment non effectif " + e, {
             position: "top-center",
             autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
           });
         }).finally(() => {
           setIsloading(false);
@@ -249,13 +265,6 @@ const PaydunyaModalService = ({
     openInNewTab(facture.url);
     setOpenModal(false)
     navigate('/profile')
-
-    // if (order.type_sale == "order") {
-    //   // navigate(`/commandes/${idOrder}/détails`);
-    //   navigate(`/profil#orders`);
-    // } else {
-    //   navigate(`/pre-commandes/${idOrder}/détails`);
-    // }
   };
 
   return (
@@ -274,7 +283,7 @@ const PaydunyaModalService = ({
               <div className="flex-1">
                 <h3 className="text-gray-800 text-xl font-bold">
                   Paiement{" "}
-                  {order.type_sale == "order" ? "Commande" : "Pré Commande"}{" "}
+                  {order.type_sale == "order" ? "Commande" : order.type_sale == "preorder" ? "Pré Commande" : "Commande à crédit"}{" "}
                 </h3>
                 <p className="text-gray-600 text-sm mt-1">
                   Résumé détaillé de votre commande.
@@ -288,11 +297,11 @@ const PaydunyaModalService = ({
                 />
               </p>
             </div>
-            {facture && (
+            {/* {facture && (
               <div className="flex flex-wrap justify-center items-center" >
                 <p> token de payment:  <span> {facture.token}  </span>  </p>
               </div>
-            )}
+            )} */}
             {order && (
 
               <>
@@ -330,9 +339,15 @@ const PaydunyaModalService = ({
                   <table className="w-full">
                     <thead>
                       <tr>
-                        <th className="text-left text-gray-800 text-sm py-2">Total à payer (en FCFA) :</th>
+                        <th className="text-left text-gray-800 text-sm py-2">Total Commande (en FCFA) :</th>
                         <th className="text-right text-gray-800 text-sm py-2">{formatPrice(Math.ceil(order.amount_total))}</th>
                       </tr>
+                      {order.payment_mode == "echelonne" && <>
+                        <tr>
+                          <th className="text-left text-gray-800 text-sm py-2">Total à payer  (en FCFA) :</th>
+                          <th className="text-right text-gray-800 text-sm py-2">{formatPrice(Math.ceil(totalAmount))}</th>
+                        </tr>
+                      </>}
                     </thead>
                   </table>
 
@@ -365,7 +380,7 @@ const PaydunyaModalService = ({
                         pill
                         className="rounded-lg px-5 py-2.5 font-medium w-full hover:bg-red-500 hover:text-white text-xl"
                       >
-                        Passer au payment
+                        Passer au paiement
                       </Button>
                     )}
                   </div>

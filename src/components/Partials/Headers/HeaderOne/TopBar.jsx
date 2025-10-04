@@ -1,15 +1,20 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
+import { useAuthContext } from "../../../../contexts/useAuthContext";
+// import { useContext } from "react";
+// import { CartContext } from "../../../../contexts/CartContext";
+// import { Heart, HeartHandshake, ShoppingBag, ShoppingCart } from "lucide-react";
 
 export default function TopBar({ className }) {
-  const user = JSON.parse(localStorage.getItem("user"));
+  const { user } = useAuthContext();
+  // const { cart, wishlist, preorder, creditOrder } = useContext(CartContext);
 
   return (
     <>
       <div
-        className={`w-full bg-white h-10 border-b  border-qgray-border ${
-          className || ""
-        }`}
+        className={`   bg-white  border-b  border-qgray-border ${className || ""
+          }`}
       >
         <div className="container-x mx-auto h-full">
           <div className="flex justify-between items-center h-full">
@@ -36,19 +41,12 @@ export default function TopBar({ className }) {
                   )}
                 </li>
                 <li>
-                  <Link to="/contact">
+                  <Link to="/informations#contact-form">
                     <span className="text-xs leading-6 text-qblack font-500">
                       Contact
                     </span>
                   </Link>
                 </li>
-                {/* <li>
-                  <Link>
-                    <span className="text-xs leading-6 text-qblack font-500">
-                      Contact : 33 800 00 00
-                    </span>
-                  </Link>
-                </li> */}
 
                 <li className="hidden md:block">
                   <Link to="/tracking-order">
@@ -57,50 +55,28 @@ export default function TopBar({ className }) {
                     </span>
                   </Link>
                 </li>
-                {/* <li>
-                  <Link to="/faq">
-                    <span className="text-xs leading-6 text-qblack font-500">
-                      Support
-                    </span>
-                  </Link>
-                </li> */}
+
               </ul>
             </div>
-            {/* <div className="topbar-dropdowns sm:block hidden">
+
+            <div className="topbar-dropdowns sm:block hidden">
               <div className="flex space-x-6">
                 <div className="country-select flex space-x-1 items-center">
                   <div>
-                    <img
-                      src={`${
-                        import.meta.env.VITE_PUBLIC_URL
-                      }/images/country-logo-16x16.png`}
-                      width="16"
-                      height="16"
-                      alt="country logo"
-                      className="overflow-hidden rounded-full"
-                    />
+                    <Link to="/" >
+                      <img
+                        src={`/logo.png`}
+                        width="50" height="36"
+                        alt="CCBM Shop logo"
+                        className="overflow-hidden rounded-full"
+                      />
+                    </Link>
                   </div>
-                  <Selectbox
-                    className="w-fit"
-                    datas={["United State", "Bangladesh", "India"]}
-                  />
-                  <div>
-                    <Arrow className="fill-current qblack" />
-                  </div>
-                </div>
-                <div className="currency-select flex space-x-1 items-center">
-                  <Selectbox className="w-fit" datas={["USD", "BDT"]} />
-                  <Arrow className="fill-current qblack" />
-                </div>
-                <div className="language-select flex space-x-1 items-center">
-                  <Selectbox
-                    className="w-fit"
-                    datas={["Français", "english"]}
-                  />
-                  <Arrow className="fill-current qblack" />
+
+
                 </div>
               </div>
-            </div> */}
+            </div>
           </div>
         </div>
       </div>

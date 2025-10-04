@@ -10,9 +10,8 @@ export default function DrawerThree({ className, open, action }) {
   return (
     <>
       <div
-        className={`drawer-wrapper w-full block lg:hidden  h-full relative  ${
-          className || ""
-        }`}
+        className={`drawer-wrapper w-full block lg:hidden  h-full relative  ${className || ""
+          }`}
       >
         {open && (
           <div
@@ -21,9 +20,8 @@ export default function DrawerThree({ className, open, action }) {
           ></div>
         )}
         <div
-          className={`w-[280px] transition-all duration-300 ease-in-out h-screen overflow-y-auto overflow-x-hidden overflow-style-none bg-white fixed top-0 z-50 ${
-            open ? "left-0" : "-left-[280px]"
-          }`}
+          className={`w-[280px] transition-all duration-300 ease-in-out h-screen overflow-y-auto overflow-x-hidden overflow-style-none bg-white fixed top-0 z-50 ${open ? "left-0" : "-left-[280px]"
+            }`}
         >
           <div className="w-full px-5 mt-5 mb-4">
             <div className="flex justify-between items-center">
@@ -112,18 +110,16 @@ export default function DrawerThree({ className, open, action }) {
           <div className="w-full mt-5 px-5 flex items-center space-x-3">
             <span
               onClick={() => setTab("category")}
-              className={`text-base font-semibold  ${
-                tab === "category" ? "text-qblack" : "text-qgray"
-              }`}
+              className={`text-base font-semibold  ${tab === "category" ? "text-qblack" : "text-qgray"
+                }`}
             >
               Categories
             </span>
             <span className="w-[1px] h-[14px] bg-qgray"></span>
             <span
               onClick={() => setTab("menu")}
-              className={`text-base font-semibold ${
-                tab === "menu" ? "text-qblack" : "text-qgray "
-              }`}
+              className={`text-base font-semibold ${tab === "menu" ? "text-qblack" : "text-qgray "
+                }`}
             >
               Main Menu
             </span>
@@ -132,7 +128,7 @@ export default function DrawerThree({ className, open, action }) {
             <div className="category-item mt-5 w-full">
               <ul className="categories-list">
                 <li className="category-item">
-                  <Link to="/all-products">
+                  <Link to="/boutique">
                     <div className=" flex justify-between items-center px-5 h-12 bg-white hover:bg-qh3-blue transition-all duration-300 ease-in-out cursor-pointer">
                       <div className="flex items-center space-x-6">
                         <span>
@@ -213,7 +209,7 @@ export default function DrawerThree({ className, open, action }) {
                   </Link>
                 </li>
                 <li className="category-item">
-                  <Link to="/all-products">
+                  <Link to="/boutique">
                     <div className="flex justify-between items-center px-5 h-12 bg-white hover:bg-qh3-blue transition-all duration-300 ease-in-out cursor-pointer">
                       <div className="flex items-center space-x-6">
                         <span>
@@ -298,7 +294,7 @@ export default function DrawerThree({ className, open, action }) {
                   </Link>
                 </li>
                 <li className="category-item">
-                  <Link to="/all-products">
+                  <Link to="/boutique">
                     <div className=" flex justify-between items-center px-5 h-12 bg-white hover:bg-qh3-blue transition-all duration-300 ease-in-out cursor-pointer">
                       <div className="flex items-center space-x-6">
                         <span>
@@ -377,7 +373,7 @@ export default function DrawerThree({ className, open, action }) {
                   </Link>
                 </li>
                 <li className="category-item">
-                  <Link to="/all-products">
+                  <Link to="/boutique">
                     <div className="flex justify-between items-center px-5 h-12 bg-white hover:bg-qh3-blue transition-all duration-300 ease-in-out cursor-pointer">
                       <div className="flex items-center space-x-6">
                         <span>
@@ -448,7 +444,7 @@ export default function DrawerThree({ className, open, action }) {
                   </Link>
                 </li>
                 <li className="category-item">
-                  <Link to="/all-products">
+                  <Link to="/boutique">
                     <div className=" flex justify-between items-center px-5 h-12 bg-white hover:bg-qh3-blue transition-all duration-300 ease-in-out cursor-pointer">
                       <div className="flex items-center space-x-6">
                         <span>
@@ -539,7 +535,7 @@ export default function DrawerThree({ className, open, action }) {
                   </Link>
                 </li>
                 <li className="category-item">
-                  <Link to="/all-products">
+                  <Link to="/boutique">
                     <div className="flex justify-between items-center px-5 h-12 bg-white hover:bg-qh3-blue transition-all duration-300 ease-in-out cursor-pointer">
                       <div className="flex items-center space-x-6">
                         <span>
@@ -592,7 +588,7 @@ export default function DrawerThree({ className, open, action }) {
                   </Link>
                 </li>
                 <li className="category-item ">
-                  <Link to="/all-products">
+                  <Link to="/boutique">
                     <div className="flex justify-between items-center px-5 h-12 bg-white hover:bg-qh3-blue transition-all duration-300 ease-in-out cursor-pointer">
                       <div className="flex items-center space-x-6">
                         <span>
@@ -663,7 +659,7 @@ export default function DrawerThree({ className, open, action }) {
                   </Link>
                 </li>
                 <li className="category-item">
-                  <Link to="/all-products">
+                  <Link to="/boutique">
                     <div className=" flex justify-between items-center px-5 h-12 bg-white hover:bg-qh3-blue transition-all duration-300 ease-in-out cursor-pointer">
                       <div className="flex items-center space-x-6">
                         <span>
@@ -728,7 +724,7 @@ export default function DrawerThree({ className, open, action }) {
                   </Link>
                 </li>
                 <li className="category-item">
-                  <Link to="/all-products">
+                  <Link to="/boutique">
                     <div className="flex justify-between items-center px-5 h-12 bg-white hover:bg-qh3-blue transition-all duration-300 ease-in-out cursor-pointer">
                       <div className="flex items-center space-x-6">
                         <span>
@@ -783,7 +779,7 @@ export default function DrawerThree({ className, open, action }) {
                   </Link>
                 </li>
                 <li className="category-item ">
-                  <Link to="/all-products">
+                  <Link to="/boutique">
                     <div className="flex justify-between items-center px-5 h-12 bg-white hover:bg-qh3-blue transition-all duration-300 ease-in-out cursor-pointer">
                       <div className="flex items-center space-x-6">
                         <span>
@@ -846,7 +842,7 @@ export default function DrawerThree({ className, open, action }) {
                   </Link>
                 </li>
                 <li className="category-item">
-                  <Link to="/all-products">
+                  <Link to="/boutique">
                     <div className=" flex justify-between items-center px-5 h-12 bg-white hover:bg-qh3-blue transition-all duration-300 ease-in-out cursor-pointer">
                       <div className="flex items-center space-x-6">
                         <span>

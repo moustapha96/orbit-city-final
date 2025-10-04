@@ -46,10 +46,59 @@ const userService = {
     }
   },
 
+  resendOtp: async (email) => {
+    try {
+      const response = await axiosInstance.get(`/api/partner/${email}/otp-resend`);
+      return response.data;
+    } catch (error) {
+      console.error("Erreur lors de la création du modèle", error);
+      throw error;
+    }
+  },
+
+  verifierCodeOTP: async (body) => {
+    try {
+      const response = await axiosInstance.post(`/api/partner/otp-verification`, body);
+      return response.data;
+    } catch (error) {
+      console.error("Erreur lors de la vérification du code", error);
+      throw error;
+    }
+  },
+
   updateUser: async (id, modelData) => {
     try {
       const response = await axiosInstance.put(
         `/api/users/${id}/update`,
+        modelData
+      );
+      return response.data;
+    } catch (error) {
+      console.error(
+        `Erreur lors de la mise à jour du modèle avec l'ID ${id}`,
+        error
+      );
+      throw error;
+    }
+  },
+  actualiseInfoUser: async (id) => {
+    try {
+
+      const response = await axiosInstance.get(`/api/partner/compte/${id}`,);
+      return response.data;
+    } catch (error) {
+      console.error(
+        `Erreur lors de la mise à jour du modèle avec l'ID ${id}`,
+        error
+      );
+      throw error;
+    }
+  },
+
+  updateUserCompte: async (id, modelData) => {
+    try {
+      const response = await axiosInstance.post(
+        `/api/partner/${id}/update`,
         modelData
       );
       return response.data;
@@ -95,9 +144,18 @@ const userService = {
       throw error;
     }
   },
-  resetPassword: async (email) => {
+  resetPasswordMail: async (email) => {
     try {
-      const response = await axiosInstance.get(`/api/reset-password/${email}`);
+      const response = await axiosInstance.get(`/api/reset-password-email/${email}`);
+      return response.data;
+    } catch (error) {
+      console.error("Erreur lors de la récupération des tokens", error);
+      throw error;
+    }
+  },
+  resetPasswordBySMS: async (phone) => {
+    try {
+      const response = await axiosInstance.get(`/api/reset-password-sms/${phone}`);
       return response.data;
     } catch (error) {
       console.error("Erreur lors de la récupération des tokens", error);
@@ -160,7 +218,7 @@ const userService = {
     try {
       const response = await axiosInstance.put(
         `/api/users/avatar/${partner_id}`,
-        { avatar }, // Assurez-vous que l'objet est correctement formaté
+        { avatar },
         {
           headers: {
             "Content-Type": "application/json",
@@ -187,6 +245,34 @@ const userService = {
       throw error;
     }
   },
+  getPartnerByEmail: async (email) => {
+    try {
+      const response = await axiosInstance.get(`/api/partnerByEmail/${email}`);
+      return response.data;
+    } catch (error) {
+      console.error("Erreur lors de la?}", error);
+      throw error;
+    }
+  },
+  createPasswordPartner: async (modelData) => {
+    try {
+      const response = await axiosInstance.post(`/api/partner-create/${modelData.email}/update`, modelData);
+      return response.data;
+    } catch (error) {
+      console.error("Erreur lors de la création du mot de passe", error);
+      throw error;
+    }
+  },
+  getDetailsCompteUser: async (id) => {
+    try {
+      const response = await axiosInstance.get(`api/partner/compte/${id}/details`);
+      return response.data;
+    } catch (error) {
+      console.error('Erreur lors de la sélection des abonnements:', error);
+      throw error;
+    }
+  }
 };
 
 export default userService;
+

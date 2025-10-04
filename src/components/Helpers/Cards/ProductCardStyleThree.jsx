@@ -8,7 +8,7 @@ function ProductCardStyleThree({ datas }) {
     <div className="product-cart-three w-full group">
       {/* thumb */}
       <div className="w-full h-[364px] bg-white flex justify-center items-center p-2.5 mb-6 relative overflow-hidden">
-        <img src={`/images/${datas.image}`} alt="" />
+        <img src={`/images/${datas.image}`} alt="image produit ccbm shop" />
         <div className="quick-access-btns flex flex-col space-y-2 absolute group-hover:right-4 -right-10 top-20  transition-all duration-300 ease-in-out">
           <a href="#">
             <span className="w-10 h-10 flex justify-center items-center bg-primarygray rounded">

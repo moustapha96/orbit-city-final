@@ -2,11 +2,10 @@
 import axiosInstance from "../config/axiosConfig";
 
 const CommandeService = {
-  getCommandes: async () => {
+  getCommandes: async (id) => {
     try {
-      const partner_id = localStorage.getItem("partner_id");
-      console.log(partner_id);
-      const response = await axiosInstance.get(`/api/commandes/${partner_id}`);
+
+      const response = await axiosInstance.get(`/api/commandes/${id}`);
       return response.data;
     } catch (error) {
       console.error("Erreur lors de la récupération des commandes", error);
@@ -31,8 +30,16 @@ const CommandeService = {
       throw error;
     }
   },
+  annulerCommande: async (id) => {
+    try {
+      const response = await axiosInstance.get(`/api/commande/${id}/annuler`);
+      return response.data;
+    } catch (error) {
+      console.error("Erreur lors de la suppression de la commande", error);
+      throw error;
+    }
+  },
 
-  // utiliser sur la page payment
   getCommandeAny: async (id) => {
     try {
       const response = await axiosInstance.get(`/api/getcommande/${id}`);
@@ -42,12 +49,12 @@ const CommandeService = {
       throw error;
     }
   },
-  getCommandeById: async (id) => {
+  getCommandeById: async (idPartner, id) => {
     try {
-      const partner_id = localStorage.getItem("partner_id");
+
       const response = await axiosInstance.post(`/api/commandes/details`, {
         commande_id: id,
-        partner_id: partner_id,
+        partner_id: idPartner,
       });
       return response.data;
     } catch (error) {
@@ -62,6 +69,26 @@ const CommandeService = {
   createCommande: async (modelData) => {
     try {
       const response = await axiosInstance.post("/api/commandes", modelData);
+      return response.data;
+    } catch (error) {
+      console.error("Erreur lors de la création du modèle", error);
+      throw error;
+    }
+  },
+
+  createCommandePack: async (modelData) => {
+    try {
+      const response = await axiosInstance.post("/api/commande-pack", modelData);
+      return response.data;
+    } catch (error) {
+      console.error("Erreur lors de la création du modèle", error);
+      throw error;
+    }
+  },
+
+  createCommandeWitoutPartner: async (modelData) => {
+    try {
+      const response = await axiosInstance.post("/api/commande-sans-partner", modelData);
       return response.data;
     } catch (error) {
       console.error("Erreur lors de la création du modèle", error);

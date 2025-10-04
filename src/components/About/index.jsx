@@ -1,5 +1,6 @@
+/* eslint-disable react/no-unescaped-entities */
 /* eslint-disable no-unused-vars */
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 
 import PageTitle from "../Helpers/PageTitle";
@@ -11,6 +12,17 @@ import SEOHeader from "../Partials/Headers/HeaderOne/SEOHeader";
 import BannerPub from "./BannerPub";
 
 export default function About() {
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "smooth",
+    });
+
+  }, []);
+
+
   const bgColor = "var(--bleu-logo)";
   const settings = {
     slidesToShow: 3,
@@ -49,9 +61,9 @@ export default function About() {
   return (
     <>
       <SEOHeader
-        title="CCBM Shop - A propos de nous"
-        description="En savoir plus sur CCBM Shop et notre mission."
-        keywords="CCBM Shop, histoire, boutique en ligne, électroménager"
+        title="CCBM Shop | A propos de CCBM Shop"
+        description="Découvrez les meilleures offres sur CCBM Shop, votre destination privilégiée pour l'électroménager de qualité. Explorez nos produits allant des réfrigérateurs aux téléviseurs intelligents, et profitez de promotions exclusives !"
+        keywords="électroménager, boutique en ligne d'électroménager, CCBM Shop, ccbme, appareils électroménagers à prix réduits, smart TV, réfrigérateurs modernes, climatiseurs efficaces, promotions électroménager"
       />
 
       <Layout childrenClasses="pt-0 pb-0">
@@ -70,7 +82,7 @@ export default function About() {
             <div className="container-x mx-auto">
               <div className="w-full min-h-[665px] lg:flex lg:space-x-12 items-center pb-10 lg:pb-0">
                 <div className="md:w-[570px] w-full md:h-[560px] h-auto rounded overflow-hidden my-5 lg:my-0">
-                  <img src={`logo.png`} alt="about" className="w-full h" />
+                  <img src={`logo.png`} alt="CCBM Shop A propos" className="w-full h" />
                 </div>
                 <div className="content flex-1 bg-gray-100 p-6 rounded shadow-md">
                   <h1 className="text-[18px] font-medium text-qblack mb-2.5  transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:text-bleu-logo duration-300 ">
@@ -111,15 +123,15 @@ export default function About() {
           <div className="flex flex-wrap justify-center ">
             <div className="w-full md:w-2/3 p-2">
               <img
-                src={`banner_ccbme_shop_pub.png`}
-                alt="Description de la première image"
+                src={`créa_credit.png`}
+                alt="CCBM Shop à crédit"
                 className="w-full h-auto"
               />
             </div>
             {/* <div className="w-full md:w-1/3 p-2">
               <img
                 src={`creation/ccbm_shop_banner_5.png`}
-                alt="Description de la deuxième image"
+                alt="CCBM Shop Description de la deuxième image"
                 className="w-full h-auto"
               />
             </div> */}

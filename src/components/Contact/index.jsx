@@ -73,9 +73,9 @@ export default function Contact() {
   return (
     <>
       <SEOHeader
-        title="CCBM Shop - Contactez-Nous"
-        description="Besoin d'aide ? Contactez l'équipe de CCBM Shop."
-        keywords="contact, CCBM Shop, boutique en ligne, électroménager"
+        title="CCBM Shop | Contact "
+        description="Découvrez les meilleures offres sur CCBM Shop, votre destination privilégiée pour l'électroménager de qualité. Explorez nos produits allant des réfrigérateurs aux téléviseurs intelligents, et profitez de promotions exclusives !"
+        keywords="électroménager, boutique en ligne d'électroménager, CCBM Shop, ccbme, appareils électroménagers à prix réduits, smart TV, réfrigérateurs modernes, climatiseurs efficaces, promotions électroménager"
       />
       <Layout childrenClasses="pt-0 pb-0">
         <div className="page-title mb-10">

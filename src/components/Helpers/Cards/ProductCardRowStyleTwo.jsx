@@ -19,10 +19,11 @@ export default function ProductCardRowStyleTwo({ className, datas }) {
         <div className="w-full h-full flex space-x-5 justify-center items-center">
           <div className="w-[75px] h-[75px]">
             <img
-              src={`data:image/png;base64,${datas.image_1920}`}
-              alt=""
-              className="w-full h-full object-cover"
+              src={`data:image/png;base64,${datas.image_256}`}
+              alt={`${datas.name} CCBM Shop`}
+              className="w-full h-full object-contain"
             />
+
           </div>
           <div className="flex-1 h-full flex flex-col justify-center ">
             <Link onClick={(e) => handleDetails(e, datas)}>
@@ -31,25 +32,20 @@ export default function ProductCardRowStyleTwo({ className, datas }) {
               </p>
             </Link>
 
-            <p className="price">
-              <span className="main-price text-bleu-logo line-through font-600 text-[18px]">
-                {datas.list_price}
+            <p className="price mb-2">
+              <span className="offer-price line-through text-qred font-600 text-xs md:text-sm">
+                {datas.creditorder_price > 0 && <>{formatPrice(datas.creditorder_price)}</>}
               </span>
-              {/* {!datas.is_preorder && (
-                <span className="main-price text-qgray font-600 text-[18px]">
+              <br />
+              {datas.en_promo ? (
+                <span className="main-price text-bleu-logo font-600 text-xs md:text-sm">
+                  {formatPrice(datas.promo_price)}
+                </span>
+              ) : (
+                <span className="offer-price text-bleu-logo font-600 text-xs md:text-sm">
                   {formatPrice(datas.list_price)}
                 </span>
-              )} */}
-              <span className="offer-price text-qred font-600 text-[18px] ml-2">
-                {formatPrice(datas.preorder_price)}
-              </span>
-              {/* {datas.is_preorder && datas.quanitty_virtuelle_disponible > 0 && (
-                <>
-                  <span className="offer-price text-qred font-600 text-[18px] ml-2">
-                    ( {formatPrice(datas.list_price - 10000)} En précommande )
-                  </span>
-                </>
-              )} */}
+              )}
             </p>
           </div>
         </div>

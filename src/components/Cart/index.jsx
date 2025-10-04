@@ -1,12 +1,10 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import { Link } from "react-router-dom";
-import { CartContext } from "../../contexts/CartContext";
 import { useContext } from "react";
 import { CircleX, Trash } from "lucide-react";
 import formatPrice from "../../utils/formatPrice";
-import useAuth from "../../hooks/useAuthHooks";
-import { UserContext } from "../../contexts/UserContext";
+import { CartContext } from "../../contexts/CartContext";
 export default function Cart({ className, type = 3 }) {
   const { cart, getCartTotal, removeFromCart } = useContext(CartContext);
 
@@ -16,12 +14,11 @@ export default function Cart({ className, type = 3 }) {
   };
   return (
     <>
-      {cart.length > 0 && (
+      {cart && cart.length > 0 && (
         <div
           style={{ boxShadow: " 0px 15px 50px 0px rgba(0, 0, 0, 0.14)" }}
-          className={`w-[300px] bg-white border-t-[3px] ${
-            type === 3 ? "border-qh3-blue" : "cart-wrappwer"
-          }  ${className || ""}`}
+          className={`w-[300px] bg-white border-t-[3px] ${type === 3 ? "border-qh3-blue" : "cart-wrappwer"
+            }  ${className || ""}`}
         >
           <div className="w-full h-full">
             <div className="product-items h-[310px] overflow-y-scroll">
@@ -31,12 +28,11 @@ export default function Cart({ className, type = 3 }) {
                     <div className="flex space-x-[6px] justify-center items-center px-4 my-[20px]">
                       <div className="w-[65px] h-full">
                         <img
-                          src={`${
-                            produit.image_1920
-                              ? "data:image/png;base64," + produit.image_1920
-                              : "https://readymadeui.com/images/coffee1.webp"
-                          }`}
-                          alt=""
+                          src={`${produit.image_256
+                            ? "data:image/png;base64," + produit.image_256
+                            : "https://readymadeui.com/images/coffee1.webp"
+                            }`}
+                          alt="image produit ccbm shop"
                           className="w-full h-full object-contain"
                         />
                       </div>
@@ -47,7 +43,7 @@ export default function Cart({ className, type = 3 }) {
 
                         <p className="price">
                           <span className="offer-price text-qred font-600 text-[15px] ml-2">
-                            Prix : {formatPrice(produit.list_price)} X{" "}
+                            Prix : {formatPrice(produit.en_promo ? produit.promo_price : produit.list_price)} X{" "}
                             {produit.quantity}
                           </span>
                         </p>

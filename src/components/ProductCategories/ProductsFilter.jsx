@@ -4,7 +4,7 @@ import RangeSlider from "react-range-slider-input";
 import Checkbox from "../Helpers/Checkbox";
 import { useContext, useEffect, useState } from "react";
 import { Plus } from "lucide-react";
-import { CategoryContext } from "../../contexts/CategoryContext";
+import { ProductContext } from "../../contexts/ProductContext";
 
 export default function ProductsFilter({
   filters,
@@ -19,14 +19,13 @@ export default function ProductsFilter({
   handleCategoryChange,
 }) {
   console.log(volume);
-  const { categories } = useContext(CategoryContext);
+  const { categories } = useContext(ProductContext);
 
   return (
     <>
       <div
-        className={`filter-widget w-full fixed lg:relative left-0 top-0 h-screen z-10 lg:h-auto overflow-y-scroll lg:overflow-y-auto bg-white px-[30px] pt-[40px] ${
-          className || ""
-        }  ${filterToggle ? "block" : "hidden lg:block"}`}
+        className={`filter-widget w-full fixed lg:relative left-0 top-0 h-screen z-10 lg:h-auto overflow-y-scroll lg:overflow-y-auto bg-white px-[30px] pt-[40px] ${className || ""
+          }  ${filterToggle ? "block" : "hidden lg:block"}`}
       >
         <div className="filter-subject-item pb-10 border-b border-qgray-border">
           <div className="subject-title mb-[30px]">

@@ -25,6 +25,19 @@ export default {
           "60%": { transform: "rotate(0.0deg)" },
           "100%": { transform: "rotate(0.0deg)" },
         },
+         bounceIn: {
+          '0%': { transform: 'scale(0.9)', opacity: '0' },
+          '50%': { transform: 'scale(1.05)', opacity: '0.7' },
+          '100%': { transform: 'scale(1)', opacity: '1' },
+        },
+        float: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-10px)' },
+        },
+      },
+       animation: {
+        'bounce-in': 'bounceIn 0.5s ease-out',
+        'float': 'float 3s ease-in-out infinite',
       },
       colors: {
         primarygray: "#f8f8f8",
@@ -47,6 +60,7 @@ export default {
         qyellow: "#ffc107",
         qblack: "#000000",
         qwhite: "#ffffff",
+        vert: "#16a34a",
       },
       scale: {
         60: "0.6",

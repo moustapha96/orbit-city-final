@@ -1,0 +1,538 @@
+/* eslint-disable no-undef */
+import { useParams } from "react-router-dom";
+
+import PageTitle from "../Helpers/PageTitle";
+import Layout from "../Partials/Layout";
+import { useEffect, useState } from "react";
+
+import commandeService from "../../services/CommandeService";
+import formatDate from "../../utils/date-format";
+import formatPrice from "../../utils/formatPrice";
+import { Button, Label, TextInput } from "flowbite-react";
+import { Loader, Loader2 } from "lucide-react";
+import { toast } from "react-toastify";
+
+import PaydunyaModalService from "../../services/PaydunyaModalService";
+import PaiementService from "../../services/paimentService";
+import SEOHeader from "../Partials/Headers/HeaderOne/SEOHeader";
+import { useAuthContext } from "../../contexts/useAuthContext";
+import InstallmentPaymentInput from "./InstallmentPaymentInput";
+
+export default function OrderPage() {
+  const { id } = useParams();
+  const { user } = useAuthContext();
+  const [commande, setCommande] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [paymentDetails, setPaymentDetails] = useState(null);
+  const [errorMontantAPayer, setErrorMontantAPayer] = useState("");
+  const [montantAPayer, setMontantAPayer] = useState(0);
+  const [stateButton, setStateButton] = useState(false);
+
+  useEffect(() => {
+    const fetchModels = async () => {
+      try {
+        const data = await commandeService.getCommandeById(user.id, id);
+        setCommande(data);
+        console.log(data);
+        const responsePaymentDetails =
+          await PaiementService.getPaymentDetailsByIdOrder(data.id);
+        setPaymentDetails(responsePaymentDetails);
+        console.log(responsePaymentDetails);
+      } catch (error) {
+        console.error("Erreur lors de la récupération des modèles", error);
+      }
+    };
+    fetchModels();
+    if (!showPaymentModal) {
+      setIsLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+
+    const timeoutId = setTimeout(async () => {
+      if (commande && paymentDetails && paymentDetails.payment_state == "completed" && commande.advance_payment_status == "not_paid" &&
+        !paymentDetails.token_status) {
+        validerPaimentCommande();
+        console.log("arrivé commande");
+      }
+      console.log(paymentDetails);
+      console.log(commande.advance_payment_status);
+    }, 2000)
+    return () => clearTimeout(timeoutId);
+
+
+  }, [paymentDetails, commande])
+
+  const validerPaimentCommande = async () => {
+    console.log("arrivé");
+    setIsLoading(true);
+    try {
+      const response = await PaiementService.createCommandePaiment(commande.id);
+      console.log(response);
+      window.location.reload();
+      toast.success("Paiement de la commande validé avec succès", {
+        position: "top-center",
+        autoClose: 5000,
+      });
+
+    } catch (error) {
+      console.error("Erreur lors de la création du paiement :", error);
+      toast.error("Erreur lors de la création du paiement", {
+        position: "top-center",
+        autoClose: 5000,
+      })
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const validerPaiment = async (e, amount) => {
+    // setIsLoading(true);
+    e.preventDefault();
+    console.log(commande);
+    setMontantAPayer(amount)
+    setShowPaymentModal(true);
+  };
+
+  const handlePay = async (paymentData) => {
+    console.log("Payment data: ", paymentData);
+    setIsLoading(false);
+    toast.success("Payment valider avec succés", {
+      position: "top-center",
+      autoClose: 5000,
+    });
+    setIsLoading(false);
+  };
+
+  const handleOpenInvoice = () => {
+    if (paymentDetails && paymentDetails.url_facture) {
+      window.open(paymentDetails.url_facture, "_blank", 'noopener,noreferrer');
+    }
+  };
+  const handleVerifeCommandePayment = async () => {
+    if (commande && commande.advance_payment_status == "paid" && paymentDetails.payment_state === "completed") {
+      toast.success("Commande valide avec succés", {
+        position: "top-center",
+        autoClose: 5000,
+      });
+    } else {
+      const resultat = await PaiementService.createCommandePaiment(commande.id);
+      console.log(resultat);
+      toast.success("Commande valide avec succés", {
+        position: "top-center",
+        autoClose: 5000,
+      });
+    }
+  }
+
+  const handleInstallmentPayment = (amount) => {
+    setMontantAPayer(amount);
+    setStateButton(false);
+  };
+
+  // add function popup pay
+
+
+  return (
+    <>
+      <SEOHeader
+        title="CCBM Shop | Panier commande"
+        description="Découvrez les meilleures offres sur CCBM Shop, votre destination privilégiée pour l'électroménager de qualité. Explorez nos produits allant des réfrigérateurs aux téléviseurs intelligents, et profitez de promotions exclusives !"
+        keywords="électroménager, boutique en ligne d'électroménager, CCBM Shop, ccbme, appareils électroménagers à prix réduits, smart TV, réfrigérateurs modernes, climatiseurs efficaces, promotions électroménager"
+      />
+      <Layout childrenClasses="pt-0 pb-0">
+        <div className="checkout-page-wrapper w-full bg-white pb-[60px]">
+          <div className="w-full mb-5">
+            <PageTitle
+              title="Détails Commande"
+              breadcrumb={[
+                { name: "Accueil", path: "/" },
+                { name: "Commandes", path: "/profile#order" },
+                { name: "Détails Commande" },
+              ]}
+            />
+          </div>
+
+          {commande && (
+            <div className="checkout-main-content w-full">
+              <div className="container-x mx-auto">
+                <div className="w-full sm:mb-10 mb-5">
+                  <div className="sm:flex sm:space-x-[18px] s">
+                    <div className="sm:w-1/3 w-full mb-5 h-[70px]">
+
+                      <div className="w-full h-full bg-[#F6F6F6] text-qblack flex justify-center items-center">
+                        <span className="text-[15px] font-medium">
+                          N°Commande <span>{commande.name}</span>
+                        </span>
+                      </div>
+                    </div>
+
+
+
+                    <div className="sm:w-1/3 flex-1 h-[70px]">
+                      <div className="w-full h-full bg-[#F6F6F6] text-qblack flex justify-center items-center">
+                        <span className="text-[15px] font-medium">
+                          Paiement :{" "}
+                          {commande.payment_mode == "domicile" && <span className="text-green-500">A domicile</span>}
+
+                          {commande.payment_mode == "online" && <>
+                            {commande.advance_payment_status === "not_paid" && (
+                              <span className="text-red-500">(Non Payé)</span>
+                            )}
+                            {commande.advance_payment_status === "paid" && (
+                              <span className="text-green-500"> (Payé)</span>
+                            )}
+                          </>}
+
+                          {commande.payment_mode == "echelonne" && <>
+                            {commande.advance_payment_status === "not_paid" && (
+                              <span className="text-red-500">Non Payé</span>
+                            )}
+                            {commande.advance_payment_status === "paid" && (
+                              <span className="text-green-500"> Payé </span>
+                            )}
+                            {commande.advance_payment_status === "partial" && (
+                              <span className="text-yellow-500">
+                                {" "}
+                                Partiellement Payé
+                              </span>
+                            )}
+                          </>}
+
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="sm:w-1/3 flex-1 h-[70px]">
+                      <div className="w-full h-full bg-[#F6F6F6] text-qblack flex justify-center items-center">
+
+                        <span className="text-[15px] font-medium">
+                          Statut :{" "}
+                          {commande.state == "sale" && <span className="text-green-500" > Validée </span>}
+                          {commande.state == "to_delivered" && <span className="text-yellow-500" > En cours de livraison </span>}
+                          {commande.state == "delivered" && <span className="text-green-600" > Livrée </span>}
+                          {commande.state != "delivered" && commande.state != "sale" && commande.state != "to_delivered" && <span className="text-gray-500" > Non validé </span>}
+                        </span>
+                      </div>
+                    </div>
+
+                  </div>
+                  <div className="sm:flex sm:space-x-[18px] s">
+                    <div className="flex-1 w-full mb-5 h-[70px]">
+                      <div className="w-full h-full bg-[#F6F6F6] text-qblack flex justify-center items-center">
+                        <span className="text-[15px] font-medium">
+                          Mode de Paiement :&nbsp;
+                          <span>{commande.payment_mode == "online" ? "En ligne" : commande.payment_mode == "domicile" ? "A domicile" : "Echelonné"}</span>
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="flex-1 w-full mb-5 h-[70px]">
+                      <div className="w-full h-full bg-[#F6F6F6] text-qblack flex justify-center items-center">
+                        <span className="text-[15px] font-medium">
+                          Date de livraison &nbsp;
+                          <span>{formatDate(commande.commitment_date)}</span>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+
+                  {paymentDetails &&
+                    commande.advance_payment_status === "paid" && (
+                      <>
+                        <div className="w-full lg:flex lg:space-x-[30px]">
+                          <div className="flex-1">
+                            <h1 className="sm:text-2xl text-xl text-qblack font-medium mb-5">
+                              Récapitulatif paiement
+                            </h1>
+                            <div className="w-full px-10 py-[30px] border border-[#EDEDED]">
+                              <div className="sub-total mb-6">
+                                <div className=" flex justify-between mb-5">
+                                  <p className="text-[13px] font-medium text-qblack uppercase">
+                                    Détail Payment
+                                  </p>
+                                </div>
+                                <div className="w-full h-[1px] bg-[#EDEDED]"></div>
+                              </div>
+                              <div className="product-list w-full mb-[30px]">
+                                <ul className="flex flex-col space-y-5">
+                                  {paymentDetails && (
+                                    <>
+                                      <li>
+                                        <div className="flex justify-between items-center">
+                                          <div>
+                                            <h4 className="text-[15px] text-qblack mb-2.5">
+                                              Montant Payé
+                                            </h4>
+                                          </div>
+                                          <div>
+                                            <span className="text-[15px] text-qblack font-medium">
+                                              {" "}
+                                              {formatPrice(
+                                                paymentDetails.amount
+                                              )}{" "}
+                                            </span>
+                                          </div>
+                                        </div>
+                                      </li>
+                                      <li>
+                                        <div className="flex justify-between items-center">
+                                          <div>
+                                            <h4 className="text-[15px] text-qblack mb-2.5">
+                                              Facture
+                                            </h4>
+                                          </div>
+                                          <div>
+                                            <button
+                                              className="text-[15px] text-qblack font-medium underline"
+                                              onClick={handleOpenInvoice}
+                                            >
+                                              Ouvrir la facture
+                                            </button>
+                                          </div>
+                                        </div>
+                                      </li>
+                                      {commande && commande.advance_payment_status === "not_paid" && paymentDetails.payment_state === "completed" && (
+                                        <li>
+                                          <div className="flex justify-between items-center">
+                                            <div>
+                                              <h4 className="text-[15px] text-qblack mb-2.5">
+                                                Vérifier la commande
+                                              </h4>
+                                            </div>
+                                            <div>
+                                              <button
+                                                className="text-[15px] text-qblack font-medium underline"
+                                                onClick={handleVerifeCommandePayment}
+                                              >
+                                                Verifier
+                                              </button>
+                                            </div>
+                                          </div>
+                                        </li>
+                                      )}
+                                    </>
+                                  )}
+                                </ul>
+                              </div>
+                              <div className="w-full h-[1px] bg-[#EDEDED]"></div>
+                            </div>
+                          </div>
+                        </div>
+                      </>
+                    )}
+
+                </div>
+                <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                  <h1 className="sm:text-2xl text-xl text-qblack font-medium mb-5">
+                    Récapitulatif de la commande
+                  </h1>
+
+                  <div className="w-full p-4 sm:p-6 border border-[#EDEDED] rounded-lg shadow-sm">
+                    <div className="sub-total mb-6">
+                      <div className=" flex justify-between mb-5">
+                        <p className="text-[13px] font-medium text-qblack uppercase">
+                          Produit
+                        </p>
+                        <p className="text-[13px] font-medium text-qblack uppercase">
+                          total
+                        </p>
+                      </div>
+                      <div className="w-full h-[1px] bg-[#EDEDED]"></div>
+                    </div>
+
+                    <div className="product-list w-full mb-[30px]">
+                      <ul className="flex flex-col space-y-5">
+                        {commande &&
+                          commande.order_lines.map((produit, index) => (
+                            <>
+                              <li key={index}>
+                                <div className="flex justify-between items-center">
+                                  <div>
+                                    <h4 className="text-[15px] text-qblack mb-2.5">
+                                      {produit.product_name}
+                                      <sup className="text-[13px] text-qgray ml-2 mt-2">
+                                        = {produit.product_uom_qty} x{" "}
+                                        {produit.price_total}
+                                      </sup>
+                                    </h4>
+                                    <p className="text-[13px] text-qgray">
+                                      {produit.description}
+                                    </p>
+                                  </div>
+                                  <div>
+                                    <span className="text-[15px] text-qblack font-medium">
+                                      {formatPrice(produit.price_total)}
+                                    </span>
+                                  </div>
+                                </div>
+                              </li>
+                            </>
+                          ))}
+                      </ul>
+                    </div>
+                    <div className="w-full h-[1px] bg-[#EDEDED]"></div>
+
+                    <div className="mt-[30px]">
+                      <div className=" flex justify-between mb-5">
+                        <p className="text-2xl font-medium text-qblack">
+                          Total
+                        </p>
+                        <p className="text-2xl font-medium">
+                          {" "}
+                          {["not_paid", "paid"].includes(
+                            commande.advance_payment_status
+                          ) && (
+                              <span
+                                className={`text-${commande.advance_payment_status === "not_paid"
+                                  ? "red"
+                                  : "green"
+                                  }-500`}
+                              >
+                                {" "}
+                                {formatPrice(commande.amount_total)}
+                              </span>
+                            )}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="w-full">
+
+
+                      {commande.advance_payment_status == "not_paid" ?
+                        <>
+
+                          {commande.payment_mode == "domicile" && (
+                            <div className="flex justify-center items-center mt-2">
+                              <span className="text-lg font-medium text-red-500 dark:text-white">
+                                Le paiement se fera
+                                à domicile
+                              </span>
+                            </div>
+                          )}
+
+                          {commande.payment_mode == "echelonne" && <>
+                            <div >
+
+                              {(commande.advance_payment_status === "not_paid" ||
+                                commande.advance_payment_status === "partial") && (
+                                  <>
+                                    <div className="input-item mb-5">
+                                      <div className="mb-2 inline-block">
+                                        <Label
+                                          htmlFor="montant"
+                                          value="Montant à payer"
+                                        />
+                                      </div>
+
+                                      <TextInput
+                                        id="montant"
+                                        placeholder="Minimum 1000 F CFA"
+                                        label="Montant*"
+                                        name="montantAPayer"
+                                        type="number"
+                                        value={montantAPayer}
+                                        max={commande.amount_residual}
+                                        min={
+                                          1000
+                                        }
+
+                                        required
+                                        className="invalid:border-red-500 invalid:text-red-600 focus:invalid:border-red-500 focus:invalid:ring-red-500"
+                                      />
+                                      {errorMontantAPayer && (
+                                        <p className="text-red-600">
+                                          {errorMontantAPayer}
+                                        </p>
+                                      )}
+                                    </div>
+
+
+                                    <Button
+                                      type="submit"
+                                      onClick={(e) =>
+                                        validerPaiment(e, montantAPayer)
+                                      }
+                                      className="rounded-lg px-5 py-2.5 font-medium w-full hover:bg-red-500 hover:text-white text-xl"
+                                      disabled={stateButton}
+                                    >
+                                      {isLoading && (
+                                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                      )}
+                                      Passer à la caisse (
+                                      {formatPrice(montantAPayer)})
+                                    </Button>
+
+                                  </>
+                                )}
+
+                            </div>
+                          </>}
+
+                          {commande.payment_mode == "online" && <>
+
+                            <Button
+                              type="submit"
+                              onClick={(e) =>
+                                validerPaiment(e, montantAPayer)
+                              }
+                              className="rounded-lg px-5 py-2.5 font-medium w-full hover:bg-red-500 hover:text-white text-xl"
+                              disabled={stateButton}
+                            >
+                              {isLoading && (
+                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                              )}
+                              Passer à la caisse (
+                              {formatPrice(montantAPayer)})
+                            </Button>
+
+                          </>}
+
+                        </>
+                        : (
+                          <div className="w-full h-[50px] flex justify-center items-center">
+                            <span className="text-green-500">
+                              {" "}
+                              le paiement a été effectué avec succès
+                            </span>
+                          </div>
+                        )}
+
+                    </div>
+                    {showPaymentModal && commande && (
+                      <>
+                        <PaydunyaModalService
+                          handlePay={handlePay}
+                          totalAmount={montantAPayer}
+                          onClose={() => setShowPaymentModal(false)}
+                          order={commande}
+                          idOrder={commande.id}
+                        />
+                      </>
+                    )}
+
+
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          )}
+
+          {!commande && (
+            <>
+              <div className="flex justify-center items-center ">
+                <Loader className="animate-spin"></Loader> Commande non trouvée
+              </div>
+            </>
+          )}
+        </div>
+      </Layout>
+    </>
+
+  );
+}

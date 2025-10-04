@@ -3,9 +3,10 @@ import { Link } from "react-router-dom";
 import Facebook from "../../../Helpers/icons/Facebook";
 import Instagram from "../../../Helpers/icons/Instagram";
 import Youtube from "../../../Helpers/icons/Youtube";
+import { FaPhone } from "react-icons/fa";
 
 export default function Footer({ type = 3 }) {
-  return (
+  return <>
     <footer className="footer-section-wrapper bg-white print:hidden">
       <div className="container-x block mx-auto pt-[56px]">
         <div className="w-full flex flex-col items-center mb-[50px]">
@@ -28,7 +29,7 @@ export default function Footer({ type = 3 }) {
             <h1 className="text-[18] font-500 text-[#2F2F2F] mb-5">
               À propos de nous
             </h1>
-            <p className="text-[#9A9A9A] text-[15px] w-[247px] leading-[28px]">
+            <p className="text-[#9A9A9A] text-[15px] w-[247px] leading-[28px] text-justify ">
               CCBM Shop, la plateforme de vente du groupe CCBM, propose une
               vaste sélection de produits et un service après-vente avec des
               options de garantie étendues.
@@ -44,19 +45,19 @@ export default function Footer({ type = 3 }) {
               <div>
                 <ul className="flex flex-col space-y-4 ">
                   <li>
-                    <Link to="/about">
+                    <Link to="/informations">
                       <span className="text-[#9A9A9A] text-[15px] hover:text-qblack border-b border-transparent hover:border-qblack cursor-pointer capitalize">
                         À propos de nous
                       </span>
                     </Link>
                   </li>
-                  {/* <li>
-                    <Link to="/terms-condition">
+                  <li>
+                    <Link to="/processus-de-commande-de-credit">
                       <span className="text-[#9A9A9A] text-[15px] hover:text-qblack border-b border-transparent hover:border-qblack cursor-pointer capitalize">
-                        Termes et conditions
+                        Commandes à crédit
                       </span>
                     </Link>
-                  </li> */}
+                  </li>
                   <li>
                     <Link to="/tracking-order">
                       <span className="text-[#9A9A9A] text-[15px] hover:text-qblack border-b border-transparent hover:border-qblack cursor-pointer capitalize">
@@ -67,56 +68,7 @@ export default function Footer({ type = 3 }) {
                 </ul>
               </div>
             </div>
-            {/* <div className="lg:w-1/3 lg:flex lg:flex-col items-center w-full mb-10 lg:mb-0 ">
-              <div>
-                <div className="mb-5">
-                  <h6 className="text-[18] font-500 text-[#2F2F2F]">
-                    Liens généraux
-                  </h6>
-                </div>
-                <div>
-                  <ul className="flex flex-col space-y-4 ">
-                    <li>
-                      <Link to="/blogs">
-                        <span className="text-[#9A9A9A] text-[15px] hover:text-qblack border-b border-transparent hover:border-qblack cursor-pointer capitalize">
-                          Blog
-                        </span>
-                      </Link>
-                    </li>
 
-                    <li>
-                      <Link to="/all-products">
-                        <span className="text-[#9A9A9A] text-[15px] hover:text-qblack border-b border-transparent hover:border-qblack cursor-pointer capitalize">
-                          Meilleurs produits
-                        </span>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="/conditions-generales-de-vente">
-                        <span className="text-[#9A9A9A] text-[15px] hover:text-qblack border-b border-transparent hover:border-qblack cursor-pointer capitalize">
-                          Conditions générales de vente
-                        </span>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="/achats-securises">
-                        <span className="text-[#9A9A9A] text-[15px] hover:text-qblack border-b border-transparent hover:border-qblack cursor-pointer capitalize">
-                          Achats Sécurises
-                        </span>
-                      </Link>
-                    </li>
-
-                    <li>
-                      <Link to="/become-saller">
-                        <span className="text-[#9A9A9A] text-[15px] hover:text-qblack border-b border-transparent hover:border-qblack cursor-pointer capitalize">
-                          Devenez vendeur
-                        </span>
-                      </Link>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div> */}
             <div className="lg:w-1/2 lg:flex lg:flex-col items-center w-full mb-10 lg:mb-0">
               <div>
                 <div className="mb-5">
@@ -126,13 +78,7 @@ export default function Footer({ type = 3 }) {
                 </div>
                 <div>
                   <ul className="flex flex-col space-y-4 ">
-                    {/* <li>
-                      <Link to="/flash-sale">
-                        <span className="text-[#9A9A9A] text-[15px] hover:text-qblack border-b border-transparent hover:border-qblack cursor-pointer capitalize">
-                          Vente flash
-                        </span>
-                      </Link>
-                    </li> */}
+
                     <li>
                       <Link to="/faq">
                         <span className="text-[#9A9A9A] text-[15px] hover:text-qblack border-b border-transparent hover:border-qblack cursor-pointer capitalize">
@@ -147,13 +93,42 @@ export default function Footer({ type = 3 }) {
                         </span>
                       </Link>
                     </li>
-                    {/* <li>
-                      <Link to="/livraison-et-retours">
-                        <span className="text-[#9A9A9A] text-[15px] hover:text-qblack border-b border-transparent hover:border-qblack cursor-pointer capitalize">
-                          Livraison et Retours
-                        </span>
-                      </Link>
-                    </li> */}
+
+
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div className="lg:w-1/2 lg:flex lg:flex-col items-center w-full mb-10 lg:mb-0">
+              <div>
+                <div className="mb-5">
+                  <h6 className="text-[18] font-500 text-[#2F2F2F]">
+                    Nos Coordonnées
+                  </h6>
+                </div>
+                <div>
+                  <ul className="flex flex-col space-y-4 ">
+
+
+
+                    <li className="text-[#9A9A9A] text-[15px] hover:text-qblack ">
+                      <a
+                        href="https://wa.me/221709221775" target="_blank" rel="noreferrer"
+                      >
+                        +221 70 92 21 775
+                      </a>
+                    </li>
+                    <li className="text-[#9A9A9A] text-[15px] hover:text-qblack ">
+                      <a
+                        href="https://wa.me/221708430436" target="_blank" rel="noreferrer"
+                      >
+                        +221 70 843 04 36
+                      </a>
+                    </li>
+                    <li className="text-[#9A9A9A] text-[15px] hover:text-qblack ">
+                      <span> Dakar, Avenue Lamine Gueye</span>
+                    </li>
                   </ul>
                 </div>
               </div>
@@ -163,20 +138,20 @@ export default function Footer({ type = 3 }) {
         <div className="bottom-bar border-t border-qgray-border lg:h-[82px] lg:flex justify-between items-center">
           <div className="flex lg:space-x-5 justify-between items-center mb-3">
             <div className="flex space-x-5 items-center">
-              <Link href="#">
+              <Link to="https://www.instagram.com/ccbmshop/">
                 <Instagram className="fill-current text-qgray hover:text-qblack" />
               </Link>
-              <Link href="https://www.facebook.com/Orbitcityccbm">
+              <Link to="https://www.facebook.com/Orbitcityccbm?locale=fr_FR">
                 <Facebook className="fill-current text-qgray hover:text-qblack" />
               </Link>
-              <Link href="https://www.youtube.com/@orbitcitybyccbm2908">
+              <Link to="https://www.youtube.com/@orbitcitybyccbm2908">
                 <Youtube className="fill-current text-qgray hover:text-qblack" />
               </Link>
             </div>
             <span className="sm:text-base text-[10px] text-qgray font-300">
               ©2024
               <a
-                href="http://www.ccbm.sn/"
+                href="https://www.ccbme.sn/"
                 target="_blank"
                 rel="noreferrer"
                 className="font-500 text-qblack mx-1"
@@ -192,12 +167,23 @@ export default function Footer({ type = 3 }) {
                 width="318"
                 height="28"
                 src={`/paydunya.png`}
-                alt="payment-getways"
+                alt="CCBM SHOP payment getways"
               />
             </Link>
           </div>
         </div>
       </div>
     </footer>
-  );
+
+    <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-3 lg:hidden z-50">
+      <a
+        href="tel:+221709221775"
+        className="flex items-center justify-center space-x-2 text-green-600"
+      >
+        <FaPhone className="h-5 w-5 animate-pulse" />
+        <span className="font-medium">+221 70 922 17 75</span>
+      </a>
+    </div>
+
+  </>
 }

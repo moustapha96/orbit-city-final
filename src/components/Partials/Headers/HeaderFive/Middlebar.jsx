@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import Cart from "../../../Cart";
 import Compair from "../../../Helpers/icons/Compair";
@@ -6,11 +7,11 @@ import ThinLove from "../../../Helpers/icons/ThinLove";
 import ThinPeople from "../../../Helpers/icons/ThinPeople";
 import SearchBox from "../../../Helpers/SearchBox";
 import { Link } from "react-router-dom";
-import { useContext } from "react";
-import { UserContext } from "../../../../contexts/UserContext";
+
+import { useAuthContext } from "../../../../contexts/useAuthContext";
 
 export default function Middlebar({ className }) {
-  const { user } = useContext(UserContext);
+  const { session, isAuthenticated, token, user, comapny, userContext, saveSession } = useAuthContext();
   return (
     <div className={`w-full h-[86px] bg-white ${className}`}>
       <div className="container-x mx-auto h-full">

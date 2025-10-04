@@ -1,34 +1,30 @@
 /* eslint-disable no-unused-vars */
 import React, { useContext, useEffect, useState } from "react";
-import { UserContext } from "../../../../contexts/UserContext";
 import { useSelector } from "react-redux";
 import { Car, ShoppingBag, ShoppingCart } from "lucide-react";
 import userService from "../../../../services/userService";
 import { Link } from "react-router-dom";
+import { useAuthContext } from "../../../../contexts/useAuthContext";
 
 export default function Dashboard() {
-  const user = JSON.parse(localStorage.getItem("user"));
-  const token = useSelector((state) => state.user.token);
-  const uid = useSelector((state) => state.user.uid);
+
+  const { user, isAuthenticated, parent, } = useAuthContext();
   const [compte, setCompte] = useState([]);
 
   useEffect(() => {
     const fetchModels = async () => {
       try {
-        const response = await userService.getCompte(user.partner_id);
+        const response = await userService.getCompte(user.id);
         if (response) {
           setCompte(response);
-          console.log(response);
         }
-        console.log(response);
       } catch (error) {
         console.error("Erreur lors de la récupération des données user", error);
       }
     };
     fetchModels();
-  }, []);
+  }, [user, isAuthenticated]);
 
-  console.log(user);
   return (
     <>
       <div className="welcome-msg w-full">
@@ -75,6 +71,24 @@ export default function Dashboard() {
           </span>
         </div>
 
+        {user && user.adhesion == "accepted" && parent && <>
+          <div className="qv-item w-full sm:w-[180px] h-[200px] bg-qblack group hover:bg-qyellow transition-all duration-300 ease-in-out p-6 mx-2 mb-4">
+            <div className="w-[62px] h-[62px] rounded bg-white flex justify-center items-center">
+              <span>
+                <ShoppingBag />
+              </span>
+            </div>
+            <Link to="/profile#commandes-a-credit">
+              <p className="text-xl text-white group-hover:text-qblacktext mt-2">
+                Mes Crédits
+              </p>
+            </Link>
+            <span className="text-[40px] text-white group-hover:text-qblacktext font-bold leading-none mt-1 block">
+              {compte && <> {compte.creditorder_count} </>}
+            </span>
+          </div>
+        </>}
+
         <div className="qv-item w-full sm:w-[180px] h-[200px] bg-qblack group hover:bg-qyellow transition-all duration-300 ease-in-out p-6 mx-2 mb-4">
           <div className="w-[62px] h-[62px] rounded bg-white flex justify-center items-center">
             <span>
@@ -102,6 +116,7 @@ export default function Dashboard() {
             {compte && <> {compte.progress_count} </>}
           </span>
         </div>
+
       </div>
 
       <div className="dashboard-info mt-8 flex flex-col bg-primarygray px-4 sm:px-7 py-7">
@@ -111,7 +126,7 @@ export default function Dashboard() {
         <div className="mt-5 flex flex-wrap">
           <div className="inline-flex mr-5 mb-5">
             <div className="text-base text-qgraytwo w-[100px] block">
-              <div>Name:</div>
+              <div>Nom:</div>
             </div>
             <div className="text-base text-qblack font-medium">
               {user ? user.name : ""}
@@ -127,7 +142,7 @@ export default function Dashboard() {
           </div>
           <div className="inline-flex mr-5 mb-5">
             <div className="text-base text-qgraytwo w-[100px] block">
-              <div>Phone:</div>
+              <div>Téléphone:</div>
             </div>
             <div className="text-base text-qblack font-medium">
               {user ? user.partner_phone : "Not found"}
@@ -135,7 +150,7 @@ export default function Dashboard() {
           </div>
           <div className="inline-flex mr-5 mb-5">
             <div className="text-base text-qgraytwo w-[100px] block">
-              <div>City:</div>
+              <div>Adresse:</div>
             </div>
             <div className="text-base text-qblack font-medium">
               {user ? user.partner_city : ""}
@@ -143,6 +158,50 @@ export default function Dashboard() {
           </div>
         </div>
       </div>
+      {user && user.adhesion == "accepted" && parent && <>
+        <div className="dashboard-info mt-8 flex flex-col bg-primarygray px-4 sm:px-7 py-7">
+          <p className="title text-[22px] font-semibold">
+            Informations Entreprise
+          </p>
+          <div className="mt-5 flex flex-wrap">
+            <div>
+              <div className="inline-flex mr-5 mb-5">
+                <div className="text-base text-qgraytwo w-[100px] block">
+                  <div>Nom:</div>
+                </div>
+                <div className="text-base text-qblack font-medium">
+                  {user && user.adhesion && parent && parent.name}
+                </div>
+              </div>
+
+              <div className="inline-flex mr-5 mb-5">
+                <div className="text-base text-qgraytwo w-[100px] block">
+                  <div>Email:</div>
+                </div>
+                <div className="text-base text-qblack font-medium">
+                  {user && user.adhesion && parent && parent.email}
+                </div>
+              </div>
+              <div className="inline-flex mr-5 mb-5">
+                <div className="text-base text-qgraytwo w-[100px] block">
+                  <div>Téléphone:</div>
+                </div>
+                <div className="text-base text-qblack font-medium">
+                  {user && user.adhesion && parent && parent.phone}
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </>}
+      {/* {user && <>
+        <div className="dashboard-info mt-8 flex flex-col bg-primarygray px-4 sm:px-7 py-7">
+          <p className="title text-[22px] font-semibold">
+            lien vers gestion rh <a href="https://africatransit.sn" className="text-bleu-logo" target="_blank" rel="noopener noreferrer">plateforme</a>
+          </p>
+        </div>
+      </>} */}
     </>
   );
 }

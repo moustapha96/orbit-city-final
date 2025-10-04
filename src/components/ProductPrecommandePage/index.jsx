@@ -8,12 +8,13 @@ import Layout from "../Partials/Layout";
 
 import { Link } from "react-router-dom";
 import { Loader, Loader2 } from "lucide-react";
-import { CategoryContext } from "../../contexts/CategoryContext";
 import { ProductContext } from "../../contexts/ProductContext";
 // import Popup from "reactjs-popup";
 
 import ProductCardStyleOnePrecommande from "../Helpers/Cards/ProductCardStyleOnePrecommande";
 import SEOHeader from "../Partials/Headers/HeaderOne/SEOHeader";
+import Pagination from "../AllProductPage/Pagination";
+
 export default function ProductPrecommandePage() {
   const {
     products,
@@ -28,42 +29,62 @@ export default function ProductPrecommandePage() {
   const [startLength, setStartLength] = useState(0);
   const [endLength, setEndLength] = useState(6);
   const [produits, setProduits] = useState([]);
-  const [allproduits, setAllProduits] = useState([]);
+
   const [showBackButton, setShowBackButton] = useState(false);
   const [showLoadMoreButton, setShowLoadMoreButton] = useState(true);
   const [search, setSearch] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const [open, setOpen] = useState(false);
-  const [hasShownPopup, setHasShownPopup] = useState(false);
-  const closeModal = () => setOpen(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
 
-  const handleLoadMore = () => {
-    if (endLength < produits.length) {
-      setEndLength(endLength + 8);
-      setStartLength(Math.max(0, endLength));
-      setShowBackButton(true);
-    }
-    if (endLength + 8 >= produits.length) {
-      setShowLoadMoreButton(false);
-    }
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "smooth",
+    });
+  }, []);
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    const startIndex = (pageNumber - 1) * itemsPerPage;
+    setStartLength(startIndex);
+    setEndLength(startIndex + itemsPerPage);
+    window.scrollTo({
+      top: 0,
+      left: 100,
+      behavior: "smooth",
+    });
   };
 
-  const handleLoadLess = () => {
-    if (startLength > 0) {
-      setEndLength(startLength);
-      setStartLength(Math.max(0, startLength - 8));
-      setShowLoadMoreButton(true);
-    }
-    if (startLength - 8 <= 0) {
-      setShowBackButton(false);
-    }
-  };
+  // const handleLoadMore = () => {
+  //   if (endLength < produits.length) {
+  //     setEndLength(endLength + 8);
+  //     setStartLength(Math.max(0, endLength));
+  //     setShowBackButton(true);
+  //   }
+  //   if (endLength + 8 >= produits.length) {
+  //     setShowLoadMoreButton(false);
+  //   }
+  // };
+
+  // const handleLoadLess = () => {
+  //   if (startLength > 0) {
+  //     setEndLength(startLength);
+  //     setStartLength(Math.max(0, startLength - 8));
+  //     setShowLoadMoreButton(true);
+  //   }
+  //   if (startLength - 8 <= 0) {
+  //     setShowBackButton(false);
+  //   }
+  // };
 
   useEffect(() => {
     setProduits(productPrecommandeFilter);
-    setAllProduits(productPrecommandeFilter);
     setSearchContext("");
+    // setSelectedCategory("All");
   }, [productPrecommandeFilter]);
 
   useEffect(() => {
@@ -90,9 +111,9 @@ export default function ProductPrecommandePage() {
   return (
     <>
       <SEOHeader
-        title="CCBM Shop - Précommandes"
-        description="Soyez les premiers à posséder les nouveautés sur CCBM Shop."
-        keywords="pré-commandes, électroménager, boutique en ligne, CCBM Shop"
+        title="CCBM Shop | Précommande "
+        description="Découvrez les meilleures offres sur CCBM Shop, votre destination privilégiée pour l'électroménager de qualité. Explorez nos produits allant des réfrigérateurs aux téléviseurs intelligents, et profitez de promotions exclusives !"
+        keywords="électroménager, boutique en ligne d'électroménager, CCBM Shop, ccbme, appareils électroménagers à prix réduits, smart TV, réfrigérateurs modernes, climatiseurs efficaces, promotions électroménager"
       />
       <Layout>
         <div className="products-page-wrapper w-full">
@@ -152,25 +173,6 @@ export default function ProductPrecommandePage() {
                           Tout
                         </button>
 
-                        {showBackButton && (
-                          <div className="flex space-x-3 items-center border-b border-b-qgray">
-                            <button
-                              className=" hover:text-bleu-500"
-                              onClick={handleLoadLess}
-                            >
-                              {" "}
-                              Retour{" "}
-                            </button>
-                          </div>
-                        )}
-                        {showLoadMoreButton && (
-                          <div className="flex space-x-3 items-center border-b border-b-qgray">
-                            <button onClick={handleLoadMore} className="">
-                              {" "}
-                              charger plus{" "}
-                            </button>
-                          </div>
-                        )}
                       </div>
                     </div>
 
@@ -200,28 +202,12 @@ export default function ProductPrecommandePage() {
                         </div>
                       </>
                     )}
+                    <Pagination
+                      currentPage={currentPage}
+                      totalPages={Math.ceil(produits.length / itemsPerPage)}
+                      onPageChange={handlePageChange}
+                    />
 
-                    <div className="flex space-x-3 items-center">
-                      {showBackButton && (
-                        <div className="flex space-x-3 items-center border-b border-b-qgray">
-                          <button
-                            className=" hover:text-bleu-500"
-                            onClick={handleLoadLess}
-                          >
-                            {" "}
-                            Retour{" "}
-                          </button>
-                        </div>
-                      )}
-                      {showLoadMoreButton && (
-                        <div className="flex space-x-3 items-center border-b border-b-qgray">
-                          <button onClick={handleLoadMore} className="">
-                            {" "}
-                            charger plus{" "}
-                          </button>
-                        </div>
-                      )}
-                    </div>
                   </>
                 )}
               </div>

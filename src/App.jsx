@@ -1,31 +1,33 @@
 import { CartProvider } from "./contexts/CartContext";
-import { UserProvider } from "./contexts/UserContext";
 import Routers from "./Routers";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./global.css";
 import PaymentProvider from "./contexts/PaymentProvider";
-import { ProductProvider } from "./contexts/ProductContext";
-import CategoryProvider from "./contexts/CategoryContext";
-// import GlobalPaymentProvider from "./contexts/GlobalVariable";
+import { ProductProvider } from "./Provider/ProductContext";
+import { AuthProvider } from "./contexts/useAuthContext";
+import { CategoryProvider } from "./Provider/CategoryContext";
+import { PromoProductProvider } from "./Provider/PromoProductContext";
+
+
 
 function App() {
+
   return (
-    <UserProvider>
+    <AuthProvider>
       <ToastContainer />
-      <ProductProvider>
-        <CategoryProvider>
-          <PaymentProvider>
-            <CartProvider>
-              {/* <GlobalPaymentProvider mode="test">
+      <CategoryProvider>
+        <ProductProvider>
+          <PromoProductProvider>
+            <PaymentProvider>
+              <CartProvider>
                 <Routers />
-              </GlobalPaymentProvider> */}
-              <Routers />
-            </CartProvider>
-          </PaymentProvider>
-        </CategoryProvider>
-      </ProductProvider>
-    </UserProvider>
+              </CartProvider>
+            </PaymentProvider>
+          </PromoProductProvider>
+        </ProductProvider>
+      </CategoryProvider>
+    </AuthProvider>
   );
 }
 

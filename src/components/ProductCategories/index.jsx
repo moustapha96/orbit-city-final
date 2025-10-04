@@ -193,7 +193,7 @@ export default function ProductCategoriePage() {
                 <div className="w-full hidden lg:block h-[295px]">
                   <img
                     src={`image7.jpg`}
-                    alt=""
+                    alt="image produit ccbm shop"
                     className="w-full h-full object-contain"
                   />
                 </div>

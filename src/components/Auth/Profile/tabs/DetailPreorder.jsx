@@ -5,13 +5,15 @@ import formatDate from "../../../../utils/date-format";
 
 import { useNavigate } from "react-router-dom";
 import formatPrice from "../../../../utils/formatPrice";
+import { useAuthContext } from "../../../../contexts/useAuthContext";
 export default function DetailPreorder() {
+  const { user } = useAuthContext();
   const [commandes, setCommandes] = useState([]);
 
   useEffect(() => {
     const fetchModels = async () => {
       try {
-        const data = await CommandeService.getCommandes();
+        const data = await CommandeService.getCommandes(user.id);
         const pr = data.filter((commande) => commande.state !== "draft");
         setCommandes(pr);
         console.log(pr);
@@ -61,11 +63,10 @@ export default function DetailPreorder() {
                   </td>
                   <td className="text-center py-4 px-2">
                     <span
-                      className={`text-sm rounded p-2 ${
-                        commande.status !== "sale"
-                          ? "text-green-500 bg-green-100"
-                          : "text-red-500 bg-red-100"
-                      }`}
+                      className={`text-sm rounded p-2 ${commande.status !== "sale"
+                        ? "text-green-500 bg-green-100"
+                        : "text-red-500 bg-red-100"
+                        }`}
                     >
                       {commande.advance_payment_status == "not_paid"
                         ? "Non Payé"

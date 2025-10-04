@@ -8,7 +8,6 @@ const getInitialState = () => {
   const storedUid = localStorage.getItem("uid");
   const storedExpiresIn = localStorage.getItem("expires_in");
   const is_verified = localStorage.getItem("is_verified");
-
   const storedRefreshExpiresIn = localStorage.getItem("refresh_expires_in");
   const storedRefreshToken = localStorage.getItem("refresh_token");
   return {
@@ -48,6 +47,7 @@ export const UserProvider = ({ children }) => {
     localStorage.setItem("refresh_expires_in", userContext.refreshExpiresIn);
     localStorage.setItem("refresh_token", userContext.refreshToken);
     localStorage.setItem("is_verified", userContext.is_verified);
+    localStorage.setItem("token", userContext.token);
   }, [userContext]);
 
   const logout = () => {
@@ -58,6 +58,7 @@ export const UserProvider = ({ children }) => {
     localStorage.removeItem("refresh_expires_in");
     localStorage.removeItem("refresh_token");
     localStorage.removeItem("is_verified");
+    localStorage.removeItem("token");
 
     setUser(null);
     setToken(null);

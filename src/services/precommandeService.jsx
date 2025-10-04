@@ -2,11 +2,10 @@
 import axiosInstance from "../config/axiosConfig";
 
 const PrecommandeService = {
-  getPreCommandes: async () => {
+  getPreCommandes: async (id) => {
     try {
-      const partner_id = localStorage.getItem("partner_id");
       const response = await axiosInstance.get(
-        `/api/precommandes/${partner_id}`
+        `/api/precommandes/${id}`
       );
       return response.data;
     } catch (error) {
@@ -15,12 +14,12 @@ const PrecommandeService = {
     }
   },
 
-  getPreCommandeById: async (id) => {
+  getPreCommandeById: async (idPartner, id) => {
     try {
-      const partner_id = localStorage.getItem("partner_id");
+
       const response = await axiosInstance.post(`/api/precommandes/details`, {
         precommande_id: id,
-        partner_id: partner_id,
+        partner_id: idPartner,
       });
       return response.data;
     } catch (error) {
@@ -31,6 +30,7 @@ const PrecommandeService = {
       throw error;
     }
   },
+
 
   createPreCommande: async (modelData) => {
     try {
@@ -65,6 +65,17 @@ const PrecommandeService = {
         `Erreur lors de la suppression du Commande avec l'ID ${id}`,
         error
       );
+      throw error;
+    }
+  },
+
+
+  createCommandeWitoutPartner: async (modelData) => {
+    try {
+      const response = await axiosInstance.post("/api/commande-sans-partner", modelData);
+      return response.data;
+    } catch (error) {
+      console.error("Erreur lors de la création du modèle", error);
       throw error;
     }
   },

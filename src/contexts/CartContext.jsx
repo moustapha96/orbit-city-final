@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 // CartContext.js
@@ -6,19 +7,191 @@ import { createContext, useEffect, useState } from "react";
 export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
+  const { user } = useAuthContext();
+  const { trackEvent, trackAddToCart, trackAddToPreCart, trackAddToCreditCart } = useGoogleAnalytics();
+
   const [cart, setCart] = useState([]);
   const [wishlist, setWishlist] = useState([]);
   const [preorder, setPreorder] = useState([]);
-  const [preorderState, setPreorderState] = useState(null);
-  const [orderState, setOrderState] = useState(null);
+  const [creditOrder, setCreditOrder] = useState([]);
+  const [location, setLocation] = useState(null);
+  const guestId = getOrCreateGuestId();
 
   useEffect(() => {
+    const fetchLocation = async () => {
+      try {
+        const response = await fetch('https://ipinfo.io/json?token=a7bca817c4bc37');
+        if (!response.ok) {
+          throw new Error('Error fetching location data');
+        }
+        const data = await response.json();
+        setLocation(data);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+    fetchLocation();
     loadDataFromLocalStorage();
   }, []);
 
   useEffect(() => {
+    if (cart.length > 0) {
+      crmCart();
+    }
+  }, [cart]);
+
+  useEffect(() => {
+    if (preorder.length > 0) {
+      crmPreorder();
+    }
+  }, [preorder]);
+
+  useEffect(() => {
+    if (creditOrder.length > 0) {
+      crmCreditCart();
+    }
+  }, [creditOrder]);
+
+  const crmCart = async () => {
+
+    if (!cart.length) {
+      console.warn("Panier vide : aucune donnée à envoyer au CRM.");
+      return;
+    }
+
+    const produits = removeDuplicates(cart);
+
+    const crmData = {
+      guest_id: guestId || 'Guest-Id',
+      location: location ? `${location.city}/${location.region}/${location.country} Ip: ${location.ip}` : "",
+      localisation: location.loc,
+      name: user ? user.name : 'Guest',
+      phone: user ? user.partner_phone : 'Guest',
+      email: user ? user.email : 'Guest',
+      type: "commande",
+      total: getCartTotal(),
+      date: new Date().toLocaleString(),
+      produits: produits.map((item) => ({
+        id: item.id,
+        nom: item.name,
+        quantité: item.quantity,
+        prix: item.en_promo ? item.promo_price : item.list_price,
+        location: item.location,
+        panier: "Commande",
+        date: item.date,
+      })),
+    };
+    console.log(crmData);
+    try {
+      const response = await CrmService.sendCRMData(crmData);
+      console.log(response);
+    } catch (error) {
+      console.error('Error sending CRM data:', error);
+    }
+  }
+
+  const crmPreorder = async () => {
+
+    const produits = removeDuplicates(preorder);
+
+    const crmData = {
+      guest_id: guestId,
+      location: location ? `${location.city}/${location.region}/${location.country} Ip: ${location.ip}` : "",
+      localisation: location.loc,
+      name: user ? user.name : 'Guest',
+      phone: user ? user.partner_phone : 'Guest',
+      email: user ? user.email : 'Guest',
+      type: "precommande",
+      total: getPreorderTotal(),
+      date: new Date().toLocaleString(),
+      produits: produits.map((item) => ({
+        id: item.id,
+        nom: item.name,
+        quantité: item.quantity,
+        prix: item.en_promo ? item.promo_price : item.list_price,
+        location: item.location,
+        panier: "PreCommande",
+        date: item.date,
+      })),
+    };
+    console.log(crmData);
+    try {
+      const response = await CrmService.sendCRMData(crmData);
+      console.log(response);
+    } catch (error) {
+      console.error('Error sending CRM data:', error);
+    }
+
+  }
+
+  const crmCreditCart = async () => {
+
+    const produits = removeDuplicates(creditOrder);
+
+    const crmData = {
+      guest_id: guestId,
+      location: location ? `${location.city}/${location.region}/${location.country} Ip: ${location.ip}` : "",
+      localisation: location.loc,
+      name: user ? user.name : 'Guest',
+      phone: user ? user.partner_phone : 'Guest',
+      email: user ? user.email : 'Guest',
+      type: "acredit",
+      total: getCreditOrderTotal(),
+      date: new Date().toLocaleString(),
+      produits: produits.map((item) => ({
+        id: item.id,
+        nom: item.name,
+        quantité: item.quantity,
+        prix: item.en_promo ? item.promo_price : item.list_price,
+        location: item.location,
+        panier: "Crédit",
+        date: item.date,
+      })),
+    };
+    console.log(crmData);
+    try {
+      const response = await CrmService.sendCRMData(crmData);
+      console.log(response);
+    } catch (error) {
+      console.error('Error sending CRM data:', error);
+    }
+  }
+
+
+  useEffect(() => {
     saveDataToLocalStorage();
-  }, [cart, wishlist, preorder]);
+  }, [cart, wishlist, preorder, creditOrder]);
+
+
+
+  const addToCreditOrder = (product, quantity) => {
+    const index = creditOrder.findIndex((p) => p.id === product.id);
+    if (index !== -1) {
+      const updatedCart = creditOrder.map((item, idx) => {
+        if (idx === index) {
+          return { ...item, quantity: item.quantity + quantity };
+        }
+        return item;
+      });
+      setCreditOrder(updatedCart);
+    } else {
+      const newCartItem = {
+        ...product,
+        quantity,
+        date: new Date().toLocaleString(),
+        location: location
+          ? `${location.city}/${location.region}/${location.country} IP: ${location.ip}`
+          : "Localisation non disponible",
+      };
+
+      setCreditOrder([...creditOrder, newCartItem]);
+
+    }
+
+    trackEvent('Ecommerce', 'Add to CreditCart', product.name, product.creditorder_price * quantity);
+    // trackEvent('Ecommerce', 'Add to CreditCart', product.name, product.creditorder_price * quantity);
+    trackAddToCreditCart(product, quantity);
+  }
 
   const addToCart = (product, quantity) => {
     const index = cart.findIndex((p) => p.id === product.id);
@@ -32,12 +205,83 @@ export const CartProvider = ({ children }) => {
       });
       setCart(updatedCart);
     } else {
-      setCart([...cart, { ...product, quantity }]);
+
+      const newCartItem = {
+        ...product,
+        quantity,
+        date: new Date().toLocaleString(),
+        location: location
+          ? `${location.city}/${location.region}/${location.country} IP: ${location.ip}`
+          : "Localisation non disponible",
+      };
+      setCart([...cart, newCartItem]);
     }
+    trackAddToCart(product, quantity);
+    trackEvent('Ecommerce', 'Add to Cart', product.name, product.list_price * quantity);
+    // trackEvent('Ecommerce', 'Add to Cart', product.name, product.list_price * quantity);
+    // trackAddToCart(product, quantity);
+
   };
+
+  const removeDuplicates = (array) => {
+    const uniqueItems = array.reduce((acc, current) => {
+      const found = acc.find((item) => item.id === current.id);
+      if (!found) {
+        acc.push(current);
+      }
+      return acc;
+    }, []);
+    return uniqueItems;
+  };
+
+
+  const addToPreorder = (product, quantity) => {
+    const index = preorder.findIndex((p) => p.id === product.id);
+    if (index !== -1) {
+      preorder[index].quantity += quantity;
+    } else {
+      const newCartItem = {
+        ...product,
+        quantity,
+        date: new Date().toLocaleString(),
+        location: location
+          ? `${location.city}/${location.region}/${location.country} IP: ${location.ip}`
+          : "Localisation non disponible",
+      };
+      setPreorder([...preorder, newCartItem]);
+    }
+
+    trackEvent('Ecommerce', 'Add to PreCart', product.name, product.preorder_price * quantity);
+    trackAddToPreCart(product, quantity);
+
+  };
+
+  const updateCreditOrder = (product, quantity) => {
+
+    setCreditOrder(
+      creditOrder.map((item) =>
+        item.id === product.id ? { ...item, quantity } : item
+      )
+    );
+  }
+
+  const clearCreditOrder = () => {
+    setCreditOrder([])
+  }
+
+  const removeFromCreditOrder = (product) => {
+    setCreditOrder(creditOrder.filter((item) => item.id !== product.id));
+  }
+
+  const getCreditOrderTotal = () => {
+    return creditOrder.reduce((total, item) => total + item.creditorder_price * item.quantity, 0)
+  }
+
 
   const removeFromCart = (product) => {
     setCart(cart.filter((item) => item.id !== product.id));
+    // supprimer aussi dans local storage
+    // localStorage.setItem("cart", JSON.stringify(cart));
   };
 
   const updateCart = (product, quantity) => {
@@ -50,7 +294,7 @@ export const CartProvider = ({ children }) => {
 
   const clearCart = () => {
     setCart([]);
-    // setOrderState(null);
+
   };
 
   const addAllWhislistToCart = () => {
@@ -58,8 +302,10 @@ export const CartProvider = ({ children }) => {
       addToCart(item, item.quantity);
     });
   };
+
+
   const addToWishlist = (product, quantity) => {
-    console.log(product);
+    // console.log(product);
     if (!isProductInWishlist(product)) {
       setWishlist([...wishlist, { ...product, quantity }]);
     }
@@ -91,26 +337,16 @@ export const CartProvider = ({ children }) => {
 
   const getCartTotal = () => {
     return cart.reduce(
-      (total, item) => total + item.list_price * item.quantity,
+      (total, item) => total + (item.en_promo ? item.promo_price : item.list_price) * item.quantity,
       0
     );
   };
 
   const getWishlistTotal = () => {
     return wishlist.reduce(
-      (total, item) => total + item.list_price * item.quantity,
+      (total, item) => total + (item.en_promo ? item.promo_price : item.list_price) * item.quantity,
       0
     );
-  };
-
-  const addToPreorder = (product, quantity) => {
-    const index = preorder.findIndex((p) => p.id === product.id);
-
-    if (index !== -1) {
-      preorder[index].quantity += quantity;
-    } else {
-      setPreorder([...preorder, { ...product, quantity }]);
-    }
   };
 
   const removeFromPreorder = (product) => {
@@ -141,6 +377,7 @@ export const CartProvider = ({ children }) => {
 
     return preorderTotal;
   };
+
   const getPremierTranche = () => {
     const preorderTotal = preorder.reduce(
       (total, item) => total + item.preorder_price * item.quantity,
@@ -151,6 +388,7 @@ export const CartProvider = ({ children }) => {
     return premierTranche;
   };
 
+
   const getDeuxiemeTranche = () => {
     const preorderTotal = preorder.reduce(
       (total, item) => total + item.preorder_price * item.quantity,
@@ -160,6 +398,7 @@ export const CartProvider = ({ children }) => {
 
     return deuxiemeTranche;
   };
+
   const getTroisiemeTranche = () => {
     const preorderTotal = preorder.reduce(
       (total, item) => total + item.preorder_price * item.quantity,
@@ -169,16 +408,19 @@ export const CartProvider = ({ children }) => {
 
     return troisiemeTranche;
   };
+
   const saveDataToLocalStorage = () => {
     localStorage.setItem("cart", JSON.stringify(cart));
     localStorage.setItem("wishlist", JSON.stringify(wishlist));
     localStorage.setItem("preorder", JSON.stringify(preorder));
+    localStorage.setItem("creditOrder", JSON.stringify(creditOrder));
   };
 
   const loadDataFromLocalStorage = () => {
     const cartData = localStorage.getItem("cart");
     const wishlistData = localStorage.getItem("wishlist");
     const preorderData = localStorage.getItem("preorder");
+    const creditorderData = localStorage.getItem("creditOrder");
 
     if (cartData) {
       setCart(JSON.parse(cartData));
@@ -189,20 +431,25 @@ export const CartProvider = ({ children }) => {
     if (preorderData) {
       setPreorder(JSON.parse(preorderData));
     }
+    if (creditorderData) {
+      setCreditOrder(JSON.parse(creditorderData));
+    }
   };
 
   return (
     <CartContext.Provider
       value={{
         cart,
+        creditOrder,
+        addToCreditOrder,
+        removeFromCreditOrder,
+        updateCreditOrder,
+        clearCreditOrder,
+        getCreditOrderTotal,
         setCart,
         setWishlist,
         wishlist,
         preorder,
-        setPreorderState,
-        setOrderState,
-        orderState,
-        preorderState,
         setPreorder,
         addToCart,
         removeFromCart,
@@ -232,3 +479,19 @@ export const CartProvider = ({ children }) => {
     </CartContext.Provider>
   );
 };
+
+
+import { v4 as uuidv4 } from 'uuid';
+import { useAuthContext } from "./useAuthContext";
+import CrmService from "../services/CrmService";
+import useGoogleAnalytics from "../Hooks/useGoogleAnalytics";
+
+function getOrCreateGuestId() {
+  let guestId = localStorage.getItem('guestId');
+  if (!guestId) {
+    guestId = uuidv4();
+    localStorage.setItem('guestId', guestId);
+  }
+  return guestId;
+}
+

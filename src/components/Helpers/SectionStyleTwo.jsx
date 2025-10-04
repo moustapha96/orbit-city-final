@@ -6,15 +6,16 @@ import DataIteration from "./DataIteration";
 export default function SectionStyleTwo({ className, products, type = 3 }) {
   return (
     <div
-      className={`section-content w-full grid sm:grid-cols-2 grid-cols-1 xl:gap-[30px] gap-5 ${className || ""
-        }`}
+      className={`section-content w-full grid grid-cols-2 gap-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 ${className || ""}`}
     >
-      <DataIteration datas={products} startLength={0} endLength={6}>
-        {({ datas }) => (
-          <div key={datas.id} className="item w-full">
-            <ProductCardRowStyleOne type={type} datas={datas} />
-          </div>
-        )}
+      <DataIteration datas={products} startLength={0} endLength={products.length > 6 ? 6 : products.length}>
+        {({ datas }) => <>
+          {datas.image_256 && (
+            <div key={datas.id} className="item w-full">
+              <ProductCardRowStyleOne type={type} datas={datas} />
+            </div>
+          )}
+        </>}
       </DataIteration>
     </div>
   );

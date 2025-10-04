@@ -13,17 +13,15 @@ export default function ReviewTab({ className, products }) {
               <div key={datas.id} className="item">
                 <div
                   style={{ boxShadow: "0px 15px 64px rgba(0, 0, 0, 0.05)" }}
-                  className={`product-row-card-style-one w-full h-[170px] bg-white group relative overflow-hidden ${
-                    className || ""
-                  }`}
+                  className={`product-row-card-style-one w-full h-[170px] bg-white group relative overflow-hidden ${className || ""
+                    }`}
                 >
                   <div className="flex space-x-2 items-center w-full h-full p-2">
                     <div className="w-1/3 h-full">
                       <img
-                        src={`${import.meta.env.VITE_PUBLIC_URL}/images/${
-                          datas.image
-                        }`}
-                        alt=""
+                        src={`${import.meta.env.VITE_PUBLIC_URL}/images/${datas.image
+                          }`}
+                        alt="image produit ccbm shop"
                         className="w-full h-full object-contain"
                       />
                     </div>

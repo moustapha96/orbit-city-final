@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { Link, useNavigate } from "react-router-dom";
 
@@ -8,32 +9,27 @@ import formatPrice from "../../../utils/formatPrice";
 import { toast } from "react-toastify";
 
 export default function ProductCardStyleOnePrecommande({ datas, type = 3 }) {
-  console.log(datas);
+  // console.log(datas);
 
   const navigate = useNavigate();
   const {
-    addToCart,
+    // addToCart,
     addToWishlist,
     wishlist,
-    cart,
+    // cart,
     addToPreorder,
     preorder,
     isProductInWishlist,
   } = useContext(CartContext);
-  const handleAddToCart = (e) => {
-    e.preventDefault();
-    addToCart(datas, 1);
-    console.log("Ajout au souhait :", cart);
-    toast.success("Produit ajouté", {
-      position: "top-center",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-  };
+  // const handleAddToCart = (e) => {
+  //   e.preventDefault();
+  //   addToCart(datas, 1);
+  //   console.log("Ajout au souhait :", cart);
+  //   toast.success("Produit ajouté", {
+  //     position: "top-center",
+  //     autoClose: 2000,
+  //   });
+  // };
 
   const handleAddToWishlist = (e) => {
     e.preventDefault();
@@ -42,11 +38,6 @@ export default function ProductCardStyleOnePrecommande({ datas, type = 3 }) {
     toast.success("Produit ajouté", {
       position: "top-center",
       autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
     });
   };
 
@@ -57,11 +48,6 @@ export default function ProductCardStyleOnePrecommande({ datas, type = 3 }) {
     toast.success("Produit ajouté", {
       position: "top-center",
       autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
     });
   };
 
@@ -81,15 +67,14 @@ export default function ProductCardStyleOnePrecommande({ datas, type = 3 }) {
         className="product-card-img w-full h-[300px]"
         style={{
           background: `url('data:image/png;base64,${datas.image_256}') no-repeat center`,
-          backgroundSize: "cover",
+          // backgroundSize: "cover",
         }}
       >
         {datas.categ_id && (
           <div className="product-type absolute right-[14px] top-[17px]">
             <span
-              className={`text-[9px] font-700 leading-none py-[6px] px-3 uppercase text-white rounded-full tracking-wider ${
-                datas.categ_id === "popular" ? "bg-[#19CC40]" : "bg-qyellow"
-              }`}
+              className={`text-[9px] font-700 leading-none py-[6px] px-3 uppercase text-white rounded-full tracking-wider ${datas.categ_id === "popular" ? "bg-[#19CC40]" : "bg-qyellow"
+                }`}
             >
               {datas.categ_id}
             </span>
@@ -131,15 +116,15 @@ export default function ProductCardStyleOnePrecommande({ datas, type = 3 }) {
           </p>
         </Link>
         <p className="price">
-          <span className="offer-price text-bleu-logo  font-600 text-[18px] ">
+          {/* <span className="offer-price text-bleu-logo  font-600 text-[18px] ">
             {formatPrice(datas.list_price)}
-          </span>
+          </span> */}
 
-          <span className="main-price  text-qred font-500 text-[16px]">
+          <span className="offer-price  text-qred font-500 text-[18px]">
             {datas.is_preorder ? (
               <>
                 {" "}
-                <br /> {formatPrice(datas.preorder_price)} <br /> en précommande
+                <br /> {formatPrice(datas.preorder_price)} <br />
               </>
             ) : (
               <>
@@ -150,18 +135,17 @@ export default function ProductCardStyleOnePrecommande({ datas, type = 3 }) {
         </p>
 
         <div className="w-full left-0 flex flex-col gap-4 mt-3 items-center">
-          {datas.quantite_en_stock > 0 && datas.sale_ok == true && (
+          {/* {datas.sale_ok && (
             <button
               type="button"
               onClick={handleAddToCart}
-              className={`w-full h-20 flex items-center justify-center gap-2 ${
-                type === 3 ? "blue-logo-btn" : "yellow-btn"
-              }`}
+              className={`w-full h-20 flex items-center justify-center gap-2 ${type === 3 ? "blue-logo-btn" : "yellow-btn"
+                }`}
             >
               <ShoppingCart />
-              <span>Ajouter au panier</span>
+              <span>Commander</span>
             </button>
-          )}
+          )} */}
 
           {datas.is_preorder && (
             <button
@@ -172,14 +156,14 @@ export default function ProductCardStyleOnePrecommande({ datas, type = 3 }) {
               <span>
                 <ShoppingBag></ShoppingBag>
               </span>
-              <span>Pré commander</span>
+              <span>Précommander</span>
             </button>
           )}
-          {datas.quantite_en_stock == 0 && !datas.is_preorder && (
+          {/* {datas.quantite_en_stock == 0 && !datas.is_preorder && (
             <>
               <p className="text-red-400">Rupture de stock </p>
             </>
-          )}
+          )} */}
         </div>
       </div>
 
@@ -196,9 +180,8 @@ export default function ProductCardStyleOnePrecommande({ datas, type = 3 }) {
 
         <span className="w-10 h-10 flex justify-center items-center bg-primarygray rounded">
           <Heart
-            className={`${
-              isProductInWishlist(datas) ? "text-yellow-500" : ""
-            } cursor-pointer hover:text-yellow-500 hover:scale-150 duration-300`}
+            className={`${isProductInWishlist(datas) ? "text-yellow-500" : ""
+              } cursor-pointer hover:text-yellow-500 hover:scale-150 duration-300`}
             onClick={handleAddToWishlist}
           />
         </span>

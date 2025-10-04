@@ -1,11 +1,15 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { useContext, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Arrow from "../../../Helpers/icons/Arrow";
-import { Asterisk, Loader, Loader2, Menu, MoveRight } from "lucide-react";
+import { Asterisk, Loader, Loader2, Menu, MoveRight, User } from "lucide-react";
 
-import { UserContext } from "../../../../contexts/UserContext";
-import { ProductContext } from "../../../../contexts/ProductContext";
+// import { ProductContext } from "../../../../contexts/ProductContext";
+import { useAuthContext } from "../../../../contexts/useAuthContext";
+import { CategoryContext, useCategory } from "../../../../Provider/CategoryContext";
+import { ProductContext } from "../../../../Provider/ProductContext";
+import { PromoProductContext } from "../../../../Provider/PromoProductContext";
 
 
 export default function Navbar({ className, type = 3 }) {
@@ -13,15 +17,23 @@ export default function Navbar({ className, type = 3 }) {
 
   const [categoryToggle, setToggle] = useState(false);
   const [elementsSize, setSize] = useState("0px");
-  const { setSelectedCategory, isLoadingCategorie, categories } =
-    useContext(ProductContext);
+
+  // const { updateFilters, filters, resetFilters } = useContext(ProductContext)
+  // const { isLoadingCategorie, categories } = useContext(CategoryContext)
+  const location = useLocation()
+  const { user, logout } = useAuthContext();
+  const [categorieSelected, setCategorieSelected] = useState(null)
+
+  const { updateFilters: updateProductFilters, resetFilters: resetProductFilters } = useContext(ProductContext)
+  const { updateFilters: updatePromoFilters, resetFilters: resetPromoFilters, produitHomeTabaski, produitHomeFlash, produitHomePromo } = useContext(PromoProductContext)
+  const { categories, isLoadingCategorie, selectedCategory, updateSelectedCategory } = useCategory()
 
 
-  const { user, logout } = useContext(UserContext);
 
   const handler = () => {
     setToggle(!categoryToggle);
   };
+
   useEffect(() => {
     if (categoryToggle) {
       const getItems = document.querySelectorAll(`.categories-list li`).length;
@@ -33,23 +45,72 @@ export default function Navbar({ className, type = 3 }) {
     }
   }, [categoryToggle]);
 
-  const handleCategoryChange = (e, category) => {
-    e.preventDefault();
-    console.log(category.name);
-    setSelectedCategory(category.name);
-    const isAllProductPage = window.location.pathname === "/all-products";
-    const isPrecommandePage = window.location.pathname === "/pre-commandes";
-    if (isPrecommandePage) {
-      navigate("/pre-commandes");
-    } else if (!isAllProductPage) {
-      navigate("/all-products");
+
+
+  useEffect(() => {
+    if (location.pathname === "/boutique" || location.pathname === "/en-promo" || location.pathname === "/promo-ramadan" || location.pathname === "/promo-tabaski") {
+      const params = new URLSearchParams(location.search)
+      const categoryFromURL = params.get("category") || "All"
+      const newFilters = {
+        page: Number(params.get("page")) || 1,
+        category: categoryFromURL,
+        search: params.get("search") || "",
+        min: Number(params.get("min")) || 4000,
+        max: Number(params.get("max")) || 5000000,
+        limit: 9,
+        productType: "All",
+        tag: "All"
+      }
+
+      if (location.pathname === "/en-promo" || location.pathname === "/promo-ramadan" || location.pathname === "/promo-tabaski") {
+        updatePromoFilters(newFilters)
+      } else {
+        updateProductFilters(newFilters)
+      }
+      updateSelectedCategory(categoryFromURL)
     }
-    setToggle(false);
-  };
+  }, [location.search, location.pathname, updateProductFilters, updatePromoFilters, updateSelectedCategory])
+
+  const handleCategoryChange = (e, category) => {
+    e.preventDefault()
+    setToggle(false)
+
+    const params = new URLSearchParams(location.search)
+    params.set("page", "1")
+
+    if (category.name !== "All") {
+      params.set("category", category.name)
+    } else {
+      params.delete("category")
+    }
+
+    const newFilters = {
+      category: category.name,
+      page: 1,
+      search: "",
+    }
+
+    updateSelectedCategory(category.name)
+
+    console.log(location.pathname)
+    if (location.pathname === "/en-promo") {
+      updatePromoFilters(newFilters)
+      navigate(`/en-promo?${params.toString()}`)
+    } else if (location.pathname === "/promo-ramadan") {
+      updatePromoFilters(newFilters)
+      navigate(`/promo-ramadan?${params.toString()}`)
+    } else if (location.pathname === "/promo-tabaski") {
+      updatePromoFilters(newFilters)
+      navigate(`/promo-tabaski?${params.toString()}`)
+    }
+    else {
+      updateProductFilters(newFilters)
+      navigate(`/boutique?${params.toString()}`)
+    }
+  }
 
 
   function HandleLout() {
-    // localStorage.removeItem("authToken");
     logout();
     navigate("/login");
   }
@@ -57,7 +118,7 @@ export default function Navbar({ className, type = 3 }) {
 
   return (
     <div
-      className={`nav-widget-wrapper w-full h-[60px] relative z-30 bg-bleu-logo ${className || ""
+      className={`fixed nav-widget-wrapper w-full h-[60px]  z-30 bg-bleu-logo ${className || ""
         }`}
     >
       <div className="container-x mx-auto h-full">
@@ -74,13 +135,10 @@ export default function Navbar({ className, type = 3 }) {
                     <span>
                       <Menu></Menu>
                     </span>
+
                     <span className="text-sm font-600 text-qblacktext">
-                      Nos Catégories &nbsp;
-                      {isLoadingCategorie && (
-                        <>
-                          <Loader className="animate-spin"></Loader>
-                        </>
-                      )}
+                      {selectedCategory === "All" ? "Nos Catégories" : selectedCategory.toUpperCase()}
+                      {isLoadingCategorie && <Loader className="animate-spin" />}
                     </span>
                   </div>
                   <div>
@@ -99,7 +157,7 @@ export default function Navbar({ className, type = 3 }) {
                 )}
                 <div
                   className="category-dropdown w-full absolute left-0 top-[53px] overflow-hidden"
-                  style={{ height: `${elementsSize} ` }}
+                  style={{ height: `${elementsSize}` }}
                 >
                   {isLoadingCategorie ? (
                     <>
@@ -114,7 +172,7 @@ export default function Navbar({ className, type = 3 }) {
                   ) : (
                     <>
                       {" "}
-                      <ul className="categories-list">
+                      <ul className="categories-list h-[calc(97vh-150px)] overflow-y-auto">
                         {categories.map((category) => (
                           <li key={category.id}>
                             <Link
@@ -165,7 +223,7 @@ export default function Navbar({ className, type = 3 }) {
                   </li>
 
                   <li>
-                    <Link to="/all-products">
+                    <Link to="/boutique">
                       <span
                         className={`flex items-center text-sm font-600 cursor-pointer ${type === 3 ? "text-white" : "text-qblacktext"
                           }`}
@@ -175,7 +233,47 @@ export default function Navbar({ className, type = 3 }) {
                     </Link>
                   </li>
 
-                  <li>
+                  {produitHomePromo && produitHomePromo.length > 0 && (
+
+                    <li>
+                      <Link to="/en-promo">
+                        <span
+                          className={`flex items-center text-sm font-600 cursor-pointer ${type === 3 ? "text-white" : "text-qblacktext"
+                            }`}
+                        >
+                          <span>En promo</span>
+                        </span>
+                      </Link>
+                    </li>
+                  )}
+
+                  {produitHomeTabaski && produitHomeTabaski.length > 0 && (
+                    <li>
+                      <Link to="/promo-tabaski">
+                        <span
+                          className={`flex items-center text-sm font-600 cursor-pointer ${type === 3 ? "text-white" : "text-qblacktext"
+                            }`}
+                        >
+                          <span>Promo Tabaski</span>
+                        </span>
+                      </Link>
+                    </li>
+                  )}
+
+                  {/* {produitHomeFlash && produitHomeFlash.length > 0 && (
+                    <li>
+                      <Link to="/promo-ramadan">
+                        <span
+                          className={`flex items-center text-sm font-600 cursor-pointer ${type === 3 ? "text-white" : "text-qblacktext"
+                            }`}
+                        >
+                          <span>Promo Ramadan</span>
+                        </span>
+                      </Link>
+                    </li>
+                  )} */}
+
+                  {/* <li>
                     <Link to="/pre-commandes">
                       <span
                         className={`flex items-center text-sm font-600 cursor-pointer ${type === 3 ? "text-white" : "text-qblacktext"
@@ -184,102 +282,56 @@ export default function Navbar({ className, type = 3 }) {
                         <span>Précommandes</span>
                       </span>
                     </Link>
-                  </li>
-                  {/* <li className="relative">
-                    <span
-                      className={`flex items-center text-sm font-600 cursor-pointer ${
-                        type === 3 ? "text-white" : "text-qblacktext"
-                      }`}
-                    >
-                      <span>Pages</span>
-                      <span className="ml-1.5 ">
-                        <Arrow className="fill-current" />
-                      </span>
-                    </span>
-                    <div className="sub-menu w-[220px] absolute left-0 top-[60px]">
-                      <div
-                        className="w-full bg-white flex justify-between items-center "
-                        style={{
-                          boxShadow: "0px 15px 50px 0px rgba(0, 0, 0, 0.14)",
-                        }}
-                      >
-                        <div className="categories-wrapper w-full h-full p-5">
-                          <div>
-                            <div className="category-items">
-                              <ul className="flex flex-col space-y-2">
-                                <li>
-                                  <Link to="/privacy-policy">
-                                    <span
-                                      className={`text-qgray text-sm font-400 border-b border-transparent   ${
-                                        type === 3
-                                          ? "hover:text-qh3-blue hover:border-qh3-blue"
-                                          : "hover:text-qyellow hover:border-qyellow"
-                                      }`}
-                                    >
-                                      Privacy Policy
-                                    </span>
-                                  </Link>
-                                </li>
-                                <li>
-                                  <Link to="/terms-condition">
-                                    <span
-                                      className={`text-qgray text-sm font-400 border-b border-transparent   ${
-                                        type === 3
-                                          ? "hover:text-qh3-blue hover:border-qh3-blue"
-                                          : "hover:text-qyellow hover:border-qyellow"
-                                      }`}
-                                    >
-                                      Terms and Conditions
-                                    </span>
-                                  </Link>
-                                </li>
-                                <li>
-                                  <Link to="/faq">
-                                    <span
-                                      className={`text-qgray text-sm font-400 border-b border-transparent   ${
-                                        type === 3
-                                          ? "hover:text-qh3-blue hover:border-qh3-blue"
-                                          : "hover:text-qyellow hover:border-qyellow"
-                                      }`}
-                                    >
-                                      FAQ
-                                    </span>
-                                  </Link>
-                                </li>
-                                <li>
-                                  <Link to="/all-products">
-                                    <span
-                                      className={`text-qgray text-sm font-400 border-b border-transparent   ${
-                                        type === 3
-                                          ? "hover:text-qh3-blue hover:border-qh3-blue"
-                                          : "hover:text-qyellow hover:border-qyellow"
-                                      }`}
-                                    >
-                                      Shop Category Icon
-                                    </span>
-                                  </Link>
-                                </li>
-                                <li>
-                                  <Link to="/all-products">
-                                    <span
-                                      className={`text-qgray text-sm font-400 border-b border-transparent   ${
-                                        type === 3
-                                          ? "hover:text-qh3-blue hover:border-qh3-blue"
-                                          : "hover:text-qyellow hover:border-qyellow"
-                                      }`}
-                                    >
-                                      Shop List View
-                                    </span>
-                                  </Link>
-                                </li>
-                              </ul>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
                   </li> */}
+
+                  {/* {user && user.adhesion == "accepted" && (
+                    <li>
+                      <Link to="/credit-commandes">
+                        <span
+                          className={`flex items-center text-sm font-600 cursor-pointer ${type === 3 ? "text-white" : "text-qblacktext"
+                            }`}
+                        >
+                          <span>A Crédit</span>
+                        </span>
+                      </Link>
+                    </li>
+                  )} */}
                   <li>
+                    <Link to="/credit-commandes">
+                      <span
+                        className={`flex items-center text-sm font-600 cursor-pointer ${type === 3 ? "text-white" : "text-qblacktext"
+                          }`}
+                      >
+                        <span>A Crédit</span>
+                      </span>
+                    </Link>
+                  </li>
+
+                  {/* <li>
+                    <Link to="/credit-commandes">
+                      <span
+                        className={`flex items-center text-sm font-600 cursor-pointer ${type === 3 ? "text-white" : "text-qblacktext"
+                          }`}
+                      >
+                        <span>À crédit</span>
+                      </span>
+                    </Link>
+                  </li> */}
+
+
+
+                  <li>
+                    <Link to="/informations">
+                      <span
+                        className={`flex items-center text-sm font-600 cursor-pointer ${type === 3 ? "text-white" : "text-qblacktext"
+                          }`}
+                      >
+                        <span>Informations</span>
+                      </span>
+                    </Link>
+                  </li>
+
+                  {/* <li>
                     <Link to="/about">
                       <span
                         className={`flex items-center text-sm font-600 cursor-pointer ${type === 3 ? "text-white" : "text-qblacktext"
@@ -288,18 +340,8 @@ export default function Navbar({ className, type = 3 }) {
                         <span>A propos</span>
                       </span>
                     </Link>
-                  </li>
-                  {/* <li>
-                    <Link to="/blogs">
-                      <span
-                        className={`flex items-center text-sm font-600 cursor-pointer ${
-                          type === 3 ? "text-white" : "text-qblacktext"
-                        }`}
-                      >
-                        <span>Blog</span>
-                      </span>
-                    </Link>
                   </li> */}
+                  {/* 
                   <li>
                     <Link to="/contact">
                       <span
@@ -309,20 +351,10 @@ export default function Navbar({ className, type = 3 }) {
                         <span>Contact</span>
                       </span>
                     </Link>
-                  </li>
-                  {/* {!user && (
-                    <li>
-                      <Link to="/login">
-                        <span
-                          className={`flex items-center text-sm font-600 cursor-pointer ${
-                            type === 3 ? "text-white" : "text-qblacktext"
-                          }`}
-                        >
-                          <span>Connexion</span>
-                        </span>
-                      </Link>
-                    </li>
-                  )} */}
+                  </li> */}
+
+
+
                   {!user ? <>
                     <li>
                       <Link to="/login">
@@ -346,8 +378,27 @@ export default function Navbar({ className, type = 3 }) {
                       </Link>
                     </li>
                   </>}
+
+                  {user && <>
+                    <li className="flex items-center">
+                      <Link to="/profile">
+                        <span
+                          className={`flex items-center text-sm font-600 cursor-pointer ${type === 3 ? "text-white" : "text-qblacktext"
+                            }`}
+                        >
+                          <span className="mr-2">
+                            <User />
+                          </span>
+                          <span>Profil</span>
+                        </span>
+                      </Link>
+                    </li>
+                  </>}
+
+
                 </ul>
               </div>
+
             </div>
           </div>
         </div>

@@ -12,6 +12,17 @@ const Categorieservice = {
     }
   },
 
+
+  getTags: async () => {
+    try {
+      const response = await axiosInstance.get("/api/tags");
+      return response.data;
+    } catch (error) {
+      console.error("Erreur lors de la récupération des categories", error);
+      throw error;
+    }
+  },
+
   getCategorieById: async (id) => {
     try {
       const response = await axiosInstance.get(`/api/categories/${id}`);

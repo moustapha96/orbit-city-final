@@ -1,29 +1,28 @@
 /* eslint-disable react/prop-types */
 import { ArrowBigRight } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import { CategoryContext } from "../../../contexts/CategoryContext";
 import { useContext } from "react";
+import { ProductContext } from "../../../contexts/ProductContext";
 
 export default function CategoryCard({ background, title, brands = [] }) {
-  const { setSelectedCategory } = useContext(CategoryContext);
+  const { setSelectedCategory } = useContext(ProductContext);
 
   const navigate = useNavigate();
   const handleCategoryChange = (e, category) => {
     e.preventDefault();
     console.log(category);
     setSelectedCategory(category.name);
-    const isAllProductPage = window.location.pathname === "/all-products";
+    const isAllProductPage = window.location.pathname === "/boutique";
     if (!isAllProductPage) {
-      navigate("/all-products");
+      navigate("/boutique");
     }
   };
   return (
     <div
       className="category-card-wrappwer w-full h-full p-[30px]"
       style={{
-        background: `url(${
-          background || `/creation/side_bar_image_ccbm_shop.png`
-        }) no-repeat`,
+        background: `url(${background || `/creation/side_bar_image_ccbm_shop.png`
+          }) no-repeat`,
         backgroundSize: "cover",
       }}
     >
@@ -42,7 +41,7 @@ export default function CategoryCard({ background, title, brands = [] }) {
             ))}
           </ul>
         </div>
-        <Link to="/all-products">
+        <Link to="/boutique">
           <div className="flex space-x-2 items-center">
             <span className="text-qblack font-600 text-sm">
               Achetez maintenant

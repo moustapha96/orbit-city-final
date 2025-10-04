@@ -1,4 +1,5 @@
-import { ArrowLeft, ArrowRight } from "lucide-react";
+/* eslint-disable react/prop-types */
+import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export default function ViewMoreTitle({
@@ -11,10 +12,11 @@ export default function ViewMoreTitle({
     <div className={`section-wrapper w-full ${className || ""}`}>
       <div className="container-x mx-auto">
         <div className=" section-title flex justify-between items-center mb-5">
-          <div>
-            <h1 className="sm:text-3xl text-xl font-600 text-qblacktext leading-none">
+          <div className="relative">
+            <h1 className="sm:text-3xl text-2xl font-bold text-qblacktext leading-tight relative z-10 inline-block">
               {categoryTitle}
             </h1>
+            <div className="absolute bottom-0 left-0 w-full h-2 bg-bleu-logo opacity-80 -mb-2"></div>
           </div>
           <div>
             <Link to={seeMoreUrl}>

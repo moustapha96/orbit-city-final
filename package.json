@@ -1,17 +1,19 @@
 {
   "name": "ccbm-shop",
   "private": true,
-  "version": "0.0.0",
+  "version": "2.16.2",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "generate-sitemap": "node generateSitemap.js"
   },
   "dependencies": {
     "@radix-ui/react-alert-dialog": "^1.1.1",
     "@radix-ui/react-avatar": "^1.1.0",
+    "@radix-ui/react-icons": "^1.3.2",
     "@radix-ui/react-label": "^2.1.0",
     "@radix-ui/react-slider": "^1.2.0",
     "@radix-ui/react-slot": "^1.1.0",
@@ -21,6 +23,8 @@
     "@reduxjs/toolkit": "^2.2.6",
     "aos": "^3.0.0-beta.6",
     "axios": "^1.7.2",
+    "clsx": "^2.1.1",
+    "cookies-next": "^5.0.2",
     "dompurify": "^3.1.6",
     "flowbite": "^2.4.1",
     "flowbite-react": "^0.10.1",
@@ -28,15 +32,19 @@
     "lucide-react": "^0.400.0",
     "paydunya": "^1.0.12",
     "react": "^18.2.0",
+    "react-cookie": "^8.0.1",
     "react-dom": "^18.2.0",
+    "react-ga4": "^2.1.0",
     "react-helmet": "^6.1.0",
-    "react-range-slider-input": "^3.0.7",
+    "react-icons": "^5.4.0",
+    "react-range-slider-input": "^3.2.1",
     "react-redux": "^9.1.2",
     "react-router-dom": "^6.16.0",
     "react-slick": "^0.29.0",
     "react-toastify": "^10.0.5",
     "reactjs-popup": "^2.0.6",
     "slick-carousel": "^1.8.1",
+    "uuidv4": "^6.2.13",
     "web-vitals": "^1.0.1"
   },
   "devDependencies": {
@@ -48,12 +56,14 @@
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
+    "glob": "^11.0.0",
     "postcss": "^8.4.31",
     "tailwindcss": "^3.3.3",
     "vite": "^4.4.5",
     "vite-plugin-pwa": "^0.16.5",
     "workbox-core": "^7.0.0",
     "workbox-precaching": "^7.0.0",
-    "workbox-window": "^7.0.0"
+    "workbox-window": "^7.0.0",
+    "xmlbuilder2": "^3.1.1"
   }
 }

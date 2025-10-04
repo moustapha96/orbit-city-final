@@ -1,117 +1,245 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
-
 import Middlebar from "./Middlebar";
 import Navbar from "./Navbar";
-import TopBar from "./TopBar";
-import { Heart, Menu, ShoppingBag, ShoppingCart } from "lucide-react";
-import { CartContext } from "../../../../contexts/CartContext";
-import { useContext } from "react";
-
+import { Heart, HeartHandshake, Menu, ShoppingBag, ShoppingCart } from "lucide-react";
+import { useContext, useEffect, useState } from "react";
 import ThinPeople from "../../../Helpers/icons/ThinPeople";
-import { UserContext } from "../../../../contexts/UserContext";
+import { useAuthContext } from "../../../../contexts/useAuthContext";
+import { CartContext } from "../../../../contexts/CartContext";
+import SearchBox from "../../../Helpers/SearchBox";
 
 
 export default function HeaderOne({ className, drawerAction, type = 3 }) {
-  const { user } = useContext(UserContext);
-
+  const { user } = useAuthContext();
+  const { cart, wishlist, preorder, creditOrder } = useContext(CartContext);
+  const [headerHeight, setHeaderHeight] = useState(0);
   const backgroundColor = type === 3 ? "var(--bleu-logo)" : "var(--qyellow)";
   const textColor = type === 3 ? "white" : "var(--qblack)";
 
-  const { cart, wishlist, preorder } = useContext(CartContext);
+
+
+  useEffect(() => {
+    const updateHeaderHeight = () => {
+      const header = document.getElementById("fixed-header");
+      if (header) {
+        setHeaderHeight(header.offsetHeight);
+      }
+    };
+    updateHeaderHeight();
+    window.addEventListener("resize", updateHeaderHeight);
+    return () => {
+      window.removeEventListener("resize", updateHeaderHeight);
+    };
+  }, []);
+
 
   return (
-    <header className={` ${className || ""} header-section-wrapper relative`}>
-      <TopBar className="quomodo-shop-top-bar" />
-      <Middlebar
-        type={type}
-        className="quomodo-shop-middle-bar lg:block hidden"
-      />
-      <div className="quomodo-shop-drawer lg:hidden block w-full h-[60px] bg-white">
-        <div className="w-full h-full flex justify-between items-center px-5">
-          <div onClick={drawerAction}>
-            <Menu></Menu>
-          </div>
-          <div>
-            {type === 3 ? (
-              <Link to="/">
-                <img width="120" height="36" src="/logo.png" alt="logo" />
-              </Link>
-            ) : type === 4 ? (
-              <Link to="/">
-                <img width="152" height="36" src="/logo.png" alt="logo" />
-              </Link>
-            ) : (
-              <Link to="/">
-                <img width="70" height="26" src="/logo.png" alt="logo" />
-              </Link>
-            )}
-          </div>
-          <div className="cart relative cursor-pointer">
-            <Link to="/wishlist">
-              <span>
-                <Heart />
-              </span>
-            </Link>
-            <span
-              className={`w-[18px] h-[18px] rounded-full absolute -top-2.5 -right-2.5 flex justify-center items-center text-[9px]`}
-              style={{ backgroundColor, color: textColor }}
-            >
-              {wishlist.length > 0 ? wishlist.length : 0}
-            </span>
-          </div>
+    <>
+      <header id="fixed-header" className={`${className || ""} fixed top-0 left-0 right-0 z-50  bg-white`}>
+        <Middlebar type={type} className="quomodo-shop-middle-bar lg:block hidden" />
+        <Navbar type={type} className="quomodo-shop-nav-bar lg:block hidden" />
 
-          <div className="cart relative cursor-pointer">
-            <Link to="/cart">
-              <span>
-                <ShoppingCart />
-              </span>
-            </Link>
-            <span
-              className={`w-[18px] h-[18px] rounded-full  absolute -top-2.5 -right-2.5 flex justify-center items-center text-[9px]`}
-              style={{ backgroundColor, color: textColor }}
-            >
-              {cart.length > 0 ? cart.length : 0}
-            </span>
-          </div>
 
-          <div className="cart relative cursor-pointer">
-            <Link to="/pre-cart">
-              <span>
-                <ShoppingBag />
-              </span>
-            </Link>
-            <span
-              className={`w-[18px] h-[18px] rounded-full  absolute -top-2.5 -right-2.5 flex justify-center items-center text-[9px]`}
-              style={{ backgroundColor, color: textColor }}
-            >
-              {preorder.length > 0 ? preorder.length : 0}
-            </span>
-          </div>
+        <div className="quomodo-shop-drawer lg:hidden block w-full bg-white shadow-md fixed top-0 left-0 z-50 ">
 
-          <div>
-            {!user ? (
-              <>
-                {" "}
-                <Link to="/login">
-                  <span>
-                    <ThinPeople />
+          {/* <div className="w-full h-[60px] flex justify-between items-center px-5">
+            <div onClick={drawerAction}>
+              <Menu />
+            </div>
+
+            <div>
+              <Link to="/">
+                <img
+                  width={type === 3 ? "120" : type === 4 ? "152" : "70"}
+                  height={type === 3 ? "36" : type === 4 ? "36" : "26"}
+                  src="/logo.png"
+                  alt="logo"
+                />
+              </Link>
+            </div>
+
+            <div className="flex items-center space-x-4">
+              {wishlist.length > 0 && (
+                <div className="cart relative cursor-pointer">
+                  <Link to="/wishlist">
+                    <Heart />
+                  </Link>
+                  <span
+                    className={`w-[18px] h-[18px] rounded-full absolute -top-2.5 -right-2.5 flex justify-center items-center text-[9px]`}
+                    style={{ backgroundColor, color: textColor }}
+                  >
+                    {wishlist.length}
                   </span>
-                </Link>
-              </>
-            ) : (
-              <>
-                <Link to="/profile">
-                  <span>
-                    <ThinPeople />
+                </div>
+              )}
+
+              {user && user.adhesion === "accepted" && creditOrder.length > 0 && (
+                <div className="cart relative cursor-pointer">
+                  <Link to="/credit-cart">
+                    <HeartHandshake />
+                  </Link>
+                  <span
+                    className={`w-[18px] h-[18px] rounded-full absolute -top-2.5 -right-2.5 flex justify-center items-center text-[9px]`}
+                    style={{ backgroundColor, color: textColor }}
+                  >
+                    {creditOrder.length}
                   </span>
+                </div>
+              )}
+
+              {cart.length > 0 && (
+                <div className="cart relative cursor-pointer">
+                  <Link to="/cart">
+                    <ShoppingCart />
+                  </Link>
+                  <span
+                    className={`w-[18px] h-[18px] rounded-full absolute -top-2.5 -right-2.5 flex justify-center items-center text-[9px]`}
+                    style={{ backgroundColor, color: textColor }}
+                  >
+                    {cart.length}
+                  </span>
+                </div>
+              )}
+
+              {preorder.length > 0 && (
+                <div className="cart relative cursor-pointer">
+                  <Link to="/pre-cart">
+                    <ShoppingBag />
+                  </Link>
+                  <span
+                    className={`w-[18px] h-[18px] rounded-full absolute -top-2.5 -right-2.5 flex justify-center items-center text-[9px]`}
+                    style={{ backgroundColor, color: textColor }}
+                  >
+                    {preorder.length}
+                  </span>
+                </div>
+              )}
+
+              <div>
+                {!user ? (
+                  <Link to="/login">
+                    <ThinPeople />
+                  </Link>
+                ) : (
+                  <Link to="/profile">
+                    <ThinPeople />
+                  </Link>
+                )}
+              </div>
+
+
+            </div>
+          </div> */}
+
+          <div className="w-full h-[60px] flex items-center px-5">
+            <div className="flex items-center space-x-4">
+
+              <div onClick={drawerAction} className="cursor-pointer">
+                <Menu />
+              </div>
+
+
+              <div className="ml-4">
+                <Link to="/">
+                  <img
+                    width={type === 3 ? "120" : type === 4 ? "152" : "70"}
+                    height={type === 3 ? "36" : type === 4 ? "36" : "26"}
+                    src="/logo.png"
+                    alt="logo"
+                  />
                 </Link>
-              </>
-            )}
+              </div>
+            </div>
+
+
+            <div className="flex items-center space-x-4 ml-auto">
+              {wishlist.length > 0 && (
+                <div className="cart relative cursor-pointer">
+                  <Link to="/wishlist">
+                    <Heart />
+                  </Link>
+                  <span
+                    className={`w-[18px] h-[18px] rounded-full absolute -top-2.5 -right-2.5 flex justify-center items-center text-[9px]`}
+                    style={{ backgroundColor, color: textColor }}
+                  >
+                    {wishlist.length}
+                  </span>
+                </div>
+              )}
+
+              {user && user.adhesion === "accepted" && creditOrder.length > 0 && (
+                <div className="cart relative cursor-pointer">
+                  <Link to="/credit-cart">
+                    <HeartHandshake />
+                  </Link>
+                  <span
+                    className={`w-[18px] h-[18px] rounded-full absolute -top-2.5 -right-2.5 flex justify-center items-center text-[9px]`}
+                    style={{ backgroundColor, color: textColor }}
+                  >
+                    {creditOrder.length}
+                  </span>
+                </div>
+              )}
+
+              {cart.length > 0 && (
+                <div className="cart relative cursor-pointer">
+                  <Link to="/cart">
+                    <ShoppingCart />
+                  </Link>
+                  <span
+                    className={`w-[18px] h-[18px] rounded-full absolute -top-2.5 -right-2.5 flex justify-center items-center text-[9px]`}
+                    style={{ backgroundColor, color: textColor }}
+                  >
+                    {cart.length}
+                  </span>
+                </div>
+              )}
+
+              {/* <div>
+                {!user ? (
+                  <Link to="/login">
+                    <ThinPeople />
+                  </Link>
+                ) : (
+                  <Link to="/profile">
+                    <ThinPeople />
+                  </Link>
+                )}
+              </div> */}
+              <div className="flex items-center space-x-1">
+                {!user ? (
+                  <Link to="/login" className="flex items-center space-x-1">
+                    <ThinPeople />
+                    <span>Profil</span>
+                  </Link>
+                ) : (
+                  <Link to="/profile" className="flex items-center space-x-1">
+                    <ThinPeople />
+                    <span>Profil</span>
+                  </Link>
+                )}
+              </div>
+            </div>
           </div>
+
+
+          <div className={`px-5 pb-4 `}>
+            <SearchBox
+              type={type}
+              className="w-full"
+              isMobile={true}
+              onSearch={(query, category) => {
+                console.log(`Searching for "${query}" in category "${category}"`);
+              }}
+            />
+          </div>
+
         </div>
-      </div>
-      <Navbar type={type} className="quomodo-shop-nav-bar lg:block hidden" />
-    </header>
+
+      </header>
+
+    </>
   );
 }

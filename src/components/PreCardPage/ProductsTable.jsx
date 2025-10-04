@@ -36,12 +36,13 @@ export default function ProductsTable({ className }) {
                 <td className="pl-10  py-4  w-[380px]">
                   <div className="flex space-x-6 items-center">
                     <div className="w-[80px] h-[80px] overflow-hidden flex justify-center items-center border border-[#EDEDED]">
+
+
                       <img
-                        src={`${
-                          produit.image_1920
-                            ? "data:image/png;base64," + produit.image_1920
-                            : "https://readymadeui.com/images/coffee1.webp"
-                        }`}
+                        src={`${produit.image_256
+                          ? "data:image/png;base64," + produit.image_256
+                          : "https://readymadeui.com/images/coffee1.webp"
+                          }`}
                         alt="product"
                         className="w-full h-full object-contain"
                       />
@@ -89,6 +90,10 @@ export default function ProductsTable({ className }) {
             ))}
           </tbody>
         </table>
+      </div>
+
+      <div className=" mt-3 transition-all duration-300 ease-in-out bg-gray-200 text-[15px]  rounded-lg font-medium text-black  text-center py-2">
+        Livraison gratuite sur Dakar
       </div>
     </div>
   );

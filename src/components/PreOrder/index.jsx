@@ -13,9 +13,12 @@ import { Button, Label, TextInput } from "flowbite-react";
 import { Loader, Loader2 } from "lucide-react";
 import { toast } from "react-toastify";
 import PaydunyaModalService from "../../services/PaydunyaModalService";
+import SEOHeader from "../Partials/Headers/HeaderOne/SEOHeader";
+import { useAuthContext } from "../../contexts/useAuthContext";
 export default function PreOrderPage() {
   // const { state } = useLocation();
   const { id } = useParams();
+  const { user } = useAuthContext();
   const navigate = useNavigate();
   const [precommande, setPrecommande] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -32,13 +35,13 @@ export default function PreOrderPage() {
     const fetchModels = async () => {
       setIsLoading(true);
       try {
-        const data = await PrecommandeService.getPreCommandeById(id);
+        const data = await PrecommandeService.getPreCommandeById(user.id, id);
         if (isMounted) {
           setPrecommande(data);
+          console.log(data)
           const responsePaymentDetails =
             await PaiementService.getPaymentDetailsByIdOrder(data.id);
           setPaymentDetails(responsePaymentDetails);
-          console.log(responsePaymentDetails);
         }
       } catch (error) {
         console.error("Erreur lors de la récupération des modèles", error);
@@ -75,7 +78,7 @@ export default function PreOrderPage() {
 
     try {
       const resultaPayment = await PaiementService.confirmInvoice(payment.payment_token);
-      console.log(resultaPayment);
+
       if (resultaPayment.response_code === "00" && resultaPayment.status === "completed") {
         const url_facture = resultaPayment.receipt_url;
         let name = resultaPayment.customer.name;
@@ -117,11 +120,6 @@ export default function PreOrderPage() {
         toast.error("Vérification du paiement echouée", {
           position: "top-center",
           autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
         });
       }
     } catch (error) {
@@ -139,15 +137,10 @@ export default function PreOrderPage() {
       toast.warning("Le Montant doit être strictement supérieur à 1000 F CFA", {
         position: "top-center",
         autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
       });
     } else {
       setShowPaymentModal(true);
-      console.log("show modal");
+      // console.log("show modal");
     }
     console.log(montantAPayer, precommande.id);
   };
@@ -158,135 +151,160 @@ export default function PreOrderPage() {
   };
 
   return (
-    <Layout childrenClasses="pt-0 pb-0">
-      <div className="checkout-page-wrapper w-full bg-white pb-[60px]">
-        <div className="w-full mb-5">
-          <PageTitle
-            title="Détails Pré Commande"
-            breadcrumb={[
-              { name: "Accueil", path: "/" },
-              { name: "Précommandes", path: "/profile#preorder" },
-              { name: "Détails Pré Commande " },
-            ]}
-          />
-        </div>
-        {isLoading && (
-          <div className="flex justify-center items-center w-full h-full">
-            <Loader size={60} className="animate-spin" />
+
+    <>
+      <SEOHeader
+        title="CCBM Shop | Détails Précommande"
+        description="Découvrez les meilleures offres sur CCBM Shop, votre destination privilégiée pour l'électroménager de qualité. Explorez nos produits allant des réfrigérateurs aux téléviseurs intelligents, et profitez de promotions exclusives !"
+        keywords="électroménager, boutique en ligne d'électroménager, CCBM Shop, ccbme, appareils électroménagers à prix réduits, smart TV, réfrigérateurs modernes, climatiseurs efficaces, promotions électroménager"
+      />
+      <Layout childrenClasses="pt-0 pb-0">
+        <div className="checkout-page-wrapper w-full bg-white pb-[60px]">
+          <div className="w-full mb-5">
+            <PageTitle
+              title="Détails Pré Commande"
+              breadcrumb={[
+                { name: "Accueil", path: "/" },
+                // { name: "Précommandes", path: "/profile#preorder" },
+                { name: "Précommandes", path: "/profile#preorder" },
+                { name: "Détails Précommande " },
+              ]}
+            />
           </div>
-        )}
-        {precommande && (
-          <div className="checkout-main-content w-full">
-            <div className="container-x mx-auto">
-              <div className="w-full sm:mb-10 mb-5">
-                <div className="sm:flex sm:space-x-[18px] s">
-                  <div className="sm:w-1/3 w-full mb-5 h-[70px]">
+          {isLoading && (
+            <div className="flex justify-center items-center w-full h-full">
+              <Loader size={60} className="animate-spin" />
+            </div>
+          )}
+          {precommande && (
+            <div className="checkout-main-content w-full">
+              <div className="container-x mx-auto">
+                <div className="w-full sm:mb-10 mb-5">
 
-                    <div className="w-full h-full bg-[#F6F6F6] text-qblack flex justify-center items-center">
-                      <span className="text-[15px] font-medium">
-                        N° Précommande <span>{precommande.name}</span>
-                      </span>
+                  <div className="sm:flex sm:space-x-[18px] s">
+                    <div className="sm:w-1/3 w-full mb-5 h-[70px]">
+
+                      <div className="w-full h-full bg-[#F6F6F6] text-qblack flex justify-center items-center">
+                        <span className="text-[15px] font-medium">
+                          N°Précommande <span>{precommande.name}</span>
+                        </span>
+                      </div>
+
+                    </div>
+                    <div className=" sm:w-1/3  flex-1 h-[70px]">
+                      <div className="w-full h-full bg-[#F6F6F6] text-qblack flex justify-center items-center">
+                        <span className="text-[15px] font-medium">
+                          Paiement :{" "}
+                          {precommande.advance_payment_status === "not_paid" && (
+                            <span className="text-red-500">Non Payé</span>
+                          )}
+                          {precommande.advance_payment_status === "paid" && (
+                            <span className="text-green-500"> Payé </span>
+                          )}
+                          {precommande.advance_payment_status === "partial" && (
+                            <span className="text-yellow-500">
+                              {" "}
+                              Partiellement Payé
+                            </span>
+                          )}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="sm:w-1/3 flex-1 h-[70px]">
+                      <div className="w-full h-full bg-[#F6F6F6] text-qblack flex justify-center items-center">
+                        <span className="text-[15px] font-medium">
+                          Statut :{" "}
+                          {precommande.state == "sale" && <span className="text-green-500" > Validée </span>}
+                          {precommande.state == "to_delivered" && <span className="text-yellow-500" > En cours de livraison </span>}
+                          {precommande.state == "delivered" && <span className="text-green-600" > Livrée </span>}
+                          {precommande.state != "delivered" && precommande.state != "sale" && precommande.state != "to_delivered" && <span className="text-gray-500" > Non validé </span>}
+                        </span>
+                      </div>
                     </div>
 
                   </div>
-                  <div className=" sm:w-1/3  flex-1 h-[70px]">
-                    <div className="w-full h-full bg-[#F6F6F6] text-qblack flex justify-center items-center">
-                      <span className="text-[15px] font-medium">
-                        Payment :{" "}
-                        {precommande.advance_payment_status === "not_paid" && (
-                          <span className="text-red-500">(Non Payé)</span>
-                        )}
-                        {precommande.advance_payment_status === "paid" && (
-                          <span className="text-green-500"> (Payé)</span>
-                        )}
-                        {precommande.advance_payment_status === "partial" && (
-                          <span className="text-yellow-500">
-                            {" "}
-                            (Partiellement Payer)
+                  <div className="flex flex-col sm:flex-row sm:space-x-[18px] space-y-5 sm:space-y-0 mb-5">
+                    <div className="w-full sm:w-1/2 h-auto sm:h-[70px]">
+                      <div className="w-full h-full bg-[#F6F6F6] text-qblack flex flex-col sm:flex-row justify-center items-center p-3 sm:p-0">
+                        <strong> Date Précommande </strong>
+                        <div className="flex flex-col sm:flex-row items-center mt-2 sm:mt-0 sm:ml-2">
+                          <span className="mt-1 sm:mt-0 sm:ml-2 capitalize">{formatDate(precommande.date_order)}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="w-full sm:w-1/2 h-auto sm:h-[70px]">
+                      <div className="w-full h-full bg-[#F6F6F6] text-qblack flex flex-col sm:flex-row justify-center items-center p-3 sm:p-0">
+                        <strong>Date de livraison</strong>
+                        <div className="flex flex-col sm:flex-row items-center mt-2 sm:mt-0 sm:ml-2">
+
+                          <span className="mt-1 sm:mt-0 sm:ml-2 capitalize">{formatDate(precommande.commitment_date)}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="sm:flex sm:space-x-[18px] s">
+                    <div className="sm:w-1/2 w-full mb-5 h-[70px]">
+
+                      <div className="w-full h-full bg-[#F6F6F6] text-qblack flex flex-col sm:flex-row justify-center items-center p-3 sm:p-0">
+                        <strong>  Total Payé &nbsp; </strong>
+                        <div className="flex flex-col sm:flex-row items-center mt-2 sm:mt-0 sm:ml-2">
+                          <span className="mt-1 sm:mt-0 sm:ml-2 capitalize">
+                            {formatPrice(
+                              precommande.amount_total - precommande.amount_residual
+                            )}
                           </span>
-                        )}
-                      </span>
+                        </div>
+                      </div>
+
+                    </div>
+                    <div className="flex-1 h-[70px]">
+
+
+                      <div className="w-full h-full bg-[#F6F6F6] text-qblack flex flex-col sm:flex-row justify-center items-center p-3 sm:p-0">
+                        <strong>     Total Restant &nbsp; </strong>
+                        <div className="flex flex-col sm:flex-row items-center mt-2 sm:mt-0 sm:ml-2">
+                          <span className="mt-1 sm:mt-0 sm:ml-2 capitalize">
+                            {formatPrice(precommande.amount_residual)}
+                          </span>
+                        </div>
+                      </div>
                     </div>
                   </div>
 
-                  <div className="sm:w-1/3 flex-1 h-[70px]">
-                    <div className="w-full h-full bg-[#F6F6F6] text-qblack flex justify-center items-center">
-                      <span className="text-[15px] font-medium">
-                        Statut :{" "}
-                        {precommande.state == "to_delivered" ? "en cours de livraison" : precommande.state == "delivered" ? "livré" : precommande.state == "sale" ? "Validé" : "Brouillon"}
 
-                      </span>
-                    </div>
-                  </div>
 
-                </div>
-                <div className="sm:flex sm:space-x-[18px] s">
-                  <div className="sm:w-1/2 w-full mb-5 h-[70px]">
-                    <div className="w-full h-full bg-[#F6F6F6] text-qblack flex justify-center items-center">
-                      Date de la commande &nbsp;
-                      <span>{formatDate(precommande.date_order)}</span>
-                    </div>
-                  </div>
-                  <div className="flex-1 h-[70px]">
-                    <div className="w-full h-full bg-[#F6F6F6] text-qblack flex justify-center items-center">
-                      Date de prévisionnelle livraison &nbsp;
-                      <span>{formatDate(precommande.commitment_date)}</span>
-                    </div>
-                  </div>
-                </div>
-                <div className="sm:flex sm:space-x-[18px] s">
-                  <div className="sm:w-1/2 w-full mb-5 h-[70px]">
-                    <div className="w-full h-full bg-[#F6F6F6] text-qblack flex justify-center items-center">
-                      Total Payé &nbsp;
-                      <span>
-                        {" "}
-                        {formatPrice(
-                          precommande.amount_total - precommande.amount_residual
-                        )}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="flex-1 h-[70px]">
-                    <div className="w-full h-full bg-[#F6F6F6] text-qblack flex justify-center items-center">
-                      Total Restant &nbsp;
-                      <span> {formatPrice(precommande.amount_residual)}</span>
-                    </div>
-                  </div>
-                </div>
+                  {paymentDetails && paymentDetails.length > 0 && (
+                    <>
 
-                {paymentDetails && paymentDetails.length > 0 && (
-                  <>
-                    <div className="w-full lg:flex lg:space-x-[30px]">
-                      <div className="flex-1">
-                        <h1 className="sm:text-2xl text-xl text-qblack font-medium mb-5">
-                          Récapitulatif paiement
+                      <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <h1 className="text-2xl sm:text-3xl text-qblack font-medium mb-5 text-center">
+                          Récapitulatif Paiement
                         </h1>
-                        <div className="w-full px-10 py-[30px] border border-[#EDEDED]">
-                          <div className="sub-total mb-6">
-                            <div className="flex justify-between mb-5">
-                              <p className="text-[13px] font-medium text-qblack uppercase">
-                                Détails Payments
-                              </p>
-                            </div>
+                        <div className="w-full px-4 sm:px-10 py-6 sm:py-[30px] border border-[#EDEDED] rounded-lg">
+                          <div className="mb-6">
+                            <p className="text-sm sm:text-base font-medium text-qblack uppercase mb-2">
+                              Détails Paiements
+                            </p>
                             <div className="w-full h-[1px] bg-[#EDEDED]"></div>
                           </div>
-                          <div className="product-list w-full mb-[30px]">
+                          <div className="overflow-x-auto">
                             <table className="min-w-full bg-white">
-                              <thead>
+                              <thead className="hidden sm:table-header-group">
                                 <tr>
-                                  <th className="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                                  <th className="px-4 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                                     Prénom & Nom
                                   </th>
-                                  <th className="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                                  <th className="px-4 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                                     Téléphone
                                   </th>
-                                  <th className="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                                  <th className="px-4 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                                     Email
                                   </th>
-                                  <th className="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                                  <th className="px-4 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                                     Montant Payé
                                   </th>
-                                  <th className="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                                  <th className="px-4 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                                     Facture
                                   </th>
                                 </tr>
@@ -294,45 +312,50 @@ export default function PreOrderPage() {
                               <tbody>
                                 {paymentDetails.map((payment, index) =>
                                   payment.payment_state === 'completed' && (
-                                    <tr key={index} className="bg-white">
-                                      <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                        <div className="text-sm leading-5 text-gray-900">
-                                          {payment.customer_name}
+                                    <tr key={index} className="sm:bg-white flex flex-col sm:table-row mb-6 sm:mb-0">
+                                      <td className="px-4 py-3 sm:border-b border-gray-200">
+                                        <div className="flex items-center justify-between sm:table-cell">
+                                          <span className="sm:hidden font-medium">Prénom & Nom:</span>
+                                          <span className="text-sm leading-5 text-gray-900">{payment.customer_name}</span>
                                         </div>
                                       </td>
-                                      <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                        <div className="text-sm leading-5 text-gray-900">
-                                          {payment.customer_phone}
+                                      <td className="px-4 py-3 sm:border-b border-gray-200">
+                                        <div className="flex items-center justify-between sm:table-cell">
+                                          <span className="sm:hidden font-medium">Téléphone:</span>
+                                          <span className="text-sm leading-5 text-gray-900">{payment.customer_phone}</span>
                                         </div>
                                       </td>
-                                      <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                        <div className="text-sm leading-5 text-gray-900">
-                                          {payment.customer_email}
+                                      <td className="px-4 py-3 sm:border-b border-gray-200">
+                                        <div className="flex items-center justify-between sm:table-cell">
+                                          <span className="sm:hidden font-medium">Email:</span>
+                                          <span className="text-sm leading-5 text-gray-900">{payment.customer_email}</span>
                                         </div>
                                       </td>
-                                      <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                        <div className="text-sm leading-5 text-gray-900">
-                                          {formatPrice(payment.amount)}
+                                      <td className="px-4 py-3 sm:border-b border-gray-200">
+                                        <div className="flex items-center justify-between sm:table-cell">
+                                          <span className="sm:hidden font-medium">Montant Payé:</span>
+                                          <span className="text-sm leading-5 text-gray-900">{formatPrice(payment.amount)}</span>
                                         </div>
                                       </td>
-                                      <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                        {!payment.token_status ? <>
-                                          <button
-                                            className="text-sm leading-5 text-gray-900 underline"
-                                            onClick={(e) => handleVerifyPayment(e, payment)}
-                                          >
-                                            Vérifier le payment
-                                          </button>
-                                        </> :
-                                          <>
-
+                                      <td className="px-4 py-3 sm:border-b border-gray-200">
+                                        <div className="flex items-center justify-between sm:table-cell">
+                                          <span className="sm:hidden font-medium">Facture:</span>
+                                          {!payment.token_status ? (
                                             <button
-                                              className="text-sm leading-5 text-gray-900 underline"
+                                              className="text-sm leading-5 text-blue-600 underline"
+                                              onClick={(e) => handleVerifyPayment(e, payment)}
+                                            >
+                                              Vérifier le paiement
+                                            </button>
+                                          ) : (
+                                            <button
+                                              className="text-sm leading-5 text-blue-600 underline"
                                               onClick={() => handleOpenInvoice(payment.url_facture)}
                                             >
                                               Ouvrir la facture
                                             </button>
-                                          </>}
+                                          )}
+                                        </div>
                                       </td>
                                     </tr>
                                   )
@@ -340,20 +363,18 @@ export default function PreOrderPage() {
                               </tbody>
                             </table>
                           </div>
-                          <div className="w-full h-[1px] bg-[#EDEDED]"></div>
                         </div>
                       </div>
-                    </div>
-                  </>
-                )}
-              </div>
+                    </>
+                  )}
+                </div>
 
-              <div className="w-full lg:flex lg:space-x-[30px]">
-                <div className="flex-1">
-                  <h1 className="sm:text-2xl text-xl text-qblack font-medium mb-5">
+
+                <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                  <h1 className="text-2xl sm:text-3xl text-qblack font-medium mb-5 text-center">
                     Récapitulatif de la commande
                   </h1>
-                  <div className="w-full px-10 py-[30px] border border-[#EDEDED]">
+                  <div className="w-full p-4 sm:p-6 border border-[#EDEDED] rounded-lg shadow-sm">
                     <div className="sub-total mb-6">
                       <div className=" flex justify-between mb-5">
                         <p className="text-[13px] font-medium text-qblack uppercase">
@@ -396,81 +417,27 @@ export default function PreOrderPage() {
                     <div className="w-full h-[1px] bg-[#EDEDED]"></div>
 
                     <div className="space-y-4">
-                      <div className="space-y-2">
-                        <dl className="flex items-center justify-between gap-4">
-                          <dt className="text-gray-500 dark:text-gray-400">
-                            Montant Total
-                          </dt>
-                          <dd className="text-base font-medium text-gray-900 dark:text-white">
-                            {formatPrice(precommande.amount_total)}
-                          </dd>
-                        </dl>
 
-                        <dl className="flex items-center justify-between gap-4">
-                          <dt className="text-gray-500 dark:text-gray-400">
-                            Premier Tranche
-                          </dt>
-                          <dd
-                            className={`text-base font-medium ${precommande.first_payment_state
-                              ? "text-green-500"
-                              : "text-red-500"
-                              }`}
-                          >
-                            A payer avant le {precommande.first_payment_date}
-                          </dd>
-                          <dd
-                            className={`text-base font-medium ${precommande.first_payment_state
-                              ? "text-green-500"
-                              : "text-red-500"
-                              }`}
-                          >
-                            {formatPrice(precommande.first_payment_amount)}
-                          </dd>
-                        </dl>
-                        <dl className="flex items-center justify-between gap-4">
-                          <dt className="text-gray-500 dark:text-gray-400">
-                            Deuxieme Tranche
-                          </dt>
-                          <dd
-                            className={`text-base font-medium ${precommande.second_payment_state
-                              ? "text-green-500"
-                              : "text-red-500"
-                              }`}
-                          >
-                            {precommande.second_payment_date}
-                          </dd>
-                          <dd
-                            className={`text-base font-medium ${precommande.second_payment_state
-                              ? "text-green-500"
-                              : "text-red-500"
-                              }`}
-                          >
-                            {formatPrice(precommande.second_payment_amount)}
-                          </dd>
-                        </dl>
-                        <dl className="flex items-center justify-between gap-4">
-                          <dt className="text-gray-500 dark:text-gray-400">
-                            Troisieme Tranche
-                          </dt>
-                          <dd
-                            className={`text-base font-medium ${precommande.third_payment_state
-                              ? "text-green-500"
-                              : "text-red-500"
-                              }`}
-                          >
-                            {precommande.third_payment_date}
-                          </dd>
-                          <dd
-                            className={`text-base font-medium ${precommande.third_payment_state
-                              ? "text-green-500"
-                              : "text-red-500"
-                              }`}
-                          >
-                            {formatPrice(precommande.third_payment_amount)}
-                          </dd>
-                        </dl>
+                      <div className="border-t pt-4 space-y-2">
+                        {[
+                          { label: "Montant Total", value: formatPrice(precommande.amount_total) },
+                          { label: "Premier Tranche", value: formatPrice(precommande.first_payment_amount), date: precommande.first_payment_date, state: precommande.first_payment_state },
+                          { label: "Deuxieme Tranche", value: formatPrice(precommande.second_payment_amount), date: precommande.second_payment_date, state: precommande.second_payment_state },
+                          { label: "Troisieme Tranche", value: formatPrice(precommande.third_payment_amount), date: precommande.third_payment_date, state: precommande.third_payment_state },
+                        ].map((item, index) => (
+                          <dl key={index} className="flex flex-wrap items-center justify-between gap-2">
+                            <dt className="text-sm text-gray-500">{item.label}</dt>
+                            {item.date && (
+                              <dd className={`text-xs sm:text-sm font-medium ${item.state ? "text-green-500" : "text-red-500"}`}>
+                                {item.date}
+                              </dd>
+                            )}
+                            <dd className={`text-sm sm:text-base font-medium ${item.state ? "text-green-500" : (item.date ? "text-red-500" : "text-gray-900")}`}>
+                              {item.value}
+                            </dd>
+                          </dl>
+                        ))}
                       </div>
-
                       <dl className="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700">
                         <dt className="text-lg font-bold text-gray-900 dark:text-white">
                           Total à payer
@@ -504,14 +471,8 @@ export default function PreOrderPage() {
                       )}
                     </div>
 
-                    <div>
-                      {!precommande.first_payment_state && (
-                        <p className="text-center text-yellow-500 mt-4">
-                          Vous devez payer minimum une somme supérieur ou égale
-                          à la première tranche ({" "}
-                          {formatPrice(precommande.first_payment_amount)} ) .
-                        </p>
-                      )}
+                    <div className="w-full" >
+
                       {(precommande.advance_payment_status === "not_paid" ||
                         precommande.advance_payment_status === "partial") && (
                           <>
@@ -519,7 +480,7 @@ export default function PreOrderPage() {
                               <div className="mb-2 inline-block">
                                 <Label
                                   htmlFor="montant"
-                                  value="Montant A payer"
+                                  value="Montant à payer"
                                 />
                               </div>
 
@@ -612,20 +573,22 @@ export default function PreOrderPage() {
                         </div>
                       )}
                     </div>
+
+
                   </div>
                 </div>
+
               </div>
             </div>
-          </div>
-        )}
-        {!precommande && (
-          <>
-            <div className="flex justify-center items-center ">
-              <Loader className="animate-spin"></Loader> Précommande non trouvée
-            </div>
-          </>
-        )}
-      </div>
-    </Layout>
+          )}
+          {!precommande && (
+            <>
+              <div className="flex justify-center items-center ">
+                <Loader className="animate-spin"></Loader> Précommande non trouvée
+              </div>
+            </>
+          )}
+        </div>
+      </Layout></>
   );
 }

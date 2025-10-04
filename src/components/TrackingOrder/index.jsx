@@ -3,7 +3,7 @@ import { Button, Label, TextInput } from "flowbite-react";
 import PageTitle from "../Helpers/PageTitle";
 import Layout from "../Partials/Layout";
 import Thumbnail from "./Thumbnail";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Loader2 } from "lucide-react";
 import { toast } from "react-toastify";
 import formatPrice from "../../utils/formatPrice";
@@ -11,11 +11,20 @@ import formatDate from "../../utils/date-format";
 import CommandeService from "../../services/CommandeService";
 
 export default function TrackingOrder() {
+
   const [commande, setCommande] = useState(null);
   const [name, setName] = useState();
   const [email, setEmail] = useState();
 
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "smooth",
+    });
+  }, []);
 
   const handleTotrack = async (e) => {
     e.preventDefault();
@@ -30,11 +39,6 @@ export default function TrackingOrder() {
       toast.success("La commande est trouvée", {
         position: "top-center",
         autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
       });
       setIsLoading(false);
     } catch (error) {
@@ -42,11 +46,6 @@ export default function TrackingOrder() {
       toast.error("La commande n'est pas trouvée", {
         position: "top-center",
         autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
       });
     }
 
@@ -87,7 +86,7 @@ export default function TrackingOrder() {
                     </div>
                     <TextInput
                       id="name"
-                      placeholder="S000001"
+                      placeholder="S00001"
                       label="Nom de la commande"
                       name="name"
                       type="text"
@@ -277,8 +276,29 @@ export default function TrackingOrder() {
                                             </p>
                                             <p
                                               className={`text-base text-[15px] uppercase font-medium ${commande.first_payment_state
-                                                  ? "text-green-500"
-                                                  : "text-red-500"
+                                                ? "text-green-500"
+                                                : "text-red-500"
+                                                }`}
+                                            >
+                                              {formatPrice(
+                                                commande.first_payment_amount
+                                              )}
+                                            </p>
+                                          </div>
+                                        </div>
+                                      )}
+
+
+                                      {commande.type_sale === "creditorder" && (
+                                        <div className="mt-[30px]">
+                                          <div className=" flex justify-between mb-5">
+                                            <p className="text-[13px] font-medium text-qblack uppercase">
+                                              Premier Tranche
+                                            </p>
+                                            <p
+                                              className={`text-base text-[15px] uppercase font-medium ${commande.first_payment_state
+                                                ? "text-green-500"
+                                                : "text-red-500"
                                                 }`}
                                             >
                                               {formatPrice(
@@ -297,11 +317,11 @@ export default function TrackingOrder() {
                                           <p className="text-2xl font-medium">
                                             <span
                                               className={`text-${commande.advance_payment_status ===
-                                                  "not_paid" ||
-                                                  commande.advance_payment_status ===
-                                                  "partial"
-                                                  ? "red"
-                                                  : "green"
+                                                "not_paid" ||
+                                                commande.advance_payment_status ===
+                                                "partial"
+                                                ? "red"
+                                                : "green"
                                                 }-500`}
                                             >
                                               {" "}
@@ -372,6 +392,21 @@ export default function TrackingOrder() {
                                                 </span>
                                               </div>
                                             )}
+                                          </>
+                                        )}
+                                        {commande.type_sale === "creditorder" && (
+                                          <>
+                                            {commande.advance_payment_status ===
+                                              "not_paid" ||
+                                              commande.advance_payment_status ==
+                                              "partial" && (
+                                                <div className="w-full h-[50px] flex justify-center items-center">
+                                                  <span className="text-red-500">
+                                                    {" "}
+                                                    Payment non effectif
+                                                  </span>
+                                                </div>
+                                              )}
                                           </>
                                         )}
                                       </>

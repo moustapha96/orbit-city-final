@@ -52,7 +52,7 @@ export default function ProductsTable({
                 Quantité
               </td>
               <td className="py-4 whitespace-nowrap text-center hidden sm:table-cell">
-                total
+                TOTAL
               </td>
               <td className="py-4 whitespace-nowrap text-right w-[114px] block"></td>
             </tr>
@@ -62,12 +62,17 @@ export default function ProductsTable({
                   <td className="pl-10  py-4 ">
                     <div className="flex space-x-6 items-center">
                       <div className="w-[80px] h-[80px] overflow-hidden flex justify-center items-center border border-[#EDEDED]">
+                        {/* <img
+                          src={`${produit.image_256
+                            }`}
+                          alt="image produit ccbm shop"
+                          className="w-full h-full object-contain"
+                        /> */}
                         <img
-                          src={`${
-                            produit.image_1920
-                              ? "data:image/png;base64," + produit.image_1920
-                              : "https://readymadeui.com/images/coffee1.webp"
-                          }`}
+                          src={`${produit.image_256
+                            ? "data:image/png;base64," + produit.image_256
+                            : "https://readymadeui.com/images/coffee1.webp"
+                            }`}
                           alt="product"
                           className="w-full h-full object-contain"
                         />
@@ -153,7 +158,7 @@ export default function ProductsTable({
                 className="blue-logo-btn"
               >
                 <div className="w-full text-sm font-semibold">
-                  Ajouter au panier
+                  Commander
                 </div>
               </button>
             </div>
