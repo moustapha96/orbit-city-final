@@ -20,7 +20,10 @@ export default function ProfileTab() {
   const [name, setName] = useState("");
   const [adresse, setAdresse] = useState("");
   const [telephone, setTelephone] = useState("");
+<<<<<<< HEAD
   const [departement, setDepartement] = useState("");
+=======
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingAdhesion, setIsLoadingAdhesion] = useState(false);
   const [codeEntreprise, setCodeEntreprise] = useState("");
@@ -112,6 +115,8 @@ export default function ProfileTab() {
 
     const name = "avatar_" + user.id;
     const storedAvatar = localStorage.getItem(name);
+    console.log(storedAvatar);
+    console.log(user.avatar);
     if (user.avatar) {
       setprofileImg(user.avatar);
     } else if (storedAvatar) {
@@ -127,16 +132,40 @@ export default function ProfileTab() {
     setIsLoading(true);
     console.log(userInfo)
     try {
+<<<<<<< HEAD
       const response = await userService.updateUserCompte(userInfo.partner_id, userInfo);
       if (response.code === 300) {
         toast.warning(response.message);
       } else {
         toast.success("Modification des informations réussie !");
       }
+=======
+      const response = await userService.updateUser(user.partner_id, data);
+
+      toast.success("Modification Informations réussie !", {
+        position: "top-center",
+        autoClose: 5000,
+      });
+      // logout();
+      console.log(response);
+      setprofileImg(response.avatar);
+      setUser(response);
+      setIsLoading(false);
+      // navigate("/login");
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
     } catch (error) {
       toast.error("Modification du compte échouée : " + error);
     } finally {
       setIsLoading(false);
+<<<<<<< HEAD
+=======
+      // console.log("response " + error);
+      navigate("/profile");
+      toast.error("Modification compte Echouée , " + error, {
+        position: "top-center",
+        autoClose: 5000,
+      });
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
     }
   };
 
@@ -160,6 +189,10 @@ export default function ProfileTab() {
             autoClose: 5000,
           });
           setprofileImg(response.avatar);
+<<<<<<< HEAD
+=======
+          console.log(response);
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
         }
       };
       imgReader.readAsDataURL(file);
@@ -230,6 +263,7 @@ export default function ProfileTab() {
   return (
     <>
 
+<<<<<<< HEAD
       <div className="container mx-auto px-4 py-8">
         <div className="flex flex-col lg:flex-row space-y-8 lg:space-y-0 lg:space-x-8">
           <div className="w-full lg:w-1/3">
@@ -268,6 +302,15 @@ export default function ProfileTab() {
                     type="file"
                     className="hidden"
                     accept="image/*"
+=======
+            <div className="flex xl:justify-center justify-start">
+              <div className="relative">
+                <div className="sm:w-[198px] sm:h-[198px] w-[199px] h-[199px] rounded-full overflow-hidden relative">
+                  <img
+                    src={profileImg || `/images/edit-profileimg.jpg`}
+                    alt="image produit ccbm shop"
+                    className="object-cover w-full h-full"
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
                   />
 
                   <button

@@ -17,6 +17,7 @@ export default function Navbar({ className, type = 3 }) {
 
   const [categoryToggle, setToggle] = useState(false);
   const [elementsSize, setSize] = useState("0px");
+<<<<<<< HEAD
 
   // const { updateFilters, filters, resetFilters } = useContext(ProductContext)
   // const { isLoadingCategorie, categories } = useContext(CategoryContext)
@@ -27,6 +28,10 @@ export default function Navbar({ className, type = 3 }) {
   const { updateFilters: updateProductFilters, resetFilters: resetProductFilters } = useContext(ProductContext)
   const { updateFilters: updatePromoFilters, resetFilters: resetPromoFilters, produitHomeTabaski, produitHomeFlash, produitHomePromo } = useContext(PromoProductContext)
   const { categories, isLoadingCategorie, selectedCategory, updateSelectedCategory } = useCategory()
+=======
+  const { setSelectedCategory, isLoadingCategorie, categories, selectedCategory } =
+    useContext(ProductContext);
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
 
 
 
@@ -137,8 +142,18 @@ export default function Navbar({ className, type = 3 }) {
                     </span>
 
                     <span className="text-sm font-600 text-qblacktext">
+<<<<<<< HEAD
                       {selectedCategory === "All" ? "Nos Catégories" : selectedCategory.toUpperCase()}
                       {isLoadingCategorie && <Loader className="animate-spin" />}
+=======
+                      {!selectedCategory ? <> Nos Catégories </> : <> {selectedCategory == "All" ? "Tous les produits" : selectedCategory.toUpperCase()} </>}
+
+                      {isLoadingCategorie && (
+                        <>
+                          <Loader className="animate-spin"></Loader>
+                        </>
+                      )}
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
                     </span>
                   </div>
                   <div>
@@ -282,6 +297,7 @@ export default function Navbar({ className, type = 3 }) {
                         <span>Précommandes</span>
                       </span>
                     </Link>
+<<<<<<< HEAD
                   </li> */}
 
                   {/* {user && user.adhesion == "accepted" && (
@@ -296,6 +312,10 @@ export default function Navbar({ className, type = 3 }) {
                       </Link>
                     </li>
                   )} */}
+=======
+                  </li>
+
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
                   <li>
                     <Link to="/credit-commandes">
                       <span
@@ -340,8 +360,13 @@ export default function Navbar({ className, type = 3 }) {
                         <span>A propos</span>
                       </span>
                     </Link>
+<<<<<<< HEAD
                   </li> */}
                   {/* 
+=======
+                  </li>
+
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
                   <li>
                     <Link to="/contact">
                       <span
@@ -351,10 +376,26 @@ export default function Navbar({ className, type = 3 }) {
                         <span>Contact</span>
                       </span>
                     </Link>
+<<<<<<< HEAD
                   </li> */}
 
 
 
+=======
+                  </li>
+                  {user && user.role === "main_user" && (
+                    <li>
+                      <Link to="/entreprise">
+                        <span
+                          className={`flex items-center text-sm font-600 cursor-pointer ${type === 3 ? "text-white" : "text-qblacktext"
+                            }`}
+                        >
+                          <span>Entreprise</span>
+                        </span>
+                      </Link>
+                    </li>
+                  )}
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
                   {!user ? <>
                     <li>
                       <Link to="/login">

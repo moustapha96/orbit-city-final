@@ -123,8 +123,13 @@ export default function About() {
           <div className="flex flex-wrap justify-center ">
             <div className="w-full md:w-2/3 p-2">
               <img
+<<<<<<< HEAD
                 src={`créa_credit.png`}
                 alt="CCBM Shop à crédit"
+=======
+                src={`banner_ccbme_shop_pub_2.png`}
+                alt="Description de la première image"
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
                 className="w-full h-auto"
               />
             </div>

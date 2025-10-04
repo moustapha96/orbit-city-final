@@ -50,6 +50,10 @@ const pwaConfig = {
 export default defineConfig({
   plugins: [react(), VitePWA(pwaConfig), tailwind()],
   build: {
+<<<<<<< HEAD
+=======
+    // outDir: "../deploy-ccbm-shop/",
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
     outDir: "../deploy-ccbm-shop-dev/",
     rollupOptions: {
       output: {

@@ -35,8 +35,11 @@ export default function ProductPrecommandePage() {
   const [search, setSearch] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
+<<<<<<< HEAD
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
+=======
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
 
 
   useEffect(() => {

@@ -56,7 +56,11 @@ export default function ProductsTable({ className }) {
                           ? "data:image/png;base64," + produit.image_256
                           : "https://readymadeui.com/images/coffee1.webp"
                           }`}
+<<<<<<< HEAD
                         alt={`image produit ccbm shop ${produit.name}`}
+=======
+                        alt="product"
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
                         className="w-full h-full object-contain"
                       />
                     </div>

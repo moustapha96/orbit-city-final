@@ -17,6 +17,7 @@ import BannerSecond from "./BannerSecond";
 import CategoriesSection from "./CategoriesSection";
 import SEOHeader from "../Partials/Headers/HeaderOne/SEOHeader";
 import BannerPub from "../About/BannerPub";
+<<<<<<< HEAD
 import { Loader2 } from "lucide-react";
 import { PromoProductContext } from "../../Provider/PromoProductContext";
 import { ProductContext } from "../../Provider/ProductContext";
@@ -24,6 +25,9 @@ import PackPromoService from "../../services/PackPromoService";
 import SectionStyleTwoPack from "../Helpers/SectionStyleTwoPack";
 import ProductsAds from "./ProductsAds";
 import { FaPhone } from "react-icons/fa";
+=======
+import { Loader, Loader2 } from "lucide-react";
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
 
 export default function Home() {
 
@@ -35,8 +39,14 @@ export default function Home() {
     produitHomeFlash, isLoadingProductFlash,
     fetchProductsHomeFlash, produitHomeTabaski, isLoadingProductTabaski, fetchProductsHomeTabaski } = useContext(PromoProductContext)
 
+<<<<<<< HEAD
   const { fetchProduitsHome, isLoadingProduct, produitHome } = useContext(ProductContext)
   const [packs, setPacks] = useState([])
+=======
+  const [precommandes, setPrecommandes] = useState([]);
+  const [enpromo, setEnpromo] = useState([]);
+  const [commandes, setCommandes] = useState([]);
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
 
   useEffect(() => {
     window.scrollTo({
@@ -124,9 +134,15 @@ export default function Home() {
   return (
     <>
       <SEOHeader
+<<<<<<< HEAD
         title="CCBM Shop | Boutique en ligne d'électroménager | Meilleures Offres"
         description="Découvrez les meilleures offres sur CCBM Shop, votre destination privilégiée pour l'électroménager de qualité."
         keywords="électroménager, boutique en ligne, appareils électroménagers, CCBM Shop, ccbme, smart TV, téléviseur, réfrigérateur, orbit city, climatiseur, cuisinière, split, congelateur, micro onde, machine a laver"
+=======
+        title="CCBM Shop - Boutique en ligne d'électroménager | Meilleures Offres"
+        description="Découvrez les meilleures offres sur CCBM Shop, votre destination privilégiée pour l'électroménager de qualité. Explorez nos produits allant des réfrigérateurs aux téléviseurs intelligents, et profitez de promotions exclusives !"
+        keywords="électroménager, boutique en ligne, appareils électroménagers, CCBM Shop ,ccbme, smart TV, téléviseur, réfrigérateur, orbit city, climatiseur, cuisinière,split , congelateur , micro onde , machine a laver"
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
       />
       <Layout type={3} childrenClasses="pt-0">
 
@@ -189,6 +205,7 @@ export default function Home() {
           <CategoriesSection />
         </ViewMoreTitleCategorie>
 
+<<<<<<< HEAD
 
         {produitHomePromo && produitHomePromo.length > 0 && (
           <ViewMoreTitle
@@ -196,6 +213,13 @@ export default function Home() {
             seeMoreUrl="/en-promo"
             categoryTitle="Produits En Promotion"
           >
+=======
+          {/* {isLoadingProduct ? (
+            <div className="flex justify-center  ">
+              <Loader2 className="animate-spin" />
+            </div>
+          ) : (
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
             <SectionStyleTwo
               products={
                 produitHomePromo && produitHomePromo.length > 4
@@ -203,8 +227,26 @@ export default function Home() {
                   : produitHomePromo
               }
             />
+<<<<<<< HEAD
           </ViewMoreTitle>
         )}
+=======
+          )} */}
+
+          <SectionStyleTwo
+            products={
+              precommandes.length > 6
+                ? precommandes.slice(0, 6)
+                : precommandes
+            }
+          />
+        </ViewMoreTitle>
+        {/* <ProductsAds
+          sectionHeight="164"
+          ads={[`creation/banner_ccbm_shop_reduction_tele.png`]}
+          className="products-ads-section mb-[60px]"
+        /> */}
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
 
         {packs && packs.length > 0 && (
           <ViewMoreTitlePack

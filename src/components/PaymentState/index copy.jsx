@@ -19,11 +19,18 @@ import PrecommandeService from "../../services/precommandeService";
 import { Loader, } from "lucide-react";
 import { Button, } from "flowbite-react";
 import CommandeService from "../../services/CommandeService";
+<<<<<<< HEAD
 import { useAuthContext } from "../../contexts/useAuthContext";
 export default function PaymentStatePageC({ cart = true }) {
   const navigate = useNavigate();
   const { user } = useAuthContext();
   const location = useLocation();
+=======
+export default function PaymentStatePageC({ cart = true }) {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const user = JSON.parse(localStorage.getItem("user"));
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
   const payment = JSON.parse(localStorage.getItem("payment"));
 
   const idDataPayment = localStorage.getItem("idDataPayment");
@@ -62,7 +69,11 @@ export default function PaymentStatePageC({ cart = true }) {
             setCommande(responseCommande);
           } else if (responsePd.order_type == "preorder") {
             const responsePrecommande =
+<<<<<<< HEAD
               await PrecommandeService.getPreCommandeById(user.id, responsePd.order_id);
+=======
+              await PrecommandeService.getPreCommandeById(responsePd.order_id);
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
             setPreCommande(responsePrecommande);
             console.log(responsePrecommande);
           }
@@ -1116,7 +1127,11 @@ export default function PaymentStatePageC({ cart = true }) {
                         <br />
                         <div className="w-full h-full  text-qblack flex justify-center items-center">
                           <span className="text-[15px] font-medium   ">
+<<<<<<< HEAD
                             <Button className="rounded-lg px-5 py-2.5 font-medium w-full hover:bg-red-500 hover:text-white text-xl" > <Link to="/boutique"  > Retour à la boutique </Link> </Button>
+=======
+                            <Button className="rounded-lg px-5 py-2.5 font-medium w-full hover:bg-red-500 hover:text-white text-xl" > <Link to="/all-products"  > Retour à la boutique </Link> </Button>
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
                           </span>
                         </div>
                       </div>

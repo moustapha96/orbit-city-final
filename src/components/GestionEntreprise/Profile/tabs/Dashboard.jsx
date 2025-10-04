@@ -7,6 +7,7 @@ import { Car, ShoppingBag, ShoppingCart } from "lucide-react";
 import userService from "../../../../services/userService";
 import { Link } from "react-router-dom";
 import { getCommandeApprouveClientsEntreprise, getCommandeECDVClientsEntreprise, getCommandeRejeteClientsEntreprise } from "../../../../services/entrepriseFunctionService";
+<<<<<<< HEAD
 import { useAuthContext } from "../../../../contexts/useAuthContext";
 
 export default function Dashboard() {
@@ -18,6 +19,13 @@ export default function Dashboard() {
     userContext, parent,
     saveSession } = useAuthContext();
 
+=======
+
+export default function Dashboard() {
+  const user = JSON.parse(localStorage.getItem("user"));
+  const token = useSelector((state) => state.user.token);
+  const uid = useSelector((state) => state.user.uid);
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
   const [compte, setCompte] = useState([]);
   const [commandeApprouve, setCommandeApprouve] = useState([]);
   const [commandeECDV, setCommandeECDV] = useState([]);
@@ -27,18 +35,30 @@ export default function Dashboard() {
   useEffect(() => {
 
     const fetchModelsCount = async () => {
+<<<<<<< HEAD
       const res = await getCommandeApprouveClientsEntreprise(parent.id);
       setCommandeApprouve(res);
       const resCE = await getCommandeECDVClientsEntreprise(parent.id);
       setCommandeECDV(resCE);
       const resrejete = await getCommandeRejeteClientsEntreprise(parent.id);
+=======
+      const res = await getCommandeApprouveClientsEntreprise(user.company_id);
+      setCommandeApprouve(res);
+      const resCE = await getCommandeECDVClientsEntreprise(user.company_id);
+      setCommandeECDV(resCE);
+      const resrejete = await getCommandeRejeteClientsEntreprise(user.company_id);
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
       setCommandeRejetes(resrejete);
 
     };
 
     const fetchModels = async () => {
       try {
+<<<<<<< HEAD
         const response = await userService.getCompte(parent.id);
+=======
+        const response = await userService.getCompte(user.partner_id);
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
         if (response) {
           setCompte(response);
           console.log(response);
@@ -52,18 +72,31 @@ export default function Dashboard() {
 
     fetchModels();
     fetchModelsCount();
+<<<<<<< HEAD
   }, [userInfo, parent]);
 
   console.log(userInfo);
+=======
+  }, [user.partner_id]);
+
+  console.log(user);
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
   return (
     <>
       <div className="welcome-msg w-full">
         <div>
           <p className="text-qblack text-lg">
+<<<<<<< HEAD
             Hello <span>{userInfo ? userInfo.name : "Non connecté"}</span>
           </p>
           <h1 className="font-bold text-[24px] text-qblack sm:text-[20px]">
             Bienvenue sur l'entreprise {parent.name}
+=======
+            Hello <span>{user ? user.name : "Non connecté"}</span>
+          </p>
+          <h1 className="font-bold text-[24px] text-qblack sm:text-[20px]">
+            Bienvenue sur l'entreprise {user.company_name}
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
           </h1>
         </div>
       </div>
@@ -130,7 +163,11 @@ export default function Dashboard() {
               <div>Name:</div>
             </div>
             <div className="text-base text-qblack font-medium">
+<<<<<<< HEAD
               {parent ? parent.name : ""}
+=======
+              {user ? user.company_name : ""}
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
             </div>
           </div>
           <div className="inline-flex mr-5 mb-5">
@@ -138,7 +175,11 @@ export default function Dashboard() {
               <div>Email:</div>
             </div>
             <div className="text-base text-qblack font-medium">
+<<<<<<< HEAD
               {parent ? parent.email : ""}
+=======
+              {user ? user.email : ""}
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
             </div>
           </div>
           <div className="inline-flex mr-5 mb-5">
@@ -146,10 +187,24 @@ export default function Dashboard() {
               <div>Phone:</div>
             </div>
             <div className="text-base text-qblack font-medium">
+<<<<<<< HEAD
               {parent ? parent.partner_phone : "Not found"}
             </div>
           </div>
 
+=======
+              {user ? user.partner_phone : "Not found"}
+            </div>
+          </div>
+          <div className="inline-flex mr-5 mb-5">
+            <div className="text-base text-qgraytwo w-[100px] block">
+              <div>City:</div>
+            </div>
+            <div className="text-base text-qblack font-medium">
+              {user ? user.partner_city : ""}
+            </div>
+          </div>
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
         </div>
       </div>
     </>

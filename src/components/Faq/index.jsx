@@ -71,7 +71,11 @@ export default function Faq() {
                     init
                     title=" 2. SERVICE APRES VENTE DE NOS PRODUITS ?"
                     des="Nos produits sont garantis d'un an. CCBM a une expérience de plus de 30 ans en termes de vente de produits électroménagers. Vous pouvez nous joindre sur le numéro affiché sur le site en cas de besoins ou de réclamation."
+<<<<<<< HEAD
                   /> */}
+=======
+                  />
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
 
                   <Accodion
                     title="1. Précommande ?"

@@ -1,5 +1,8 @@
 /* eslint-disable react/no-unescaped-entities */
+<<<<<<< HEAD
 import { useEffect } from "react";
+=======
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
 import PageTitle from "../Helpers/PageTitle";
 import SEOHeader from "../Partials/Headers/HeaderOne/SEOHeader";
 import Layout from "../Partials/Layout";

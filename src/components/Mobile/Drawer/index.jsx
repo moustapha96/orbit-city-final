@@ -14,6 +14,7 @@ import { PromoProductContext } from "../../../Provider/PromoProductContext";
 export default function Drawer({ className, open, action }) {
   const navigate = useNavigate();
 
+<<<<<<< HEAD
   const { user, logout } = useAuthContext()
   const [tab, setTab] = useState("menu");
   const { cart, wishlist, creditOrder, preorder } = useContext(CartContext);
@@ -24,6 +25,11 @@ export default function Drawer({ className, open, action }) {
   const { updateFilters: updatePromoFilters, resetFilters: resetPromoFilters, filters: promoFilters, produitHomeTabaski, produitHomeFlash, produitHomePromo } = useContext(PromoProductContext)
   const { categories, selectedCategory, updateSelectedCategory } = useCategory()
 
+=======
+  const { user, logout } = useContext(UserContext);
+  const { searchContext, setSearchContext, setSelectedCategory, categories, selectedCategory } =
+    useContext(ProductContext);
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
 
   const handleCategoryChange = (e, category) => {
     e.preventDefault()
@@ -206,7 +212,11 @@ export default function Drawer({ className, open, action }) {
                 }`}
             >
 
+<<<<<<< HEAD
               {!selectedCategory ? <> Catégories </> : <> {selectedCategory == "All" ? "Catégories" : selectedCategory.toUpperCase()} </>}
+=======
+              {!selectedCategory ? <> Catégories </> : <> {selectedCategory == "All" ? "Tous les produits" : selectedCategory.toUpperCase()} </>}
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
 
             </span>
 
@@ -228,7 +238,11 @@ export default function Drawer({ className, open, action }) {
                         <div className="flex items-center space-x-6">
                           <Dot />
                           <span className="text-sm font-400">
+<<<<<<< HEAD
                             {category.name === "All" ? "Tout" : category.name.toUpperCase()}
+=======
+                            {categori.name == "All" ? "Tout" : categori.name.toUpperCase()}
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
                           </span>
                         </div>
                         <div>

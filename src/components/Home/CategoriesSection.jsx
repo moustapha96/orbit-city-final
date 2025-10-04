@@ -1,10 +1,28 @@
 /* eslint-disable no-unused-vars */
+<<<<<<< HEAD
 "use client"
 import { useContext, useRef, useEffect } from "react"
 import { Loader } from "lucide-react"
 import { useCategory } from "../../Provider/CategoryContext"
 import { ProductContext } from "../../Provider/ProductContext"
 import { PromoProductContext } from "../../Provider/PromoProductContext"
+=======
+import React, { useContext, useEffect } from "react";
+import { CategoryContext } from "../../contexts/CategoryContext";
+import {
+  AirVent,
+  Heater,
+  Layers3,
+  Loader,
+  Microwave,
+  Refrigerator,
+  Snowflake,
+  SwatchBook,
+  SwatchBookIcon,
+  Tv,
+  WashingMachine,
+} from "lucide-react";
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
 
 import { useNavigate, useLocation } from "react-router-dom"
 
@@ -74,11 +92,35 @@ const categoryImages = {
 }
 
 export default function CategoriesSection() {
+<<<<<<< HEAD
   const location = useLocation()
   const navigate = useNavigate()
   const { updateFilters: updateProductFilters } = useContext(ProductContext)
   const { updateFilters: updatePromoFilters } = useContext(PromoProductContext)
   const { categories, updateSelectedCategory } = useCategory()
+=======
+  const navigate = useNavigate();
+  const { categories, setSelectedCategory, selectedCategory } =
+    useContext(ProductContext);
+  console.log(categories);
+  const categoryIcons = {
+    cuisiniere: Heater,
+    "machine a laver": WashingMachine,
+    "micro onde": Microwave,
+    refrigerateur: Refrigerator,
+    television: FaTv,
+    All: Layers3,
+    "climatiseur": AirVent,
+    'congélateur': SwatchBook,
+    "lave linge": SwatchBookIcon,
+    "lave vaisselle": SwatchBookIcon,
+    "split": AirVent,
+    "CONGELATEUR": Refrigerator,
+    "CONGELATEUR HORIZONTAL": Snowflake,
+    "CONGELATEUR VERTICAL": Snowflake,
+
+  };
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
 
   console.log("categories", categories)
   const handleCategoryChange = (e, category) => {
@@ -119,6 +161,7 @@ export default function CategoriesSection() {
   })
 
   return (
+<<<<<<< HEAD
 
     <div className="flex space-x-6">
       {sortedCategories.map((category) => {
@@ -140,6 +183,43 @@ export default function CategoriesSection() {
               <p className="text-sm text-qblack whitespace-nowrap uppercase text-center">
                 {category.name === "All" ? "Tout" : category.name}
               </p>
+=======
+    <>
+      <div className="categories-section-wrapper w-full flex justify-center items-center">
+        <div className="container-x mx-auto  ">
+          <div className="w-full categories-items">
+            <div className="grid xl:grid-cols-5 sm:grid-cols-4 grid-cols-2 gap-10 mb-[46px]">
+              {categories.map((category) => {
+                const IconComponent = categoryIcons[category.name] || FaTv;
+                return (
+                  <div
+                    key={category.id}
+                    className="item w-full group cursor-pointer mb-4 "
+                    onClick={(e) => handleCategoryChange(e, category)}
+                  >
+                    <div className="w-full flex justify-center">
+                      <div className="w-[100px] h-[100px] rounded-full bg-[#EEF1F1] group-hover:bg-bleu-logo mb-2.5 flex justify-center items-center">
+                        <span className="text-qblack group-hover:text-white">
+                          <IconComponent size={40} strokeWidth={1.5} />
+                        </span>
+                      </div>
+                    </div>
+                    <div className="w-full h-full flex justify-center">
+                      <p className=" text-base text-qblack whitespace-nowrap toupper uppercase">
+                        {category.name == "All" ? "Tout" : category.name}
+                      </p>
+                    </div>
+                  </div>
+                );
+              })}
+              {!categories && (
+                <>
+                  <div className="flex justify-center items-center ">
+                    <Loader className="animate-spin"></Loader>
+                  </div>
+                </>
+              )}
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
             </div>
           </div>
         )

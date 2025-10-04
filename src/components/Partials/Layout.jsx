@@ -1,6 +1,10 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
+<<<<<<< HEAD
 import { useEffect, useState } from "react";
+=======
+import { useState } from "react";
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
 // import DiscountBanner from "../Home/DiscountBanner";
 import Drawer from "../Mobile/Drawer";
 import Footer from "./Footers/Footer";

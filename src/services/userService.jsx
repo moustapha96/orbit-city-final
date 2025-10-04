@@ -263,6 +263,7 @@ const userService = {
       throw error;
     }
   },
+<<<<<<< HEAD
   getDetailsCompteUser: async (id) => {
     try {
       const response = await axiosInstance.get(`api/partner/compte/${id}/details`);
@@ -272,6 +273,8 @@ const userService = {
       throw error;
     }
   }
+=======
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
 };
 
 export default userService;

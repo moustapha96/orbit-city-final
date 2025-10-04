@@ -19,6 +19,7 @@ export default function AllProductPage() {
 
 
   useEffect(() => {
+<<<<<<< HEAD
     resetFilters()
     const params = new URLSearchParams(location.search)
     const newFilters = {
@@ -41,6 +42,12 @@ export default function AllProductPage() {
   }, [location.pathname, location.search, resetFilters, updateFilters])
 
 
+=======
+    console.log(productFilter);
+    setProduits(productFilter);
+    setSearchContext("");
+  }, [productFilter]);
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
 
   useEffect(() => {
     fetchProducts()
@@ -99,15 +106,24 @@ export default function AllProductPage() {
     <>
       <SEOHeader
         title="CCBM Shop | Boutique"
+<<<<<<< HEAD
         description="Découvrez les meilleures offres sur CCBM Shop, votre destination privilégiée pour l'électroménager de qualité."
         keywords="électroménager, boutique en ligne d'électroménager, CCBM Shop, ccbme, appareils électroménagers à prix réduits"
+=======
+        description="Découvrez les meilleures offres sur CCBM Shop, votre destination privilégiée pour l'électroménager de qualité. Explorez nos produits allant des réfrigérateurs aux téléviseurs intelligents, et profitez de promotions exclusives !"
+        keywords="électroménager, boutique en ligne d'électroménager, CCBM Shop, ccbme, appareils électroménagers à prix réduits, smart TV, réfrigérateurs modernes, climatiseurs efficaces, promotions électroménager"
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
       />
       <Layout>
         <div className="products-page-wrapper w-full">
           <div className="container-x mx-auto">
             <BreadcrumbCom />
             <div className="w-full lg:flex lg:space-x-[30px]">
+<<<<<<< HEAD
               <div className="lg:w-[270px]">
+=======
+
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
 
                 <ProductsFilter
                   handleCategoryChange={handleCategoryChange}
@@ -128,6 +144,7 @@ export default function AllProductPage() {
                 ) : currentProducts.length === 0 ? (
                   <div className="flex justify-center items-center">Pas de produits disponible pour le moment</div>
                 ) : (
+<<<<<<< HEAD
                   // <div className="grid xl:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-[30px]">
                   //   {currentProducts.map((product) => (
                   //     <ProductCardStyleOne key={product.id} datas={product} />
@@ -138,6 +155,109 @@ export default function AllProductPage() {
                       <ProductCardStyleOne key={product.id} datas={product} />
                     ))}
                   </div>
+=======
+                  <>
+                    <div className="products-sorting w-full bg-white md:h-[70px] flex md:flex-row flex-col md:space-y-0 space-y-5 md:justify-between md:items-center p-[30px] mb-[40px]">
+                      <div>
+                        <p className="font-400 text-[13px]">
+                          <span className="text-qgray"> Affichage</span>{" "}
+                          {Math.max(0, startLength + 1)}–
+                          {Math.min(endLength, produits.length)} of{" "}
+                          {produits.length} résultats
+                        </p>
+                      </div>
+                      <div>
+                        <input
+                          type="search"
+                          placeholder="Rechercher des produits"
+                          value={search}
+                          // onChange={handleSearch}
+                          onChange={(e) => {
+                            setSearchContext(e.target.value);
+                          }}
+                          className="w-full md:w-auto px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        />
+                      </div>
+                      <div className="flex space-x-3 items-center">
+                        <button
+                          className=" hover:text-bleu-500"
+                          onClick={setAllProduct}
+                        >
+                          Tout
+                        </button>
+                        {showBackButton && (
+                          <div className="flex space-x-3 items-center border-b border-b-qgray">
+                            <button
+                              className=" hover:text-bleu-500"
+                              onClick={handleLoadLess}
+                            >
+                              {" "}
+                              Retour{" "}
+                            </button>
+                          </div>
+                        )}
+                        {showLoadMoreButton && (
+                          <div className="flex space-x-3 items-center border-b border-b-qgray">
+                            <button onClick={handleLoadMore} className="">
+                              {" "}
+                              charger plus{" "}
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    {isLoadingProduct ? (
+                      <>
+                        <div className="flex justify-center">
+                          <div className="flex justify-center items-center ">
+                            <Loader className="animate-spin"></Loader>{" "}
+                            Chargement
+                          </div>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <div className="grid xl:grid-cols-3 sm:grid-cols-2 grid-cols-1 xl:gap-[30px] gap-5 mb-[40px]">
+                          <DataIteration
+
+                            datas={produits}
+                            startLength={Math.max(0, startLength)}
+                            endLength={Math.min(endLength, produits.length)}
+                          >
+                            {({ datas }) => (
+                              <div data-aos="fade-up" key={datas.id}>
+                                <ProductCardStyleOne datas={datas} />
+                              </div>
+                            )}
+                          </DataIteration>{" "}
+                        </div>{" "}
+                      </>
+                    )}
+
+                    <div className="flex space-x-3 items-center">
+                      {showBackButton && (
+                        <div className="flex space-x-3 items-center border-b border-b-qgray">
+                          <button
+                            className=" hover:text-bleu-500"
+                            onClick={handleLoadLess}
+                          >
+                            {" "}
+                            Retour{" "}
+                          </button>
+                        </div>
+                      )}
+                      {showLoadMoreButton && (
+                        <div className="flex space-x-3 items-center border-b border-b-qgray">
+                          <button onClick={handleLoadMore} className="">
+                            {" "}
+                            charger plus{" "}
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  </>
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
                 )}
                 <Pagination
                   currentPage={filters.page}

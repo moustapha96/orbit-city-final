@@ -9,6 +9,19 @@ const urlApidev = import.meta.env.VITE_API_URL_DEV;
 
 const urlBase = urlApidev;
 
+<<<<<<< HEAD
+=======
+// const urlBase = "https://orbitcity.sn/";
+
+const urlApidev = import.meta.env.VITE_API_URL_DEV;
+
+const urlApiprod_dev = import.meta.env.VITE_API_URL_PROD_DEV;
+
+const urlApiprod = import.meta.env.VITE_API_URL_PROD;
+
+const urlBase = urlApidev;
+
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
 const axiosInstance = axios.create({
   baseURL: urlApidev
 });
@@ -24,6 +37,7 @@ const excludedEndpoints = [
   "/new_compte",
   "/tracking",
   "/sendResetPasswordMail",
+<<<<<<< HEAD
   "/create_leads",
   "/api/produits-filtrer",
   "/api/produits-filter-promo",
@@ -38,6 +52,9 @@ const excludedEndpoints = [
   "/api/auth/refresh_token",
   // "/api/commandes"
   // "/api/users/"
+=======
+  "/create_leads"
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
 ];
 
 axiosInstance.interceptors.request.use(

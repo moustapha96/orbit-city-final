@@ -29,10 +29,17 @@ export default function PreCart({ className, type }) {
                     <div className="flex space-x-[6px] justify-center items-center px-4 my-[20px]">
                       <div className="w-[65px] h-full">
                         {/* <img
+<<<<<<< HEAD
                             src={`${produit.image_1920}`}
                             alt="image produit ccbm shop"
                             className="w-full h-full object-contain"
                           /> */}
+=======
+                          src={`${produit.image_1920}`}
+                          alt="image produit ccbm shop"
+                          className="w-full h-full object-contain"
+                        /> */}
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
                         <img
                           src={`${produit.image_256
                             ? "data:image/png;base64," + produit.image_256

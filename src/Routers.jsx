@@ -47,6 +47,7 @@
 // import PromoProductPage from "./components/EnPromo";
 // import Information from "./components/About/information";
 
+<<<<<<< HEAD
 // const ProtectedRoute = ({ children }) => {
 //   const { isAuthenticated } = useAuthContext();
 //   return isAuthenticated ? children : <Navigate to="/login" replace />;
@@ -91,6 +92,27 @@
 //           path: "/wishlist",
 //           element: <Wishlist />
 //         },
+=======
+import SingleProductPage from "./components/SingleProductPage";
+import TermsCondition from "./components/TermsCondition/index";
+import TrackingOrder from "./components/TrackingOrder";
+import Wishlist from "./components/Wishlist";
+import PreCardPage from "./components/PreCardPage/index.jsx";
+import PreOrderPage from "./components/PreOrder/index.jsx";
+import OrderPage from "./components/Order/index.jsx";
+import OrderPaymentPage from "./components/OrderPayment/index.jsx";
+
+import PaymentStatePage from "./components/PaymentState/index.jsx";
+import LivraisonEtRetoursPage from "./components/LivraisonEtRetours/index.jsx";
+import AchatSecurisesPage from "./components/AchatsSecurises/index.jsx";
+import ConditionGeneralDeVentePage from "./components/ConditionsGeneralesDeVente/index.jsx";
+import PolitiqueDeConfidentialitePage from "./components/PolitiqueDeConfidentialite/index.jsx";
+import ResetPassword from "./components/Auth/ResetPassword/index.jsx";
+import ProductPrecommandePage from "./components/ProductPrecommandePage/index.jsx";
+import NewPassword from "./components/Auth/NewPassword/index.jsx";
+import CreateCompte from "./components/Auth/CreateCompte/index.jsx";
+import Entreprise from "./components/GestionEntreprise/Profile/index.jsx";
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
 
 //       ],
 //     },
@@ -140,6 +162,7 @@
 //           element: <ProtectedRoute><CheakoutPage /></ProtectedRoute>,
 //         },
 
+<<<<<<< HEAD
 //         {
 //           path: "/credit-cart",
 //           element: <ProtectedRoute><CreditCartPage /></ProtectedRoute>,
@@ -215,6 +238,25 @@ const Information = lazy(() => import("./components/About/information"))
 
 
 
+=======
+  { path: "/all-products", element: <AllProductPage /> },
+  { path: "/pre-commandes", element: <ProductPrecommandePage /> },
+  { path: "/single-product/:id", element: <SingleProductPage /> },
+
+  {
+    path: "/pre-commandes/:id/détails",
+    element: <PreOrderPage />,
+  },
+  {
+    path: "/commandes/:id/détails",
+    element: <OrderPage />,
+  },
+  {
+    path: "/commande-validation",
+    element: <OrderPaymentPage />,
+  },
+
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
 
 const Loading = () => (
   <div className="flex flex-col items-center justify-center min-h-screen">
@@ -233,9 +275,44 @@ const Loading = () => (
 );
 
 
+<<<<<<< HEAD
 const ProtectedRoute = ({ children }) => {
   const { isAuthenticated } = useAuthContext()
   return isAuthenticated ? children : <Navigate to="/login" replace />
+=======
+  { path: "/products-compaire", element: <ProductsCompaire /> },
+
+  { path: "/about", element: <About /> },
+  { path: "/tracking-order", element: <TrackingOrder /> },
+  { path: "/contact", element: <Contact /> },
+  { path: "/faq", element: <Faq /> },
+  { path: "/login", element: <Login /> },
+  { path: "/new-password", element: <NewPassword /> },
+  { path: "/forgot-password", element: <ResetPassword /> },
+  { path: "/signup", element: <Signup /> },
+  { path: "/create-compte", element: <CreateCompte /> },
+  { path: "/profile", element: <Profile /> },
+  { path: "/privacy-policy", element: <PrivacyPolicy /> },
+  { path: "/terms-condition", element: <TermsCondition /> },
+  {
+    path: "/entreprise", element: <Entreprise />,
+  },
+  {
+    path: "/conditions-generales-de-vente",
+    element: <ConditionGeneralDeVentePage />,
+  },
+  { path: "/livraison-et-retours", element: <LivraisonEtRetoursPage /> },
+  { path: "/achats-securises", element: <AchatSecurisesPage /> },
+  {
+    path: "/politique-de-confidentialite",
+    element: <PolitiqueDeConfidentialitePage />,
+  },
+  { path: "*", element: <FourZeroFour /> },
+]);
+
+function Routers() {
+  return <RouterProvider router={router} />;
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
 }
 
 function Routers() {

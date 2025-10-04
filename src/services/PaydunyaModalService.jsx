@@ -14,8 +14,11 @@ import PaymentContext from "../contexts/PaymentContext";
 import { UserContext } from "../contexts/UserContext";
 import { useNavigate } from "react-router-dom";
 import PaiementService from "./paimentService";
+<<<<<<< HEAD
 import { useAuthContext } from "../contexts/useAuthContext";
 import { trackPurchase } from "../utils/tracking";
+=======
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
 
 // import initializePaydunya from "../config/paydunyaInitializer"
 const PaydunyaModalService = ({
@@ -133,8 +136,13 @@ const PaydunyaModalService = ({
       } else if (order.type_sale === "preorder") {
         invoice.cancelURL = `https://ccbme.sn/pre-commandes/${idOrder}/détails`;
       }
+<<<<<<< HEAD
       invoice.returnURL = `https://ccbme.sn/payment-state`;
       // invoice.returnURL = `http://localhost:5173/payment-state`;
+=======
+      // invoice.returnURL = `https://ccbme.sn/payment-state`;
+      invoice.returnURL = `http://localhost:5173/payment-state`;
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
 
       setPaymentDetails(invoice);
       setTotalAmount(invoice.totalAmount);
@@ -174,6 +182,7 @@ const PaydunyaModalService = ({
             } else {
               transaction = `${user.id}-${idOrder}-${totalAmount}-${order.name}-${order.type_sale}-3`;
             }
+<<<<<<< HEAD
           } else if (order.type_sale === "creditorder") {
 
             if (!order.first_payment_state && !order.second_payment_state && !order.third_payment_state && !order.fourth_payment_state) {
@@ -188,6 +197,8 @@ const PaydunyaModalService = ({
 
           } else {
             transaction = `${user.id}-${idOrder}-${totalAmount}-${order.name}-${order.type_sale}`;
+=======
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
           }
           const data = {
             transaction_id: transaction,

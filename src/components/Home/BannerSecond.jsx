@@ -12,7 +12,9 @@ import ccbm_shop_promotion from "/src/assets/images/ccbm_shop_promotion.png";
 
 import ccbm_shop_promo_tabaski from "/src/assets/images/ccbm_shop_promo_tabaski.png"
 
+
 export default function BannerSecond({ className }) {
+<<<<<<< HEAD
   const sliderRef = useRef(null)
   const [isDragging, setIsDragging] = useState(false)
   const [startX, setStartX] = useState(0)
@@ -35,6 +37,10 @@ export default function BannerSecond({ className }) {
     }
   }
 
+=======
+
+  const sliderRef = useRef(null);
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
   const settings = {
     infinite: true,
     autoplay: true,
@@ -57,6 +63,20 @@ export default function BannerSecond({ className }) {
     draggable: true,
   }
 
+<<<<<<< HEAD
+=======
+  const handleNext = () => {
+    if (sliderRef.current && sliderRef.current.slickNext) {
+      sliderRef.current.slickNext();
+    }
+  };
+  useEffect(() => {
+    // Vérifiez si le composant SimpleSlider est monté
+    if (sliderRef.current) {
+      console.log("Slider is mounted");
+    }
+  }, []);
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
   return (
     <div className={`hero-slider-wrapper w-full mt-24 mb-12 ${className || ""}`}>
       <div className="main-wrapper max-w-7xl mx-auto relative">
@@ -81,6 +101,7 @@ export default function BannerSecond({ className }) {
                 onMouseDown={handleMouseDown}
                 onMouseMove={handleMouseMove}
               >
+<<<<<<< HEAD
                 <div className="item w-full h-[200px] sm:h-[250px] md:h-[300px] lg:h-[350px] xl:h-[400px] cursor-pointer">
                   <div
                     className="w-full h-full bg-center bg-no-repeat bg-contain"
@@ -92,6 +113,56 @@ export default function BannerSecond({ className }) {
               </div>
             ))}
           </SimpleSlider>
+=======
+                <ArrowLeft />
+              </button>
+              <button
+                type="button"
+                onClick={handleNext}
+                className="relative hover:text-bleu-logo text-[#8cb1f6] 2xl:right-32 right-5 cursor-pointer z-10"
+              >
+                <ArrowRight />
+              </button>
+            </div>
+            <SimpleSlider settings={settings} selector={sliderRef}>
+
+
+
+
+              <div className="item w-full h-[600px] sm:h-[400px] md:h-[300px] lg:h-[570px] relative">
+                <div
+                  className="w-full h-full relative bg-center"
+                  style={{
+                    backgroundImage: `url('/new_banner_ccbm_shop.jpg')`,
+                    backgroundRepeat: "no-repeat",
+                    backgroundSize: "contain",
+                    backgroundPosition: "top center",
+                    maxWidth: "100%",
+                    maxHeight: "100%",
+                  }}
+                >
+
+                </div>
+              </div>
+
+
+
+              <div className="item w-full h-[600px] sm:h-[400px] md:h-[300px] lg:h-[570px]">
+                <div
+                  className="w-full h-full relative bg-center"
+                  style={{
+                    backgroundImage: `url('/banner_ccbme_shop_pub_1.jpg')`,
+                    backgroundRepeat: "no-repeat",
+                    backgroundSize: "contain",
+                    backgroundPosition: "top center",
+                    maxWidth: "100%",
+                    maxHeight: "100%",
+                  }}
+                ></div>
+              </div>
+            </SimpleSlider>
+          </div>
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
         </div>
       </div>
     </div>

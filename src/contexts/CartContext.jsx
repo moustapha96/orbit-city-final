@@ -2,17 +2,25 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 // CartContext.js
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
+import { UserContext } from "./UserContext";
+import ExcelService from "../services/excelService";
 export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
+<<<<<<< HEAD
   const { user } = useAuthContext();
   const { trackEvent, trackAddToCart, trackAddToPreCart, trackAddToCreditCart } = useGoogleAnalytics();
+=======
+
+  const { user } = useContext(UserContext);
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
 
   const [cart, setCart] = useState([]);
   const [wishlist, setWishlist] = useState([]);
   const [preorder, setPreorder] = useState([]);
+<<<<<<< HEAD
   const [creditOrder, setCreditOrder] = useState([]);
   const [location, setLocation] = useState(null);
   const guestId = getOrCreateGuestId();
@@ -30,9 +38,14 @@ export const CartProvider = ({ children }) => {
         console.error('Error:', error);
       }
     };
+=======
+  const [location, setLocation] = useState(null);
+
+  useEffect(() => {
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
     fetchLocation();
     loadDataFromLocalStorage();
-  }, []);
+  }, []); // Charge les données une seule fois au démarrage
 
   useEffect(() => {
     if (cart.length > 0) {
@@ -160,6 +173,7 @@ export const CartProvider = ({ children }) => {
 
   useEffect(() => {
     saveDataToLocalStorage();
+<<<<<<< HEAD
   }, [cart, wishlist, preorder, creditOrder]);
 
 
@@ -192,6 +206,12 @@ export const CartProvider = ({ children }) => {
     // trackEvent('Ecommerce', 'Add to CreditCart', product.name, product.creditorder_price * quantity);
     trackAddToCreditCart(product, quantity);
   }
+=======
+  }, [cart, wishlist, preorder]); // Sauvegarde uniquement lorsque ces états changent
+
+
+
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
 
   const addToCart = (product, quantity) => {
     const index = cart.findIndex((p) => p.id === product.id);
@@ -205,6 +225,7 @@ export const CartProvider = ({ children }) => {
       });
       setCart(updatedCart);
     } else {
+<<<<<<< HEAD
 
       const newCartItem = {
         ...product,
@@ -220,6 +241,74 @@ export const CartProvider = ({ children }) => {
     trackEvent('Ecommerce', 'Add to Cart', product.name, product.list_price * quantity);
     // trackEvent('Ecommerce', 'Add to Cart', product.name, product.list_price * quantity);
     // trackAddToCart(product, quantity);
+=======
+      setCart([...cart, { ...product, quantity }]);
+
+      // const cartItem = {
+      //   productName: product.name,
+      //   date: new Date().toLocaleString(),
+      //   user: user ? user.name : 'Guest',
+      //   phone: user ? user.partner_phone : 'Guest',
+      //   email: user ? user.email : 'Guest',
+      //   type: 'order',
+      //   price: product.list_price,
+      //   location: location ? location.city + '/' + location.region + '/' + location.country + ' Ip : ' + location.ip : ""
+      // };
+      // try {
+      //   const response = ExcelService.createCrm([...cart, cartItem]);
+      //   console.log(response);
+      // } catch (error) {
+      //   console.error("Erreur creation crm preorder :", error);
+      // }
+    }
+
+
+
+  };
+
+
+  const fetchLocation = async () => {
+    try {
+      const response = await fetch('https://ipinfo.io/json?token=a7bca817c4bc37');
+      if (!response.ok) {
+        throw new Error('Erreur lors de la récupération des données de localisation');
+      }
+      const data = await response.json();
+      setLocation(data);
+    } catch (error) {
+      console.error('Erreur:', error);
+    }
+  };
+  const addToPreorder = (product, quantity) => {
+    const index = preorder.findIndex((p) => p.id === product.id);
+
+    if (index !== -1) {
+      preorder[index].quantity += quantity;
+    } else {
+      setPreorder([...preorder, { ...product, quantity }]);
+
+
+
+
+      // const preorderItem = {
+      //   productName: product.name,
+      //   date: new Date().toLocaleString(),
+      //   user: user ? user.name : 'Guest',
+      //   phone: user ? user.partner_phone : 'Guest',
+      //   email: user ? user.email : 'Guest',
+      //   type: 'preorder',
+      //   price: product.preorder_price,
+      //   location: location ? location.city + '/' + location.region + '/' + location.country + ' Ip : ' + location.ip : ""
+      // };
+
+      // try {
+      //   const response = ExcelService.createCrm([...preorder, preorderItem]); // Passer le bon tableau ici
+      //   console.log(response);
+      // } catch (error) {
+      //   console.error("Erreur creation crm preorder :", error);
+      // }
+    }
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
 
   };
 
@@ -349,6 +438,11 @@ export const CartProvider = ({ children }) => {
     );
   };
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
   const removeFromPreorder = (product) => {
     setPreorder(preorder.filter((item) => item.id !== product.id));
   };

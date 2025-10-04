@@ -252,9 +252,88 @@ export default function PaymentDetailsTab() {
   const paginate = (pageNumber) => setCurrentPage(pageNumber)
 
   return (
+<<<<<<< HEAD
     <div className="bg-white shadow-md rounded-lg p-6">
       <div className="flex items-center mb-6">
         <h2 className="text-2xl font-bold">Détails des paiements</h2>
+=======
+    <>
+      <div className="relative w-full overflow-x-auto sm:rounded-lg">
+        <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+          <tbody>
+            {/* table heading */}
+            <tr className="text-base text-qgray whitespace-nowrap px-2 border-b default-border-bottom">
+              <td className="py-4 block whitespace-nowrap text-center">
+                Commande
+              </td>
+              <td className="hidden sm:table-cell py-4 whitespace-nowrap text-center">Date</td>
+              <td className="hidden sm:table-cell py-4 whitespace-nowrap text-center">Statut</td>
+              <td className="hidden sm:table-cell py-4 whitespace-nowrap text-center">Montant</td>
+              <td className="py-4 whitespace-nowrap text-center">Action</td>
+            </tr>
+            {/* table heading end */}
+
+            {Array.isArray(payments) && payments.length !== 0 && (
+              <>
+                {payments.map((pay) => (
+                  <tr className="bg-white border-b hover:bg-gray-50" key={pay.id}>
+                    <td className="text-center py-4">
+                      <span className="text-lg text-qgray font-medium">
+                        #{pay.order_name}
+                      </span>
+                    </td>
+                    <td className="hidden sm:table-cell text-center py-4 px-2">
+                      <span className="text-base text-qgray whitespace-nowrap">
+                        {formatDate(pay.payment_date)}
+                      </span>
+                    </td>
+                    <td className="hidden sm:table-cell text-center py-4 px-2">
+                      <span
+                        className={`text-sm rounded p-2 ${pay.payment_state !== "pending"
+                          ? "text-green-500 bg-green-100"
+                          : "text-red-500 bg-red-100"
+                          }`}
+                      >
+                        {pay.payment_state === "pending" ? "Non Payé" : "Payé"}
+                      </span>
+                    </td>
+                    <td className="hidden sm:table-cell text-center py-4 px-2">
+                      <span className="text-base text-qblack whitespace-nowrap px-2">
+                        {pay.payment_state === "pending" ? (
+                          <>
+                            <span className="text-red-500">
+                              {formatPrice(pay.amount)}
+                            </span>
+                          </>
+                        ) : (
+                          <span className="text-green-500">
+                            {formatPrice(pay.amount)}
+                          </span>
+                        )}
+                        <br />
+                      </span>
+                    </td>
+                    <td className="text-center py-4">
+                      <button
+                        type="button"
+                        title="voir les détails"
+                        onClick={(event) => handleDetails(event, pay)}
+                        className="w-[116px] h-[46px] bg-qyellow text-qblack font-bold"
+                      >
+                        Voir les détails
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </>
+            )}
+          </tbody>
+        </table>
+        {!Array.isArray(payments) ||
+          (payments.length === 0 && (
+            <p className="text-center m-5">Aucun payments effectués</p>
+          ))}
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
       </div>
 
       {loading ? (

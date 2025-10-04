@@ -76,6 +76,7 @@ const CommandeService = {
     }
   },
 
+<<<<<<< HEAD
   createCommandePack: async (modelData) => {
     try {
       const response = await axiosInstance.post("/api/commande-pack", modelData);
@@ -86,6 +87,8 @@ const CommandeService = {
     }
   },
 
+=======
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
   createCommandeWitoutPartner: async (modelData) => {
     try {
       const response = await axiosInstance.post("/api/commande-sans-partner", modelData);

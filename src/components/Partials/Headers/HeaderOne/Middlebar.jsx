@@ -1,6 +1,9 @@
+<<<<<<< HEAD
 
 "use client"
 
+=======
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { useContext, useEffect } from "react"
@@ -10,6 +13,7 @@ import { Link, useNavigate } from "react-router-dom"
 import { Heart, HeartHandshake, ShoppingBag, ShoppingCart } from "lucide-react"
 import PreCart from "../../../PreCart"
 
+<<<<<<< HEAD
 import ThinPeople from "../../../Helpers/icons/ThinPeople"
 import { useAuthContext } from "../../../../contexts/useAuthContext"
 import CreditCart from "../../../CreditCart"
@@ -18,10 +22,15 @@ import SearchBox from "../../../Helpers/SearchBox"
 import { useCategory } from "../../../../Provider/CategoryContext"
 import { ProductContext } from "../../../../Provider/ProductContext"
 import { PromoProductContext } from "../../../../Provider/PromoProductContext"
+=======
+import ThinPeople from "../../../Helpers/icons/ThinPeople";
+import { UserContext } from "../../../../contexts/UserContext";
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
 
 export default function Middlebar({ className, type = 3 }) {
   // const user = JSON.parse(localStorage.getItem("user"));
 
+<<<<<<< HEAD
   const { user } = useAuthContext()
   const { updateFilters: updateProductFilters, resetFilters: resetProductFilters } = useContext(ProductContext)
   const { updateFilters: updatePromoFilters, resetFilters: resetPromoFilters } = useContext(PromoProductContext)
@@ -66,6 +75,40 @@ export default function Middlebar({ className, type = 3 }) {
         productType: params.get("productType") || "All",
         tag: params.get("tag") || "All",
       }
+=======
+  const {
+    user,
+    token,
+
+    expiresIn,
+    refreshToken,
+    refreshExpiresIn,
+    is_verified,
+    logout
+  } = useContext(UserContext);
+  const backgroundColor = type === 3 ? "var(--bleu-logo)" : "var(--qyellow)";
+  const textColor = type === 3 ? "white" : "var(--qblack)";
+  const { cart, wishlist, preorder } = useContext(CartContext);
+
+
+
+  // useEffect(() => {
+
+  //   if (!user) {
+  //     logout();
+  //     navigate("/login");
+  //   }
+
+  //   console.log(user);
+  //   console.log(token,
+  //     expiresIn,
+  //     refreshToken,
+  //     refreshExpiresIn,
+  //     is_verified)
+  // }, []);
+
+
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
 
       if (location.pathname === "/en-promo" || location.pathname == "/promo-tabaski") {
         updatePromoFilters(newFilters)

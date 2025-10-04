@@ -18,6 +18,7 @@ import CommandesECDV from "./tabs/CommandesECDV";
 import ClientsTab from "./tabs/ClientsTab";
 import ClientDetails from "./tabs/ClientDetails";
 import ClientOrders from "./tabs/ClientOrders";
+<<<<<<< HEAD
 import Commandes from "./tabs/Commandes";
 import { useAuthContext } from "../../../contexts/useAuthContext";
 
@@ -33,6 +34,16 @@ export default function Entreprise() {
     saveSession } = useAuthContext();
 
   console.log(userInfo, token);
+=======
+import { getCommandesClientsEntreprise } from "../../../services/entrepriseFunctionService";
+import Commandes from "./tabs/Commandes";
+
+export default function Entreprise() {
+
+  const { user, token, uid } = useContext(UserContext);
+
+  console.log(user, token, uid);
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
   // const [switchDashboard, setSwitchDashboard] = useState(false);
   const location = useLocation();
   const getHashContent = location.hash.split("#");

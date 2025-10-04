@@ -1,13 +1,18 @@
 
+<<<<<<< HEAD
 // import axiosInstance from '../config/axiosConfig';
 
 import axiosInstance from "../config/axiosConfig";
+=======
+import axiosInstance from '../config/axiosConfig';
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
 
 
 
 
 
 
+<<<<<<< HEAD
 // // fonction pour obtenir la liste des abonnements
 // export async function getClientsEntreprise(id) {
 //     try {
@@ -143,6 +148,12 @@ export async function getClientsEntreprise(data) {
     try {
         console.log(data)
         const response = await axiosInstance.post(`${urlApi}api/companies/clients/liste`, data);
+=======
+// fonction pour obtenir la liste des abonnements
+export async function getClientsEntreprise(id) {
+    try {
+        const response = await axiosInstance.get(`api/companies/clients/${id}`);
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
         return response.data;
     } catch (error) {
         console.error('Erreur lors de la sélection des abonnements:', error);
@@ -150,9 +161,16 @@ export async function getClientsEntreprise(data) {
     }
 }
 
+<<<<<<< HEAD
 export async function getAllCompanies() {
     try {
         const response = await axiosInstance.get(`${urlApi}api/companies`);
+=======
+// function to gaet all company 
+export async function getAllCompanies() {
+    try {
+        const response = await axiosInstance.get('/api/companies');
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
         return response.data;
     } catch (error) {
         console.error('Erreur lors de la sélection des abonnements:', error);
@@ -160,9 +178,16 @@ export async function getAllCompanies() {
     }
 }
 
+<<<<<<< HEAD
 export async function setCompteEnable(id) {
     try {
         const response = await axiosInstance.get(`${urlApi}api/companies/clients/compte/${id}`);
+=======
+
+export async function setCompteEnable(id) {
+    try {
+        const response = await axiosInstance.get('/api/companies/clients/compte/' + id);
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
         return response.data;
     } catch (error) {
         console.error('Erreur lors de la sélection des abonnements:', error);
@@ -170,19 +195,33 @@ export async function setCompteEnable(id) {
     }
 }
 
+<<<<<<< HEAD
 export async function getCommandesClientsEntreprise(id) {
     try {
         const response = await axiosInstance.get(`${urlApi}api/companies/clients/commandes/${id}`);
+=======
+// getCommandesClientsEntreprise
+export async function getCommandesClientsEntreprise(id) {
+    try {
+        const response = await axiosInstance.get(`api/companies/clients/commandes/${id}`);
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
         return response.data;
     } catch (error) {
         console.error('Erreur lors de la sélection des abonnements:', error);
         throw error;
     }
 }
+<<<<<<< HEAD
 
 export async function getCommandeECDVClientsEntreprise(id) {
     try {
         const response = await axiosInstance.get(`${urlApi}api/companies/clients/commandesECDV/${id}`);
+=======
+// getCommandeECDVClientsEntreprise
+export async function getCommandeECDVClientsEntreprise(id) {
+    try {
+        const response = await axiosInstance.get(`api/companies/clients/commandesECDV/${id}`);
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
         return response.data;
     } catch (error) {
         console.error('Erreur lors de la sélection des abonnements:', error);
@@ -192,6 +231,7 @@ export async function getCommandeECDVClientsEntreprise(id) {
 
 export async function getCommandeRejeteClientsEntreprise(id) {
     try {
+<<<<<<< HEAD
         const response = await axiosInstance.get(`${urlApi}api/companies/clients/commandesRejete/${id}`);
         return response.data;
     } catch (error) {
@@ -224,6 +264,9 @@ export async function getCommandeOrderClientsEntreprise(id) {
 export async function getCommandePreOrderClientsEntreprise(id) {
     try {
         const response = await axiosInstance.get(`${urlApi}api/companies/clients/commandesPreOrder/${id}`);
+=======
+        const response = await axiosInstance.get(`api/companies/clients/commandesRejete/${id}`);
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
         return response.data;
     } catch (error) {
         console.error('Erreur lors de la sélection des abonnements:', error);
@@ -233,7 +276,11 @@ export async function getCommandePreOrderClientsEntreprise(id) {
 
 export async function getCommandeApprouveClientsEntreprise(id) {
     try {
+<<<<<<< HEAD
         const response = await axiosInstance.get(`${urlApi}api/companies/clients/commandesApprouve/${id}`);
+=======
+        const response = await axiosInstance.get(`api/companies/clients/commandesApprouve/${id}`);
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
         return response.data;
     } catch (error) {
         console.error('Erreur lors de la sélection des abonnements:', error);
@@ -243,7 +290,11 @@ export async function getCommandeApprouveClientsEntreprise(id) {
 
 export async function setValidationStateCommande(id, state) {
     try {
+<<<<<<< HEAD
         const response = await axiosInstance.put(`${urlApi}api/companies/clients/commande/changeState/${id}`, {
+=======
+        const response = await axiosInstance.put(`api/companies/clients/commande/changeState/${id}`, {
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
             state: state
         });
         return response.data;
@@ -253,6 +304,7 @@ export async function setValidationStateCommande(id, state) {
     }
 }
 
+<<<<<<< HEAD
 // 
 export async function setValidationAdhesion(id, state) {
     try {
@@ -268,6 +320,11 @@ export async function setValidationAdhesion(id, state) {
 export async function getCommandeClientsEntreprise(id) {
     try {
         const response = await axiosInstance.get(`${urlApi}api/companies/clients/commandes/${id}`);
+=======
+export async function getCommandeClientsEntreprise(id) {
+    try {
+        const response = await axiosInstance.get(`api/companies/clients/commandes/${id}`);
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
         return response.data;
     } catch (error) {
         console.error('Erreur lors de la sélection des abonnements:', error);
@@ -275,6 +332,7 @@ export async function getCommandeClientsEntreprise(id) {
     }
 }
 
+<<<<<<< HEAD
 export async function getCommandesCreditClientsEntreprise(id) {
     try {
         const response = await axiosInstance.get(`${urlApi}api/companies/clients/commandesCredit/${id}`);
@@ -375,6 +433,12 @@ export async function sendDemandeAdhesion(data) {
 export async function getCommandeCreditClient(id) {
     try {
         const response = await axiosInstance.get(`api/creditcommandes/clients/${id}/liste`);
+=======
+// commandes a credit clients
+export async function getCommandesCreditClientsEntreprise(id) {
+    try {
+        const response = await axiosInstance.get(`api/companies/clients/commandesCredit/${id}`);
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
         return response.data;
     } catch (error) {
         console.error('Erreur lors de la sélection des abonnements:', error);

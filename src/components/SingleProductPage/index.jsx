@@ -9,6 +9,7 @@ import DataIteration from "../Helpers/DataIteration";
 import Layout from "../Partials/Layout";
 import ProductView from "./ProductView";
 
+<<<<<<< HEAD
 import { useNavigate, useParams } from "react-router-dom";
 import ProduitService from "../../services/produitService";
 import { Loader } from "lucide-react";
@@ -17,6 +18,14 @@ import { createCommentaire, getCommentaireByProduit } from "../../services/Comme
 import { useAuthContext } from "../../contexts/useAuthContext";
 import useGoogleAnalytics from "../../Hooks/useGoogleAnalytics";
 
+=======
+import { useLocation, useNavigate, useNavigation, useParams } from "react-router-dom";
+import { CartContext } from "../../contexts/CartContext";
+
+import { ProductContext } from "../../contexts/ProductContext";
+import ProduitService from "../../services/produitService";
+import { Loader, Loader2, LoaderCircle } from "lucide-react";
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
 export default function SingleProductPage() {
   const { user } = useAuthContext();
   const navigate = useNavigate()
@@ -28,6 +37,7 @@ export default function SingleProductPage() {
 
   const [produit, setProduit] = useState(null);
 
+<<<<<<< HEAD
 
   const [quantity, setQuantity] = useState(1);
   const [report, setReport] = useState(false);
@@ -42,6 +52,9 @@ export default function SingleProductPage() {
   const reviewElement = useRef(null);
   const [isLoadingComments, setIsLoadingComments] = useState(false);
   const [commnets, setComments] = useState([]);
+=======
+  const navigate = useNavigation();
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
 
   // const produit = location.state.produit;
   const { id } = useParams();
@@ -53,17 +66,22 @@ export default function SingleProductPage() {
       setIsLoading(true);
       try {
         const res = await ProduitService.getProduitByCategorie(produit.categ_id);
+<<<<<<< HEAD
         // exclude the product seletced
         const filteredProducts = res.filter((p) => p.id !== produit.id);
         console.log("produit reccueperer")
         console.log(filteredProducts, res)
         setProduits(filteredProducts);
+=======
+        setProduits(res);
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
       } catch (error) {
         console.log(error)
       }
       setIsLoading(false);
     }
     if (produit) {
+<<<<<<< HEAD
       fetchRelatedProducts();
     }
     window.scrollTo(0, 0);
@@ -78,11 +96,23 @@ export default function SingleProductPage() {
       navigate("/boutique")
       return
     }
+=======
+      fetchRelatedProducts(); // Appel de la fonction pour récupérer les produits relatés
+    }
+
+  }, [produit]);
+
+
+
+  useEffect(() => {
+    setIsLoadingProduct(true);
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
     const fetchProduct = async () => {
       try {
         if (id) {
           const response = await ProduitService.getProduitById(id);
           setProduit(response);
+<<<<<<< HEAD
           trackEvent('Image', 'image_produit', response.name, 1);
           console.log(response);
           fetchComment();
@@ -90,6 +120,12 @@ export default function SingleProductPage() {
       } catch (error) {
         console.error("Error fetching product:", error);
         navigate("/boutique")
+=======
+          console.log(response);
+        }
+      } catch (error) {
+        console.error("Error fetching product:", error);
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
       }
       setIsLoadingProduct(false)
     };
@@ -98,6 +134,7 @@ export default function SingleProductPage() {
   }, [id]);
 
 
+<<<<<<< HEAD
   useEffect(() => {
     window.scrollTo({
       top: 0,
@@ -161,6 +198,12 @@ export default function SingleProductPage() {
       setLoading(false);
     }
   };
+=======
+  const [quantity, setQuantity] = useState(1);
+  const [report, setReport] = useState(false);
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
+
+
 
   return (
     <>
@@ -180,7 +223,10 @@ export default function SingleProductPage() {
                 </div>
               </div>
               <div className="w-full bg-white pb-[60px]">
+<<<<<<< HEAD
 
+=======
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
                 <div className="container-x mx-auto">
                   <ProductView
                     produit={produit}
@@ -190,6 +236,7 @@ export default function SingleProductPage() {
                 </div>
               </div>
             </div>
+<<<<<<< HEAD
             <div
               className="product-des-wrapper w-full relative pb-[60px]"
               ref={reviewElement}
@@ -242,6 +289,8 @@ export default function SingleProductPage() {
                 </div>
               </div>
             </div>
+=======
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
 
           </> : <>
             <div className="product-view-main-wrapper bg-white pt-[30px] w-full">
@@ -258,6 +307,7 @@ export default function SingleProductPage() {
 
               <div className="product-view-main-wrapper bg-white pt-[30px] w-full flex justify-center items-center min-h-screen">
                 <div className="text-center">
+<<<<<<< HEAD
 
                   {isLoadingProduct ? (
                     <div className="flex justify-center items-center w-full h-full">
@@ -274,6 +324,20 @@ export default function SingleProductPage() {
                       </button>
                     </>
                   )}
+=======
+                  {isLoadingProduct && (
+                    <div className="flex justify-center items-center w-full h-full">
+                      <Loader size={50} className="animate-spin" />
+                    </div>
+                  )}
+                  <p className="text-xl font-semibold">Produit non disponible</p>
+                  <button
+                    className="bg-bleu-logo hover:bg-bleu-claire text-white font-bold py-2 px-4 rounded mt-4"
+                    onClick={() => navigate('/all-products')}
+                  >
+                    Retour à la page boutique
+                  </button>
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
                 </div>
               </div>
             </div>
@@ -296,6 +360,7 @@ export default function SingleProductPage() {
                       <div className="flex justify-center items-center w-full h-full">
                         <Loader size={50} className="animate-spin" />
                       </div>
+<<<<<<< HEAD
                     ) : <>
                       {produits && produits.length > 0 && <>
 
@@ -312,6 +377,21 @@ export default function SingleProductPage() {
                         </DataIteration>
                       </>}
                     </>}
+=======
+                    ) : (
+                      <DataIteration
+                        datas={produits}
+                        startLength={0}
+                        endLength={produits.length > 4 ? 4 : produits.length}
+                      >
+                        {({ datas }) => (
+                          <div key={datas.id} className="item">
+                            <ProductCardStyleOne datas={datas} />
+                          </div>
+                        )}
+                      </DataIteration>
+                    )}
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
                   </div>
                 </div>
               </div>

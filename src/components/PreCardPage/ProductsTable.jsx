@@ -36,11 +36,22 @@ export default function ProductsTable({ className }) {
                 <td className="pl-10  py-4  w-[380px]">
                   <div className="flex space-x-6 items-center">
                     <div className="w-[80px] h-[80px] overflow-hidden flex justify-center items-center border border-[#EDEDED]">
+<<<<<<< HEAD
 
 
                       <img
                         src={`${produit.image_256
                           ? "data:image/png;base64," + produit.image_256
+=======
+                      {/* <img
+                        src={`${produit.image_256}`}
+                        alt="product"
+                        className="w-full h-full object-contain"
+                      /> */}
+                      <img
+                        src={`${produit.image_1920
+                          ? "data:image/png;base64," + produit.image_1920
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
                           : "https://readymadeui.com/images/coffee1.webp"
                           }`}
                         alt="product"

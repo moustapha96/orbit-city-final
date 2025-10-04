@@ -1,9 +1,16 @@
+<<<<<<< HEAD
 /* eslint-disable react-hooks/exhaustive-deps */
+=======
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import React, { useContext, useEffect, useState } from "react";
 
+<<<<<<< HEAD
 import { getClientsEntreprise, setCompteEnable, setValidationAdhesion } from "../../../../services/entrepriseFunctionService";
+=======
+import { getClientsEntreprise, setCompteEnable } from "../../../../services/entrepriseFunctionService";
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
 import { UserContext } from "../../../../contexts/UserContext";
 import { Eye, Info, Loader2, Lock, LockKeyhole, ShoppingCart } from "lucide-react";
 
@@ -11,16 +18,24 @@ import { Eye, Info, Loader2, Lock, LockKeyhole, ShoppingCart } from "lucide-reac
 import { Tooltip } from "flowbite-react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+<<<<<<< HEAD
 import { useAuthContext } from "../../../../contexts/useAuthContext";
 
 export default function ClientsTab({ onClientSelect, onViewOrders }) {
   const { session, isAuthenticated, token, parent, userInfo, comapny, userContext, saveSession } = useAuthContext();
 
   console.log(parent)
+=======
+
+export default function ClientsTab({ onClientSelect, onViewOrders }) {
+  const { user } = useContext(UserContext);
+
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
   const [clients, setClients] = useState([])
   const [currentPage, setCurrentPage] = useState(1);
   const [clientsPerPage] = useState(4);
   const [loading, setLoading] = useState(false)
+<<<<<<< HEAD
   const [loadingStatus, setLoadingStatus] = useState(false);
 
   const navigate = useNavigate();
@@ -45,6 +60,27 @@ export default function ClientsTab({ onClientSelect, onViewOrders }) {
       setLoading(false);
     }
   };
+=======
+
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (user.company_id) {
+      fetchClients(user.company_id)
+    }
+  }, [user.company_id]);
+
+  const fetchClients = async (id) => {
+    setLoading(true)
+    try {
+      const res = await getClientsEntreprise(id);
+      setClients(res);
+    } catch (error) {
+      console.error("Error fetching clients:", error);
+    } finally {
+      setLoading(false)
+    }
+  }
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
 
 
   const viewClientDetails = (client) => {
@@ -70,12 +106,17 @@ export default function ClientsTab({ onClientSelect, onViewOrders }) {
       } else {
         toast.success("Compte desactivé avec succes");
       }
+<<<<<<< HEAD
       fetchClients(userInfo.id);
+=======
+      fetchClients(user.company_id);
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
     }
     console.log(`Desable client ${id}`);
   };
 
 
+<<<<<<< HEAD
   const handleStatusChange = async (clientId, newStatus) => {
 
     if (!window.confirm("Confirmer la modification du statut du client ?")) {
@@ -126,6 +167,8 @@ export default function ClientsTab({ onClientSelect, onViewOrders }) {
     }
   }
 
+=======
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
 
   const indexOfLastClient = currentPage * clientsPerPage;
   const indexOfFirstClient = indexOfLastClient - clientsPerPage;

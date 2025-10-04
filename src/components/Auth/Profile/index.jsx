@@ -28,9 +28,16 @@ import PanierPreCommande from "./tabs/PanierPreCommande";
 import PaymentDetailsTab from "./tabs/PaymentDetailsTab";
 import OrderDraftTab from "./tabs/OrderDraftTab";
 import CommandesACredit from "./tabs/CommandesACredit";
+<<<<<<< HEAD
 import { useAuthContext } from "../../../contexts/useAuthContext";
 
 export default function Profile() {
+=======
+
+export default function Profile() {
+
+  const { user, token, uid, logout } = useContext(UserContext);
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
 
 
   const { user, logout, parent } = useAuthContext();
@@ -133,6 +140,7 @@ export default function Profile() {
               <div className="profile-wrapper w-full mt-8 flex flex-col lg:flex-row lg:space-x-10">
 
                 <div
+<<<<<<< HEAD
                   className={`w-full md:w-[236px] md:min-h-[600px] border-r border-[rgba(0, 0, 0, 0.1)] ${isMenuOpen ? "block" : "hidden"
                     } lg:block  transition-all duration-300 ease-in-out`}
                 // className={`w-full lg:w-[236px] lg:min-h-[600px] border-r border-[rgba(0, 0, 0, 0.1)] ${isMenuOpen ? "block" : "hidden"
@@ -189,12 +197,153 @@ export default function Profile() {
                       icon={<IcoLogout />}
                       text="Déconnexion"
                     />
+=======
+                  className={`w-[236px] min-h-[600px] border-r border-[rgba(0, 0, 0, 0.1)] ${isMenuOpen ? "block" : "hidden"
+                    } sm:block`}
+                >
+                  <div className="flex flex-col space-y-10">
+                    <div className="item group">
+                      <Link
+                        to="/profile#dashboard"
+                        onClick={() => setActive("dashboard")}
+                      >
+                        <div className="flex space-x-3 items-center text-qgray hover:text-qblack">
+                          <span>
+                            <IcoDashboard />
+                          </span>
+                          <span className="font-normal text-base">
+                            Tableau de bord
+                          </span>
+                        </div>
+                      </Link>
+                    </div>
+                    <div className="item group">
+                      <Link
+                        to="/profile#profile"
+                        onClick={() => setActive("profile")}
+                      >
+                        <div className="flex space-x-3 items-center text-qgray hover:text-qblack">
+                          <span>
+                            <IcoPeople />
+                          </span>
+                          <span className="font-normal text-base">
+                            Information Personnel
+                          </span>
+                        </div>
+                      </Link>
+                    </div>
+                    <div className="item group">
+                      <Link
+                        to="/profile#orderDraft"
+                        onClick={() => setActive("orderDraft")}
+                      >
+                        <div className="flex space-x-3 items-center text-qgray hover:text-qblack">
+                          <span>
+                            <IcoCart />
+                          </span>
+                          <span className="font-normal text-base">
+                            Commandes Brouillons
+                          </span>
+                        </div>
+                      </Link>
+                    </div>
+                    <div className="item group">
+                      <Link
+                        to="/profile#order"
+                        onClick={() => setActive("order")}
+                      >
+                        <div className="flex space-x-3 items-center text-qgray hover:text-qblack">
+                          <span>
+                            <IcoCart />
+                          </span>
+                          <span className="font-normal text-base">
+                            Commandes
+                          </span>
+                        </div>
+                      </Link>
+                    </div>
+
+                    <div className="item group">
+                      <Link
+                        to="/profile#preorder"
+                        onClick={() => setActive("preorder")}
+                      >
+                        <div className="flex space-x-3 items-center text-qgray hover:text-qblack">
+                          <span>
+                            <IcoCart />
+                          </span>
+                          <span className="font-normal text-base">
+                            Précommandes
+                          </span>
+                        </div>
+                      </Link>
+                    </div>
+                    <div className="item group">
+                      <Link
+                        to="/profile#commandes-a-credit"
+                        onClick={() => setActive("commandes-a-credit")}
+                      >
+                        <div className="flex space-x-3 items-center text-qgray hover:text-qblack">
+                          <span>
+                            <IcoCart />
+                          </span>
+                          <span className="font-normal text-base">
+                            Commandes à crédit
+                          </span>
+                        </div>
+                      </Link>
+                    </div>
+
+                    {/* <div className="item group">
+                      <Link
+                        to="/profile#wishlist"
+                        onClick={() => setActive("wishlist")}
+                      >
+                        <div className="flex space-x-3 items-center text-qgray hover:text-qblack">
+                          <span>
+                            <IcoLove />
+                          </span>
+                          <span className="font-normal text-base">
+                            Liste de souhaits
+                          </span>
+                        </div>
+                      </Link>
+                    </div> */}
+                    <div className="item group">
+                      <Link
+                        to="/profile#payments"
+                        onClick={() => setActive("payments")}
+                      >
+                        <div className="flex space-x-3 items-center text-qgray hover:text-qblack">
+                          <span>
+                            <IcoLove />
+                          </span>
+                          <span className="font-normal text-base">
+                            Transactions
+                          </span>
+                        </div>
+                      </Link>
+                    </div>
+                    <div className="item group">
+                      <Link onClick={HandleLout}>
+                        <div className="flex space-x-3 items-center text-qgray hover:text-qblack">
+                          <span>
+                            <IcoLogout />
+                          </span>
+                          <span className="font-normal text-base">
+                            Déconnexion
+                          </span>
+                        </div>
+                      </Link>
+                    </div>
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
                   </div>
                 </div>
 
 
                 <div className={`flex-1 ${isMenuOpen ? 'hidden' : 'block'} lg:block`}>
                   <div className="item-body dashboard-wrapper w-full">
+<<<<<<< HEAD
                     {active === "dashboard" && <Dashboard />}
                     {active === "profile" && <ProfileTab />}
                     {active === "payment" && <Payment />}
@@ -207,6 +356,39 @@ export default function Profile() {
                     {user && parent && user.adhesion === "accepted" && active === "commandes-a-credit" && <CommandesACredit />}
                     {/* {active === "commandes-a-credit" && <CommandesACredit />} */}
                     {active === "panierprecommande" && <PanierPreCommande />}
+=======
+                    {active === "dashboard" ? (
+                      <Dashboard />
+                    ) : active === "profile" ? (
+                      <ProfileTab />
+                    ) : active === "payment" ? (
+                      <Payment />
+                    ) : active === "order" ? (
+                      <OrderTab />
+                    ) : active === "orderDraft" ? (
+                      <OrderDraftTab />
+                    ) : active === "payments" ? (
+                      <PaymentDetailsTab />
+                    ) : active === "preorder" ? (
+                      <PreOrderTab />
+                    ) : active === "wishlist" ? (
+                      <WishlistTab />
+                    ) : active === "address" ? (
+                      <AddressesTab />
+                    ) : active === "password" ? (
+                      <PasswordTab />
+                    ) : active === "support" ? (
+                      <SupportTab />
+                    ) : active === "paniercommande" ? (
+                      <PanierCommande />
+                    ) : active === "commandes-a-credit" ? (
+                      <CommandesACredit />
+                    ) : active === "panierprecommande" ? (
+                      <PanierPreCommande />
+                    ) : (
+                      ""
+                    )}
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
                   </div>
                 </div>
               </div>

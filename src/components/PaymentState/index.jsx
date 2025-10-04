@@ -17,7 +17,10 @@ import PaiementService from "../../services/paimentService";
 
 import { Loader, } from "lucide-react";
 import { Button, } from "flowbite-react";
+<<<<<<< HEAD
 import { useAuthContext } from "../../contexts/useAuthContext";
+=======
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
 export default function PaymentStatePage({ cart = true }) {
   const { user } = useAuthContext();
   const navigate = useNavigate();
@@ -39,6 +42,7 @@ export default function PaymentStatePage({ cart = true }) {
     }
   };
 
+<<<<<<< HEAD
   useEffect(() => {
 
     const fetchPayment = async (paymentToken) => {
@@ -151,6 +155,111 @@ export default function PaymentStatePage({ cart = true }) {
           );
           setIsLoading(false);
         }
+=======
+  useEffect(() => {
+
+    const fetchPayment = async (paymentToken) => {
+      try {
+        const response = await PaiementService.getPaymentDetailsByToken(paymentToken);
+        console.log(response);
+        console.log("response details payment ");
+        if (response && response.payment_state === "completed" && response.token_status == true) {
+          if (response.order_type === "order") {
+            console.log("arrive commande")
+            navigate(`/commandes/${response.order_id}/détails`);
+          } else if (response.order_type === "preorder") {
+            console.log('arrive precommande')
+            navigate(`/pre-commandes/${response.order_id}/détails`);
+          }
+        }
+      } catch (error) {
+        console.log(error)
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    const searchParams = new URLSearchParams(location.search);
+    const paymentToken = searchParams.get("token");
+    if (paymentToken) {
+      fetchPayment(paymentToken);
+    }
+  }, [location.search])
+
+
+  useEffect(() => {
+    const fetchPaymentDetails = async (paymentToken) => {
+      setIsLoading(true);
+      const timeoutId = setTimeout(async () => {
+        try {
+          const resultaPayment = await PaiementService.confirmInvoice(paymentToken);
+          setData(resultaPayment);
+
+          if (resultaPayment.response_code === "00" && resultaPayment.status === "completed") {
+            let url_facture = resultaPayment.receipt_url
+            let customer_name = resultaPayment.customer.name
+            let customer_email = resultaPayment.customer.email
+            let customer_phone = resultaPayment.customer.phone
+            let payment_state = resultaPayment.status
+            console.log(payment_state, url_facture, customer_name, customer_email, customer_phone)
+
+
+            const responseUpdatePayment = await PaiementService.putPaymentDetailByToken(paymentToken,
+              url_facture, customer_name,
+              customer_email, customer_phone,
+              payment_state)
+            console.log(responseUpdatePayment)
+
+            if (responseUpdatePayment) {
+              if (responseUpdatePayment.type_sale === "order") {
+                navigate(`/commandes/${responseUpdatePayment.id}/détails`);
+              } else if (responseUpdatePayment.type_sale === "preorder") {
+                navigate(`/pre-commandes/${responseUpdatePayment.id}/détails`);
+              }
+            }
+          }
+          else if (resultaPayment.status === "cancelled") {
+
+            toast.error("Le payment a été annule", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
+
+            const responseUpdatePayment = await PaiementService.putPaymentDetailByToken(paymentToken)
+            console.log(responseUpdatePayment)
+            if (responseUpdatePayment) {
+              if (responseUpdatePayment.order_type === "order") {
+                navigate(`/commandes/${commande.id}/détails`);
+              } else if (responseUpdatePayment.order_type === "preorder") {
+                navigate(`/pre-commandes/${precommande.id}/détails`);
+              }
+            }
+          }
+          setIsLoading(false);
+        } catch (error) {
+          // navigate(`/profile`);
+          console.log(error)
+          // toast.error(error, {
+          //   position: "top-right",
+          //   autoClose: 5000,
+          //   hideProgressBar: false,
+          //   closeOnClick: true,
+          //   pauseOnHover: true,
+          //   draggable: true,
+          //   progress: undefined,
+          //   theme: "light",
+          // });
+          console.error(
+            "Erreur lors de l'enregistrement des détails du paiement :",
+            error
+          );
+          setIsLoading(false);
+        }
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
       }, 2000)
 
       return () => clearTimeout(timeoutId);
@@ -173,8 +282,11 @@ export default function PaymentStatePage({ cart = true }) {
       if (resultaPayment.response_code === "00" && resultaPayment.status === "completed") {
         if (data.order_type == "order") {
           navigate(`/commandes/${data.order_id}/détails`);
+<<<<<<< HEAD
         } else if (data.order_type == "creditorder") {
           navigate(`/credit-commandes/${data.order_id}/détails`);
+=======
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
         } else {
           navigate(`/pre-commandes/${data.order_id}/détails`);
         }

@@ -10,9 +10,13 @@ import { useAuthContext } from "../../contexts/useAuthContext";
 import { useNavigation } from "react-router-dom";
 import { Badge } from "flowbite-react";
 
+<<<<<<< HEAD
 export default function ProductView({ produit, className }) {
   const navigate = useNavigation();
   const [quantity, setQuantity] = useState(1);
+=======
+  // console.log(produit);
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
   const {
     addToCart,
     addToWishlist,
@@ -87,15 +91,24 @@ export default function ProductView({ produit, className }) {
   const [src, setSrc] = useState(produit[imageProps[0]]);
 
   const changeImgHandler = (current) => {
+    console.log(current)
     setSrc(current);
   };
 
   return (
+<<<<<<< HEAD
     <div className={`product-view w-full lg:flex justify-between ${className || ""}`}>
+=======
+    <div
+      className={`product-view w-full lg:flex justify-between ${className || ""
+        }`}
+    >
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
       <div data-aos="fade-right" className="lg:w-1/2 xl:mr-[70px] lg:mr-[50px]">
         <div className="w-full">
           <div className="w-full h-[600px] border border-qgray-border flex justify-center items-center overflow-hidden relative mb-3">
 
+<<<<<<< HEAD
             {src && (
               <img
                 src={`${src
@@ -129,12 +142,26 @@ export default function ProductView({ produit, className }) {
                   <span>🔥 Promo</span>
                 </div>
               )}
+=======
+            <img
+              src={`${src
+                ? "data:image/png;base64," + src
+                : "https://cdn-icons-png.flaticon.com/512/130/130288.png"
+                }`}
+              alt="image produit ccbm shop"
+              className="object-contain"
+            />
+            <div className="w-[150px] h-[40px] rounded-full bg-qyellow text-qblack flex justify-center items-center font-medium absolute left-[30px] top-[30px]">
+              {/* <span>-50%</span> */}
+              <span>{produit.categ_id}</span>
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
             </div>
           </div>
 
           <div className="flex gap-4 flex-wrap">
             {imageProps &&
               imageProps.length > 0 &&
+<<<<<<< HEAD
               imageProps.map((img) => <>
 
                 {produit[img] && <>
@@ -156,6 +183,27 @@ export default function ProductView({ produit, className }) {
 
 
               </>)}
+=======
+              imageProps.map((img) => (
+                <div
+                  onClick={() => changeImgHandler(produit[img])}
+                  key={img}
+                  className="w-[110px] h-[110px] p-[15px] border border-qgray-border cursor-pointer"
+                >
+
+                  {produit[img] && <>
+                    <img
+                      src={`${"data:image/png;base64," + produit[img]}`}
+                      alt="image produit ccbm shop"
+                      className={`w-full h-full object-contain ${src !== produit[img] ? "opacity-50" : ""
+                        } `}
+                    />
+                  </>
+                  }
+
+                </div>
+              ))}
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
           </div>
 
 
@@ -168,10 +216,19 @@ export default function ProductView({ produit, className }) {
           </span>
           <p className="text-xl font-medium text-qblack mb-4">{produit.name}</p>
 
+<<<<<<< HEAD
           {/* Updated price display */}
           <div className="flex flex-wrap items-end gap-4 mb-1">
             <span className=" line-through text-qred text-2xl font-medium">
               {produit.creditorder_price > 0 && produit.is_creditorder && <>{formatPrice(produit.creditorder_price)}</>}
+=======
+          <div data-aos="fade-up" className="flex space-x-2 items-center mb-7">
+
+
+            <span className="text-2xl font-500 text-qred">
+              {" "}
+              {formatPrice(produit.list_price)}
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
             </span>
             <br />
             {produit.en_promo ? <>
@@ -192,6 +249,7 @@ export default function ProductView({ produit, className }) {
 
           </div>
 
+<<<<<<< HEAD
           {/* Updated quantity and buttons section */}
           <div className="quantity-card-wrapper w-full flex flex-wrap items-center gap-4 mb-[30px]">
             <div className="flex items-center space-x-2">
@@ -205,6 +263,41 @@ export default function ProductView({ produit, className }) {
                 className="w-12 h-12 flex justify-center items-center border border-qgray-border rounded hover:bg-gray-100 transition-colors duration-200"
               >
                 <Heart className={`${isProductInWishlist(produit) ? "fill-yellow-500 text-yellow-500" : "text-qgray"} w-6 h-6`} />
+=======
+
+          <div
+            data-aos="fade-up"
+            className="quantity-card-wrapper w-full flex items-center h-[50px] space-x-[10px] mb-[30px]"
+          >
+            <div className="w-[120px] h-full px-[26px] flex items-center border border-qgray-border">
+              <div className="flex justify-between items-center w-full">
+                <button
+                  onClick={handleDecrement}
+                  type="button"
+                  className="text-base text-qgray"
+                >
+                  -
+                </button>
+                <span className="text-qblack">{quantity}</span>
+                <button
+                  onClick={handleIncrement}
+                  type="button"
+                  className="text-base text-qgray"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+            <div className="w-[60px] h-full flex justify-center items-center border border-qgray-border">
+              <button type="button">
+                <span>
+                  <Heart
+                    className={`${isProductInWishlist(produit) ? "text-yellow-500" : ""
+                      } cursor-pointer hover:text-yellow-500  hover:scale-150 duration-300`}
+                    onClick={handleAddToWishlist}
+                  />
+                </span>
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
               </button>
             </div>
             <div className="flex flex-wrap gap-2 flex-1">
@@ -245,6 +338,7 @@ export default function ProductView({ produit, className }) {
           </div>
 
 
+<<<<<<< HEAD
           {produit.tags && produit.tags.length > 0 && <>
             <div className="flex gap-1">
               <p className="text-[14px] text-qblack">Tags :</p>
@@ -349,6 +443,15 @@ export default function ProductView({ produit, className }) {
               </svg>
             </button>
 
+=======
+
+
+          <div
+            data-aos="fade-up"
+            className="social-share flex items-center w-full  mt-3"
+          >
+            <h2>Description </h2>
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
           </div>
 
 

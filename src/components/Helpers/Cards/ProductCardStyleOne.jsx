@@ -94,6 +94,7 @@ export default function ProductCardStyleOne({ datas, type = 3 }) {
     <>
 
       <div
+<<<<<<< HEAD
         className="product-card-one w-full h-full bg-white relative group overflow-hidden"
         style={{ boxShadow: "0px 15px 64px 0px rgba(0, 0, 0, 0.05)" }}
       >
@@ -118,8 +119,50 @@ export default function ProductCardStyleOne({ datas, type = 3 }) {
                   En promo
                 </span>
               </div>
+=======
+        className="product-card-img w-full h-[300px]"
+        style={{
+          background: `url('data:image/png;base64,${datas.image_256}') no-repeat center`,
+          // backgroundSize: "cover",
+        }}
+      >
+        {datas.categ_id && (
+          <div className="product-type absolute right-[14px] top-[17px]">
+            <span
+              className={`text-[9px] font-700 leading-none py-[6px] px-3 uppercase text-white rounded-full tracking-wider ${datas.categ_id === "popular" ? "bg-[#19CC40]" : "bg-qyellow"
+                }`}
+            >
+              {datas.categ_id}
+            </span>
+          </div>
+        )}
+
+      </div>
+
+      <div className="product-card-details px-[30px] pb-[30px] relative">
+        <Link onClick={(e) => handleDetails(e, datas)}>
+          <p className="title mb-2 text-[15px] font-600 text-qblack leading-[24px] line-clamp-2 hover:text-bleu-logo">
+            {datas.name}
+          </p>
+        </Link>
+        <p className="price">
+          <span className="offer-price text-bleu-logo   font-600 text-[18px] ">
+            {formatPrice(datas.list_price)}
+          </span>
+          <span className="main-price text-qred font-500 text-[16px]">
+            {datas.is_preorder ? (
+              <>
+                {" "}
+                <br /> {formatPrice(datas.preorder_price)} <br /> en précommande
+              </>
+            ) : (
+              <>
+                <p className="h-12"></p>
+              </>
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
             )}
 
+<<<<<<< HEAD
             {/* {datas.categ_id && (
               <div className="product-type absolute right-[14px] top-[17px]">
                 <span
@@ -141,6 +184,32 @@ export default function ProductCardStyleOne({ datas, type = 3 }) {
               </div>
             )}
           </div>
+=======
+        <div className="w-full left-0 flex flex-col gap-4 mt-3 items-center">
+          {datas.sale_ok && datas.quantite_en_stock > 0 && (
+            <button
+              type="button"
+              onClick={handleAddToCart}
+              className={`w-full h-10 flex items-center justify-center gap-2 ${type === 3 ? "blue-logo-btn" : "yellow-btn"
+                }`}
+            >
+              <ShoppingCart />
+              <span>Ajouter au panier</span>
+            </button>
+          )}
+          {datas.is_preorder && (
+            <button
+              type="button"
+              onClick={handleAddToPreOrder}
+              className={`w-full h-10 flex items-center justify-center gap-2  red-btn  `}
+            >
+              <span>
+                <ShoppingBag></ShoppingBag>
+              </span>
+              <span>Pré commander</span>
+            </button>
+          )}
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
 
         </div>
 
@@ -167,6 +236,7 @@ export default function ProductCardStyleOne({ datas, type = 3 }) {
             </p>
           </Link>
 
+<<<<<<< HEAD
           <p className="price">
             {/* Prix barré - affiché uniquement si le prix de crédit est supérieur à 0 */}
             {datas.creditorder_price > 0 && datas.is_creditorder && (
@@ -192,6 +262,15 @@ export default function ProductCardStyleOne({ datas, type = 3 }) {
               </>}
             </>}
           </p>
+=======
+        <span className="w-10 h-10 flex justify-center items-center bg-primarygray rounded">
+          <Heart
+            className={`${isProductInWishlist(datas) ? "text-yellow-500" : ""
+              } cursor-pointer hover:text-yellow-500 hover:scale-150 duration-300`}
+            onClick={handleAddToWishlist}
+          />
+        </span>
+>>>>>>> 7f3902b8dd82ec00aeab216f4a37b7a1a12e7b74
 
           {/* Boutons - hauteur et espacement réduits sur mobile */}
           <div className="w-full left-0 flex flex-col gap-2 mt-2 items-center">
